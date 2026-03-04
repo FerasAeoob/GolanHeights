@@ -9,7 +9,7 @@ export async function GET() {
     try {
         await connectDB();
 
-        const places = await Place.find().sort({ createdAt: -1 });
+        const places = await Place.find().sort({ createdAt: -1 }).lean();
 
         return NextResponse.json(places, { status: 200 });
     } catch (error) {
