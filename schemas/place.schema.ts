@@ -15,6 +15,12 @@ export const SlugSchema = z.object({
         .toLowerCase()
 });
 
+export const CategorySchema = z.object({
+    category: z
+        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
+        .optional(),
+});
+
 
 /**
  * Schema for updating a Place
