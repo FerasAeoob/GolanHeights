@@ -1,5 +1,5 @@
 // app/layout.tsx
-import React from "react";
+
 import "../globals.css"; // your global styles
 import Navbar from "@/components/home/navbar";
 
