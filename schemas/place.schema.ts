@@ -15,6 +15,12 @@ export const SlugSchema = z.object({
         .toLowerCase()
 });
 
+export const CategorySchema = z.object({
+    category: z
+        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
+        .optional(),
+});
+
 
 /**
  * Schema for updating a Place
@@ -67,6 +73,54 @@ export const UpdatePlaceSchema = z.object({
         .optional(),
 
     featured: z.boolean().optional()
+});
+export const createplaceschema = z.object({
+    title: z
+        .object({
+            en: z.string().min(3, "English title too short"),
+            he: z.string(),
+            ar: z.string()
+        })
+        ,
+
+    description: z
+        .object({
+            en: z.string().min(10, "English description too short"),
+            he: z.string(),
+            ar: z.string()
+        })
+        ,
+
+    shortDescription: z
+        .object({
+            en: z.string().max(255, "English short description too long"),
+            he: z.string().max(255),
+            ar: z.string().max(255)
+        })
+        .optional(),
+
+    category: z
+        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
+        ,
+
+    image: z.string().min(1, "Image cannot be empty"),
+
+    location: z
+        .object({
+            lat: z.number(),
+            lng: z.number()
+        })
+        ,
+
+    contact: z
+        .object({
+            phone: z.string().optional(),
+            website: z.string().optional(),
+            instagram: z.string().optional()
+        })
+        .optional(),
+
+    featured: z.boolean()
 });
 
 /**

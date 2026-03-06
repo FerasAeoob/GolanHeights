@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import {v2 as cloudinary} from 'cloudinary';
+
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
+import {createplaceschema} from "@/schemas/place.schema";
+
 
 /* ======================
    GET ALL PLACES
@@ -30,20 +34,21 @@ export async function POST(req: NextRequest) {
 
         const body = await req.json();
 
-        // Basic validation
-        if (
-            !body.title ||
-            !body.description ||
-            !body.shortDescription ||
-            !body.category ||
-            !body.image ||
-            !body.location
-        ) {
-            return NextResponse.json(
-                { error: "Missing required fields ❌" },
-                { status: 400 }
-            );
-        }
+        const validation = createplaceschema.safeParse(body);
+
+        if (!validation.success) { return NextResponse.json(
+            { error: "validation failed ❌" },
+            { status: 400 }
+        )}
+        const file = body.image as File;
+        if (!file){return NextResponse.json(
+            { error: "Image is required ❌" },
+            { status: 400 }
+        )}
+        const uploadResult = await cloudinary.uploader.upload(body.image, {
+            folder: "places",
+            resource_type: "auto",
+        });
 
         const newPlace = await Place.create({
             title: body.title,
@@ -60,11 +65,20 @@ export async function POST(req: NextRequest) {
             { message: "Place created successfully ✅", place: newPlace },
             { status: 201 }
         );
-    } catch (error: any) {
-        console.error(error);
+    } catch (error) {
+        const err = error as any;
+
+        if(err.code == 11000){
+            return NextResponse.json(
+                { error: "Place with this title already exists ❌" },
+                { status: 400 }
+            );
+        }
+
 
         return NextResponse.json(
-            { error: error.message || "Something went wrong ❌" },
+
+            { error: err.errmsg || "Something went wrong ❌" },
             { status: 500 }
         );
     }

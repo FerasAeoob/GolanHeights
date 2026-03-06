@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
         if (!parsedSlug.success) {
             return NextResponse.json({ error: "Place not found ❌" }, { status: 404 });
         }
-        const slug = parsedSlug.data.slug.toLocaleLowerCase();
+        const slug = parsedSlug.data.slug;
 
 
         const place = await Place.findOne({ slug }).lean();
