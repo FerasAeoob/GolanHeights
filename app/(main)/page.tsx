@@ -1,42 +1,37 @@
-  // app/page.tsx
-  import 'tailwindcss'
-  import CategoryCard from "@/components/home/categorycard";
-  import categories from "@/public/cate-pics/categories";
+// app/page.tsx
+import Image from "next/image";
+import CategoryCard from "@/components/homecomps/categorycard";
+import categories from "@/public/cate-pics/categories";
+import HeroSection from "@/components/homecomps/herosection";
 
-  export default function HomePage() {
+export default function HomePage() {
     return (
-      <>
+        <>
 
-        <div>
+            <div>
 
-          {/* hero section */}
-          <div>
-
-          </div>
-          {/* categories section */}
-          <div >
-            <ul >
-              {Object.entries(categories).map(([key, value]) => (
-                  <li key={key}>
-                    <CategoryCard category={value} />
-                  </li>
-              ))}
-            </ul>
-
-          </div>
-          {/* featured section */}
-          <div>
+                {/* hero section */}
+                <div>
+                    <HeroSection />
+                </div>
+                {/* categories section */}
+                <div>
 
 
-          </div>
+                </div>
+                {/* featured section */}
+                <div>
+
+
+                </div>
 
 
 
 
 
-        </div>
+            </div>
 
 
-      </>
+        </>
     );
-  }
+}

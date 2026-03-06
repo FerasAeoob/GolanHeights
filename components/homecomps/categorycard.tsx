@@ -14,7 +14,7 @@ interface CategoryCardProps {
 export default function CategoryCard({ category }: CategoryCardProps) {
     return (
         <Link href={`/categories/${category.slug}`}>
-            <div className="">
+            <div className=" relative h-[350px] w-[350px]">
                 <Image
                     src={category.image} // This is the URL from your DB
                     alt={category.title}

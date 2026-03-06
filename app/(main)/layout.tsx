@@ -2,7 +2,7 @@
 
 import type { Metadata } from "next";
 import "../globals.css"; // your global styles
-import Navbar from "@/components/home/navbar";
+import Navbar from "@/components/homecomps/navbar";
 
 export const metadata: Metadata = {
     title: "Golan Heights Guide",
@@ -14,7 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <head />
             <body>
-                <Navbar />
+                <div>
+                    <Navbar />
+                </div>
+
                 {children}
             </body>
         </html>
