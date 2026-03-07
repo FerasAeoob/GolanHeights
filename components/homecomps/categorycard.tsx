@@ -1,5 +1,5 @@
-'use client';
 
+import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,10 +9,13 @@ interface CategoryCardProps {
         title: string;
         image: string;
         color: string;
+        desc: string;
+        icon: LucideIcon;
     };
 }
 
 export default function CategoryCard({ category }: CategoryCardProps) {
+    const Icon = category.icon ? (category.icon) : null;
     return (
         <Link href={`/categories/${category.slug}`} className="block w-full h-full">
             {/* 1. Added 'group' to the parent container */}
@@ -28,13 +31,17 @@ export default function CategoryCard({ category }: CategoryCardProps) {
 
                 {/* 3. The Dynamic Gradient Layer */}
                 {/* Added 'pointer-events-none' so it doesn't block the click/hover of the link */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${category.color} to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-90 pointer-events-none`} />
 
+                <div className={`absolute inset-0 bg-gradient-to-t ${category.color} to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-90 pointer-events-none`} />
                 {/* 4. The Content Overlay */}
-                <div className="absolute top-0 left-0 right-0 p-4 pointer-events-none">
-                    <h3 className="text-[1rem] md:text-[1.3rem] font-semibold bg-amber-100/50 backdrop-blur-sm w-fit px-3 py-1 rounded-2xl text-slate-900 transition-colors group-hover:bg-amber-100/80">
+                <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
+                    {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ml-3" />}
+
+                    <h3 className="text-[0.8rem] md:text-[1.1rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
                         {category.title}
                     </h3>
+                    <h1 className="pl-2 text-white text-sm hidden md:block ">{category.desc}</h1>
+
                 </div>
             </div>
         </Link>

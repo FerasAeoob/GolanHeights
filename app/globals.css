@@ -6,7 +6,7 @@
 }
 
 /* reset*/
-body,p,a,ul,li {
+body,p,ul,li {
   margin: 0;
   padding: 0;
   text-decoration: none;

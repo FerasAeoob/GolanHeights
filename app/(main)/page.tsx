@@ -14,7 +14,7 @@ export default function HomePage() {
             {/* Categories Section */}
             <section className="flex flex-col items-center justify-center">
                 <div className="flex flex-col items-center justify-center mb-8 w-[85%]">
-                    <h3 className="text-green-900  font-medium uppercase tracking-widest text-lg">
+                    <h3 className="text-green-900  font-medium uppercase tracking-widest text-lg text-center">
                         Discover
                     </h3>
                     <h2 className=" text-3xl md:text-4xl font-bold text-slate-900 mb-3 mt-3 text-center">
