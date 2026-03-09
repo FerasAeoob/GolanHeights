@@ -24,7 +24,7 @@ export default async function HomePage() {
     }));
 
     return (
-        <main className="min-h-screen">
+        <main className="min-h-screen w-[vdw]">
             {/* Hero Section */}
             <section className="pb-10">
                 <HeroSection />
@@ -32,7 +32,7 @@ export default async function HomePage() {
 
             {/* Categories Section */}
             <section className="flex flex-col items-center justify-center">
-                <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px]">
+                <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] ">
 
                     <div className="flex flex-col items-center justify-center mb-8 w-[85%]">
                         <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
@@ -46,23 +46,24 @@ export default async function HomePage() {
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-4 max-w-dvw w-full mx-auto px-4 box-border">
+                    <div className="flex flex-wrap justify-center max-w-dvw w-full mx-auto m-2 box-border">
                         {categories.map((cat) => (
                             <div
                                 key={cat.slug}
-                                className="w-[45%] md:w-[45%] md:max-w-[45%] lg:w-[30%] max-w-[350px]"
+                                className="w-1/2 md:w-1/2 sm:max-w-1/2 lg:w-1/3 max-w-[350px] box-border p-4"
                             >
                                 <CategoryCard category={cat} />
                             </div>
                         ))}
                     </div>
 
+
                 </div>
             </section>
 
             {/* Featured Section */}
             <section className="flex flex-col items-center justify-center mt-12 mb-20">
-                <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px]">
+                <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px]">
                     <div>
                         <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
                             Highlights
@@ -73,17 +74,19 @@ export default async function HomePage() {
                     </div>
 
 
-                        <div className="flex flex-wrap justify-center gap-4 max-w-dvw w-full mx-auto px-4 box-border">
+                        <div className="flex flex-wrap justify-center max-w-dvw w-full  box-border ">
                             {places.map((place) => (
                                 <div
                                     key={place._id}
-                                    className="w-[45%] md:w-[45%] md:max-w-[45%] lg:w-[30%] max-w-[350px]"
+                                    className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border  p-4  "
                                 >
 
                                 <PlaceCard key={place.slug} place={place}  />
                                 </div>
                             ))}
                         </div>
+
+
 
 
                 </div>

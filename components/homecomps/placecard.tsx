@@ -22,11 +22,11 @@ interface PlaceCardProps {
 export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
-        nature: "from-green-900/80",
-        restaurant: "from-orange-900/80",
-        activity: "from-blue-900/80",
-        hotel: "from-indigo-900/80",
-        viewpoint: "from-purple-900/80",
+        nature: "bg-green-700/95 hover:bg-black/70",
+        restaurant: "bg-orange-900/80",
+        activity: "bg-blue-900/80 hover:bg-black-900/40",
+        hotel: "bg-indigo-900/80",
+        viewpoint: "bg-purple-900/80",
     };
 
     const displayTitle = place.title[locale] || place.title.en;
@@ -38,7 +38,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
-            <div className="group relative aspect-square w-full max-w-100 mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
+            <div className="group z-10 flex relative  h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
                 <Image
                     src={place.image}
@@ -47,30 +47,17 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                     /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                 />
+                <div className={`absolute z-10 top-4 left-4 text-sm text-white ${categoryColors[place.category]} px-1 rounded-md` }>{place.category}</div>
+                <div className="flex z-10 mt-auto bg-amber-100 h-[8rem] w-full p-4">
+
+                </div>
 
 
                 {/* Gradient Overlay using the Category Color */}
-                <div className={`absolute inset-0 bg-linear-to-t ${overlayColor} via-transparent to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-90 pointer-events-none`} />
+
 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end p-5 pointer-events-none">
 
-                    <div className="transform transition-all duration-300 group-hover:-translate-y-2">
-                        {/* Category Badge */}
-                        <span className="inline-block px-2 py-0.5 mb-2 text-[10px] uppercase tracking-widest text-white bg-white/20 backdrop-blur-md rounded-full border border-white/30">
-                            {place.category}
-                        </span>
-
-                        <h3 className="text-lg md:text-xl font-bold text-white leading-tight">
-                            {displayTitle}
-                        </h3>
-
-                        {/* Using your shortDescription schema field */}
-                        <p className="text-white/90 text-xs mt-1 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
-                            {displayShortDesc}
-                        </p>
-                    </div>
-                </div>
             </div>
         </Link>
     );
