@@ -60,7 +60,8 @@ export const UpdatePlaceSchema = z.object({
     location: z
         .object({
             lat: z.number(),
-            lng: z.number()
+            lng: z.number(),
+            name: z.string()
         })
         .optional(),
 
@@ -81,7 +82,7 @@ export const createplaceschema = z.object({
             he: z.string(),
             ar: z.string()
         })
-        ,
+    ,
 
     description: z
         .object({
@@ -89,7 +90,7 @@ export const createplaceschema = z.object({
             he: z.string(),
             ar: z.string()
         })
-        ,
+    ,
 
     shortDescription: z
         .object({
@@ -101,16 +102,17 @@ export const createplaceschema = z.object({
 
     category: z
         .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
-        ,
+    ,
 
     image: z.string().min(1, "Image cannot be empty"),
 
     location: z
         .object({
             lat: z.number(),
-            lng: z.number()
+            lng: z.number(),
+            name: z.string()
         })
-        ,
+    ,
 
     contact: z
         .object({

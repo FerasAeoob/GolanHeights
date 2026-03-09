@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 interface PlaceCardProps {
     place: {
@@ -10,7 +11,7 @@ interface PlaceCardProps {
         shortDescription: { en: string; he?: string; ar?: string };
         category: "nature" | "restaurant" | "activity" | "hotel" | "viewpoint";
         image: string;
-        location: { lat: number; lng: number };
+        location: { lat: number; lng: number; name: string };
         contact?: { phone?: string; website?: string; instagram?: string };
         featured: boolean;
         createdAt?: Date | string;
@@ -47,9 +48,16 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                     /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                 />
-                <div className={`absolute z-10 top-4 left-4 text-sm text-white ${categoryColors[place.category]} px-1 rounded-md` }>{place.category}</div>
-                <div className="flex z-10 mt-auto bg-amber-100 h-[8rem] w-full p-4">
+                <div className={`absolute z-10 top-4 left-4 text-sm text-white ${categoryColors[place.category]} px-1 rounded-md`}>{place.category}</div>
+                <div className="flex flex-col z-10 mt-auto bg-gray-100 h-[8rem] w-full p-4">
+                    <h3 className="group-hover:text-green-800 text-l font-bold ">{displayTitle}</h3>
+                    <div className="flex my-1">
+                        <MapPin className="w-4 h-4 mt-1 mr-2" />
+                        <h1>{place.location.name}</h1>
 
+
+                    </div>
+                    <p className=" text-l ">{displayShortDesc}</p>
                 </div>
 
 

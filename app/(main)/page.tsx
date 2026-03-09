@@ -11,9 +11,9 @@ export default async function HomePage() {
     await connectDB();
 
     // 🟢 FIX 1: Removed { featured: true } so it fetches EVERYTHING in your database
-    const rawPlaces = await Place.find({featured: true}).limit(6).lean();
+    const rawPlaces = await Place.find({ featured: true }).limit(6).lean();
 
-    console.log("💥 MONGODB RETURNED:", rawPlaces);
+    ;
 
     // 🟢 FIX 2: Added 'any' (or you can use 'IPlace') so ESLint doesn't complain
     const places = rawPlaces.map((place: IPlace) => ({
@@ -74,17 +74,17 @@ export default async function HomePage() {
                     </div>
 
 
-                        <div className="flex flex-wrap justify-center max-w-dvw w-full  box-border ">
-                            {places.map((place) => (
-                                <div
-                                    key={place._id}
-                                    className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border  p-4  "
-                                >
+                    <div className="flex flex-wrap justify-center max-w-dvw w-full  box-border ">
+                        {places.map((place) => (
+                            <div
+                                key={place._id}
+                                className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border  p-4  "
+                            >
 
-                                <PlaceCard key={place.slug} place={place}  />
-                                </div>
-                            ))}
-                        </div>
+                                <PlaceCard key={place.slug} place={place} />
+                            </div>
+                        ))}
+                    </div>
 
 
 

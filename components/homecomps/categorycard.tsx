@@ -19,7 +19,7 @@ export default function CategoryCard({ category }: CategoryCardProps) {
     return (
         <Link href={`/categories/${category.slug}`} className="block w-full h-full">
             {/* 1. Added 'group' to the parent container */}
-            <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-sm transition-all duration-300 hover:shadow-xl">
+            <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
                 <Image
                     src={category.image}
