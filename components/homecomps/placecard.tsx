@@ -44,15 +44,16 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
             */}
             <div className="group z-10 flex relative  h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
-                <Image
-                    src={place.image}
-                    alt={place.title.en}
-                    fill
-                    /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-                />
-                <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]} px-1 rounded-md`}>{capitalizeFirst(place.category)}</div>
-                <div className="flex flex-col z-10 mt-auto bg-gray-100 h-[8rem] w-full p-4">
+                <div className="absolute inset-0">
+                    <Image
+                        src={place.image}
+                        alt={place.title.en}
+                        fill
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                    />
+                </div>
+                <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
+                <div className="absolute bottom-0 left-0 z-20 w-full h-32 p-4 bg-gray-100/95 backdrop-blur-sm flex flex-col">
                     <h3 className="group-hover:text-green-800 text-l font-bold ">{displayTitle}</h3>
                     <div className="flex my-1">
                         <MapPin className="w-4 h-4 mt-1 mr-2" />
