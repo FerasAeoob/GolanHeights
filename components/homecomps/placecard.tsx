@@ -24,7 +24,7 @@ interface PlaceCardProps {
 export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
-        nature: "bg-green-700/95 hover:bg-black/70",
+        nature: "bg-green-400 hover:bg-black/70 text-green-700",
         restaurant: "bg-orange-900/80",
         activity: "bg-blue-900/80 hover:bg-black-900/40",
         hotel: "bg-indigo-900/80",
@@ -51,7 +51,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                     /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                 />
-                <div className={`absolute z-10 top-4 left-4 text-sm text-white ${categoryColors[place.category]} px-1 rounded-md`}>{capitalizeFirst(place.category)}</div>
+                <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]} px-1 rounded-md`}>{capitalizeFirst(place.category)}</div>
                 <div className="flex flex-col z-10 mt-auto bg-gray-100 h-[8rem] w-full p-4">
                     <h3 className="group-hover:text-green-800 text-l font-bold ">{displayTitle}</h3>
                     <div className="flex my-1">
