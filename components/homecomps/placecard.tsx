@@ -20,6 +20,7 @@ interface PlaceCardProps {
     locale?: "en" | "he" | "ar"
 }
 
+
 export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
@@ -33,7 +34,9 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
     const overlayColor = categoryColors[place.category] || "from-slate-900/80";
-
+    function capitalizeFirst(str: string) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
     return (
         <Link href={`/places/${place.slug}`} className="block w-full">
             {/* FIX: 'aspect-square' prevents vertical stretching.
@@ -48,7 +51,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                     /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                 />
-                <div className={`absolute z-10 top-4 left-4 text-sm text-white ${categoryColors[place.category]} px-1 rounded-md`}>{place.category}</div>
+                <div className={`absolute z-10 top-4 left-4 text-sm text-white ${categoryColors[place.category]} px-1 rounded-md`}>{capitalizeFirst(place.category)}</div>
                 <div className="flex flex-col z-10 mt-auto bg-gray-100 h-[8rem] w-full p-4">
                     <h3 className="group-hover:text-green-800 text-l font-bold ">{displayTitle}</h3>
                     <div className="flex my-1">
