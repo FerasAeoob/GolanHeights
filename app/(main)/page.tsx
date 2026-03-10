@@ -78,7 +78,7 @@ export default async function HomePage() {
                         {places.map((place) => (
                             <div
                                 key={place._id}
-                                className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border  md:p-3  sm:p-2 p-1  "
+                                className="w-full sm:w-1/2 md:max-w-1/2 xl:w-1/3 box-border  md:p-3  sm:p-2 p-1  "
                             >
 
                                 <PlaceCard key={place.slug} place={place} />

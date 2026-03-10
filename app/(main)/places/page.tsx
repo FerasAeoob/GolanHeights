@@ -11,7 +11,7 @@ export default async function HomePage() {
     await connectDB();
 
     // 🟢 FIX 1: Removed { featured: true } so it fetches EVERYTHING in your database
-    const rawPlaces = await Place.find({ featured: true }).limit(6).lean();
+    const rawPlaces = await Place.find({}).lean();
 
     ;
 

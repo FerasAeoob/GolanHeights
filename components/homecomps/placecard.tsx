@@ -53,7 +53,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                     />
                 </div>
                 <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
-                <div className="absolute bottom-0 left-0 z-20 w-full h-32 p-4 bg-gray-100/95 backdrop-blur-sm flex flex-col">
+                <div className="mt-auto z-20 w-full h-32 p-4 bg-gray-100 flex flex-col">
                     <h3 className="group-hover:text-green-800 text-l font-bold ">{displayTitle}</h3>
                     <div className="flex my-1">
                         <MapPin className="w-4 h-4 mt-1 mr-2" />

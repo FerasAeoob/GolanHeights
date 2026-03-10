@@ -34,10 +34,10 @@ export default function HeroSection() {
                 </h1>
                 <p className="text-center text-white max-w-[75%] md:max-w-[40rem]">Ancient history, breathtaking nature, and unforgettable experiences await in Israel&#39;s most stunning region.</p>
                 <Link
-                    href="/categories"
+                    href="/places"
                     className="flex items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-green-400 text-white font-bold rounded-full hover:bg-green-500 transition-colors shadow-lg"
                 >
-                    <Compass  className="h-[85%] items-center pt-0.3"/> &nbsp;&nbsp; Explore Now
+                    <Compass  className="h-[85%] items-center mt-0.5"/> &nbsp;&nbsp; Explore Now
                 </Link>
             </div>
 
