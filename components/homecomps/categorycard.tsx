@@ -17,7 +17,7 @@ interface CategoryCardProps {
 export default function CategoryCard({ category }: CategoryCardProps) {
     const Icon = category.icon ? (category.icon) : null;
     return (
-        <Link href={`/categoriesg/${category.slug}`} className="block w-full h-full">
+        <Link href={`/places?category=${category.slug}`} className="block w-full h-full">
             {/* 1. Added 'group' to the parent container */}
             <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-500 hover:shadow-2xl">
 

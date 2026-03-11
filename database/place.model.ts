@@ -72,7 +72,7 @@ const PlaceSchema: Schema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ["nature", "restaurant", "activity", "hotel", "viewpoint"],
+      enum: ["Nature", "Restaurant", "Activity", "Hotel", "Viewpoint"],
     },
 
     image: {

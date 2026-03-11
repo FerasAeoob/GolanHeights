@@ -101,7 +101,7 @@ export const createplaceschema = z.object({
         .optional(),
 
     category: z
-        .enum(["Nature", "Restaurant", "Activity", "Hotel", "Viewpoint"])
+        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
     ,
 
     image: z.string().min(1, "Image cannot be empty"),

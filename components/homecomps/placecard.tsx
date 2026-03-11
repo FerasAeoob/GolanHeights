@@ -30,7 +30,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
-            <div className="group z-10 flex relative  h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
+            <div className="group z-10 flex relative h-100 sm:h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
                 <div className="absolute inset-0">
                     <Image
@@ -41,15 +41,15 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                     />
                 </div>
                 <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
-                <div className="mt-auto z-20 w-full h-32 p-4 bg-gray-100 flex flex-col">
-                    <h3 className="group-hover:text-green-800 text-l font-bold ">{displayTitle}</h3>
+                <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-gray-100 flex flex-col overflow-hidden">
+                    <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
                     <div className="flex my-1">
                         <MapPin className="w-4 h-4 mt-1 mr-2" />
-                        <h1>{place.location.name}</h1>
+                        <h1 className="line-clamp-1">{place.location.name}</h1>
 
 
                     </div>
-                    <p className=" text-l ">{displayShortDesc}</p>
+                    <p className=" text-l line-clamp-3">{displayShortDesc}</p>
                 </div>
 
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link  from "next/link";
-import {Compass, MapPin} from "lucide-react";
+import Link from "next/link";
+import { Compass, MapPin } from "lucide-react";
 
 export default function HeroSection() {
     return (
@@ -10,7 +10,7 @@ export default function HeroSection() {
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1772793800/348d5747-937d-4aa4-8dd6-32f9ed35191b_rh5rmz.webp"
+                    src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1773220505/f7a80ca7-25db-4c55-b22a-bdb897548f8b_wt69uo.jpg"
                     alt="Hero"
                     fill
                     priority
@@ -37,7 +37,7 @@ export default function HeroSection() {
                     href="/places"
                     className="flex items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-green-400 text-white font-bold rounded-full hover:bg-green-500 transition-colors shadow-lg"
                 >
-                    <Compass  className="h-[85%] items-center mt-0.5"/> &nbsp;&nbsp; Explore Now
+                    <Compass className="h-[85%] items-center mt-0.5" /> &nbsp;&nbsp; Explore Now
                 </Link>
             </div>
 
