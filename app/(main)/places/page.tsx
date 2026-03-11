@@ -1,5 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import Place from "@/database/place.model";
+import Place, {IPlaceSerializable} from "@/database/place.model";
 import SearchBar from "@/components/search"; // Adjust path if needed
 import PlaceCard from "@/components/homecomps/placecard"; // Adjust path if needed
 
@@ -50,7 +50,7 @@ export default async function PlacesPage({
                 {/* Your Responsive Grid */}
                 <div className="flex flex-wrap justify-center max-w-dvw w-full box-border p-2 sm:p-0">
                     {places.length > 0 ? (
-                        places.map((place: any) => (
+                        (places as unknown as IPlaceSerializable[]).map((place: IPlaceSerializable) => (
                             <div
                                 // Converted _id to string just in case it's a raw MongoDB ObjectId
                                 key={place._id.toString()}
@@ -64,7 +64,7 @@ export default async function PlacesPage({
                         // Fallback UI if the search query returns nothing
                         <div className="w-full text-center mt-12">
                             <p className="text-lg text-slate-500">
-                                No places found matching "{query}". Try a different search!
+                                No places found matching &#34;{query}&#34;. Try a different search!
                             </p>
                         </div>
                     )}

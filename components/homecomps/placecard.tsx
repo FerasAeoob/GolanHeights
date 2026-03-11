@@ -2,21 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 
+import { IPlaceSerializable } from "@/database/place.model";
+
 interface PlaceCardProps {
-    place: {
-        _id?: string; // Added for when you map over the MongoDB array
-        title: { en: string; he?: string; ar?: string };
-        slug: string;
-        description: { en: string; he?: string; ar?: string };
-        shortDescription: { en: string; he?: string; ar?: string };
-        category: "nature" | "restaurant" | "activity" | "hotel" | "viewpoint";
-        image: string;
-        location: { lat: number; lng: number; name: string };
-        contact?: { phone?: string; website?: string; instagram?: string };
-        featured: boolean;
-        createdAt?: Date | string;
-        updatedAt?: Date | string;
-    }
+    place: IPlaceSerializable
     locale?: "en" | "he" | "ar"
 }
 
@@ -33,7 +22,6 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
 
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
-    const overlayColor = categoryColors[place.category] || "from-slate-900/80";
     function capitalizeFirst(str: string) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }

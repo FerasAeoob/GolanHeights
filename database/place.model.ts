@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 /**
  * Interface representing the multilingual Place document in MongoDB.
  */
-export interface IPlace extends Document {
+export interface IPlaceBase {
   title: { en: string; he?: string; ar?: string };
   slug: string;
   description: { en: string; he?: string; ar?: string };
@@ -26,9 +26,20 @@ export interface IPlace extends Document {
   };
 
   featured: boolean;
+}
 
+export interface IPlace extends Document, IPlaceBase {
   createdAt: Date;
   updatedAt: Date;
+}
+
+/**
+ * Interface representing a plain JS object (Serializable) for a Place.
+ */
+export interface IPlaceSerializable extends IPlaceBase {
+  _id: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const PlaceSchema: Schema = new Schema(

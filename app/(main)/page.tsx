@@ -3,7 +3,7 @@ import CategoryCard from "@/components/homecomps/categorycard";
 import categories from "@/components/cate-pics/categories"; // Ensure this is the array
 import HeroSection from "@/components/homecomps/herosection";
 import PlaceCard from "@/components//homecomps/placecard";
-import Place, { IPlace } from "@/database/place.model"; // 🟢 1. Added IPlace import here
+import Place, {IPlace, IPlaceSerializable} from "@/database/place.model"; // 🟢 1. Added IPlace import here
 
 import connectDB from "@/lib/mongodb";
 
@@ -16,7 +16,7 @@ export default async function HomePage() {
     ;
 
     // 🟢 FIX 2: Added 'any' (or you can use 'IPlace') so ESLint doesn't complain
-    const places = rawPlaces.map((place: IPlace) => ({
+    const places: IPlaceSerializable[] = rawPlaces.map((place: IPlace) => ({
         ...place,
         _id: String(place._id),
         createdAt: place.createdAt ? String(place.createdAt) : undefined,
