@@ -7,28 +7,30 @@ import Filters from "@/components/homecomps/filters";
 export default async function PlacesPage({
     searchParams,
 }: {
-    searchParams: Promise<{ search?: string }>;
+    searchParams: Promise<{ search?: string; category?: string }>;
 }) {
     // 1. Read the URL to see if the user searched for anything
     const resolvedParams = await searchParams;
     const query = resolvedParams.search || "";
+    const category = resolvedParams.category || "";
 
     // 2. Connect and fetch from the database
     await connectDB();
 
-    const filter = query
-        ? {
+    const filter: any = {
+        ...(query && {
             $or: [
-                { "title.en": { $regex: query, $options: "i" } }, // English
-                { "title.he": { $regex: query, $options: "i" } }, // Hebrew
-                { "title.ar": { $regex: query, $options: "i" } }, // Arabic 👈 Added this
+                { "title.en": { $regex: query, $options: "i" } },
+                { "title.he": { $regex: query, $options: "i" } },
+                { "title.ar": { $regex: query, $options: "i" } },
                 { category: { $regex: query, $options: "i" } },
                 { "description.en": { $regex: query, $options: "i" } },
                 { "description.he": { $regex: query, $options: "i" } },
                 { "description.ar": { $regex: query, $options: "i" } },
             ],
-        }
-        : {};
+        }),
+        ...(category && { category }),
+    };
 
     const places = await Place.find(filter).lean();
 
