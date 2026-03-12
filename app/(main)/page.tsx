@@ -46,7 +46,7 @@ export default async function HomePage() {
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap justify-center max-w-dvw w-full box-border p-2 sm:p-0">
+                    <div className="flex flex-wrap justify-center max-w-dvw w-full box-border p-2 sm:p-1">
                         {categories.map((cat) => (
                             <div
                                 key={cat.slug}
@@ -61,7 +61,7 @@ export default async function HomePage() {
                 </div>
             </section>
 
-            {/* Featured Section */}
+             {/*Featured Section*/}
             <section className="flex flex-col items-center justify-center mt-12 mb-20">
                 <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">
                     <div>
@@ -74,11 +74,11 @@ export default async function HomePage() {
                     </div>
 
 
-                    <div className="flex flex-wrap justify-center max-w-dvw w-full  box-border p-2 sm:p-0">
+                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border p-2 sm:p-1">
                         {places.map((place) => (
                             <div
                                 key={place._id}
-                                className="w-full sm:w-1/2 md:max-w-1/2 xl:w-1/3 box-border  md:p-3  sm:p-2 p-1  "
+                                className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border md:p-3 sm:p-2 p-1 "
                             >
 
                                 <PlaceCard key={place.slug} place={place} />
