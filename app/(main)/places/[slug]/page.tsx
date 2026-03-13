@@ -41,7 +41,7 @@ export default async function PlacePage({ params }: PageProps) {
     };
 
     return (
-        <div className=" pt-20 flex flex-col w-dvw h-full items-center px-3">
+        <div className=" pt-20 flex flex-col w-dvw h-[5000px] items-center px-3">
             <div className="flex h-20 w-full max-w-[1200px] items-center ">
 
                 <Link href="/places" className=" flex text-lg font-bold gap-3"><ArrowLeft className="text-lg font-bold mt-1" /> Back to Explore</Link>
@@ -70,7 +70,7 @@ export default async function PlacePage({ params }: PageProps) {
 
 
 
-                <div className="flex border-box border-black border-2">
+                <div className="flex border-box border-black border-2 items-start ">
 
 
                     <div className="w-fit  border-box ">
@@ -93,9 +93,9 @@ export default async function PlacePage({ params }: PageProps) {
 
 
                     </div>
-                    <aside className="w-70 border-box border-black border-2 max-h-80 p-5">
-                        <div>
-                            <h1 className="text-xl font-bold">Details</h1>
+                    <aside className="w-70 border-box border-black border-2 h-80 p-5 sticky top-24 pt-6 ">
+                        <div className="flex flex-col gap-3">
+                            <h1 className="text-xl font-bold mb-3">Details</h1>
                             <p>Location: {place.location.name}</p>
                             <p>Category: {place.category}</p>
                             <p>Price: {place.price}</p>
@@ -103,6 +103,7 @@ export default async function PlacePage({ params }: PageProps) {
                         </div>
                     </aside>
                 </div>
+
             </div>
         </div>
     );
