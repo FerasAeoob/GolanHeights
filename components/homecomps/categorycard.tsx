@@ -40,10 +40,12 @@ export default function CategoryCard({ category }: CategoryCardProps) {
                 <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
                     {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ml-3" />}
 
-                    <h3 className="text-[0.8rem] md:text-[1.1rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
+                    <h3 className="text-[1.1rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
                         {category.title}
                     </h3>
-                    <h1 className="pl-2 text-white text-sm hidden sm:block ">{category.desc}</h1>
+                    <h1 className="hidden sm:line-clamp-1 pl-2 text-white text-sm">
+                        {category.desc}
+                    </h1>
 
                 </div>
             </div>
