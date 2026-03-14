@@ -6,20 +6,30 @@
 }
 
 /* reset*/
-body,p,ul,li {
+body,
+p,
+ul,
+li {
   margin: 0;
   padding: 0;
   text-decoration: none;
 }
 
-html, body {
-  overflow-x: hidden;
+html,
+body {
+
   margin: 0;
   padding: 0;
   width: 100%;
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+html {
+  scrollbar-gutter: stable;
+}
+
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }

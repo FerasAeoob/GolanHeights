@@ -1,9 +1,9 @@
 import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
 import SearchBar from "@/components/search"; // Adjust path if needed
-import PlaceCard from "@/components/homecomps/placecard"; // Adjust path if needed
-import Filters from "@/components/homecomps/filters";
-import CategoryDropdown from "@/components/homecomps/category.dropdown";
+import PlaceCard from "@/components/placecard"; // Adjust path if needed
+import Filters from "@/components/filters";
+import CategoryDropdown from "@/components/category.dropdown";
 
 export default async function PlacesPage({
     searchParams,
@@ -40,8 +40,8 @@ export default async function PlacesPage({
     return (
         <>
             <section className="flex flex-col items-center justify-center mb-20">
-                <div className="flex flex-col h-[20rem] items-center bg-emerald-700 w-full ">
-                    <div className="flex flex-col h-full mb-8 mt-15  w-full max-w-[1200px] lg:max-w-[1400px] justify-center p-2 sm:p-1 border-1">
+                <div className="flex flex-col h-[25rem] items-center bg-emerald-700 w-full pt-10">
+                    <div className="flex flex-col h-full mb-8 mt-10  w-full max-w-[1200px] lg:max-w-[1400px] justify-center p-2 sm:p-1 border-1">
                         {/* Headers */}
 
                         <h3 className="  uppercase font-bold text-3xl md:text-4xl text-white md:p-3 sm:p-2 p-1 ">
@@ -57,15 +57,15 @@ export default async function PlacesPage({
                 <div className="flex  items-center border-1 border-black h-[5rem] mb-8 w-full max-w-[1200px] lg:max-w-[1400px]  border-box " >
                     <div className="flex flex-wrap h-full w-full items-center max-w-dvw w-full box-border p-2 sm:p-1">
 
-                      {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
-                         <div className="flex h-full items-center justify-center w-1/2 border-box md:p-3 sm:p-2 p-1">
+                        {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
+                        <div className="flex h-full items-center justify-center w-1/2 border-box md:p-3 sm:p-2 p-1">
                             <SearchBar />
 
-                            </div>
-                      <div className="flex  h-full items-center justify-center ">
+                        </div>
+                        <div className="flex  h-full items-center justify-center ">
 
-                        <CategoryDropdown />
-                      </div>
+                            <CategoryDropdown />
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-col items-center border-1 border-black justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] " >

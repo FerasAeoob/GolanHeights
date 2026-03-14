@@ -1,9 +1,9 @@
 import '../globals.css';
-import CategoryCard from "@/components/homecomps/categorycard";
+import CategoryCard from "@/components/categorycard";
 import categories from "@/components/cate-pics/categories"; // Ensure this is the array
-import HeroSection from "@/components/homecomps/herosection";
-import PlaceCard from "@/components//homecomps/placecard";
-import Place, {IPlace, IPlaceSerializable} from "@/database/place.model"; // 🟢 1. Added IPlace import here
+import HeroSection from "@/components/herosection";
+import PlaceCard from "@/components/placecard";
+import Place, { IPlace, IPlaceSerializable } from "@/database/place.model"; // 🟢 1. Added IPlace import here
 
 import connectDB from "@/lib/mongodb";
 
@@ -61,7 +61,7 @@ export default async function HomePage() {
                 </div>
             </section>
 
-             {/*Featured Section*/}
+            {/*Featured Section*/}
             <section className="flex flex-col items-center justify-center mt-12 mb-20">
                 <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">
                     <div>

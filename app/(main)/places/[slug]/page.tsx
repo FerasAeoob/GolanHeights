@@ -33,20 +33,20 @@ export default async function PlacePage({ params }: PageProps) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
     const categoryColors: Record<string, string> = {
-        nature: "bg-green-400 hover:bg-black/70 text-green-700",
-        restaurant: "bg-orange-900/80",
-        activity: "bg-blue-900/80 hover:bg-black-900/40",
-        hotel: "bg-indigo-900/80",
-        viewpoint: "bg-purple-900/80",
+        nature: "bg-green-400/90 hover:bg-black/70 text-green-700",
+        restaurant: "bg-orange-600/90 hover:bg-black/70 text-orange-900",
+        activity: "bg-blue-600/90 hover:bg-black/70 text-blue-900",
+        hotel: "bg-indigo-600/90 hover:bg-black/70 text-indigo-900",
+        viewpoint: "bg-purple-300/90 hover:bg-black/70 text-purple-900",
     };
 
     return (
-        <div className=" pt-20 flex flex-col w-dvw h-[5000px] items-center px-3">
+        <div className=" pt-20 flex flex-col w-dvw items-center px-3">
             <div className="flex h-20 w-full max-w-[1200px] items-center ">
 
                 <Link href="/places" className=" flex text-lg font-bold gap-3"><ArrowLeft className="text-lg font-bold mt-1" /> Back to Explore</Link>
             </div>
-            <div className="w-full max-w-[1200px] justify-center items-center ">
+            <div className="w-full max-w-[1200px] justify-center items-center  ">
                 <div className=" max-w-[1200px] md:h-[500px] h-[350px]  relative rounded-3xl overflow-hidden shadow-xl">
 
                     <Image
@@ -59,52 +59,63 @@ export default async function PlacePage({ params }: PageProps) {
                         fill
                     />
                 </div>
-                <div className="flex flex-col mt-10 w-fit  ">
-                    <div className={` text-sm font-bold px-1.5 shadow-xl w-fit mb-2  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
-                    <p className="flex">
-                        <MapPin className="w-4 h-4 mt-1 mr-2" /> {place.location.name}
-                    </p>
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-800 mt-10" />
+                <div className="flex border-box  items-start justify-between pt-10">
+
+                    <div className="lg:max-w-2/3 max-w-full ">
+                        <div className="flex flex-col w-fit  ">
+                            <div className={` text-sm font-bold px-1.5 shadow-xl w-fit mb-2  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
+                            <p className="flex ">
+                                <MapPin className="w-4 h-4 mt-1 mr-2" /> {place.location.name}
+                            </p>
 
 
-                </div>
-
-
-
-                <div className="flex border-box border-black border-2 items-start ">
-
-
-                    <div className="w-fit  border-box ">
-
-                        <h1 className="text-3xl font-bold mt-6">
-                            {place.title.en}
-                        </h1>
-
-                        <div className="mt-5 flex flex-col gap-6 pr-10">
-                            {place.description.en.split('\n\n').map((paragraph: string, index: number) => (
-                                <p
-                                    key={index}
-                                    className="text-gray-600 text-xl leading-relaxed"
-                                >
-                                    {paragraph}
-                                </p>
-                            ))}
                         </div>
 
 
 
+
+
+
+                        <div className="w-fit  border-box ">
+
+                            <h1 className="text-3xl font-bold mt-6 text-emerald-900 ">
+                                {place.title.en}
+                            </h1>
+
+                            <div className="mt-5 flex flex-col gap-6 ">
+                                {place.description.en.split('\n\n').map((paragraph: string, index: number) => (
+                                    <p
+                                        key={index}
+                                        className="text-gray-600 md:text-xl text-lg leading-relaxed"
+                                    >
+                                        {paragraph}
+                                    </p>
+                                ))}
+                            </div>
+
+
+
+                        </div>
                     </div>
-                    <aside className="w-70 border-box border-black border-2 h-80 p-5 sticky top-24 pt-6 ">
+                    <aside className="w-70 border-box hidden lg:flex flex-col h-80 p-5 sticky top-[30dvh] pt-6 bg-gray-100 mt-10 rounded-xl drop-shadow-lg overflow-hidden">
+
                         <div className="flex flex-col gap-3">
                             <h1 className="text-xl font-bold mb-3">Details</h1>
+                        </div>
+
+                        {/* 2. Replaced h-auto with flex-1 on this div */}
+                        <div className="flex flex-col flex-1 justify-between mt-5">
                             <p>Location: {place.location.name}</p>
                             <p>Category: {place.category}</p>
                             <p>Price: {place.price}</p>
-
+                            <Link href="/place" className="flex bg-emerald-900 text-white w-full py-1 rounded-md items-center justify-center">See on map</Link>
                         </div>
+
                     </aside>
                 </div>
 
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

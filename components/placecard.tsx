@@ -13,11 +13,11 @@ interface PlaceCardProps {
 export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
-        nature: "bg-green-400 hover:bg-black/70 text-green-700",
-        restaurant: "bg-orange-900/80",
-        activity: "bg-blue-900/80 hover:bg-black-900/40",
-        hotel: "bg-indigo-900/80",
-        viewpoint: "bg-purple-900/80",
+        nature: "bg-green-400/90 hover:bg-black/70 text-green-700",
+        restaurant: "bg-orange-600/90 hover:bg-black/70 text-orange-900",
+        activity: "bg-blue-600/90 hover:bg-black/70 text-blue-900",
+        hotel: "bg-indigo-600/90 hover:bg-black/70 text-indigo-900",
+        viewpoint: "bg-purple-300/90 hover:bg-black/70 text-purple-900",
     };
 
     const displayTitle = place.title[locale] || place.title.en;
