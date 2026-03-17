@@ -60,7 +60,7 @@ export default async function PlacePage({ params }: PageProps) {
                     />
                 </div>
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-800 mt-10" />
-                <div className="flex border-box  items-start justify-between pt-10">
+                <div className="flex flex-col lg:flex-row border-box  items-start justify-between pt-10">
 
                     <div className="lg:max-w-2/3 max-w-full ">
                         <div className="flex flex-col w-fit  ">
@@ -113,6 +113,20 @@ export default async function PlacePage({ params }: PageProps) {
                         </div>
 
                     </aside>
+                    <div className="w-full max-w-[450px] lg:hidden h-70 border-box flex flex-col rounded-xl drop-shadow-lg bg-gray-100 mt-10 p-5">
+                        <div className="flex flex-col gap-3">
+                            <h1 className="text-xl font-bold mb-3">Details</h1>
+                        </div>
+
+                        {/* 2. Replaced h-auto with flex-1 on this div */}
+                        <div className="flex flex-col flex-1 justify-between mt-5">
+                            <p>Location: {place.location.name}</p>
+                            <p>Category: {place.category}</p>
+                            <p>Price: {place.price}</p>
+                            <Link href="/place" className="flex bg-emerald-900 text-white w-full py-1 rounded-md items-center justify-center">See on map</Link>
+                        </div>
+
+                    </div>
                 </div>
 
             </div >
