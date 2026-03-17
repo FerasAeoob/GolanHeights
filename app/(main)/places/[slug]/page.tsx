@@ -4,6 +4,7 @@ import { SlugSchema } from "@/schemas/place.schema";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
+import PlaceDetails from "@/components/place.sidedetails";
 
 interface PageProps {
     params: Promise<{
@@ -98,35 +99,12 @@ export default async function PlacePage({ params }: PageProps) {
 
                         </div>
                     </div>
-                    <aside className="w-70 border-box hidden lg:flex flex-col h-80 p-5 sticky top-[30dvh] pt-6 bg-gray-100 mt-10 rounded-xl drop-shadow-lg overflow-hidden">
-
-                        <div className="flex flex-col gap-3">
-                            <h1 className="text-xl font-bold mb-3">Details</h1>
-                        </div>
-
-                        {/* 2. Replaced h-auto with flex-1 on this div */}
-                        <div className="flex flex-col flex-1 justify-between mt-5">
-                            <p>Location: {place.location.name}</p>
-                            <p>Category: {place.category}</p>
-                            <p>Price: {place.price}</p>
-                            <Link href="/place" className="flex bg-emerald-900 text-white w-full py-1 rounded-md items-center justify-center">See on map</Link>
-                        </div>
-
-                    </aside>
-                    <div className="w-full max-w-[450px] lg:hidden h-70 border-box flex flex-col rounded-xl drop-shadow-lg bg-gray-100 mt-10 p-5">
-                        <div className="flex flex-col gap-3">
-                            <h1 className="text-xl font-bold mb-3">Details</h1>
-                        </div>
-
-                        {/* 2. Replaced h-auto with flex-1 on this div */}
-                        <div className="flex flex-col flex-1 justify-between mt-5">
-                            <p>Location: {place.location.name}</p>
-                            <p>Category: {place.category}</p>
-                            <p>Price: {place.price}</p>
-                            <Link href="/place" className="flex bg-emerald-900 text-white w-full py-1 rounded-md items-center justify-center">See on map</Link>
-                        </div>
-
-                    </div>
+                    <PlaceDetails
+                        location={place.location.name}
+                        category={place.category}
+                        price={place.price}
+                        mapLink={`/place/${place.slug}`}
+                    />
                 </div>
 
             </div >
