@@ -2,8 +2,8 @@ import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
 import SearchBar from "@/components/search"; // Adjust path if needed
 import PlaceCard from "@/components/placecard"; // Adjust path if needed
-import Filters from "@/components/filters";
 import CategoryDropdown from "@/components/category.dropdown";
+import FilterDropdown from "@/components/filter.dropdown";
 
 export default async function PlacesPage({
     searchParams,
@@ -64,7 +64,18 @@ export default async function PlacesPage({
                         </div>
                         <div className="flex  h-full items-center justify-center ">
 
-                            <CategoryDropdown />
+                            <FilterDropdown
+                                title="categories"
+                                paramKey="category"
+                                options={[
+                                    "All categories",
+                                    "Nature",
+                                    "Restaurant",
+                                    "Activity",
+                                    "Hotel",
+                                    "Viewpoint"
+                                ]}
+                            />
                         </div>
                     </div>
                 </div>
