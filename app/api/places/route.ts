@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
             description: body.description,
             shortDescription: body.shortDescription,
             category: body.category,
-            images: body.images, // already a Cloudinary URL
+            images: body.images,
             location: body.location,
             contact: body.contact,
             openHours: body.openHours,

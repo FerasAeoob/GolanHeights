@@ -8,12 +8,13 @@ import FilterDropdown from "@/components/filter.dropdown";
 export default async function PlacesPage({
     searchParams,
 }: {
-    searchParams: Promise<{ search?: string; category?: string }>;
+    searchParams: Promise<{ search?: string; category?: string; price?: string }>;
 }) {
     // 1. Read the URL to see if the user searched for anything
     const resolvedParams = await searchParams;
     const query = resolvedParams.search || "";
     const category = resolvedParams.category || "";
+    const price = resolvedParams.price || "";
 
     // 2. Connect and fetch from the database
     await connectDB();
@@ -31,6 +32,7 @@ export default async function PlacesPage({
             ],
         }),
         ...(category && { category: { $regex: category, $options: "i" } }),
+        ...(price && { price })
 
     };
 
@@ -39,22 +41,22 @@ export default async function PlacesPage({
     // 3. Render your custom UI
     return (
         <>
-            <section className="flex flex-col items-center justify-center mb-20">
-                <div className="flex flex-col h-[25rem] items-center bg-emerald-700 w-full pt-10">
-                    <div className="flex flex-col h-full mb-8 mt-10  w-full max-w-[1200px] lg:max-w-[1400px] justify-center p-2 sm:p-1 border-1">
-                        {/* Headers */}
+            <section className="flex flex-col md:h-[25rem] h-[20rem] bg-emerald-700  ">
 
-                        <h3 className="  uppercase font-bold text-3xl md:text-4xl text-white md:p-3 sm:p-2 p-1 ">
-                            Explore Places
-                        </h3>
-                        <h2 className="text-xl  md:text-2xl text-white/80 mb-6 mt-3r md:px-3 sm:px-2 px-1">
-                            Discover amazing attractions, restaurants, and experiences throughout the Golan Heights.
-                        </h2>
-                    </div>
+                <div className="flex flex-col h-full mb-8 mt-10 mx-auto  w-full max-w-[1200px] lg:max-w-[1400px] justify-center gap-4 px-4">
+                    {/* Headers */}
+
+                    <h3 className="  uppercase font-bold text-3xl md:text-4xl text-white">
+                        Explore Places
+                    </h3>
+                    <h2 className="text-xl  md:text-2xl text-white/80 ">
+                        Discover amazing attractions, restaurants, and experiences throughout the Golan Heights.
+                    </h2>
                 </div>
+
             </section>
-            <section className="max-w-[1400px] mx-auto px-4 -mt-12 md:-mt-16">
-                <div className="bg-gray-500 rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center border border-slate-100">
+            <section className="max-w-[1400px] mx-auto px-4 -mt-16 md:-mt-12 ">
+                <div className="bg-white rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center border border-slate-100">
 
 
                     {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
@@ -84,7 +86,7 @@ export default async function PlacesPage({
                                 title="Price"
                                 paramKey="price"
                                 options={[
-                                    "All prices",
+                                    "Any price",
                                     "$",
                                     "$$",
                                     "$$$"
@@ -98,17 +100,17 @@ export default async function PlacesPage({
 
                 </div>
             </section>
-            <section className="max-w-[1400px]">
-                <div className="flex flex-col items-center border-1 border-black justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] " >
+            <section className="max-w-[1400px] px-4 mx-auto mt-4">
+                <div className="flex flex-col items-center justify-center w-full max-w-[1200px] lg:max-w-[1400px] " >
 
                     {/* Your Responsive Grid */}
-                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border p-2 sm:p-1">
+                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border gap-4">
                         {places.length > 0 ? (
                             (places as unknown as IPlaceSerializable[]).map((place: IPlaceSerializable) => (
                                 <div
                                     // Converted _id to string just in case it's a raw MongoDB ObjectId
                                     key={place._id.toString()}
-                                    className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border md:p-3 sm:p-2 p-1"
+                                    className="w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                                 >
                                     {/* Removed the duplicate key prop here. Only the parent div needs it! */}
                                     <PlaceCard place={place} />

@@ -37,14 +37,14 @@ export default function FilterDropdown({
         <div ref={ref} className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex w-full md:min-w-48 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 justify-between items-center"
+                className="flex w-full px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 justify-between items-center "
             >
                 {selected}
                 <ChevronDown className={isOpen ? "rotate-180" : ""} />
             </button>
 
             {isOpen && (
-                <div className="absolute left-0  w-48 bg-white rounded shadow-lg z-50">
+                <div className="absolute left-0 w-48 bg-white rounded shadow-lg z-50">
                     {options.map((opt) => {
                         const params = new URLSearchParams(searchParams.toString());
 
