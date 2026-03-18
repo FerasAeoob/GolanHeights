@@ -7,6 +7,8 @@ interface PlaceDetailsProps {
     category: string;
     price: string;
     mapLink: string;
+    duration?: string;
+
 }
 
 export default function PlaceDetails({
@@ -14,6 +16,7 @@ export default function PlaceDetails({
     category,
     price,
     mapLink,
+    duration,
 }: PlaceDetailsProps) {
     return (
         <>
@@ -27,6 +30,8 @@ export default function PlaceDetails({
                     <p>Location: {location}</p>
                     <p>Category: {category}</p>
                     <p>Price: {price}</p>
+                    {duration && <p>Duration: {duration}</p>}
+
                     <Link
                         href={mapLink}
                         className="flex bg-emerald-900 text-white w-full py-1 rounded-md items-center justify-center"
@@ -46,6 +51,8 @@ export default function PlaceDetails({
                     <p>Location: {location}</p>
                     <p>Category: {category}</p>
                     <p>Price: {price}</p>
+                    {duration && <p>Duration: {duration}</p>}
+
                     <Link
                         href={mapLink}
                         className="flex bg-emerald-900 text-white w-full py-1 rounded-md items-center justify-center"

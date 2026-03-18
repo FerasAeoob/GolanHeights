@@ -55,7 +55,18 @@ export const UpdatePlaceSchema = z.object({
         .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
         .optional(),
 
-    image: z.string().min(1, "Image cannot be empty").optional(),
+    images: z
+        .array(
+            z.object({
+                url: z.string().min(1, "Image URL cannot be empty"),
+                alt: z.object({
+                    en: z.string().min(1).optional(),
+                    he: z.string().optional(),
+                    ar: z.string().optional(),
+                }).optional(),
+            })
+        )
+        .optional(),
 
     location: z
         .object({
@@ -77,7 +88,8 @@ export const UpdatePlaceSchema = z.object({
     duration: z.string().optional(),
     price: z.string().optional(),
 
-    featured: z.boolean().optional()
+    featured: z.boolean().optional(),
+    mapLink: z.string().optional(),
 });
 export const createplaceschema = z.object({
     title: z
@@ -108,7 +120,16 @@ export const createplaceschema = z.object({
         .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
     ,
 
-    image: z.string().min(1, "Image cannot be empty"),
+    images: z.array(
+        z.object({
+            url: z.string().min(1, "Image URL cannot be empty"),
+            alt: z.object({
+                en: z.string().min(1, "English alt text is required"),
+                he: z.string().optional(),
+                ar: z.string().optional(),
+            }),
+        })
+    ).min(1, "At least one image is required"),
 
     location: z
         .object({
@@ -126,9 +147,10 @@ export const createplaceschema = z.object({
         })
         .optional(),
     openHours: z.string(),
-    rating: z.string(),
+    rating: z.number().min(0).max(5),
     duration: z.string(),
     price: z.string(),
+    mapLink: z.string().url("Invalid map link"),
 
     featured: z.boolean()
 });

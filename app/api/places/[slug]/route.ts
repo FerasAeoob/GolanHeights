@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Place from '@/database/place.model';
-import { UpdatePlaceSchema, SlugSchema } from "@/schemas/place.schema";
+import { UpdatePlaceSchema, SlugSchema } from "@/database/place.schema";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
     try {

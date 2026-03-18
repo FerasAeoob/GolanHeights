@@ -8,10 +8,22 @@ export interface IPlaceBase {
   slug: string;
   description: { en: string; he?: string; ar?: string };
   shortDescription: { en: string; he?: string; ar?: string };
-
+  price: string;
+  duration: string;
+  rating?: string;
+  openHours: string;
   category: "nature" | "restaurant" | "activity" | "hotel" | "viewpoint";
+  mapLink: string;
 
-  image: string;
+  images: {
+    url: string;
+    alt: {
+      en: string;
+      he?: string;
+      ar?: string;
+    };
+  }[];
+
 
   location: {
     lat: number;
@@ -72,13 +84,22 @@ const PlaceSchema: Schema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ["Nature", "Restaurant", "Activity", "Hotel", "Viewpoint"],
+      enum: ["nature", "restaurant", "activity", "hotel", "viewpoint"],
     },
 
-    image: {
-      type: String,
-      required: [true, "Image is required"],
-      validate: [(v: string) => v.length > 0, "Image cannot be empty"],
+    images: {
+      type: [
+        {
+          url: { type: String, required: true },
+          alt: {
+            en: { type: String, required: true },
+            he: { type: String },
+            ar: { type: String },
+          },
+        },
+      ],
+
+      validate: [(v: any[]) => v.length > 0, "Please add at least one image"],
     },
 
     location: {
@@ -92,6 +113,11 @@ const PlaceSchema: Schema = new Schema(
       website: { type: String, trim: true },
       instagram: { type: String, trim: true },
     },
+    openHours: { type: String, trim: true },
+    rating: { type: String, trim: true },
+    duration: { type: String, trim: true },
+    price: { type: String, trim: true },
+    mapLink: { type: String, trim: true },
 
     featured: { type: Boolean, default: false },
   },

@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
-import { createplaceschema } from "@/schemas/place.schema";
+import { createplaceschema } from "@/database/place.schema";
 
 
 /* ======================
@@ -62,9 +62,14 @@ export async function POST(req: NextRequest) {
             description: body.description,
             shortDescription: body.shortDescription,
             category: body.category,
-            image: body.image, // already a Cloudinary URL
+            images: body.images, // already a Cloudinary URL
             location: body.location,
             contact: body.contact,
+            openHours: body.openHours,
+            rating: body.rating,
+            duration: body.duration,
+            price: body.price,
+            mapLink: body.mapLink,
             featured: body.featured ?? false
         });
 

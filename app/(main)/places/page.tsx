@@ -53,16 +53,17 @@ export default async function PlacesPage({
                     </div>
                 </div>
             </section>
-            <section className="flex flex-col items-center justify-center mt-12 mb-20">
-                <div className="flex  items-center border-1 border-black h-[5rem] mb-8 w-full max-w-[1200px] lg:max-w-[1400px]  border-box " >
-                    <div className="flex flex-wrap h-full w-full items-center max-w-dvw w-full box-border p-2 sm:p-1">
+            <section className="max-w-[1400px] mx-auto px-4 -mt-12 md:-mt-16">
+                <div className="bg-gray-500 rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center border border-slate-100">
 
-                        {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
-                        <div className="flex h-full items-center justify-center w-1/2 border-box md:p-3 sm:p-2 p-1">
-                            <SearchBar />
 
-                        </div>
-                        <div className="flex  h-full items-center justify-center ">
+                    {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
+                    <div className="flex-grow md:max-w-1/2">
+                        <SearchBar />
+
+                    </div>
+                    <div className="flex flex-row gap-3 w-full md:w-auto">
+                        <div className="flex-1 md:w-48">
 
                             <FilterDropdown
                                 title="categories"
@@ -77,8 +78,27 @@ export default async function PlacesPage({
                                 ]}
                             />
                         </div>
+                        <div className="flex-1 md:w-48">
+
+                            <FilterDropdown
+                                title="Price"
+                                paramKey="price"
+                                options={[
+                                    "All prices",
+                                    "$",
+                                    "$$",
+                                    "$$$"
+
+                                ]}
+                            />
+                        </div>
                     </div>
+
+
+
                 </div>
+            </section>
+            <section className="max-w-[1400px]">
                 <div className="flex flex-col items-center border-1 border-black justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] " >
 
                     {/* Your Responsive Grid */}
@@ -104,7 +124,7 @@ export default async function PlacesPage({
                         )}
                     </div>
                 </div>
-            </section>
+            </section >
             {/*<section className="flex flex-col items-center justify-center mt-12 mb-20">*/}
             {/*    <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">*/}
             {/*        <div>*/}

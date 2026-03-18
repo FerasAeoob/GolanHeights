@@ -20,7 +20,7 @@ export const categories = [
   {
     slug: "activity",
     title: "Activities",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1772726185/activity_wqyeca.webp",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1773740450/SnapInsta.to_574319804_17849997963589560_7374418082728410833_n_o4jgbt.jpg",
     color: "from-red-600/90",
     desc: "ATV, horseback riding, and more",
     icon: Bike,

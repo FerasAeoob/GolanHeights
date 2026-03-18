@@ -1,6 +1,6 @@
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
-import { SlugSchema } from "@/schemas/place.schema";
+import { SlugSchema } from "@/database/place.schema";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
@@ -51,7 +51,7 @@ export default async function PlacePage({ params }: PageProps) {
                 <div className=" max-w-[1200px] md:h-[500px] h-[350px]  relative rounded-3xl overflow-hidden shadow-xl">
 
                     <Image
-                        src={place.image}
+                        src={place.images[0].url}
                         alt={place.title.en}
 
 
@@ -103,6 +103,8 @@ export default async function PlacePage({ params }: PageProps) {
                         location={place.location.name}
                         category={place.category}
                         price={place.price}
+                        duration={place.duration}
+
                         mapLink={`/place/${place.slug}`}
                     />
                 </div>

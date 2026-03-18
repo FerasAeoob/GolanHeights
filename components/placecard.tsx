@@ -19,6 +19,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
         hotel: "bg-indigo-600/90 hover:bg-black/70 text-indigo-900",
         viewpoint: "bg-purple-300/90 hover:bg-black/70 text-purple-900",
     };
+    const mainImage = place.images?.[0];
 
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
@@ -34,8 +35,8 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
 
                 <div className="absolute inset-0">
                     <Image
-                        src={place.image}
-                        alt={place.title.en}
+                        src={mainImage?.url || "/placeholder.jpg"}
+                        alt={mainImage?.alt?.[locale] || place.title.en}
                         fill
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     />
