@@ -60,7 +60,7 @@ export default async function PlacesPage({
 
 
                     {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
-                    <div className="flex-grow md:max-w-1/2">
+                    <div className="flex-grow">
                         <SearchBar />
 
                     </div>
@@ -100,7 +100,7 @@ export default async function PlacesPage({
 
                 </div>
             </section>
-            <section className="max-w-[1400px] px-4 mx-auto mt-4">
+            <section className="max-w-[1400px] px-4 mx-auto mt-10 md:mt-15 ">
                 <div className="flex flex-col items-center justify-center w-full max-w-[1200px] lg:max-w-[1400px] " >
 
                     {/* Your Responsive Grid */}
