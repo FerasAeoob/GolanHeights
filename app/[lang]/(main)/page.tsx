@@ -1,14 +1,17 @@
-import '../globals.css';
+import "@/app/globals.css";
 import CategoryCard from "@/components/categorycard";
-import categories from "@/components/cate-pics/categories"; // Ensure this is the array
+import categories from "@/database/categories"; // Ensure this is the array
 import HeroSection from "@/components/herosection";
 import PlaceCard from "@/components/placecard";
 import Place, { IPlace, IPlaceSerializable } from "@/database/place.model"; // 🟢 1. Added IPlace import here
+import { getDictionary } from "@/lib/get-dictionary";
 
 import connectDB from "@/lib/mongodb";
 
-export default async function HomePage() {
+export default async function HomePage({ params }: { params: { lang: 'en' | 'ar' | 'he' } }) {
     await connectDB();
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
 
     // 🟢 FIX 1: Removed { featured: true } so it fetches EVERYTHING in your database
     const rawPlaces = await Place.find({ featured: true }).limit(6).lean();
@@ -36,13 +39,13 @@ export default async function HomePage() {
 
                     <div className="flex flex-col items-center justify-center mb-8 w-[85%]">
                         <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
-                            Discover
+                            {dict.discover}
                         </h3>
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 mt-3 text-center">
-                            Explore by Category
+                            {dict.explorebycategory}
                         </h2>
                         <p className="relative text-lg md:text-xl text-center">
-                            From ancient ruins to adventure sports, the Golan Heights offers something for every traveler.
+                            {dict.explorebycategorydescription}
                         </p>
                     </div>
 

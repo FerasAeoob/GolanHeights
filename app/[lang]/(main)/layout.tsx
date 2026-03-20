@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import "../globals.css";
+import "@/app/globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/Footer";
+import { Locale } from "@/lib/get-dictionary";
 
 export const metadata: Metadata = {
     title: "Golan Heights Guide",
@@ -10,9 +11,23 @@ export const metadata: Metadata = {
 
 // app/layout.tsx
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+    children,
+    params,
+}: {
+    children: React.ReactNode;
+    params: Promise<{ lang?: string }>;
+}) {
+    const resolvedParams = await params;
+
+    const lang = resolvedParams.lang || "";
+
+    const currentLang = (lang === 'ar' || lang === 'he') ? lang : 'en';
+
+    const direction = currentLang === "ar" || currentLang === "he" ? "rtl" : "ltr";
+
     return (
-        <html lang="en">
+        <html lang={currentLang} dir={direction}>
             <head />
             {/* 1. Added flex, flex-col, and min-h-screen to the body */}
             <body className="flex flex-col min-h-screen">

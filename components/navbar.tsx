@@ -22,8 +22,8 @@ export default function Navbar() {
         >
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] p-2 sm:p-1  ">
                 <Link href="/" className="flex items-center gap-2 font-bold md:p-3 sm:p-2 p-1">
-                    <Image src="/globe.svg" alt="Logo" width={32} height={32} />
-                    Acme
+                    <Image src="/logox.png" alt="Logo" width={32} height={32} />
+                    Golan Heights
                 </Link>
             </div>
 

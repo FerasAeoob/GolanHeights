@@ -1,12 +1,14 @@
-import 'server-only';
-
 const dictionaries = {
     en: () => import('../dictionaries/en.json').then((module) => module.default),
     ar: () => import('../dictionaries/ar.json').then((module) => module.default),
     he: () => import('../dictionaries/he.json').then((module) => module.default),
 };
 
-export const getDictionary = async (locale: 'en' | 'ar' | 'he') => {
-    // Fallback to English if the locale is missing
-    return dictionaries[locale]?.() ?? dictionaries.en();
-};
+// 1. This creates the "Value" (the object)
+export const locales = ['en', 'ar', 'he'] as const;
+
+// 2. This creates the "Type" ('en' | 'ar' | 'he')
+export type Locale = (typeof locales)[number];
+
+export const getDictionary = async (locale: Locale) =>
+    dictionaries[locale]?.() ?? dictionaries.en();

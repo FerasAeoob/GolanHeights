@@ -1,3 +1,25 @@
 {
-    "welcome": "Welcome to the Golan Heights"
+    "discover": "Discover",
+    "northenisrael": "Northen Israel",
+    "golanheights": "Golan Heights",
+    "explore": "Explore",
+    "explorebycategory": "Explore by Category",
+    "explorebycategorydescription": "From ancient ruins to adventure sports, the Golan Heights offers something for every traveler",
+    "herodes": "Ancient history, stunning nature, and unforgettable experiences await you in the most beautiful regions of Israel",
+    "explorenow": "Explore Now",
+    "welcome": "Welcome to the Golan Heights",
+    "categories": {
+        "all": "All Categories",
+        "nature": "Nature",
+        "restaurant": "Restaurant",
+        "activity": "Activity",
+        "hotel": "Hotel",
+        "viewpoint": "Viewpoint"
+    },
+    "price": {
+        "any": "Any Price",
+        "$": "$",
+        "$$": "$$",
+        "$$$": "$$$"
+    }
 }

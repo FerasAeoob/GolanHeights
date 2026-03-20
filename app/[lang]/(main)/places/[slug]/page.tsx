@@ -60,7 +60,7 @@ export default async function PlacePage({ params }: PageProps) {
                         fill
                     />
                 </div>
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-800 mt-10" />
+
                 <div className="flex flex-col lg:flex-row border-box  items-start justify-between pt-10">
 
                     <div className="lg:max-w-2/3 max-w-full ">
@@ -83,6 +83,7 @@ export default async function PlacePage({ params }: PageProps) {
                             <h1 className="text-3xl font-bold mt-6 text-emerald-900 ">
                                 {place.title.en}
                             </h1>
+                            <div className="h-px w-full bg-gray-400 mt-10" />
 
                             <div className="mt-5 flex flex-col gap-6 ">
                                 {place.description.en.split('\n\n').map((paragraph: string, index: number) => (
@@ -100,8 +101,9 @@ export default async function PlacePage({ params }: PageProps) {
                         </div>
                     </div>
                     <PlaceDetails
-                        location={place.location.name}
-                        category={place.category}
+                        website={place.contact?.website}
+                        phone={place.contact?.phone}
+                        open={place.openHours}
                         price={place.price}
                         duration={place.duration}
 
