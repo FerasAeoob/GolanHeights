@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
             images: body.images,
             location: body.location,
             contact: body.contact,
-            openHours: body.openHours,
+            open: body.open,
             rating: body.rating,
             duration: body.duration,
             price: body.price,

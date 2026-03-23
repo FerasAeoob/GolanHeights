@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 import CategoryCard from "@/components/categorycard";
-import categories from "@/database/categories"; // Ensure this is the array
+import categories from "@/lib/categories"; // Ensure this is the array
 import HeroSection from "@/components/herosection";
 import PlaceCard from "@/components/placecard";
 import Place, { IPlace, IPlaceSerializable } from "@/database/place.model"; // 🟢 1. Added IPlace import here

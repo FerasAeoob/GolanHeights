@@ -103,7 +103,7 @@ export default async function PlacePage({ params }: PageProps) {
                     <PlaceDetails
                         website={place.contact?.website}
                         phone={place.contact?.phone}
-                        open={place.openHours}
+                        open={place.open}
                         price={place.price}
                         duration={place.duration}
 
