@@ -1,13 +1,12 @@
-'use client';
 
 import Link from "next/link";
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
 
 export default function Footer({ lang, dict }: { lang: string; dict: Record<string, any> }) {
   return (
-    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-900 mt-20">
+    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-900">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 mb-12">
           {/* Brand & Description */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white tracking-tight">
@@ -72,27 +71,6 @@ export default function Footer({ lang, dict }: { lang: string; dict: Record<stri
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">{dict.newsletter}</h3>
-            <p className="text-zinc-400">
-              {dict.newsletterdesc}
-            </p>
-            <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder={dict.enteremail}
-                className="bg-zinc-900 border border-zinc-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                required
-              />
-              <button
-                type="submit"
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-3 rounded-lg transition-colors duration-300"
-              >
-                {dict.subscribe}
-              </button>
-            </form>
-          </div>
         </div>
 
         {/* Bottom Bar */}

@@ -45,7 +45,7 @@ export default function FilterDropdown({
             </button>
 
             {isOpen && (
-                <div className="absolute left-0 w-48 bg-white rounded shadow-lg z-50">
+                <div className="absolute start-0 w-48 bg-white rounded shadow-lg z-50">
                     {options.map((opt) => {
                         const params = new URLSearchParams(searchParams.toString());
 

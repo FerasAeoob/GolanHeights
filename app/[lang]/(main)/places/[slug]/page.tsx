@@ -1,4 +1,7 @@
 import connectDB from "@/lib/mongodb";
+
+
+
 import Place from "@/database/place.model";
 import { SlugSchema } from "@/database/place.schema";
 import Image from "next/image";

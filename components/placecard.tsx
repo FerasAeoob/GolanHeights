@@ -42,7 +42,7 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     />
                 </div>
-                <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>
+                <div className={`absolute z-10 top-4 start-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
                 <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-gray-100 flex flex-col overflow-hidden">

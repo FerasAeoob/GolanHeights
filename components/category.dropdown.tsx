@@ -15,19 +15,20 @@ export default function CategoryDropdown() {
                 className=" flex w-48 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 justify-between items-center"
             >
                 {selected}
-                <ChevronDown  />
+                <ChevronDown />
 
             </button>
             {isOpen && (
-                <div className="absolute left-0 mt-2 w-48 bg-white rounded shadow-lg z-25">
+                <div className="absolute start-0 mt-2 w-48 bg-white rounded shadow-lg z-25">
                     {categories.map((cat) => (
                         <Link
                             key={cat}
-                            href={cat==="All categories"? "/places" : `/places?category=${cat}`}
+                            href={cat === "All categories" ? "/places" : `/places?category=${cat}`}
                             className="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
 
-                            onClick={() => {setIsOpen(false)
-                            setSelected(cat )
+                            onClick={() => {
+                                setIsOpen(false)
+                                setSelected(cat)
                             }}
 
 
@@ -35,7 +36,7 @@ export default function CategoryDropdown() {
                             {cat}
                             {selected === cat && <Check size={16} />}
                         </Link>
-                        ))}
+                    ))}
                 </div>
             )}
         </div>

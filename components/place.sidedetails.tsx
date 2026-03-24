@@ -1,4 +1,4 @@
-'use client';
+
 import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon } from "lucide-react";
 
 import Link from "next/link";
@@ -69,9 +69,9 @@ export default function PlaceDetails({
 
                     <Link
                         href={mapLink}
-                        className="flex bg-emerald-600 hover:bg-emerald-700 text-white w-full py-1 mt-3 rounded-md items-center justify-center"
+                        className="flex gap-2 bg-emerald-600 hover:bg-emerald-700 text-white w-full py-1 mt-3 rounded-md items-center justify-center"
                     >
-                        <MapPin className="w-4 h-4 mr-2" />
+                        <MapPin className="w-4 h-4" />
                         {dict.viewonmap}
                     </Link>
                 </dl>
@@ -121,7 +121,7 @@ export default function PlaceDetails({
 
                     <Link
                         href={mapLink}
-                        className="flex bg-emerald-600 hover:bg-emerald-700 text-white w-full py-1 mt-3 rounded-md items-center justify-center"
+                        className="flex gap-2 bg-emerald-600 hover:bg-emerald-700 text-white w-full py-1 mt-3 rounded-md items-center justify-center"
                     >
                         <MapPin className="w-4 h-4" />
                         {dict.viewonmap}

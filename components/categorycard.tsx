@@ -39,7 +39,7 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
 
                 <div className={`absolute inset-0 bg-gradient-to-t ${category.color} to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-90 pointer-events-none`} />
                 {/* 4. The Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
+                <div className="absolute bottom-0 start-0 end-0 p-4 pointer-events-none">
                     {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ms-3" />}
 
                     <h3 className="text-[1.1rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
