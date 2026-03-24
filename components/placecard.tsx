@@ -7,10 +7,11 @@ import { IPlaceSerializable } from "@/database/place.model";
 interface PlaceCardProps {
     place: IPlaceSerializable
     locale?: "en" | "he" | "ar"
+    dict: Record<string, any>
 }
 
 
-export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
+export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps) {
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
@@ -27,7 +28,7 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
     return (
-        <Link href={`/places/${place.slug}`} className="block w-full">
+        <Link href={`/${locale}/places/${place.slug?.[locale] || place.slug.en}`} className="block w-full">
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
@@ -41,12 +42,14 @@ export default function PlaceCard({ place, locale = "en" }: PlaceCardProps) {
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     />
                 </div>
-                <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
+                <div className={`absolute z-10 top-4 left-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>
+                    {dict.categories[place.category] || capitalizeFirst(place.category)}
+                </div>
                 <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-gray-100 flex flex-col overflow-hidden">
                     <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
-                    <div className="flex my-1">
-                        <MapPin className="w-4 h-4 mt-1 mr-2" />
-                        <h1 className="line-clamp-1">{place.location.name}</h1>
+                    <div className="flex my-1 gap-2 ">
+                        <MapPin className="w-4 h-4 mt-1 " />
+                        <h1 className="line-clamp-1">{place.location.name[locale] || place.location.name.en}</h1>
 
 
                     </div>

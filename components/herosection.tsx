@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Compass, MapPin } from "lucide-react";
 
-export default function HeroSection() {
+export default function HeroSection({ lang, dict }: { lang: string; dict: Record<string, any> }) {
     return (
         /* 1. Added flex and flex-col to the main container */
         <div className="relative flex flex-col w-full h-screen overflow-hidden box-border">
@@ -24,20 +24,20 @@ export default function HeroSection() {
             <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full">
                 <div className="flex items-center gap-2 text-green-300 font-bold text-sm">
                     <MapPin />
-                    <p>Northern Israel</p>
+                    <p>{dict.northenisrael}</p>
                 </div>
                 <h1 className="text-white text-4xl md:text-6xl font-bold font-serif text-center px-4 my-1">
-                    Explore the
+                    {dict.explore}
                 </h1>
                 <h1 className="text-green-300 text-4xl md:text-6xl font-bold font-serif text-center px-4">
-                    Golan Heights
+                    {dict.golanheights}
                 </h1>
-                <p className="text-center text-white max-w-[75%] md:max-w-[40rem]">Ancient history, breathtaking nature, and unforgettable experiences await in Israel&#39;s most stunning region.</p>
+                <p className="text-center text-white max-w-[75%] md:max-w-[40rem]">{dict.herodes}</p>
                 <Link
-                    href="/places"
+                    href={`/${lang}/places`}
                     className="flex items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-green-400 text-white font-bold rounded-full hover:bg-green-500 transition-colors shadow-lg"
                 >
-                    <Compass className="h-[85%] items-center mt-0.5" /> &nbsp;&nbsp; Explore Now
+                    {lang === 'ar' || lang === 'he' ? <span className="flex items-center gap-2">{dict.explorenow} <Compass className="h-[85%] mt-0.5" /></span> : <span className="flex items-center gap-2"><Compass className="h-[85%] mt-0.5" /> {dict.explorenow}</span>}
                 </Link>
             </div>
 
@@ -48,25 +48,25 @@ export default function HeroSection() {
                     {/* Stat 1 */}
                     <div className="flex flex-col items-center">
                         <span className="text-2xl md:text-3xl font-bold">50+</span>
-                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">Attractions</span>
+                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">{dict.stat_attractions}</span>
                     </div>
 
                     {/* Stat 2 */}
                     <div className="flex flex-col items-center">
                         <span className="text-2xl md:text-3xl font-bold">20+</span>
-                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">Trails</span>
+                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">{dict.stat_trails}</span>
                     </div>
 
                     {/* Stat 3 */}
                     <div className="flex flex-col items-center">
                         <span className="text-2xl md:text-3xl font-bold">15+</span>
-                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">Wineries</span>
+                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">{dict.stat_wineries}</span>
                     </div>
 
                     {/* Stat 4 */}
                     <div className="flex flex-col items-center">
                         <span className="text-2xl md:text-3xl font-bold">1000m</span>
-                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">Elevation</span>
+                        <span className="text-xs md:text-sm font-light text-gray-200 mt-1">{dict.stat_elevation}</span>
                     </div>
 
                 </div>

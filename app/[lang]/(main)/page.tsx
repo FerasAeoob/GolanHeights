@@ -30,7 +30,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
         <main className="min-h-screen w-[vdw]">
             {/* Hero Section */}
             <section className="pb-10">
-                <HeroSection />
+                <HeroSection lang={lang} dict={dict} />
             </section>
 
             {/* Categories Section */}
@@ -55,7 +55,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                                 key={cat.slug}
                                 className="w-1/2 md:w-1/2 sm:max-w-1/2 lg:w-1/3 max-w-[350px] box-border md:p-3  sm:p-2 p-1 "
                             >
-                                <CategoryCard category={cat} />
+                                <CategoryCard category={cat} lang={lang} dict={dict} />
                             </div>
                         ))}
                     </div>
@@ -69,10 +69,10 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                 <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">
                     <div>
                         <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
-                            Highlights
+                            {dict.highlights}
                         </h3>
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 mt-3 text-center">
-                            Featured Events
+                            {dict.featuredevents}
                         </h2>
                     </div>
 
@@ -84,7 +84,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                                 className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border md:p-3 sm:p-2 p-1 "
                             >
 
-                                <PlaceCard key={place.slug} place={place} />
+                                <PlaceCard key={place.slug[lang]} place={place} locale={lang} dict={dict} />
                             </div>
                         ))}
                     </div>

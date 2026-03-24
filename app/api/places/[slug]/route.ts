@@ -3,7 +3,7 @@ import connectDB from "@/lib/mongodb";
 import Place from '@/database/place.model';
 import { UpdatePlaceSchema, SlugSchema } from "@/database/place.schema";
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
     try {
         await connectDB();
         const result = await params;
@@ -16,7 +16,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
         const slug = parsedSlug.data.slug;
 
 
-        const place = await Place.findOne({ slug }).lean();
+        const place = await Place.findOne({
+            $or: [
+                { "slug.en": slug },
+                { "slug.he": slug },
+                { "slug.ar": slug }
+            ]
+        }).lean();
         return NextResponse.json(place, { status: 200 });
     } catch (error) {
         console.error(error);
@@ -27,7 +33,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     }
 }
 export async function PUT(
-    req: NextRequest,
+    req: Request,
     { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
@@ -62,7 +68,13 @@ export async function PUT(
 
         // Update the place
         const updatedPlace = await Place.findOneAndUpdate(
-            { slug: slug },
+            { 
+                $or: [
+                    { "slug.en": slug },
+                    { "slug.he": slug },
+                    { "slug.ar": slug }
+                ]
+             },
             { $set: updateData },
             { new: true, runValidators: true }
         ).lean();

@@ -3,7 +3,7 @@
 import { Search } from "lucide-react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
-export default function SearchBar() {
+export default function SearchBar({ placeholder = "Search places, locations, tags..." }: { placeholder?: string }) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -25,17 +25,17 @@ export default function SearchBar() {
     return (
         <div className="relative w-full">
             {/* Search icon */}
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 start-0 ps-3 flex items-center pointer-events-none">
                 <Search className="w-5 h-5 text-gray-400" />
             </div>
 
             {/* Input field */}
             <input
                 type="text"
-                placeholder="Search places, locations, tags..."
+                placeholder={placeholder}
                 onChange={(e) => handleSearch(e.target.value)}
                 defaultValue={searchParams.get("search")?.toString()}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full ps-10 pe-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
             />
         </div>
     );

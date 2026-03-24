@@ -4,12 +4,18 @@ import SearchBar from "@/components/search"; // Adjust path if needed
 import PlaceCard from "@/components/placecard"; // Adjust path if needed
 import CategoryDropdown from "@/components/category.dropdown";
 import FilterDropdown from "@/components/filter.dropdown";
+import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
 
 export default async function PlacesPage({
     searchParams,
+    params,
 }: {
     searchParams: Promise<{ search?: string; category?: string; price?: string }>;
+    params: Promise<{ lang: 'en' | 'ar' | 'he' }>;
 }) {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+
     // 1. Read the URL to see if the user searched for anything
     const resolvedParams = await searchParams;
     const query = resolvedParams.search || "";
@@ -47,10 +53,10 @@ export default async function PlacesPage({
                     {/* Headers */}
 
                     <h3 className="  uppercase font-bold text-3xl md:text-4xl text-white">
-                        Explore Places
+                        {dict.exploreplaces}
                     </h3>
                     <h2 className="text-xl  md:text-2xl text-white/80 ">
-                        Discover amazing attractions, restaurants, and experiences throughout the Golan Heights.
+                        {dict.exploreplacesdesc}
                     </h2>
                 </div>
 
@@ -59,37 +65,36 @@ export default async function PlacesPage({
                 <div className="bg-white rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center border border-slate-100">
 
 
-                    {/* Search Bar Wrapper - Added a wrapper to center it and give it some bottom margin */}
                     <div className="flex-grow">
-                        <SearchBar />
+                        <SearchBar placeholder={dict.searchplaceholder} />
 
                     </div>
                     <div className="flex flex-row gap-3 w-full md:w-auto">
                         <div className="flex-1 md:w-48">
 
                             <FilterDropdown
-                                title="categories"
+                                title={dict.categories.all}
                                 paramKey="category"
                                 options={[
-                                    "All categories",
-                                    "Nature",
-                                    "Restaurant",
-                                    "Activity",
-                                    "Hotel",
-                                    "Viewpoint"
+                                    dict.categories.all,
+                                    dict.categories.nature,
+                                    dict.categories.restaurant,
+                                    dict.categories.activity,
+                                    dict.categories.hotel,
+                                    dict.categories.viewpoint
                                 ]}
                             />
                         </div>
                         <div className="flex-1 md:w-48">
 
                             <FilterDropdown
-                                title="Price"
+                                title={dict.price.any}
                                 paramKey="price"
                                 options={[
-                                    "Any price",
-                                    "$",
-                                    "$$",
-                                    "$$$"
+                                    dict.price.any,
+                                    dict.price.$,
+                                    dict.price.$$,
+                                    dict.price.$$$
 
                                 ]}
                             />
@@ -113,14 +118,14 @@ export default async function PlacesPage({
                                     className="w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                                 >
                                     {/* Removed the duplicate key prop here. Only the parent div needs it! */}
-                                    <PlaceCard place={place} />
+                                    <PlaceCard key={place._id} place={place} locale={lang} dict={dict} />
                                 </div>
                             ))
                         ) : (
                             // Fallback UI if the search query returns nothing
                             <div className="w-full text-center mt-12">
                                 <p className="text-lg text-slate-500">
-                                    No places found matching &#34;{query}&#34;. Try a different search!
+                                    {dict.noplacesfound} &#34;{query}&#34;
                                 </p>
                             </div>
                         )}

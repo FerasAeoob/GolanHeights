@@ -5,18 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import PlaceDetails from "@/components/place.sidedetails";
+import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 
 interface PageProps {
     params: Promise<{
         slug: string;
+        lang: "en" | "he" | "ar";
     }>;
 }
 
 export default async function PlacePage({ params }: PageProps) {
 
 
-    const { slug: rawSlug } = await params;
-    const parsedSlug = SlugSchema.safeParse({ slug: rawSlug });
+    const { slug: rawSlug, lang } = await params;
+    const parsedSlug = SlugSchema.safeParse({ slug: decodeURIComponent(rawSlug) });
 
     if (!parsedSlug.success) {
         return <div>Invalid slug</div>;
@@ -25,7 +27,15 @@ export default async function PlacePage({ params }: PageProps) {
 
     await connectDB();
 
-    const place = await Place.findOne({ slug: slug }).lean();
+    const place = await Place.findOne({
+        $or: [
+            { "slug.en": slug },
+            { "slug.he": slug },
+            { "slug.ar": slug },
+        ]
+    }).lean();
+
+    const dict = await getDictionary(lang); // Fetch dictionary
 
     if (!place) {
         return <div>Place not found</div>;
@@ -45,7 +55,10 @@ export default async function PlacePage({ params }: PageProps) {
         <div className=" pt-20 flex flex-col w-dvw items-center px-3">
             <div className="flex h-20 w-full max-w-[1200px] items-center ">
 
-                <Link href="/places" className=" flex text-lg font-bold gap-3"><ArrowLeft className="text-lg font-bold mt-1" /> Back to Explore</Link>
+                <Link href={`/${lang}/places`} className=" flex text-lg font-bold gap-3 hover:text-emerald-900 transition-colors duration-300">
+                    <ArrowLeft className={`text-lg font-bold mt-1 ${lang === 'he' || lang === 'ar' ? 'rotate-180' : ''}`} />
+                    {dict.backtoexplore ?? "Back to Explore"}
+                </Link>
             </div>
             <div className="w-full max-w-[1200px] justify-center items-center  ">
                 <div className=" max-w-[1200px] md:h-[500px] h-[350px]  relative rounded-3xl overflow-hidden shadow-xl">
@@ -65,9 +78,11 @@ export default async function PlacePage({ params }: PageProps) {
 
                     <div className="lg:max-w-2/3 max-w-full ">
                         <div className="flex flex-col w-fit  ">
-                            <div className={` text-sm font-bold px-1.5 shadow-xl w-fit mb-2  ${categoryColors[place.category]}  rounded-md`}>{capitalizeFirst(place.category)}</div>
-                            <p className="flex ">
-                                <MapPin className="w-4 h-4 mt-1 mr-2" /> {place.location.name}
+                            <div className={` text-sm font-bold px-1.5 shadow-xl w-fit mb-2  ${categoryColors[place.category]}  rounded-md`}>
+                                {dict.categories[place.category] || capitalizeFirst(place.category)}
+                            </div>
+                            <p className="flex gap-2 ">
+                                <MapPin className="w-4 h-4 mt-1 " /> {place.location.name[lang] || place.location.name.en}
                             </p>
 
 
@@ -81,12 +96,12 @@ export default async function PlacePage({ params }: PageProps) {
                         <div className="w-fit  border-box ">
 
                             <h1 className="text-3xl font-bold mt-6 text-emerald-900 ">
-                                {place.title.en}
+                                {place.title[lang] || place.title.en}
                             </h1>
                             <div className="h-px w-full bg-gray-400 mt-10" />
 
                             <div className="mt-5 flex flex-col gap-6 ">
-                                {place.description.en.split('\n\n').map((paragraph: string, index: number) => (
+                                {(place.description[lang] || place.description.en).split('\n\n').map((paragraph: string, index: number) => (
                                     <p
                                         key={index}
                                         className="text-gray-600 md:text-xl text-lg leading-relaxed"
@@ -106,8 +121,8 @@ export default async function PlacePage({ params }: PageProps) {
                         open={place.open}
                         price={place.price}
                         duration={place.duration}
-
-                        mapLink={`/place/${place.slug}`}
+                        dict={dict}
+                        mapLink={`/${lang}/places/${place.slug[lang] || place.slug.en}`}
                     />
                 </div>
 

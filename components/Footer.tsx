@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
 
-export default function Footer() {
+export default function Footer({ lang, dict }: { lang: string; dict: Record<string, any> }) {
   return (
-    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-900">
+    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-900 mt-20">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
           {/* Brand & Description */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white tracking-tight">
-              Golan Heights<span className="text-emerald-500">.</span>
+              {dict.golanheights}<span className="text-emerald-500">.</span>
             </h2>
             <p className="text-zinc-400 leading-relaxed max-w-sm">
-              Discover the breathtaking landscapes, rich history, and hidden gems of the Golan Heights with our premier guide services.
+              {dict.footerdesc}
             </p>
             <div className="flex items-center gap-4 pt-2">
               <a href="#" className="p-2 rounded-full bg-zinc-900 hover:bg-emerald-500 hover:text-white transition-colors duration-300">
@@ -31,14 +31,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-white">{dict.quicklinks}</h3>
             <ul className="space-y-3">
               {[
-                { name: "Home", href: "/" },
-                { name: "Destinations", href: "/destinations" },
-                { name: "Tours & Experiences", href: "/tours" },
-                { name: "About Us", href: "/about" },
-                { name: "Contact", href: "/contact" },
+                { name: dict.home, href: `/${lang}` },
+                { name: dict.destinations, href: `/${lang}/places` },
+                { name: dict.tours, href: `/${lang}/tours` },
+                { name: dict.aboutus, href: `/${lang}/about` },
+                { name: dict.contact, href: `/${lang}/contact` },
               ].map((link) => (
                 <li key={link.name}>
                   <Link
@@ -55,15 +55,15 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Contact Us</h3>
+            <h3 className="text-lg font-semibold text-white">{dict.contactus}</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                <span className="text-zinc-400">123 Scenic Route,<br />Katzrin, Golan Heights</span>
+                <span className="text-zinc-400">{dict.address1}<br />{dict.address2}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-emerald-500 shrink-0" />
-                <span className="text-zinc-400">+972 50 123 4567</span>
+                <span className="text-zinc-400" dir="ltr">+972 50 123 4567</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-emerald-500 shrink-0" />
@@ -74,14 +74,14 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Newsletter</h3>
+            <h3 className="text-lg font-semibold text-white">{dict.newsletter}</h3>
             <p className="text-zinc-400">
-              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+              {dict.newsletterdesc}
             </p>
             <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={dict.enteremail}
                 className="bg-zinc-900 border border-zinc-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 required
               />
@@ -89,7 +89,7 @@ export default function Footer() {
                 type="submit"
                 className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-3 rounded-lg transition-colors duration-300"
               >
-                Subscribe
+                {dict.subscribe}
               </button>
             </form>
           </div>
@@ -98,11 +98,11 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-zinc-500 text-sm">
-            © {new Date().getFullYear()} Golan Heights Guide. All rights reserved.
+            {dict.rights.replace('{year}', new Date().getFullYear().toString())}
           </p>
           <div className="flex gap-6 text-sm text-zinc-500">
-            <Link href="/privacy" className="hover:text-emerald-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-emerald-400 transition-colors">Terms of Service</Link>
+            <Link href={`/${lang}/privacy`} className="hover:text-emerald-400 transition-colors">{dict.privacypolicy}</Link>
+            <Link href={`/${lang}/terms`} className="hover:text-emerald-400 transition-colors">{dict.termsofservice}</Link>
           </div>
         </div>
       </div>

@@ -9,8 +9,8 @@ export const SlugSchema = z.object({
         .string()
         .min(1, "Slug cannot be empty")
         .max(100, "Slug too long")
-        // 1. Add A-Z to the regex so it doesn't reject capital letters
-        .regex(/^[a-zA-Z0-9-]+$/, "Slug must contain only letters, numbers, and hyphens")
+        // 1. Add A-Z, Hebrew, and Arabic Unicode ranges to the regex
+        .regex(/^[a-zA-Z0-9\u0590-\u05FF\u0600-\u06FF\-\s]+$/, "Slug must contain only letters, numbers, hyphens, and valid Unicode characters")
         // 2. Automatically transform the output to lowercase
         .toLowerCase()
 });
@@ -135,7 +135,11 @@ export const createplaceschema = z.object({
         .object({
             lat: z.number(),
             lng: z.number(),
-            name: z.string()
+            name: z.object({
+                en: z.string(),
+                he: z.string(),
+                ar: z.string()
+            })
         })
     ,
 

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { Check, ChevronDown } from "lucide-react";
 
 interface DropdownProps {
@@ -20,6 +20,7 @@ export default function FilterDropdown({
     const ref = useRef<HTMLDivElement>(null);
 
     const searchParams = useSearchParams();
+    const pathname = usePathname(); // ADDED
     const selected = searchParams.get(paramKey) || options[0];
 
     // close on outside click
@@ -57,7 +58,7 @@ export default function FilterDropdown({
                         return (
                             <Link
                                 key={opt}
-                                href={`/places?${params.toString()}`}
+                                href={`${pathname}?${params.toString()}`}
                                 className="flex justify-between px-4 py-2 hover:bg-gray-100"
                                 onClick={() => setIsOpen(false)}
                             >
