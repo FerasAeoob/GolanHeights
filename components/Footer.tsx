@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react"
 
 export default function Footer({ lang, dict }: { lang: string; dict: Record<string, any> }) {
   return (
-    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-900">
+    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-900 mt-20">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 mb-12">
           {/* Brand & Description */}

@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 
 export default function Navbar({ lang, dict }: { lang: string; dict: Record<string, any> }) {
     const [scrolled, setScrolled] = useState(false);
@@ -25,6 +27,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
                     <Image src="/logox.png" alt="Logo" width={32} height={32} />
                     {dict.golanheights}
                 </Link>
+                <LanguageSwitcher />
             </div>
 
         </header>

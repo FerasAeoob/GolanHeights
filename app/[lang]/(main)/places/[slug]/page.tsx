@@ -1,13 +1,11 @@
 import connectDB from "@/lib/mongodb";
-
-
-
 import Place from "@/database/place.model";
 import { SlugSchema } from "@/database/place.schema";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import PlaceDetails from "@/components/place.sidedetails";
+import { redirect } from "next/navigation"; // Import this!
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 
 interface PageProps {
@@ -27,14 +25,15 @@ export default async function PlacePage({ params }: PageProps) {
         return <div>Invalid slug</div>;
     }
     const slug = parsedSlug.data.slug;
+    const decodedSlug = decodeURIComponent(slug);
 
     await connectDB();
 
     const place = await Place.findOne({
         $or: [
-            { "slug.en": slug },
-            { "slug.he": slug },
-            { "slug.ar": slug },
+            { "slug.en": decodedSlug },
+            { "slug.he": decodedSlug },
+            { "slug.ar": decodedSlug },
         ]
     }).lean();
 
@@ -42,6 +41,13 @@ export default async function PlacePage({ params }: PageProps) {
 
     if (!place) {
         return <div>Place not found</div>;
+    }
+    const correctSlug = place.slug[lang] || place.slug.en;
+
+    if (decodedSlug !== correctSlug) {
+        // If I'm on /he/places/banias-waterfall (English slug)
+        // Redirect me to /he/places/מפל-הבניאס (Hebrew slug)
+        redirect(`/${lang}/places/${encodeURIComponent(correctSlug)}`);
     }
     function capitalizeFirst(str: string) {
         return str.charAt(0).toUpperCase() + str.slice(1);

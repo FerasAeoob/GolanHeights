@@ -5,6 +5,13 @@
   --foreground: #171717;
 }
 
+/* modern cool font stack */
+body {
+  font-family: var(--font-outfit), var(--font-rubik), var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* reset*/
 body,
 p,

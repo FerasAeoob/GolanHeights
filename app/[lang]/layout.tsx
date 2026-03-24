@@ -1,18 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, Rubik, Cairo } from "next/font/google";
 import "@/app/globals.css";
 import { PostHogProvider } from "@/app/providers";
 import { PostHogPageView } from "@/app/pageview";
 import { Suspense } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const rubik = Rubik({
+  variable: "--font-rubik",
+  subsets: ["latin", "hebrew"],
+  display: 'swap',
+});
+
+const cairo = Cairo({
+  variable: "--font-cairo",
+  subsets: ["latin", "arabic"],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -34,7 +42,7 @@ export default async function RootLayout({
   return (
     <html lang={lang} dir={dir}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        className={`${outfit.variable} ${rubik.variable} ${cairo.variable} antialiased flex flex-col min-h-screen`}
       >
         <PostHogProvider>
           <Suspense fallback={null}>
