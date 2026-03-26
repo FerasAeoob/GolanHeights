@@ -101,6 +101,8 @@ export default async function PlacesPage({
                                 paramKey="price"
                                 options={[
                                     dict.price.any,
+
+                                    dict.price.free,
                                     dict.price.$,
                                     dict.price.$$,
                                     dict.price.$$$

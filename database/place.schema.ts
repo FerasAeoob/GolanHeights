@@ -146,8 +146,8 @@ export const createplaceschema = z.object({
     contact: z
         .object({
             phone: z.string().optional(),
-            website: z.string().optional(),
-            instagram: z.string().optional()
+            website: z.string().url("Invalid website URL").optional(),
+            instagram: z.string().url("Invalid Instagram URL").optional()
         })
         .optional(),
     open: z.string(),
