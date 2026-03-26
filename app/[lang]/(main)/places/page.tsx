@@ -25,19 +25,27 @@ export default async function PlacesPage({
     // 2. Connect and fetch from the database
     await connectDB();
 
+    // Escape regex special characters to prevent ReDoS and injection
+    function escapeRegex(str: string) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    const safeQuery = escapeRegex(query);
+    const safeCategory = escapeRegex(category);
+
     const filter: any = {
-        ...(query && {
+        ...(safeQuery && {
             $or: [
-                { "title.en": { $regex: query, $options: "i" } },
-                { "title.he": { $regex: query, $options: "i" } },
-                { "title.ar": { $regex: query, $options: "i" } },
-                { category: { $regex: query, $options: "i" } },
-                { "description.en": { $regex: query, $options: "i" } },
-                { "description.he": { $regex: query, $options: "i" } },
-                { "description.ar": { $regex: query, $options: "i" } },
+                { "title.en": { $regex: safeQuery, $options: "i" } },
+                { "title.he": { $regex: safeQuery, $options: "i" } },
+                { "title.ar": { $regex: safeQuery, $options: "i" } },
+                { category: { $regex: safeQuery, $options: "i" } },
+                { "description.en": { $regex: safeQuery, $options: "i" } },
+                { "description.he": { $regex: safeQuery, $options: "i" } },
+                { "description.ar": { $regex: safeQuery, $options: "i" } },
             ],
         }),
-        ...(category && { category: { $regex: category, $options: "i" } }),
+        ...(safeCategory && { category: { $regex: safeCategory, $options: "i" } }),
         ...(price && { price })
 
     };

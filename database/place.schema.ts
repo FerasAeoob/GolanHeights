@@ -58,7 +58,7 @@ export const UpdatePlaceSchema = z.object({
     images: z
         .array(
             z.object({
-                url: z.string().min(1, "Image URL cannot be empty"),
+                url: z.string().url("Invalid image URL"),
                 alt: z.object({
                     en: z.string().min(1).optional(),
                     he: z.string().optional(),
@@ -89,7 +89,7 @@ export const UpdatePlaceSchema = z.object({
     price: z.string().optional(),
 
     featured: z.boolean().optional(),
-    mapLink: z.string().optional(),
+    mapLink: z.string().url("Invalid map link").optional(),
 });
 export const createplaceschema = z.object({
     title: z

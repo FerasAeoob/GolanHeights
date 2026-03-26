@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
 import { createplaceschema } from "@/database/place.schema";
-
+import { requireAdminKey } from "@/lib/auth";
 
 /* ======================
    GET ALL PLACES
@@ -44,6 +44,9 @@ export async function GET(req: NextRequest) {
 ====================== */
 export async function POST(req: NextRequest) {
     try {
+        const authError = requireAdminKey(req);
+        if (authError) return authError;
+
         await connectDB();
 
         const body = await req.json();
