@@ -1,13 +1,14 @@
+import { generateSlugs } from "@/utils/slug";
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 /**
  * Interface representing the multilingual Place document in MongoDB.
  */
 export interface IPlaceBase {
-  title: { en: string; he?: string; ar?: string };
-  slug: { en: string; he?: string; ar?: string };
-  description: { en: string; he?: string; ar?: string };
-  shortDescription: { en: string; he?: string; ar?: string };
+  title: { en?: string; he?: string; ar?: string };
+  slug: { en?: string; he?: string; ar?: string };
+  description: { en?: string; he?: string; ar?: string };
+  shortDescription: { en?: string; he?: string; ar?: string };
   price: string;
   duration: string;
   rating?: string;
@@ -57,24 +58,24 @@ export interface IPlaceSerializable extends IPlaceBase {
 const PlaceSchema: Schema = new Schema(
   {
     title: {
-      en: { type: String, required: true, trim: true },
+      en: { type: String, trim: true },
       he: { type: String, trim: true },
       ar: { type: String, trim: true },
     },
 
     slug: {
-      en: { type: String, required: true, unique: true, index: true },
+      en: { type: String, unique: true, index: true, sparse: true },
       he: { type: String, sparse: true }, // sparse allows unique nulls if needed
       ar: { type: String, sparse: true },
     },
     description: {
-      en: { type: String, required: true, trim: true },
+      en: { type: String, trim: true },
       he: { type: String, trim: true },
       ar: { type: String, trim: true },
     },
 
     shortDescription: {
-      en: { type: String, required: true, trim: true, maxlength: 255 },
+      en: { type: String, trim: true, maxlength: 255 },
       he: { type: String, trim: true, maxlength: 255 },
       ar: { type: String, trim: true, maxlength: 255 },
     },
@@ -129,21 +130,16 @@ const PlaceSchema: Schema = new Schema(
 /**
  * Pre-validate hook: slug generation from English title
  */
-const slugifyMultilingual = (text: string): string => {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    // Replace spaces and underscores with hyphens
-    .replace(/[\s_]+/g, "-")
-    // Remove characters that break URLs (keep letters in all languages, numbers, and hyphens)
-    // This regex [^\p{L}\p{N}-] uses Unicode property escapes
-    .replace(/[^\p{L}\p{N}-]+/gu, "")
-    // Remove consecutive hyphens
-    .replace(/-+/g, "-")
-    // Remove leading/trailing hyphens
-    .replace(/^-+|-+$/g, "");
-};
+// const slugifyMultilingual = (text: string): string => {
+//   return text
+//     .toString()
+//     .toLowerCase()
+//     .trim()
+//     .replace(/[\s_]+/g, "-")
+//     .replace(/[^\p{L}\p{N}-]+/gu, "")
+//     .replace(/-+/g, "-")
+//     .replace(/^-+|-+$/g, "");
+// };
 PlaceSchema.pre<IPlace>("validate", async function () {
   // 1. Initialize slug object if missing
   if (!this.slug) {
@@ -151,10 +147,17 @@ PlaceSchema.pre<IPlace>("validate", async function () {
   }
 
   // 2. Generate/update slugs
+  // if (this.isModified("title")) {
+  //   this.slug.en = slugifyMultilingual(this.title.en || "");
+  //   this.slug.he = this.title.he ? slugifyMultilingual(this.title.he) : this.slug.en;
+  //   this.slug.ar = this.title.ar ? slugifyMultilingual(this.title.ar) : this.slug.en;
+  // }
   if (this.isModified("title")) {
-    this.slug.en = slugifyMultilingual(this.title.en || "");
-    this.slug.he = this.title.he ? slugifyMultilingual(this.title.he) : this.slug.en;
-    this.slug.ar = this.title.ar ? slugifyMultilingual(this.title.ar) : this.slug.en;
+    const slugs = generateSlugs(this.title);
+
+    this.slug.en = slugs.en;
+    this.slug.he = slugs.he;
+    this.slug.ar = slugs.ar;
   }
 
   // 3. Location Validation

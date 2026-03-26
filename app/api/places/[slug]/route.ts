@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Place from '@/database/place.model';
+import { generateSlugs } from "@/utils/slug";
 import { UpdatePlaceSchema, SlugSchema } from "@/database/place.schema";
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
@@ -55,33 +56,37 @@ export async function PUT(
 
         const updateData: any = parsedBody.data;
 
-        // Regenerate slug if English title changed
-        if (updateData.title?.en) {
-            updateData.slug = updateData.title.en
-                .toLowerCase()
-                .trim()
-                .replace(/[^\w\s-]/g, "")
-                .replace(/[\s_]+/g, "-")
-                .replace(/-+/g, "-")
-                .replace(/^-+|-+$/g, "");
-        }
+        // Fetch the existing place to correctly merge nested fields
+        const place = await Place.findOne({
+            $or: [
+                { "slug.en": slug },
+                { "slug.he": slug },
+                { "slug.ar": slug }
+            ]
+        });
 
-        // Update the place
-        const updatedPlace = await Place.findOneAndUpdate(
-            {
-                $or: [
-                    { "slug.en": slug },
-                    { "slug.he": slug },
-                    { "slug.ar": slug }
-                ]
-            },
-            { $set: updateData },
-            { new: true, runValidators: true }
-        ).lean();
-
-        if (!updatedPlace) {
+        if (!place) {
             return NextResponse.json({ error: "Place not found ❌" }, { status: 404 });
         }
+
+        // Merge updates safely to avoid overwriting entire nested objects (title, description, etc)
+        Object.keys(updateData).forEach((key) => {
+            if (
+                typeof updateData[key] === "object" &&
+                updateData[key] !== null &&
+                !Array.isArray(updateData[key])
+            ) {
+                place.set(key, { ...(place.get(key) || {}), ...updateData[key] });
+            } else {
+                place.set(key, updateData[key]);
+            }
+        });
+
+        // Regenerate slugs based on the full merged title
+        place.slug = generateSlugs(place.title);
+
+        // Save the document (this runs validators)
+        const updatedPlace = await place.save();
 
         return NextResponse.json(updatedPlace, { status: 200 });
     } catch (error: any) {
