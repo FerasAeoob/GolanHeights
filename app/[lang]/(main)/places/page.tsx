@@ -2,7 +2,7 @@ import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
 import SearchBar from "@/components/search"; // Adjust path if needed
 import PlaceCard from "@/components/placecard"; // Adjust path if needed
-import CategoryDropdown from "@/components/category.dropdown";
+
 import FilterDropdown from "@/components/filter.dropdown";
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
 
@@ -83,6 +83,7 @@ export default async function PlacesPage({
                                     dict.categories.hotel,
                                     dict.categories.viewpoint
                                 ]}
+                                slugs={["", "nature", "restaurant", "activity", "hotel", "viewpoint"]}
                             />
                         </div>
                         <div className="flex-1 md:w-48">

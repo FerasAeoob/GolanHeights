@@ -68,13 +68,13 @@ export async function PUT(
 
         // Update the place
         const updatedPlace = await Place.findOneAndUpdate(
-            { 
+            {
                 $or: [
                     { "slug.en": slug },
                     { "slug.he": slug },
                     { "slug.ar": slug }
                 ]
-             },
+            },
             { $set: updateData },
             { new: true, runValidators: true }
         ).lean();

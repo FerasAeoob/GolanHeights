@@ -1,34 +1,29 @@
 
-import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import type { Category } from "@/lib/categories";
 
 interface CategoryCardProps {
-    category: {
-        slug: string;
-        title: string;
-        image: string;
-        color: string;
-        desc: string;
-        icon: LucideIcon;
-    };
+    category: Category;
     lang: string;
     dict: Record<string, any>;
 }
 
 export default function CategoryCard({ category, lang, dict }: CategoryCardProps) {
     const Icon = category.icon ? (category.icon) : null;
-    function capitalizeFirst(str: string) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+
+    // Translated title & description from dictionary
+    const title = dict.categories?.[category.slug] ?? category.slug;
+    const desc = dict[`${category.slug}desc`] ?? "";
+
     return (
-        <Link href={`/${lang}/places?category=${capitalizeFirst(category.slug)}`} className="block w-full h-full">
+        <Link href={`/${lang}/places?category=${category.slug}`} className="block w-full h-full">
             {/* 1. Added 'group' to the parent container */}
             <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
                 <Image
                     src={category.image}
-                    alt={category.title}
+                    alt={title}
                     fill
                     /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
@@ -43,10 +38,10 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
                     {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ms-3" />}
 
                     <h3 className="text-[1.1rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
-                        {dict.categories[category.slug] || category.title}
+                        {title}
                     </h3>
                     <h1 className="hidden sm:line-clamp-1 ps-2 text-white text-sm">
-                        {dict[`${category.slug}desc`] || category.desc}
+                        {desc}
                     </h1>
 
                 </div>
