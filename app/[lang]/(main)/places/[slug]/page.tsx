@@ -53,11 +53,11 @@ export default async function PlacePage({ params }: PageProps) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
     const categoryColors: Record<string, string> = {
-        nature: "bg-green-400/90 hover:bg-black/70 text-green-700",
-        restaurant: "bg-orange-600/90 hover:bg-black/70 text-orange-900",
-        activity: "bg-blue-600/90 hover:bg-black/70 text-blue-900",
-        hotel: "bg-indigo-600/90 hover:bg-black/70 text-indigo-900",
-        viewpoint: "bg-purple-300/90 hover:bg-black/70 text-purple-900",
+        nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
+        restaurant: "bg-orange-200/90 hover:bg-black/70 text-orange-700",
+        activity: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
+        hotel: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
+        viewpoint: "bg-purple-200/90 hover:bg-black/70 text-purple-700",
     };
 
     return (
@@ -127,6 +127,7 @@ export default async function PlacePage({ params }: PageProps) {
                     <PlaceDetails
                         website={place.contact?.website}
                         phone={place.contact?.phone}
+                        openHours={place.openHours || []}
                         open={place.open}
                         price={place.price}
                         duration={place.duration}

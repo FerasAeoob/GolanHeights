@@ -4,6 +4,13 @@ import { z } from "zod";
  * Shared schema for dynamic route params
  * Validates the slug in GET/PUT requests
  */
+const OpeningHoursZodSchema = z.object({
+    day: z.number().min(0).max(6),
+    open: z.number().min(0).max(2359), // e.g., 1000 for 10:00
+    close: z.number().min(0).max(2359), // e.g., 2000 for 20:00
+    isClosed: z.boolean().default(false),
+});
+
 export const SlugSchema = z.object({
     slug: z
         .string()
@@ -83,7 +90,7 @@ export const UpdatePlaceSchema = z.object({
             instagram: z.string().optional()
         })
         .optional(),
-    open: z.string().optional(),
+    openingHours: z.array(OpeningHoursZodSchema).optional(),
     rating: z.string().optional(),
     duration: z.string().optional(),
     price: z.string().optional(),
@@ -150,7 +157,7 @@ export const createplaceschema = z.object({
             instagram: z.string().url("Invalid Instagram URL").optional()
         })
         .optional(),
-    open: z.string(),
+    openingHours: z.array(OpeningHoursZodSchema).optional(),
     rating: z.number().min(0).max(5),
     duration: z.string(),
     price: z.string(),

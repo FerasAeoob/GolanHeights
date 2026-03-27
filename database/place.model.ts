@@ -5,14 +5,20 @@ import mongoose, { Schema, Document, Model } from "mongoose";
  * Interface representing the multilingual Place document in MongoDB.
  */
 export interface IPlaceBase {
-  title: { en?: string; he?: string; ar?: string };
-  slug: { en?: string; he?: string; ar?: string };
-  description: { en?: string; he?: string; ar?: string };
+  title: { en: string; he?: string; ar?: string };
+  slug: { en: string; he?: string; ar?: string };
+  description: { en: string; he?: string; ar?: string };
   shortDescription: { en?: string; he?: string; ar?: string };
   price: string;
   duration: string;
   rating?: string;
-  open: string;
+  openHours: {
+    day: number;
+    open: number;
+    close: number;
+    isClosed: boolean;
+  }[];
+  open?: string;
   category: "nature" | "restaurant" | "activity" | "hotel" | "viewpoint";
   mapLink: string;
 
@@ -117,6 +123,17 @@ const PlaceSchema: Schema = new Schema(
       instagram: { type: String, trim: true },
     },
     open: { type: String, trim: true },
+    openHours: {
+      type: [
+        {
+          day: { type: Number, required: true },
+          open: { type: Number, required: true },
+          close: { type: Number, required: true },
+          isClosed: { type: Boolean, default: false },
+        }
+      ],
+      default: []
+    },
     rating: { type: String, trim: true },
     duration: { type: String, trim: true },
     price: { type: String, trim: true },

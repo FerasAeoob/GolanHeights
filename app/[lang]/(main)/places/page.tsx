@@ -2,9 +2,10 @@ import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
 import SearchBar from "@/components/search"; // Adjust path if needed
 import PlaceCard from "@/components/placecard"; // Adjust path if needed
-
+import OpenStatus from "@/components/openStatus";
 import FilterDropdown from "@/components/filter.dropdown";
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
+import { IOpeningHoursDictionary } from "@/lib/types";
 
 export default async function PlacesPage({
     searchParams,
@@ -21,6 +22,7 @@ export default async function PlacesPage({
     const query = resolvedParams.search || "";
     const category = resolvedParams.category || "";
     const price = resolvedParams.price || "";
+
 
     // 2. Connect and fetch from the database
     await connectDB();
@@ -51,9 +53,10 @@ export default async function PlacesPage({
     };
 
     const places = await Place.find(filter).lean();
-
+    const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
     // 3. Render your custom UI
     return (
+
         <>
             <section className="flex flex-col md:h-[25rem] h-[20rem] bg-emerald-700  ">
 
@@ -101,7 +104,6 @@ export default async function PlacesPage({
                                 paramKey="price"
                                 options={[
                                     dict.price.any,
-
                                     dict.price.free,
                                     dict.price.$,
                                     dict.price.$$,
@@ -124,10 +126,19 @@ export default async function PlacesPage({
                         {places.length > 0 ? (
                             (places as unknown as IPlaceSerializable[]).map((place: IPlaceSerializable) => (
                                 <div
+
                                     // Converted _id to string just in case it's a raw MongoDB ObjectId
                                     key={place._id.toString()}
-                                    className="w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
+                                    className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                                 >
+                                    <div className="absolute  end-4 top-4 z-20">
+                                        <OpenStatus
+                                            openingHours={place.openHours || []}
+                                            openString={place.open}
+                                            dict={openingHoursDict}
+                                            textordot="status"
+                                        />
+                                    </div>
                                     {/* Removed the duplicate key prop here. Only the parent div needs it! */}
                                     <PlaceCard key={place._id} place={place} locale={lang} dict={dict} />
                                 </div>

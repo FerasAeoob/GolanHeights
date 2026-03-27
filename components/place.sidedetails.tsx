@@ -1,13 +1,15 @@
 
 import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon } from "lucide-react";
-
+import { IBusinessDay, IOpeningHoursDictionary } from "@/lib/types";
+import OpeningStatus from "./openStatus";
 import Link from "next/link";
 
 interface PlaceDetailsProps {
     website?: string;
     phone?: string;
     price: string;
-    open: string;
+    openHours?: IBusinessDay[];
+    open?: string;
     mapLink: string;
     duration?: string;
     dict: Record<string, any>;
@@ -17,11 +19,13 @@ export default function PlaceDetails({
     website,
     phone,
     price,
+    openHours,
     open,
     mapLink,
     duration,
     dict,
 }: PlaceDetailsProps) {
+    const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
     return (
         <>
             {/* Desktop Sidebar */}
@@ -35,13 +39,21 @@ export default function PlaceDetails({
                         <Clock className="w-5 h-5 text-emerald-600" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.openhours}: </dt>
-                            <dd className="text-black/70">{open}</dd></div>
+                            <dd className="text-black/70">
+                                <OpeningStatus
+                                    openingHours={openHours}
+                                    openString={open}
+                                    dict={openingHoursDict}
+                                    textordot="text"
+                                />
+                            </dd>
+                        </div>
                     </div>
                     {duration && <div className="flex items-center gap-3">
                         <Hourglass className="w-5 h-5 text-emerald-600" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.duration}: </dt>
-                            <dd className="text-black/70">{duration}</dd>
+                            <dd className="text-black/70">{duration} {dict.minutes}</dd>
                         </div>
                     </div>}
                     <div className="flex items-center gap-3">
@@ -87,7 +99,15 @@ export default function PlaceDetails({
                         <Clock className="w-5 h-5 text-emerald-600" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.openhours}: </dt>
-                            <dd className="text-black/70">{open}</dd></div>
+                            <dd className="text-black/70">
+                                <OpeningStatus
+                                    openingHours={openHours}
+                                    openString={open}
+                                    dict={openingHoursDict}
+                                    textordot="text"
+                                />
+                            </dd>
+                        </div>
                     </div>
                     {duration && <div className="flex items-center gap-3">
                         <Hourglass className="w-5 h-5 text-emerald-600" />
@@ -130,4 +150,4 @@ export default function PlaceDetails({
             </div>
         </>
     );
-} 5
+}

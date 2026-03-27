@@ -63,6 +63,21 @@
         "$$": "$$",
         "$$$": "$$$"
     },
+    "openingHours": {
+        "days": [
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat"
+        ],
+        "closed": "Closed",
+        "openNow": "Open Now",
+        "closingSoon": "Closing Soon",
+        "separator": " | "
+    },
     "days": {
         "mon": "Mon",
         "tue": "Tue",
@@ -71,5 +86,6 @@
         "fri": "Fri",
         "sat": "Sat",
         "sun": "Sun"
-    }
+    },
+    "minutes": "Minutes"
 }
