@@ -8,7 +8,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
     const places = await getPlaces();
 
     return (
-        <div className="p-8 mt-20 bg-slate-50 min-h-screen text-slate-900">
+        <div className="p-8 bg-slate-50 min-h-screen text-slate-900 pt-30">
             <div className="max-w-7xl mx-auto">
 
                 {/* Header */}

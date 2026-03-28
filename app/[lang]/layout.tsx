@@ -40,7 +40,7 @@ export default async function RootLayout({
   const dir = locale === "ar" || locale === "he" ? "rtl" : "ltr";
 
   return (
-    <html lang={lang} dir={dir}>
+    <html lang={lang} dir={dir} >
       <body
         className={`${outfit.variable} ${rubik.variable} ${cairo.variable} antialiased flex flex-col min-h-screen`}
       >

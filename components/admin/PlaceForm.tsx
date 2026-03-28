@@ -243,7 +243,7 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
 
     // ─── Render ──────────────────────────────────────
     return (
-        <div className="p-8 bg-slate-50 min-h-screen text-slate-900">
+        <div className="p-8 bg-slate-50 min-h-screen text-slate-900 pt-30">
             <div className="max-w-4xl mx-auto">
 
                 {/* Header */}
