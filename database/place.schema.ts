@@ -65,21 +65,24 @@ export const UpdatePlaceSchema = z.object({
     images: z
         .array(
             z.object({
-                url: z.string().url("Invalid image URL"),
+                url: z.string().min(1, "Image URL cannot be empty"),
                 alt: z.object({
-                    en: z.string().min(1).optional(),
+                    en: z.string().optional().default("Place image"),
                     he: z.string().optional(),
                     ar: z.string().optional(),
-                }).optional(),
+                }),
             })
-        )
-        .optional(),
+        ).optional().default([]),
 
     location: z
         .object({
             lat: z.number(),
             lng: z.number(),
-            name: z.string()
+            name: z.object({
+                en: z.string(),
+                he: z.string(),
+                ar: z.string()
+            })
         })
         .optional(),
 
@@ -90,13 +93,14 @@ export const UpdatePlaceSchema = z.object({
             instagram: z.string().optional()
         })
         .optional(),
-    openingHours: z.array(OpeningHoursZodSchema).optional(),
+    openHours: z.array(OpeningHoursZodSchema).optional(),
+    open: z.string().optional(),
     rating: z.string().optional(),
     duration: z.string().optional(),
     price: z.string().optional(),
+    mapLink: z.string().optional(),
 
-    featured: z.boolean().optional(),
-    mapLink: z.string().url("Invalid map link").optional(),
+    featured: z.boolean().optional().default(false),
 });
 export const createplaceschema = z.object({
     title: z
@@ -131,12 +135,12 @@ export const createplaceschema = z.object({
         z.object({
             url: z.string().min(1, "Image URL cannot be empty"),
             alt: z.object({
-                en: z.string().min(1, "English alt text is required"),
+                en: z.string().optional().default("Place image"),
                 he: z.string().optional(),
                 ar: z.string().optional(),
             }),
         })
-    ).min(1, "At least one image is required"),
+    ).optional().default([]),
 
     location: z
         .object({
@@ -153,17 +157,18 @@ export const createplaceschema = z.object({
     contact: z
         .object({
             phone: z.string().optional(),
-            website: z.string().url("Invalid website URL").optional(),
-            instagram: z.string().url("Invalid Instagram URL").optional()
+            website: z.string().optional(),
+            instagram: z.string().optional()
         })
         .optional(),
-    openingHours: z.array(OpeningHoursZodSchema).optional(),
-    rating: z.number().min(0).max(5),
-    duration: z.string(),
-    price: z.string(),
-    mapLink: z.string().url("Invalid map link"),
+    openHours: z.array(OpeningHoursZodSchema).optional(),
+    open: z.string().optional(),
+    rating: z.string().optional(),
+    duration: z.string().optional(),
+    price: z.string().optional(),
+    mapLink: z.string().optional(),
 
-    featured: z.boolean()
+    featured: z.boolean().optional().default(false)
 });
 
 /**

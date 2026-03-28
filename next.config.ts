@@ -2,11 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
     /* config options here */
+    allowedDevOrigins: ['192.168.0.129'],
     images: {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'example.com', // 👈 Allows your current placeholder image
+                hostname: 'example.com',
             },
             {
                 protocol: 'https',
@@ -16,7 +17,6 @@ const nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: 'images.unsplash.com',
             }
-
         ]
     }
 };
