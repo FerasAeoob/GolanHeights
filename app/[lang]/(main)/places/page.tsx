@@ -131,7 +131,7 @@ export default async function PlacesPage({
                                     key={place._id.toString()}
                                     className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                                 >
-                                    <div className="absolute  end-4 top-4 z-20">
+                                    <div className="absolute pointer-events-none end-4 top-4 z-20">
                                         <OpenStatus
                                             openingHours={place.openHours || []}
                                             openString={place.open}
