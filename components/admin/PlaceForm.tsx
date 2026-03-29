@@ -139,7 +139,7 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
 
     // ─── Image Management ────────────────────────────
     const [newImageUrl, setNewImageUrl] = useState('');
-    const [newImageAlt, setNewImageAlt] = useState('');
+    const [newImageAlt, setNewImageAlt] = useState({ en: '', he: '', ar: '' });
 
     const addImage = () => {
         if (!newImageUrl.trim()) return;
@@ -147,11 +147,15 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
             ...prev,
             images: [...prev.images, {
                 url: newImageUrl.trim(),
-                alt: { en: newImageAlt.trim() || 'Place image', he: '', ar: '' }
+                alt: { 
+                    en: newImageAlt.en.trim() || 'Place image', 
+                    he: newImageAlt.he.trim(), 
+                    ar: newImageAlt.ar.trim() 
+                }
             }]
         }));
         setNewImageUrl('');
-        setNewImageAlt('');
+        setNewImageAlt({ en: '', he: '', ar: '' });
     };
 
     const removeImage = (index: number) => {
@@ -626,29 +630,49 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
                         )}
 
                         {/* Add New Image */}
-                        <div className="flex gap-3">
+                        <div className="flex flex-col gap-3">
                             <input
                                 type="url"
                                 value={newImageUrl}
                                 onChange={e => setNewImageUrl(e.target.value)}
-                                className="flex-1 px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                                 placeholder="Paste Cloudinary URL..."
                                 onKeyDown={e => e.key === 'Enter' && addImage()}
                             />
-                            <input
-                                type="text"
-                                value={newImageAlt}
-                                onChange={e => setNewImageAlt(e.target.value)}
-                                className="w-48 px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-                                placeholder="Alt text (EN)"
-                                onKeyDown={e => e.key === 'Enter' && addImage()}
-                            />
-                            <button
-                                onClick={addImage}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-1 cursor-pointer"
-                            >
-                                <Plus className="w-4 h-4" /> Add
-                            </button>
+                            <div className="flex gap-3">
+                                <input
+                                    type="text"
+                                    value={newImageAlt.en}
+                                    onChange={e => setNewImageAlt(prev => ({ ...prev, en: e.target.value }))}
+                                    className="flex-1 px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                    placeholder="Alt (English)"
+                                    onKeyDown={e => e.key === 'Enter' && addImage()}
+                                />
+                                <input
+                                    type="text"
+                                    value={newImageAlt.he}
+                                    onChange={e => setNewImageAlt(prev => ({ ...prev, he: e.target.value }))}
+                                    className="flex-1 px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                    placeholder="Alt (Hebrew)"
+                                    dir="rtl"
+                                    onKeyDown={e => e.key === 'Enter' && addImage()}
+                                />
+                                <input
+                                    type="text"
+                                    value={newImageAlt.ar}
+                                    onChange={e => setNewImageAlt(prev => ({ ...prev, ar: e.target.value }))}
+                                    className="flex-1 px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                    placeholder="Alt (Arabic)"
+                                    dir="rtl"
+                                    onKeyDown={e => e.key === 'Enter' && addImage()}
+                                />
+                                <button
+                                    onClick={addImage}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-1 cursor-pointer"
+                                >
+                                    <Plus className="w-4 h-4" /> Add
+                                </button>
+                            </div>
                         </div>
                         {form.images.length === 0 && (
                             <p className="text-sm text-slate-400 mt-3">No images yet. Add at least one Cloudinary URL above.</p>
