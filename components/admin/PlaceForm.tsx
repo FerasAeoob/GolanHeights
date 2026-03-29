@@ -6,6 +6,7 @@ import { createPlaceAction, updatePlaceAction } from '@/app/actions/places';
 import { Trash2, Plus, GripVertical, Image as ImageIcon, Globe, MapPin, Phone, Clock, Save, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { CATEGORY_SLUGS } from '@/lib/categories';
 
 // ─── Types ───────────────────────────────────────────────────────
 type Lang = 'en' | 'he' | 'ar';
@@ -63,7 +64,7 @@ const EMPTY_FORM: PlaceFormData = {
     title: { en: '', he: '', ar: '' },
     description: { en: '', he: '', ar: '' },
     shortDescription: { en: '', he: '', ar: '' },
-    category: 'nature',
+    category: CATEGORY_SLUGS[0],
     price: '',
     duration: '',
     rating: '',
@@ -76,7 +77,7 @@ const EMPTY_FORM: PlaceFormData = {
     featured: false,
 };
 
-const CATEGORIES = ['nature', 'restaurant', 'activity', 'hotel', 'viewpoint'];
+const CATEGORIES = CATEGORY_SLUGS;
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const TABS: { key: Lang; label: string }[] = [
     { key: 'en', label: 'English' },
@@ -98,7 +99,7 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
             title: { en: initialData.title?.en || '', he: initialData.title?.he || '', ar: initialData.title?.ar || '' },
             description: { en: initialData.description?.en || '', he: initialData.description?.he || '', ar: initialData.description?.ar || '' },
             shortDescription: { en: initialData.shortDescription?.en || '', he: initialData.shortDescription?.he || '', ar: initialData.shortDescription?.ar || '' },
-            category: initialData.category || 'nature',
+            category: initialData.category || CATEGORY_SLUGS[0],
             price: initialData.price || '',
             duration: initialData.duration || '',
             rating: initialData.rating || '',

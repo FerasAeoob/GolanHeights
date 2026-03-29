@@ -7,6 +7,8 @@ import { ArrowLeft, MapPin } from "lucide-react";
 import PlaceDetails from "@/components/place.sidedetails";
 import { redirect } from "next/navigation"; // Import this!
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
+import { notFound } from "next/navigation";
+
 
 interface PageProps {
     params: Promise<{
@@ -40,7 +42,7 @@ export default async function PlacePage({ params }: PageProps) {
     const dict = await getDictionary(lang); // Fetch dictionary
 
     if (!place) {
-        return <div>Place not found</div>;
+        return notFound();
     }
     const correctSlug = place.slug[lang] || place.slug.en;
 

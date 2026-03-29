@@ -6,6 +6,7 @@ import OpenStatus from "@/components/openStatus";
 import FilterDropdown from "@/components/filter.dropdown";
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
 import { IOpeningHoursDictionary } from "@/lib/types";
+import { CATEGORY_SLUGS } from "@/lib/categories";
 
 export default async function PlacesPage({
     searchParams,
@@ -88,13 +89,9 @@ export default async function PlacesPage({
                                 paramKey="category"
                                 options={[
                                     dict.categories.all,
-                                    dict.categories.nature,
-                                    dict.categories.restaurant,
-                                    dict.categories.activity,
-                                    dict.categories.hotel,
-                                    dict.categories.viewpoint
+                                    ...CATEGORY_SLUGS.map(slug => dict.categories[slug] || slug)
                                 ]}
-                                slugs={["", "nature", "restaurant", "activity", "hotel", "viewpoint"]}
+                                slugs={["", ...CATEGORY_SLUGS]}
                             />
                         </div>
                         <div className="flex-1 md:w-48">

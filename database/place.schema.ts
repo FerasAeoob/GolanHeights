@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CATEGORY_SLUGS } from "@/lib/categories";
 
 /**
  * Shared schema for dynamic route params
@@ -24,7 +25,7 @@ export const SlugSchema = z.object({
 
 export const CategorySchema = z.object({
     category: z
-        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
+        .enum(CATEGORY_SLUGS)
         .optional(),
 });
 
@@ -59,7 +60,7 @@ export const UpdatePlaceSchema = z.object({
         .optional(),
 
     category: z
-        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
+        .enum(CATEGORY_SLUGS)
         .optional(),
 
     images: z
@@ -128,7 +129,7 @@ export const createplaceschema = z.object({
         .optional(),
 
     category: z
-        .enum(["nature", "restaurant", "activity", "hotel", "viewpoint"])
+        .enum(CATEGORY_SLUGS)
     ,
 
     images: z.array(

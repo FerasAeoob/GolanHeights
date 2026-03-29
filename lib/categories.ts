@@ -1,10 +1,10 @@
 import { Bike, TreePine, Utensils, Hotel, Mountain, type LucideIcon } from "lucide-react";
 
 export interface Category {
-    slug: string;
-    image: string;
-    color: string;
-    icon: LucideIcon;
+  slug: string;
+  image: string;
+  color: string;
+  icon: LucideIcon;
 }
 
 /** Category slugs used as keys in dict.categories and as URL params (always lowercase). */
@@ -20,7 +20,7 @@ export const categories: Category[] = [
   },
   {
     slug: "restaurant",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1772726185/restaurant_h1uhpc.webp",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1774786926/Whisk_910581d212e6d77b0cf4feec58f9e44ddr_tvteyq.jpg",
     color: "from-orange-600/90",
     icon: Utensils,
   },
@@ -38,8 +38,8 @@ export const categories: Category[] = [
   },
   {
     slug: "viewpoint",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1772726185/view_fmnzxv.webp",
-    color: "from-blue-600/90",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp",
+    color: "from-cyan-600/90",
     icon: TreePine,
   },
 ];

@@ -1,5 +1,6 @@
 import { generateSlugs } from "@/utils/slug";
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { CATEGORY_SLUGS, CategorySlug } from "@/lib/categories";
 
 /**
  * Interface representing the multilingual Place document in MongoDB.
@@ -19,7 +20,7 @@ export interface IPlaceBase {
     isClosed: boolean;
   }[];
   open?: string;
-  category: "nature" | "restaurant" | "activity" | "hotel" | "viewpoint";
+  category: CategorySlug;
   mapLink: string;
 
   images: {
@@ -89,7 +90,7 @@ const PlaceSchema: Schema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ["nature", "restaurant", "activity", "hotel", "viewpoint"],
+      enum: CATEGORY_SLUGS,
     },
 
     images: {

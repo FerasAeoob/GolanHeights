@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { CATEGORY_SLUGS } from "@/lib/categories";
 
 export default function Filters() {
-    const filters = ["nature", "restaurant", "activity", "hotel", "viewpoint"];
+    const filters = CATEGORY_SLUGS;
 
     return (
         <div className="flex gap-2 mt-4 flex-wrap">

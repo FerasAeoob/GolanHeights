@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import type { Category } from "@/lib/categories";
@@ -35,9 +34,9 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
                 <div className={`absolute inset-0 bg-gradient-to-t ${category.color} to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-90 pointer-events-none`} />
                 {/* 4. The Content Overlay */}
                 <div className="absolute bottom-0 start-0 end-0 p-4 pointer-events-none">
-                    {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ms-3" />}
+                    {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ms-2" />}
 
-                    <h3 className="text-[1.1rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
+                    <h3 className="text-[1.4rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
                         {title}
                     </h3>
                     <h1 className="hidden sm:line-clamp-1 ps-2 text-white text-sm">
