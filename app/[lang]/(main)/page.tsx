@@ -1,7 +1,7 @@
 import "@/app/globals.css";
 import CategoryCard from "@/components/categorycard";
 import categories from "@/lib/categories"; // Ensure this is the array
-import HeroSection from "@/components/herosection";
+import AnimatedHero from "@/components/animatedHero";
 import PlaceCard from "@/components/placecard";
 import Place, { IPlace, IPlaceSerializable } from "@/database/place.model"; // 🟢 1. Added IPlace import here
 import { getDictionary } from "@/lib/get-dictionary";
@@ -30,7 +30,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
         <main className="min-h-screen w-[vdw]">
             {/* Hero Section */}
             <section className="pb-10">
-                <HeroSection lang={lang} dict={dict} />
+                <AnimatedHero lang={lang} dict={dict} />
             </section>
 
             {/* Categories Section */}

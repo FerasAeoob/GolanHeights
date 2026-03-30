@@ -1,8 +1,8 @@
 {
     "discover": "Discover",
-    "northenisrael": "Northen Israel",
-    "golanheights": "Golan Heights",
-    "explore": "Explore",
+    "northenisrael": "NORTHEN ISRAEL",
+    "golanheights": "GOLAN HEIGHTS",
+    "explore": "Explore The",
     "explorebycategory": "Explore by Category",
     "explorebycategorydescription": "From ancient ruins to adventure sports, the Golan Heights offers something for every traveler",
     "herodes": "Ancient history, stunning nature, and unforgettable experiences await you in the most beautiful regions of Israel",
@@ -51,10 +51,17 @@
     "categories": {
         "all": "All Categories",
         "nature": "Nature",
-        "restaurant": "Restaurant",
-        "activity": "Activity",
-        "hotel": "Hotel",
-        "viewpoint": "Viewpoint"
+        "food & drink": "Food & Drink",
+        "activities": "Activities",
+        "stays": "Stays",
+        "scenic spots": "Scenic Spots"
+    },
+    "categoriesDesc": {
+        "nature": "Discover the natural beauty of the Golan Heights, with its stunning landscapes, waterfalls, and hiking trails.",
+        "food & drink": "Discover the best restaurants and cafes in the Golan Heights, with a variety of cuisines and dining experiences.",
+        "activities": "Discover the best activities in the Golan Heights, with a variety of options for all ages and interests.",
+        "stays": "Discover the best places to stay in the Golan Heights, with a variety of options for all budgets and preferences.",
+        "scenic spots": "Discover the best scenic spots in the Golan Heights, with a variety of viewpoints and natural landscapes."
     },
     "price": {
         "any": "Any Price",
@@ -87,5 +94,9 @@
         "sat": "Sat",
         "sun": "Sun"
     },
-    "minutes": "Minutes"
+    "minutes": "Minutes",
+    "herocards": {
+        "title": "Hidden Gems",
+        "description": "Discover the natural beauty of the Golan Heights, with its stunning landscapes, waterfalls, and hiking trails."
+    }
 }

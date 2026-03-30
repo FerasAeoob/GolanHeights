@@ -13,11 +13,10 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
 
     // Translated title & description from dictionary
     const title = dict.categories?.[category.slug] ?? category.slug;
-    const desc = dict[`${category.slug}desc`] ?? "";
+    const desc = dict.categoriesDesc?.[category.slug] || "";
 
     return (
         <Link href={`/${lang}/places?category=${category.slug}`} className="block w-full h-full">
-            {/* 1. Added 'group' to the parent container */}
             <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
                 <Image
@@ -36,12 +35,12 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
                 <div className="absolute bottom-0 start-0 end-0 p-4 pointer-events-none">
                     {Icon && <Icon className="w-7 h-7 text-white bg-white/20 backdrop-blur-sm rounded-lg p-1 ms-2" />}
 
-                    <h3 className="text-[1.4rem] font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
+                    <h3 className="text-[1.4rem]  font-bold w-fit px-2 py-1 rounded-2xl text-white  ">
                         {title}
                     </h3>
-                    <h1 className="hidden sm:line-clamp-1 ps-2 text-white text-sm">
+                    <p className="hidden md:block line-clamp-2 ps-2 text-white text-sm">
                         {desc}
-                    </h1>
+                    </p>
 
                 </div>
             </div>
