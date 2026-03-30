@@ -5,7 +5,7 @@ import { Compass, MapPin } from "lucide-react";
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
     return (
         /* 1. Added flex and flex-col to the main container */
-        <div className="relative flex flex-col w-full h-screen overflow-hidden box-border">
+        <div className="relative flex flex-col w-full min-h-dvh overflow-hidden box-border ">
 
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">

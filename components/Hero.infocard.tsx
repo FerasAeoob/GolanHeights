@@ -17,7 +17,7 @@ export default function HeroInfoCard({
             </div>
             <div className="flex flex-col gap-2">
                 <p className="text-white text-l md:text-2xl font-bold">{title}</p>
-                <p className="text-white text-sm md:text-l">{description}</p>
+                <p className="text-white text-sm md:text-md">{description}</p>
             </div>
 
         </div>

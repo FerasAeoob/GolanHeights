@@ -46,8 +46,8 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
 
                     <HeroInfoCard
                         icon={MapPin}
-                        title={dict.herocards.title}
-                        description={dict.herocards.description}
+                        title={dict.herocards.villages}
+                        description={dict.herocards.villagedesc}
                     />
                     <WeatherCard
                         lang={lang}
@@ -55,8 +55,8 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                     />
                     <HeroInfoCard
                         icon={MapPin}
-                        title={dict.herocards.title}
-                        description={dict.herocards.description}
+                        title={dict.herocards.hiddengems}
+                        description={dict.herocards.hiddengemsdesc}
                     />
                 </div>
                 <div className="flex md:hidden flex-col md:justify-center items-center md:flex-row gap-x-7 gap-y-2 w-full">
@@ -67,13 +67,13 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
 
                     <HeroInfoCard
                         icon={MapPin}
-                        title={dict.herocards.title}
-                        description={dict.herocards.description}
+                        title={dict.herocards.villages}
+                        description={dict.herocards.villagedesc}
                     />
                     <HeroInfoCard
                         icon={MapPin}
-                        title={dict.herocards.title}
-                        description={dict.herocards.description}
+                        title={dict.herocards.hiddengems}
+                        description={dict.herocards.hiddengemsdesc}
                     />
                 </div>
             </div>

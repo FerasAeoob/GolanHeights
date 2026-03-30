@@ -2,7 +2,7 @@
     "discover": "Discover",
     "northenisrael": "NORTHEN ISRAEL",
     "golanheights": "GOLAN HEIGHTS",
-    "explore": "Explore The",
+    "explore": "Explore",
     "explorebycategory": "Explore by Category",
     "explorebycategorydescription": "From ancient ruins to adventure sports, the Golan Heights offers something for every traveler",
     "herodes": "Ancient history, stunning nature, and unforgettable experiences await you in the most beautiful regions of Israel",
@@ -96,7 +96,9 @@
     },
     "minutes": "Minutes",
     "herocards": {
-        "title": "Hidden Gems",
-        "description": "Discover the natural beauty of the Golan Heights, with its stunning landscapes, waterfalls, and hiking trails."
+        "villages": "Local Villages",
+        "villagedesc": "Explore Majdal Shams, Buq'ata, Mas'ada, and Ein Qiniyye — experience authentic Druze culture, food, and local life.",
+        "hiddengems": "Hidden Gems",
+        "hiddengemsdesc": "Discover secret spots, quiet corners, and lesser-known sites across the Golan Heights that most visitors never find."
     }
 }
