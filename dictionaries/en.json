@@ -51,17 +51,17 @@
     "categories": {
         "all": "All Categories",
         "nature": "Nature",
-        "food & drink": "Food & Drink",
+        "food-drink": "Food & Drink",
         "activities": "Activities",
         "stays": "Stays",
-        "scenic spots": "Scenic Spots"
+        "scenic-spots": "Scenic Spots"
     },
     "categoriesDesc": {
         "nature": "Discover the natural beauty of the Golan Heights, with its stunning landscapes, waterfalls, and hiking trails.",
-        "food & drink": "Discover the best restaurants and cafes in the Golan Heights, with a variety of cuisines and dining experiences.",
+        "food-drink": "Discover the best restaurants and cafes in the Golan Heights, with a variety of cuisines and dining experiences.",
         "activities": "Discover the best activities in the Golan Heights, with a variety of options for all ages and interests.",
         "stays": "Discover the best places to stay in the Golan Heights, with a variety of options for all budgets and preferences.",
-        "scenic spots": "Discover the best scenic spots in the Golan Heights, with a variety of viewpoints and natural landscapes."
+        "scenic-spots": "Discover the best scenic spots in the Golan Heights, with a variety of viewpoints and natural landscapes."
     },
     "price": {
         "any": "Any Price",

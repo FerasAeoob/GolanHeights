@@ -15,10 +15,10 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
-        "food & drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
+        "food-drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
         activities: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
         stays: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
-        "scenic spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
+        "scenic-spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
     };
     const mainImage = place.images?.[0];
 

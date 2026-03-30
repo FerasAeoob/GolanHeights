@@ -1,16 +1,14 @@
 import Link from "next/link";
-import { CATEGORY_SLUGS } from "@/lib/categories";
+import { categories } from "@/lib/categories";
 
 export default function Filters() {
-    const filters = CATEGORY_SLUGS;
-
     return (
         <div className="flex gap-2 mt-4 flex-wrap">
             {/* Filter buttons */}
-            {filters.map((filter) => (
-                <Link key={filter} href={`/places?category=${filter}`}>
+            {categories.map((cat) => (
+                <Link key={cat.slug} href={`/places?category=${cat.slug}`}>
                     <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-                        {filter}
+                        {cat.label}
                     </button>
                 </Link>
             ))}

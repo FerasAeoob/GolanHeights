@@ -7,7 +7,7 @@ import WeatherCard from "./WeatherCard";
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
     return (
         /* 1. Added flex and flex-col to the main container */
-        <div className="relative flex flex-col w-full min-h-[100svh] overflow-hidden box-border pb-10">
+        <div className="relative flex flex-col w-full min-h-[100svh] overflow-hidden box-border pb-10 px-3">
 
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
@@ -23,7 +23,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
             </div>
 
             {/* 2. TEXT CONTAINER: flex-1 makes it fill the space ABOVE the footer exactly */}
-            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center w-full mt-25 md:mt-0 gap-1 md:gap-2">
+            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center w-full max-w-[1200px] lg:max-w-[1400px] mx-auto mt-25 md:mt-0 gap-1 md:gap-2">
                 <div className=" flex items-center gap-2 text-emerald-500 bg-black/40 px-4 py-1 rounded-full font-bold text-md md:text-xl">
                     <MapPin />
                     <p >{dict.northenisrael}</p>

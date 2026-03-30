@@ -57,10 +57,10 @@ export default async function PlacePage({ params }: PageProps) {
     }
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
-        "food & drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
+        "food-drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
         activities: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
         stays: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
-        "scenic spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
+        "scenic-spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
     };
 
     const galleryImages = place.images.map((img: any) => ({
@@ -81,11 +81,11 @@ export default async function PlacePage({ params }: PageProps) {
 
                 <PhotoGallery images={galleryImages} />
 
-                <div className="flex flex-col lg:flex-row border-box  items-start justify-between pt-10">
+                <div className="flex flex-col lg:flex-row border-box  items-start justify-between pt-10 gap-10">
 
-                    <div className="lg:max-w-2/3 max-w-full ">
-                        <div className="flex flex-col w-fit  ">
-                            <div className={` text-sm font-bold px-1.5 shadow-xl w-fit mb-2  ${categoryColors[place.category]}  rounded-md`}>
+                    <div className="lg:max-w-2/3 flex-1 w-full gap-2 flex flex-col ">
+                        <div className="flex flex-col w-fit gap-2  ">
+                            <div className={` text-sm font-bold px-1.5 shadow-xl w-fit  ${categoryColors[place.category]}  rounded-md`}>
                                 {dict.categories[place.category] || capitalizeFirst(place.category)}
                             </div>
                             <p className="flex gap-2 ">
@@ -100,14 +100,14 @@ export default async function PlacePage({ params }: PageProps) {
 
 
 
-                        <div className="w-fit  border-box ">
+                        <div className="w-full  border-box flex flex-col gap-5 ">
 
-                            <h1 className="text-3xl font-bold mt-6 text-emerald-900 ">
+                            <h1 className="text-3xl font-bold text-emerald-900 ">
                                 {place.title[lang] || place.title.en}
                             </h1>
-                            <div className="h-px w-full bg-gray-400 mt-10" />
+                            <div className="h-px w-full bg-gray-400 " />
 
-                            <div className="mt-5 flex flex-col gap-6 ">
+                            <div className=" flex flex-col gap-6 ">
                                 {(place.description[lang] || place.description.en).split('\n\n').map((paragraph: string, index: number) => (
                                     <p
                                         key={index}

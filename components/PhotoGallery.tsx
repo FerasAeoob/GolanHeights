@@ -69,7 +69,7 @@ export default function PhotoGallery({ images }: { images: GalleryImage[] }) {
     // ─── Single image ────────────────────────────────────────────
     if (images.length === 1) {
         return (
-            <div className="w-full h-[40vh] md:h-[60vh] relative rounded-3xl overflow-hidden shadow-sm group">
+            <div className="w-full h-[40vh] md:h-auto md:aspect-[2/1] lg:aspect-[2.5/1] relative rounded-3xl overflow-hidden shadow-sm group">
                 <Image
                     src={images[0].url}
                     alt={images[0].alt}
@@ -85,7 +85,7 @@ export default function PhotoGallery({ images }: { images: GalleryImage[] }) {
     // ─── Two images ──────────────────────────────────────────────
     if (images.length === 2) {
         return (
-            <div className="w-full h-[40vh] md:h-[60vh] flex flex-col md:flex-row gap-2 md:gap-3 rounded-3xl overflow-hidden shadow-sm">
+            <div className="w-full h-[40vh] md:h-auto md:aspect-[2/1] flex flex-col md:flex-row gap-2 md:gap-3 rounded-3xl overflow-hidden shadow-sm">
                 {images.map(function (img, idx) {
                     return (
                         <div key={idx} className="relative w-full h-full group overflow-hidden flex-1">
@@ -165,7 +165,7 @@ export default function PhotoGallery({ images }: { images: GalleryImage[] }) {
             </div>
 
             {/* ════════ DESKTOP: Bento Grid ════════ */}
-            <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-2 h-[60vh] rounded-3xl overflow-hidden shadow-sm w-full">
+            <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-2 aspect-[2/1] rounded-3xl overflow-hidden shadow-sm w-full">
                 {/* Hero image — large left half */}
                 <div className="relative col-span-2 row-span-2 group overflow-hidden bg-slate-100 w-full h-full">
                     <Image

@@ -12,7 +12,7 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
     const Icon = category.icon ? (category.icon) : null;
 
     // Translated title & description from dictionary
-    const title = dict.categories?.[category.slug] ?? category.slug;
+    const title = dict.categories?.[category.slug] ?? category.label ?? category.slug;
     const desc = dict.categoriesDesc?.[category.slug] || "";
 
     return (
