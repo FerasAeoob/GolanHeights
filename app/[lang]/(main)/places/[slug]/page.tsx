@@ -8,6 +8,7 @@ import PlaceDetails from "@/components/place.sidedetails";
 import { redirect } from "next/navigation"; // Import this!
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 import { notFound } from "next/navigation";
+import PhotoGallery from "@/components/PhotoGallery";
 
 
 interface PageProps {
@@ -56,11 +57,16 @@ export default async function PlacePage({ params }: PageProps) {
     }
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
-        restaurant: "bg-orange-200/90 hover:bg-black/70 text-orange-700",
-        activity: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
-        hotel: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
-        viewpoint: "bg-purple-200/90 hover:bg-black/70 text-purple-700",
+        "food & drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
+        activities: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
+        stays: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
+        "scenic spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
     };
+
+    const galleryImages = place.images.map((img: any) => ({
+        url: img.url,
+        alt: img.alt?.[lang] || img.alt?.en || place.title[lang] || place.title.en || 'Place Image'
+    }));
 
     return (
         <div className=" pt-20 flex flex-col w-dvw items-center px-3">
@@ -72,18 +78,8 @@ export default async function PlacePage({ params }: PageProps) {
                 </Link>
             </div>
             <div className="w-full max-w-[1200px] justify-center items-center  ">
-                <div className=" max-w-[1200px] md:h-[500px] h-[350px]  relative rounded-3xl overflow-hidden shadow-xl">
 
-                    <Image
-                        src={place.images[0].url}
-                        alt={place.title.en}
-
-
-
-                        className="object-cover "
-                        fill
-                    />
-                </div>
+                <PhotoGallery images={galleryImages} />
 
                 <div className="flex flex-col lg:flex-row border-box  items-start justify-between pt-10">
 
