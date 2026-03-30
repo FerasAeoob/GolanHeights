@@ -113,7 +113,7 @@ export default function PlaceDetails({
                         <Hourglass className="w-5 h-5 text-emerald-600" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.duration}: </dt>
-                            <dd className="text-black/70">{duration}</dd>
+                            <dd className="text-black/70">{duration} {dict.minutes}</dd>
                         </div>
                     </div>}
                     <div className="flex items-center gap-3">

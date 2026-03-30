@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Compass, MapPin } from "lucide-react";
+import { Compass, MapPin, Mountain } from "lucide-react";
 import HeroInfoCard from "./Hero.infocard";
 import WeatherCard from "./WeatherCard";
 
@@ -24,20 +24,20 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
 
             {/* 2. TEXT CONTAINER: flex-1 makes it fill the space ABOVE the footer exactly */}
             <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center w-full mt-25 md:mt-0 gap-1 md:gap-2">
-                <div className=" flex items-center gap-2 text-emerald-300 bg-black/40 px-4 py-1 rounded-full font-bold text-md md:text-xl">
+                <div className=" flex items-center gap-2 text-emerald-500 bg-black/40 px-4 py-1 rounded-full font-bold text-md md:text-xl">
                     <MapPin />
                     <p >{dict.northenisrael}</p>
                 </div>
                 <h1 className="text-white text-2xl md:text-6xl font-bold font-serif text-center px-4">
                     {dict.explore}
                 </h1>
-                <h1 className="text-green-300 text-2xl md:text-6xl font-bold font-serif text-center px-4">
+                <h1 className="text-emerald-500 text-2xl md:text-6xl font-bold font-serif text-center px-4">
                     {dict.golanheights}
                 </h1>
                 <p className="text-center text-white text-[1rem] md:text-[1.3rem] max-w-[85%] md:max-w-[40rem]">{dict.herodes}</p>
                 <Link
                     href={`/${lang}/places`}
-                    className="flex text-lg items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-white/20 backdrop-blur-sm text-emerald-300 font-bold rounded-full shadow-lg"
+                    className="flex text-lg items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-white/20 backdrop-blur-sm text-emerald-400 font-bold rounded-full shadow-lg"
                 >
                     {lang === 'ar' || lang === 'he' ? <span className="flex items-center gap-2">{dict.explorenow} <Compass className="h-[85%] mt-0.5" /></span> : <span className="flex items-center gap-2"><Compass className="h-[85%] mt-0.5" /> {dict.explorenow}</span>}
                 </Link>
@@ -54,7 +54,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
 
                     />
                     <HeroInfoCard
-                        icon={MapPin}
+                        icon={Mountain}
                         title={dict.herocards.hiddengems}
                         description={dict.herocards.hiddengemsdesc}
                     />
@@ -71,7 +71,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                         description={dict.herocards.villagedesc}
                     />
                     <HeroInfoCard
-                        icon={MapPin}
+                        icon={Mountain}
                         title={dict.herocards.hiddengems}
                         description={dict.herocards.hiddengemsdesc}
                     />
