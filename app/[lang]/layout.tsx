@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Rubik, Cairo } from "next/font/google";
+import { Outfit, Heebo, Tajawal } from "next/font/google";
 import "@/app/globals.css";
 import { PostHogProvider } from "@/app/providers";
 import { PostHogPageView } from "@/app/pageview";
@@ -11,15 +11,16 @@ const outfit = Outfit({
   display: 'swap',
 });
 
-const rubik = Rubik({
-  variable: "--font-rubik",
+const heebo = Heebo({
+  variable: "--font-heebo",
   subsets: ["latin", "hebrew"],
   display: 'swap',
 });
 
-const cairo = Cairo({
-  variable: "--font-cairo",
+const tajawal = Tajawal({
+  variable: "--font-tajawal",
   subsets: ["latin", "arabic"],
+  weight: ['400', '500', '700'],
   display: 'swap',
 });
 
@@ -39,10 +40,15 @@ export default async function RootLayout({
   const locale = lang as 'en' | 'ar' | 'he';
   const dir = locale === "ar" || locale === "he" ? "rtl" : "ltr";
 
+  let fontClass = "font-sans";
+  if (locale === "en") fontClass = "font-outfit";
+  if (locale === "he") fontClass = "font-heebo";
+  if (locale === "ar") fontClass = "font-tajawal";
+
   return (
     <html lang={lang} dir={dir} >
       <body
-        className={`${outfit.variable} ${rubik.variable} ${cairo.variable} antialiased flex flex-col min-h-screen`}
+        className={`${outfit.variable} ${heebo.variable} ${tajawal.variable} ${fontClass} antialiased flex flex-col min-h-screen`}
       >
         <PostHogProvider>
           <Suspense fallback={null}>

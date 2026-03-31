@@ -7,9 +7,14 @@
   --foreground: #171717;
 }
 
-/* modern cool font stack */
+@theme {
+  --font-outfit: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-heebo: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
+  --font-tajawal: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* modern cool font stack applied via Tailwind class dynamically */
 body {
-  font-family: var(--font-outfit), var(--font-rubik), var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

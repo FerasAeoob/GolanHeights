@@ -130,7 +130,7 @@ export default async function PlacePage({ params }: PageProps) {
                         price={place.price}
                         duration={place.duration}
                         dict={dict}
-                        mapLink={`/${lang}/places/${place.slug[lang] || place.slug.en}`}
+                        mapLink={place.mapLink}
                     />
                 </div>
 

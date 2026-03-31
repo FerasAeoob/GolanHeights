@@ -67,7 +67,9 @@ export default function PlaceDetails({
                         <Phone className="w-5 h-5 text-emerald-600" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
-                            <dd className="text-emerald-600 hover:underline">{phone}</dd>
+                            <Link href={`tel:${phone}`} className="text-emerald-600 hover:underline">
+                                {phone}
+                            </Link>
                         </div>
                     </div>}
                     {website && <div className="flex items-center gap-3">
@@ -127,7 +129,9 @@ export default function PlaceDetails({
                         <Phone className="w-5 h-5 text-emerald-600" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
-                            <dd className="text-emerald-600 hover:underline">{phone}</dd>
+                            <Link href={`tel:${phone}`} className="text-emerald-600 hover:underline">
+                                {phone}
+                            </Link>
                         </div>
                     </div>}
                     {website && <div className="flex items-center gap-3">
