@@ -66,9 +66,9 @@
     "price": {
         "any": "Any Price",
         "free": "Free",
-        "$": "$",
-        "$$": "$$",
-        "$$$": "$$$"
+        "low": "$",
+        "mid": "$$",
+        "high": "$$$"
     },
     "openingHours": {
         "days": [

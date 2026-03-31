@@ -12,3 +12,6 @@ export interface IOpeningHoursDictionary {
     closingSoon: string; // "Closing Soon"
     separator: string;   // " | "
 }
+
+export const PRICE_KEYS = ["any", "free", "low", "mid", "high"] as const;
+export type PriceKey = (typeof PRICE_KEYS)[number];

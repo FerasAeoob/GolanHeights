@@ -5,7 +5,7 @@ import PlaceCard from "@/components/placecard"; // Adjust path if needed
 import OpenStatus from "@/components/openStatus";
 import FilterDropdown from "@/components/filter.dropdown";
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
-import { IOpeningHoursDictionary } from "@/lib/types";
+import { IOpeningHoursDictionary, PRICE_KEYS } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 
 export default async function PlacesPage({
@@ -95,18 +95,17 @@ export default async function PlacesPage({
                             />
                         </div>
                         <div className="flex-1 md:w-48">
-
                             <FilterDropdown
                                 title={dict.price.any}
                                 paramKey="price"
                                 options={[
                                     dict.price.any,
                                     dict.price.free,
-                                    dict.price.$,
-                                    dict.price.$$,
-                                    dict.price.$$$
-
+                                    dict.price.low,
+                                    dict.price.mid,
+                                    dict.price.high,
                                 ]}
+                                slugs={["", "free", "$", "$$", "$$$"]}
                             />
                         </div>
                     </div>
