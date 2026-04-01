@@ -26,8 +26,8 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
         >
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] px-4  ">
                 <div>
-                    <Link href={`/${lang}`} className="flex items-center font-bold">
-                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1774734610/Untitled_design_3_-Photoroom_bonk3n.png" alt="Logo" width={90} height={75} className="pt-4" />
+                    <Link href={`/${lang}`} className="flex items-center font-bold gap-3">
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1775083745/output-onlinepngtools_aw183f.webp" alt="Logo" width={90} height={75} className="" />
                         <h1 className="text-2xl font-bold text-emerald-700 hidden md:block">Golan WIKI</h1>
                     </Link>
                 </div>

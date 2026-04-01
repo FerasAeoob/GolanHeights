@@ -6,82 +6,85 @@ import WeatherCard from "./WeatherCard";
 
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
     return (
-        /* 1. Added flex and flex-col to the main container */
-        <div className="relative flex flex-col w-full min-h-[100svh] overflow-hidden box-border pb-10 px-4">
+        <section className="relative w-full min-h-[100svh] flex flex-col overflow-hidden">
 
-            {/* Background Image & Overlay */}
+            {/* ── Full-bleed background ─────────────────────────────── */}
             <div className="absolute inset-0 z-0">
                 <Image
                     src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp"
-                    alt="Hero"
+                    alt="Golan Heights"
                     fill
                     priority
                     className="object-cover"
                 />
-                {/* Moved the dark overlay here so it covers the background image */}
-                <div className="absolute inset-0 bg-black/20"></div>
+                <div className="absolute inset-0 bg-black/20" />
             </div>
 
-            {/* 2. TEXT CONTAINER: flex-1 makes it fill the space ABOVE the footer exactly */}
-            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center w-full max-w-[1200px] lg:max-w-[1400px] mx-auto mt-25 md:mt-0 gap-1 md:gap-2">
-                <div className=" flex items-center gap-2 text-emerald-500 bg-black/40 px-4 py-1 rounded-full font-bold text-md md:text-xl">
-                    <MapPin />
-                    <p >{dict.northenisrael}</p>
+            {/* ── Content (constrained to site grid) ───────────────────
+                · max-w-[1200px] lg:max-w-[1400px] mx-auto px-4  ← matches all other sections
+                · pt-16 md:pt-20                                  ← accounts for fixed navbar height
+                · pb-10 gap-2 md:gap-3                            ← standard site rhythm             */}
+            <div className="relative z-10 flex-1 flex flex-col items-center justify-center
+                            w-full max-w-[1200px] lg:max-w-[1400px] mx-auto
+                            px-4 pt-16 md:pt-20 pb-10
+                            gap-2 md:gap-3">
+
+                {/* Location badge */}
+                <div className="flex items-center gap-2 text-emerald-500 bg-black/40 backdrop-blur-sm px-4 py-1 rounded-full font-bold text-sm md:text-base">
+                    <MapPin className="w-4 h-4 shrink-0" />
+                    <span>{dict.northenisrael}</span>
                 </div>
-                <h1 className="text-white text-2xl md:text-6xl font-bold font-serif text-center px-4">
-                    {dict.explore}
-                </h1>
-                <h1 className="text-emerald-500 text-2xl md:text-6xl font-bold font-serif text-center px-4">
-                    {dict.golanheights}
-                </h1>
-                <p className="text-center text-white text-[1rem] md:text-[1.3rem] md:max-w-[40rem]">{dict.herodes}</p>
+
+                {/* Two-line heading */}
+                <div className="flex flex-col items-center text-center gap-1">
+                    <h1 className="text-2xl md:text-6xl font-bold font-serif text-white leading-tight">
+                        {dict.explore}
+                    </h1>
+                    <h1 className="text-2xl md:text-6xl font-bold font-serif text-emerald-500 leading-tight">
+                        {dict.golanheights}
+                    </h1>
+                </div>
+
+                {/* Tagline */}
+                <p className="text-center text-white text-base md:text-[1.3rem] max-w-[85%] md:max-w-[40rem]">
+                    {dict.herodes}
+                </p>
+
+                {/* CTA — RTL/LTR preserved, glassmorphism intact */}
                 <Link
                     href={`/${lang}/places`}
-                    className="flex text-lg items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-white/20 backdrop-blur-sm text-emerald-400 font-bold rounded-full shadow-lg"
+                    className="flex items-center justify-center gap-2 mt-1 px-5 py-2 bg-white/20 backdrop-blur-sm text-emerald-400 font-bold text-lg rounded-full shadow-lg hover:bg-white/30 transition-colors duration-200"
                 >
-                    {lang === 'ar' || lang === 'he' ? <span className="flex items-center gap-2">{dict.explorenow} <Compass className="h-[85%] mt-0.5" /></span> : <span className="flex items-center gap-2"><Compass className="h-[85%] mt-0.5" /> {dict.explorenow}</span>}
+                    {lang === 'ar' || lang === 'he'
+                        ? <span className="flex items-center gap-2">{dict.explorenow} <Compass className="h-[85%] mt-0.5" /></span>
+                        : <span className="flex items-center gap-2"><Compass className="h-[85%] mt-0.5" /> {dict.explorenow}</span>
+                    }
                 </Link>
-                <div className="hidden md:flex flex-col md:justify-center items-center md:flex-row gap-x-7 gap-y-2 w-full">
 
-
-                    <HeroInfoCard
-                        icon={MapPin}
-                        title={dict.herocards.villages}
-                        description={dict.herocards.villagedesc}
-                    />
-                    <WeatherCard
-                        lang={lang}
-
-                    />
-                    <HeroInfoCard
-                        icon={Mountain}
-                        title={dict.herocards.hiddengems}
-                        description={dict.herocards.hiddengemsdesc}
-                    />
-                </div>
-                <div className="flex md:hidden flex-col md:justify-center items-center md:flex-row gap-x-7 gap-y-2 w-full">
-                    <WeatherCard
-                        lang={lang}
-
-                    />
-
-                    <HeroInfoCard
-                        icon={MapPin}
-                        title={dict.herocards.villages}
-                        description={dict.herocards.villagedesc}
-                    />
-                    <HeroInfoCard
-                        icon={Mountain}
-                        title={dict.herocards.hiddengems}
-                        description={dict.herocards.hiddengemsdesc}
-                    />
+                {/* ── Info cards — single responsive block ─────────────
+                    Mobile  : column, Weather first (order-first)
+                    Desktop : row, Weather centred (md:order-2)         */}
+                <div className="flex flex-col md:flex-row gap-3 md:gap-7 mt-2 md:mt-4 items-center ">
+                    {/* Inside AnimatedHero.tsx */}
+                    <div className="flex-1 md:order-2 order-first min-w-[300px]">
+                        <WeatherCard lang={lang} />
+                    </div>
+                    <div className="w-full md:order-1">
+                        <HeroInfoCard
+                            icon={MapPin}
+                            title={dict.herocards.villages}
+                            description={dict.herocards.villagedesc}
+                        />
+                    </div>
+                    <div className="w-full md:order-3">
+                        <HeroInfoCard
+                            icon={Mountain}
+                            title={dict.herocards.hiddengems}
+                            description={dict.herocards.hiddengemsdesc}
+                        />
+                    </div>
                 </div>
             </div>
-
-
-
-            {/* 3. FOOTER: Removed absolute positioning. It now sits naturally at the bottom. */}
-
-        </div>
+        </section>
     );
 }

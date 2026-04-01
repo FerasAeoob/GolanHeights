@@ -116,13 +116,10 @@ export default async function WeatherCard({ lang }: { lang: string }) {
 
     if (!weather) {
         return (
-            <div className="mt-3 px-4 py-4 min-h-[150px] min-w-[250px] md:w-[350px] bg-white/10 backdrop-blur-sm rounded-3xl shadow-lg border border-white/10 flex items-center justify-center">
+            /* Changed: Removed md:w-[350px], added w-full flex-1 */
+            <div className="flex-1 w-full mt-3 px-4 py-4 min-h-[180px] bg-white/10 backdrop-blur-sm rounded-3xl shadow-lg border border-white/10 flex items-center justify-center">
                 <p className="text-white/80 text-sm">
-                    {lang === 'ar'
-                        ? 'تعذر تحميل الطقس'
-                        : lang === 'he'
-                            ? 'לא ניתן לטעון את מזג האוויר'
-                            : 'Unable to load weather'}
+                    {lang === 'ar' ? 'تعذر تحميل الطقس' : lang === 'he' ? 'לא ניתן לטעון את מזג האוויר' : 'Unable to load weather'}
                 </p>
             </div>
         );
@@ -130,19 +127,20 @@ export default async function WeatherCard({ lang }: { lang: string }) {
 
     const Icon = getWeatherIcon(weather.code);
     const descriptionText = getWeatherText(weather.code, lang);
-
-    const windText =
-        lang === 'ar'
-            ? `الرياح: ${weather.wind} كم/س`
-            : lang === 'he'
-                ? `רוח: ${weather.wind} קמ"ש`
-                : `Wind: ${weather.wind} km/h`;
+    const windText = lang === 'ar' ? `الرياح: ${weather.wind} كم/س` : lang === 'he' ? `רוח: ${weather.wind} קמ"ש` : `Wind: ${weather.wind} km/h`;
 
     return (
-        <div className="mt-3 px-4 py-4 min-h-[150px] items-center justify-center flex flex-col gap-y-3 min-w-[250px] md:w-[350px] bg-white/10 backdrop-blur-sm rounded-3xl shadow-lg border border-white/10 transition-all hover:bg-white/20">
+        /* Key Changes:
+           1. Removed md:w-[350px]
+           2. Added flex-1 and w-full
+           3. Changed min-h to 180px to better match HeroInfoCard height
+        */
+        <div className="flex-1 w-full mt-3 px-6 py-5 min-h-[180px] flex flex-col justify-between bg-white/10 backdrop-blur-md rounded-3xl shadow-lg border border-white/10 transition-all hover:bg-white/20">
+
+            {/* Current Weather Section */}
             <div className="flex flex-col items-center gap-1">
-                <Icon className="text-white w-8 h-8 drop-shadow-md" />
-                <p className="text-white text-3xl font-bold mt-1">
+                <Icon className="text-white w-10 h-10 drop-shadow-md" />
+                <p className="text-white text-4xl font-bold mt-1">
                     {weather.temp}°C
                 </p>
                 <p className="text-white/90 text-sm md:text-base font-medium text-center">
@@ -150,21 +148,19 @@ export default async function WeatherCard({ lang }: { lang: string }) {
                 </p>
             </div>
 
-            <div className="flex w-full justify-between items-center mt-2 pt-3 border-t border-white/20 px-4">
-                {weather.daily.map(function (day, idx) {
+            {/* Daily Forecast Section */}
+            <div className="flex w-full justify-between items-center mt-4 pt-4 border-t border-white/20">
+                {weather.daily.map((day, idx) => {
                     const DayIcon = getWeatherIcon(day.code);
-
                     return (
                         <div key={idx} className="flex flex-col items-center gap-1 text-white">
-                            <span className="text-[0.65rem] text-white/80 font-bold uppercase tracking-wider">
+                            <span className="text-[0.65rem] text-white/70 font-bold uppercase tracking-wider">
                                 {getDayName(day.date, lang)}
                             </span>
-
-                            <DayIcon className="w-5 h-5 drop-shadow-sm my-1" />
-
+                            <DayIcon className="w-5 h-5 my-1" />
                             <span className="text-sm font-bold">
                                 {day.maxTemp}°
-                                <span className="text-white/60 font-normal"> {day.minTemp}°</span>
+                                <span className="text-white/40 font-normal ml-1"> {day.minTemp}°</span>
                             </span>
                         </div>
                     );
