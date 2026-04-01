@@ -34,7 +34,7 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
             */}
             <div className="group z-10 flex relative h-100 sm:h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
 
-                <div className="absolute inset-0">
+                <div className="absolute top-0 left-0 right-0 bottom-40 sm:bottom-32">
                     <Image
                         src={mainImage?.url || "/placeholder.jpg"}
                         alt={mainImage?.alt?.[locale] || place.title.en}
