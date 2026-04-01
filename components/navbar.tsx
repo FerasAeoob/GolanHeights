@@ -24,7 +24,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
             className={`fixed top-0 start-0 w-full z-50 h-16 md:h-20 flex items-center justify-center transition-all duration-300
         ${scrolled ? "bg-white/5 backdrop-blur-sm py-4 md:py-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]" : "bg-transparent"}`}
         >
-            <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] m-2 sm:p-1  ">
+            <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] m-3  ">
                 <div>
                     <Link href={`/${lang}`} className="flex items-center font-bold">
                         <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1774734610/Untitled_design_3_-Photoroom_bonk3n.png" alt="Logo" width={90} height={75} className="pt-4" />

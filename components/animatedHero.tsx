@@ -7,7 +7,7 @@ import WeatherCard from "./WeatherCard";
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
     return (
         /* 1. Added flex and flex-col to the main container */
-        <div className="relative flex flex-col w-full min-h-[100svh] overflow-hidden box-border pb-10 px-3">
+        <div className="relative flex flex-col w-full min-h-[100svh] overflow-hidden box-border pb-10 px-4">
 
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
@@ -34,7 +34,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                 <h1 className="text-emerald-500 text-2xl md:text-6xl font-bold font-serif text-center px-4">
                     {dict.golanheights}
                 </h1>
-                <p className="text-center text-white text-[1rem] md:text-[1.3rem] max-w-[85%] md:max-w-[40rem]">{dict.herodes}</p>
+                <p className="text-center text-white text-[1rem] md:text-[1.3rem] md:max-w-[40rem]">{dict.herodes}</p>
                 <Link
                     href={`/${lang}/places`}
                     className="flex text-lg items-center justify-center w-fit !mt-2 !px-5 !py-2 bg-white/20 backdrop-blur-sm text-emerald-400 font-bold rounded-full shadow-lg"
