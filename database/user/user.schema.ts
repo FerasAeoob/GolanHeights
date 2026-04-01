@@ -37,6 +37,7 @@ export const changePasswordSchema = z
         message: "Passwords do not match",
     });
 
+
 export const createBusinessSchema = z.object({
     businessName: z.string().trim().min(2).max(50),
     website: z.string().trim().url().optional(),
