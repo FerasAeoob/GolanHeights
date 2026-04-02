@@ -8,19 +8,30 @@ import { requireAuth } from "@/lib/permissions";
 export async function GET() {
     try {
         const currentUser = await requireAuth();
+
         await connectDB();
 
-        const user = await User.findById(currentUser._id).populate("favorites").select("favorites");
+        const user = await User.findById(currentUser._id)
+            .populate("favorites")
+            .select("favorites");
+
         if (!user) {
-            return NextResponse.json({ error: "User not found" }, { status: 404 });
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "User not found",
+                },
+                { status: 404 }
+            );
         }
 
-        return NextResponse.json({
-            success: true,
-            message: "Favorites fetched successfully",
-
-        },
-            { status: 200 });
+        return NextResponse.json(
+            {
+                success: true,
+                favorites: user.favorites,
+            },
+            { status: 200 }
+        );
     } catch (error: any) {
         if (error?.message === "Unauthorized") {
             return NextResponse.json(
@@ -30,6 +41,128 @@ export async function GET() {
         }
 
         console.error("GET FAVORITES ERROR:", error);
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Something went wrong",
+            },
+            { status: 500 }
+        );
+    }
+}
+
+export async function POST(req: NextRequest) {
+    try {
+        const currentUser = await requireAuth();
+
+        const body = await req.json();
+        const { placeId } = body;
+
+        if (!placeId || !mongoose.Types.ObjectId.isValid(placeId)) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Valid placeId is required",
+                },
+                { status: 400 }
+            );
+        }
+
+        await connectDB();
+
+        const place = await Place.findById(placeId);
+
+        if (!place) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Place not found",
+                },
+                { status: 404 }
+            );
+        }
+
+        const user = await User.findByIdAndUpdate(
+            currentUser._id,
+            {
+                $addToSet: { favorites: placeId },
+            },
+            { new: true }
+        ).select("favorites");
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Place added to favorites",
+                favorites: user?.favorites || [],
+            },
+            { status: 200 }
+        );
+    } catch (error: any) {
+        if (error?.message === "Unauthorized") {
+            return NextResponse.json(
+                { success: false, message: "Unauthorized" },
+                { status: 401 }
+            );
+        }
+
+        console.error("ADD FAVORITE ERROR:", error);
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Something went wrong",
+            },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(req: NextRequest) {
+    try {
+        const currentUser = await requireAuth();
+
+        const body = await req.json();
+        const { placeId } = body;
+
+        if (!placeId || !mongoose.Types.ObjectId.isValid(placeId)) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Valid placeId is required",
+                },
+                { status: 400 }
+            );
+        }
+
+        await connectDB();
+
+        const user = await User.findByIdAndUpdate(
+            currentUser._id,
+            {
+                $pull: { favorites: placeId },
+            },
+            { new: true }
+        ).select("favorites");
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Place removed from favorites",
+                favorites: user?.favorites || [],
+            },
+            { status: 200 }
+        );
+    } catch (error: any) {
+        if (error?.message === "Unauthorized") {
+            return NextResponse.json(
+                { success: false, message: "Unauthorized" },
+                { status: 401 }
+            );
+        }
+
+        console.error("REMOVE FAVORITE ERROR:", error);
 
         return NextResponse.json(
             {
