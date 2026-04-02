@@ -23,9 +23,9 @@ export async function GET(req: NextRequest) {
 
         await connectDB();
 
-        const comments = await Comment.find({ place: placeId })
-            .select("user text createdAt")
-            .populate("user", "name image ")
+        const comments = await Comment.find({ placeId })
+            .select("userId text createdAt")
+            .populate("userId", "name image")
             .sort({ createdAt: -1 });
 
         return NextResponse.json(
@@ -80,13 +80,13 @@ export async function POST(req: NextRequest) {
         }
 
         const comment = await Comment.create({
-            user: currentUser._id,
-            place: validatedData.placeId,
+            userId: currentUser._id,
+            placeId: validatedData.placeId,
             text: validatedData.text,
         });
 
         const populatedComment = await Comment.findById(comment._id)
-            .populate("user", "name image role");
+            .populate("userId", "name image role");
 
         return NextResponse.json(
             {

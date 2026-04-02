@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IComment extends Document {
-    user: mongoose.Types.ObjectId;
-    place: mongoose.Types.ObjectId;
+    userId: mongoose.Types.ObjectId;
+    placeId: mongoose.Types.ObjectId;
     text: string;
 
     createdAt: Date;
@@ -11,13 +11,13 @@ export interface IComment extends Document {
 
 const CommentSchema: Schema = new Schema(
     {
-        user: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
             index: true,
         },
-        place: {
+        placeId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Place",
             required: true,
