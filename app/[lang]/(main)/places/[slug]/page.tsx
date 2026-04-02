@@ -10,6 +10,7 @@ import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 import { notFound } from "next/navigation";
 import PhotoGallery from "@/components/PhotoGallery";
 import CommentsSection from "@/components/comments/CommentSection";
+import CommentsClient from "@/components/comments/CommentClient";
 
 
 interface PageProps {
@@ -138,7 +139,7 @@ export default async function PlacePage({ params }: PageProps) {
                     />
 
                 </div>
-                <CommentsSection placeId={place._id.toString()} dict={dict} />
+                <CommentsClient placeId={place._id.toString()} dict={dict} />
 
             </div >
         </div >
