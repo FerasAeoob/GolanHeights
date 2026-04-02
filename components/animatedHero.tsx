@@ -23,7 +23,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
 
             {/* ── Content Container (Standardized Max-Width) ────────── */}
             <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center mt-25 md:mt-0
-                            w-full w-[1200px] lg:max-w-[1400px] px-4 mx-auto
+                            w-full w-[1200px] lg:max-w-[1400px] px-4 mx-auto gap-4 mb-7
                             ">
 
                 {/* Upper Text Section */}
@@ -46,7 +46,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                         {dict.herodes}
                     </p>
 
-                    {/* CTA — RTL/LTR Position Fixed */}
+
                     <Link
                         href={`/${lang}/places`}
                         className="group flex items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-400 font-bold text-lg rounded-full shadow-xl border border-white/10 transition-all"
@@ -56,11 +56,8 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                     </Link>
                 </div>
 
-                {/* ── Info cards Row ──────────────────────────────────
-                    items-stretch: makes all cards equal height
-                    flex-1: makes all cards share width equally
-                */}
-                <div className="w-full flex justify-center items-center flex-col md:flex-row gap-4">
+
+                <div className="w-full flex justify-center items-center flex-col md:flex-row gap-4 ">
 
                     {/* Village Card */}
                     <div className="flex-1 w-full md:order-1">
@@ -72,7 +69,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                     </div>
 
                     {/* Weather Card (Center on Desktop, Top on Mobile) */}
-                    <div className="flex-1 max-w-[350px] md:order-2 order-first min-w-[320px]">
+                    <div className="flex-1 max-w-[350px] md:order-2 order-first min-w-[320px] md:min-w-0">
                         <WeatherCard lang={lang} />
                     </div>
 
