@@ -100,5 +100,11 @@
         "villagedesc": "Explore Majdal Shams, Buq'ata, Mas'ada, and Ein Qiniyye. Experience authentic Druze culture, food, and local life.",
         "hiddengems": "Hidden Gems",
         "hiddengemsdesc": "Discover secret spots, quiet corners, and lesser-known sites across the Golan Heights that most visitors never find."
+    },
+    "comments": {
+        "title": "Comments",
+        "placeholder": "Write a comment...",
+        "button": "Post Comment",
+        "empty": "No comments yet"
     }
 }

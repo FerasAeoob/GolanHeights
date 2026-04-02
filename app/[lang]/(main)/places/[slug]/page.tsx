@@ -9,6 +9,7 @@ import { redirect } from "next/navigation"; // Import this!
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 import { notFound } from "next/navigation";
 import PhotoGallery from "@/components/PhotoGallery";
+import CommentsSection from "@/components/comments/CommentSection";
 
 
 interface PageProps {
@@ -120,6 +121,9 @@ export default async function PlacePage({ params }: PageProps) {
 
 
 
+
+
+
                         </div>
                     </div>
                     <PlaceDetails
@@ -132,7 +136,9 @@ export default async function PlacePage({ params }: PageProps) {
                         dict={dict}
                         mapLink={place.mapLink}
                     />
+
                 </div>
+                <CommentsSection placeId={place._id.toString()} dict={dict} />
 
             </div >
         </div >
