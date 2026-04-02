@@ -46,6 +46,7 @@ export interface IPlaceBase {
   };
 
   featured: boolean;
+
 }
 
 export interface IPlace extends Document, IPlaceBase {
@@ -141,6 +142,7 @@ const PlaceSchema: Schema = new Schema(
     mapLink: { type: String, trim: true },
 
     featured: { type: Boolean, default: false },
+
   },
   { timestamps: true }
 );
