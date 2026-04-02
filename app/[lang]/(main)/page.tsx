@@ -35,7 +35,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
 
             {/* Categories Section */}
             <section className="flex flex-col items-center justify-center">
-                <div className="flex flex-col items-center justify-center gap-3 w-full max-w-[1200px] lg:max-w-[1400px] px-4  ">
+                <div className="flex flex-col items-center justify-center gap-10 w-full max-w-[1200px] lg:max-w-[1400px] px-4  ">
 
                     <div className="flex flex-col items-center justify-center w-[85%] gap-3">
                         <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
