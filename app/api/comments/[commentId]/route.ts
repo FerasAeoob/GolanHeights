@@ -65,8 +65,8 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
         await comment.save();
 
         const updatedComment = await Comment.findById(comment._id)
-            .select("user text createdAt updatedAt")
-            .populate("user", "_id name image");
+            .select("userId text createdAt updatedAt")
+            .populate("userId", "_id name image");
 
         return NextResponse.json(
             {

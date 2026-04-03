@@ -147,6 +147,7 @@ export default async function PlacesPage({
                                 </p>
                             </div>
                         )}
+
                     </div>
                 </div>
             </section >

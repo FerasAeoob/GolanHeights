@@ -9,8 +9,8 @@ import { redirect } from "next/navigation"; // Import this!
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 import { notFound } from "next/navigation";
 import PhotoGallery from "@/components/PhotoGallery";
-import CommentsSection from "@/components/comments/CommentSection";
 import CommentsClient from "@/components/comments/CommentClient";
+import { getCurrentUser } from "@/lib/auth";
 
 
 interface PageProps {
@@ -69,6 +69,7 @@ export default async function PlacePage({ params }: PageProps) {
         url: img.url,
         alt: img.alt?.[lang] || img.alt?.en || place.title[lang] || place.title.en || 'Place Image'
     }));
+    const currentUser = await getCurrentUser();
 
     return (
         <div className=" pt-20 flex flex-col w-dvw items-center px-3">
@@ -139,7 +140,7 @@ export default async function PlacePage({ params }: PageProps) {
                     />
 
                 </div>
-                <CommentsClient placeId={place._id.toString()} dict={dict} />
+                <CommentsClient placeId={place._id.toString()} dict={dict} currentUserId={currentUser?._id} currentUserRole={currentUser?.role} />
 
             </div >
         </div >

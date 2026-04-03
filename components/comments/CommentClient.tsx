@@ -18,17 +18,25 @@ interface CommentItem {
 interface CommentsClientProps {
     placeId: string;
     dict?: any;
+    currentUserId?: string;
+    currentUserRole?: "user" | "admin" | "business";
 }
 
 export default function CommentsClient({
     placeId,
     dict,
+    currentUserId,
+    currentUserRole,
+
 }: CommentsClientProps) {
     const [comments, setComments] = useState<CommentItem[]>([]);
     const [text, setText] = useState("");
     const [loadingComments, setLoadingComments] = useState(true);
     const [posting, setPosting] = useState(false);
     const [error, setError] = useState("");
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+    const [editText, setEditText] = useState("");
+    const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
 
     const latestCommentIdRef = useRef<string | null>(null);
 
@@ -132,6 +140,86 @@ export default function CommentsClient({
             setPosting(false);
         }
     }
+    function canManageComment(comment: CommentItem) {
+        const isOwner = comment.userId?._id === currentUserId;
+        const isAdmin = currentUserRole === "admin";
+
+        return isOwner || isAdmin;
+    }
+    async function handleEdit(commentId: string) {
+        if (!editText.trim()) {
+            setError("Comment cannot be empty");
+            return;
+        }
+
+        try {
+            setActionLoadingId(commentId);
+            setError("");
+
+            const res = await fetch(`/api/comments/${commentId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    text: editText,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message || "Failed to update comment");
+                return;
+            }
+
+            if (data.comment) {
+                setComments((prev) =>
+                    prev.map((comment) =>
+                        comment._id === commentId ? data.comment : comment
+                    )
+                );
+            }
+
+            setEditingCommentId(null);
+            setEditText("");
+        } catch {
+            setError("Something went wrong");
+        } finally {
+            setActionLoadingId(null);
+        }
+    }
+    async function handleDelete(commentId: string) {
+        try {
+            setActionLoadingId(commentId);
+            setError("");
+
+            const res = await fetch(`/api/comments/${commentId}`, {
+                method: "DELETE",
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message || "Failed to delete comment");
+                return;
+            }
+
+            setComments((prev) =>
+                prev.filter((comment) => comment._id !== commentId)
+            );
+
+            if (editingCommentId === commentId) {
+                setEditingCommentId(null);
+                setEditText("");
+            }
+        } catch {
+            setError("Something went wrong");
+        } finally {
+            setActionLoadingId(null);
+        }
+    }
+
 
     return (
         <section className="mt-10 flex flex-col gap-6">
@@ -180,28 +268,86 @@ export default function CommentsClient({
                             key={comment._id}
                             className="rounded-2xl border border-gray-200 p-4 shadow-sm"
                         >
-                            <div className="mb-2 flex items-center gap-3">
-                                {comment.userId?.image ? (
-                                    <img
-                                        src={comment.userId.image}
-                                        alt={comment.userId.name}
-                                        className="h-10 w-10 rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="h-10 w-10 rounded-full bg-gray-200" />
-                                )}
+                            <div className="mb-2 flex items-center justify-between gap-3">
+                                <div className="flex items-center gap-3">
+                                    {comment.userId?.image ? (
+                                        <img
+                                            src={comment.userId.image}
+                                            alt={comment.userId.name}
+                                            className="h-10 w-10 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="h-10 w-10 rounded-full bg-gray-200" />
+                                    )}
 
-                                <div>
-                                    <p className="font-medium">
-                                        {comment.userId?.name || "Unknown User"}
-                                    </p>
-                                    <p className="text-xs text-gray-500">
-                                        {new Date(comment.createdAt).toLocaleString()}
-                                    </p>
+                                    <div>
+                                        <p className="font-medium">
+                                            {comment.userId?.name || "Unknown User"}
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            {new Date(comment.createdAt).toLocaleString()}
+                                        </p>
+                                    </div>
                                 </div>
+
+                                {canManageComment(comment) && (
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setEditingCommentId(comment._id);
+                                                setEditText(comment.text);
+                                            }}
+                                            className="text-sm text-blue-600 hover:underline"
+                                        >
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(comment._id)}
+                                            disabled={actionLoadingId === comment._id}
+                                            className="text-sm text-red-600 hover:underline disabled:opacity-50"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
-                            <p className="text-sm leading-6 text-gray-800">{comment.text}</p>
+                            {editingCommentId === comment._id ? (
+                                <div className="flex flex-col gap-3">
+                                    <textarea
+                                        value={editText}
+                                        onChange={(e) => setEditText(e.target.value)}
+                                        className="min-h-[90px] w-full rounded-xl border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-green-700"
+                                    />
+
+                                    <div className="flex gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleEdit(comment._id)}
+                                            disabled={actionLoadingId === comment._id}
+                                            className="rounded-xl bg-green-700 px-4 py-2 text-white disabled:opacity-50"
+                                        >
+                                            Save
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setEditingCommentId(null);
+                                                setEditText("");
+                                            }}
+                                            className="rounded-xl border border-gray-300 px-4 py-2"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="text-sm leading-6 text-gray-800">{comment.text}</p>
+                            )}
                         </div>
                     ))
                 )}
