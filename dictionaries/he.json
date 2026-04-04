@@ -106,5 +106,19 @@
         "placeholder": "כתוב תגובה...",
         "button": "פרסם תגובה",
         "empty": "עדיין אין תגובות"
+    },
+    "reviews": {
+        "title": "המלצות",
+        "count": "המלצות",
+        "empty": "עדיין אין המלצות.",
+        "writeTitle": "כתוב המלצה",
+        "edit": "ערוך את ההמלצה שלך",
+        "placeholder": "כתוב את ההמלצה שלך...",
+        "submitButton": "פרסם המלצה",
+        "updateButton": "עדכן המלצה",
+        "deleteButton": "מחק המלצה",
+        "saving": "שמירה...",
+        "loading": "טוען המלצות...",
+        "ratingLabel": "דירוג"
     }
 }

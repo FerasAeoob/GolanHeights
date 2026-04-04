@@ -106,5 +106,19 @@
         "placeholder": "Write a comment...",
         "button": "Post Comment",
         "empty": "No comments yet"
+    },
+    "reviews": {
+        "title": "Reviews",
+        "count": "reviews",
+        "empty": "No reviews yet.",
+        "writeTitle": "Write a review",
+        "edit": "Edit your review",
+        "placeholder": "Write your review...",
+        "submitButton": "Post Review",
+        "updateButton": "Update Review",
+        "deleteButton": "Delete Review",
+        "saving": "Saving...",
+        "loading": "Loading reviews...",
+        "ratingLabel": "Rating"
     }
 }

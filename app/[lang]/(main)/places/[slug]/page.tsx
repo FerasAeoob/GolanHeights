@@ -9,7 +9,7 @@ import { redirect } from "next/navigation"; // Import this!
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 import { notFound } from "next/navigation";
 import PhotoGallery from "@/components/PhotoGallery";
-import CommentsClient from "@/components/comments/CommentClient";
+import ReviewsClient from "@/components/reviews/ReviewsClient";
 import { getCurrentUser } from "@/lib/auth";
 
 
@@ -140,7 +140,12 @@ export default async function PlacePage({ params }: PageProps) {
                     />
 
                 </div>
-                <CommentsClient placeId={place._id.toString()} dict={dict} currentUserId={currentUser?._id} currentUserRole={currentUser?.role} />
+                <ReviewsClient
+                    placeId={place._id.toString()}
+                    currentUserId={currentUser?._id}
+                    currentUserRole={currentUser?.role}
+                    dict={dict}
+                />
 
             </div >
         </div >
