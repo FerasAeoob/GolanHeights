@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
+import { IOpeningHoursDictionary } from "@/lib/types";
 
 import { IPlaceSerializable } from "@/database/place.model";
+import OpenStatus from "./openStatus";
 
 interface PlaceCardProps {
     place: IPlaceSerializable
@@ -21,6 +23,7 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
         "scenic-spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
     };
     const mainImage = place.images?.[0];
+    const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
 
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
@@ -42,27 +45,38 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     />
                 </div>
-                <div className={`absolute z-10 top-4 start-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>
+                <div className={`absolute z-10 top-4 start-3 text-sm font-bold px-2 text-[12px] h-7 flex items-center justify-center ${categoryColors[place.category]}  rounded-md`}>
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
-                <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-gray-100 flex flex-col ">
-                    {place.reviewsCount > 0 && (
-                        <div className="flex items-center gap-1 -ms-2 -mt-7 bg-gray-100 w-fit px-2 pt-1 rounded-full">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <div className="mt-auto z-20 w-full h-40  sm:h-32 p-4 bg-gray-100 flex flex-col  ">
+                    <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1">
+                        <OpenStatus
+                            openingHours={place.openHours || []}
+                            openString={place.open}
+                            dict={openingHoursDict}
+                            textordot="status"
 
-                            <span className="text-sm font-medium">
-                                {(place.averageRating || 0).toFixed(1)}
-                            </span>
+                        />
 
-                            <span className="text-xs text-gray-500">
-                                ({place.reviewsCount})
-                            </span>
-                        </div>
-                    )}
+                        {place.reviewsCount > 0 && (
+                            <div className="flex items-center justify-center gap-1  bg-amber-50  px-2  rounded-md h-7 ">
+                                <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400" />
+
+                                <span className="text-xs font-medium pt-[1.7px]">
+                                    {(place.averageRating || 0).toFixed(1)}
+                                </span>
+
+                                <span className="text-xs text-gray-500 pt-[1.7px]">
+                                    ({place.reviewsCount})
+                                </span>
+                            </div>
+                        )}
+
+                    </div>
 
                     <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
-                    <div className="flex my-1 gap-2 ">
+                    <div className="flex my-1 gap-1 ">
                         <MapPin className="w-4 h-4 mt-1 " />
                         <h1 className="line-clamp-1">{place.location.name[locale] || place.location.name.en}</h1>
 

@@ -34,10 +34,10 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                     </div>
 
                     <div className="flex flex-col items-center gap-1">
-                        <h1 className="text-3xl md:text-7xl font-bold font-serif text-white leading-tight">
+                        <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-white leading-tight">
                             {dict.explore}
                         </h1>
-                        <h1 className="text-3xl md:text-7xl font-bold font-serif text-emerald-500 leading-tight">
+                        <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-emerald-500 leading-tight">
                             {dict.golanheights}
                         </h1>
                     </div>

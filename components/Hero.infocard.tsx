@@ -10,7 +10,7 @@ export default function HeroInfoCard({
     description: string;
 }) {
     return (
-        <div className="flex-1 flex flex-col gap-3 p-5 min-h-[160px] bg-white/10 backdrop-blur-md rounded-3xl shadow-lg border border-white/5 transition-all hover:bg-white/15">
+        <div className="flex-1 flex flex-col gap-3 p-5  min-h-[160px] bg-white/10 backdrop-blur-md rounded-3xl shadow-lg border border-white/5 transition-all hover:bg-white/15">
             <div className="flex items-center justify-start">
                 <Icon className="text-emerald-400 w-6 h-6" />
             </div>

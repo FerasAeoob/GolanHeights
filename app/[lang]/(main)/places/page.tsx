@@ -127,14 +127,7 @@ export default async function PlacesPage({
                                     key={place._id.toString()}
                                     className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                                 >
-                                    <div className="absolute pointer-events-none end-4 top-4 z-20">
-                                        <OpenStatus
-                                            openingHours={place.openHours || []}
-                                            openString={place.open}
-                                            dict={openingHoursDict}
-                                            textordot="status"
-                                        />
-                                    </div>
+
                                     {/* Removed the duplicate key prop here. Only the parent div needs it! */}
                                     <PlaceCard key={place._id} place={place} locale={lang} dict={dict} />
                                 </div>

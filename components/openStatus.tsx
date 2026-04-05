@@ -35,10 +35,10 @@ export default function OpeningStatus({ openingHours, openString, dict, textordo
     const currentStyle = statusStyles[status];
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 h-full   ">
             {hasLiveHours && textordot === "status" && (
-                <div className="flex">
-                    <span className={`text-xs font-bold px-1.5 uppercase rounded-md ${currentStyle}`}>
+                <div className="flex h-7  ">
+                    <span className={`text-[12px] font-bold px-[8px] uppercase rounded-md h-full flex pt-[5.5px] ${currentStyle}`}>
                         {statusLabel}
                     </span>
                 </div>
