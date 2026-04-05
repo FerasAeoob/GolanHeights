@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary } from 'cloudinary';
-
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
 import { createplaceschema } from "@/database/place.schema";
@@ -67,8 +65,6 @@ export async function POST(req: NextRequest) {
             location: body.location,
             contact: body.contact,
             open: body.open,
-            openHours: body.openHours,
-            rating: body.rating,
             duration: body.duration,
             price: body.price,
             mapLink: body.mapLink,

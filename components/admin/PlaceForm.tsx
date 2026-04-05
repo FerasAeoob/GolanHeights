@@ -36,7 +36,6 @@ interface PlaceFormData {
     category: string;
     price: string;
     duration: string;
-    rating: string;
     mapLink: string;
     open: string;
     images: PlaceImage[];
@@ -67,7 +66,6 @@ const EMPTY_FORM: PlaceFormData = {
     category: CATEGORY_SLUGS[0],
     price: '',
     duration: '',
-    rating: '',
     mapLink: '',
     open: '',
     images: [],
@@ -147,10 +145,10 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
             ...prev,
             images: [...prev.images, {
                 url: newImageUrl.trim(),
-                alt: { 
-                    en: newImageAlt.en.trim() || 'Place image', 
-                    he: newImageAlt.he.trim(), 
-                    ar: newImageAlt.ar.trim() 
+                alt: {
+                    en: newImageAlt.en.trim() || 'Place image',
+                    he: newImageAlt.he.trim(),
+                    ar: newImageAlt.ar.trim()
                 }
             }]
         }));
@@ -380,16 +378,7 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
                                     placeholder="e.g. 2 hours"
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-1">Rating</label>
-                                <input
-                                    type="text"
-                                    value={form.rating}
-                                    onChange={e => setForm(prev => ({ ...prev, rating: e.target.value }))}
-                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
-                                    placeholder="e.g. 4.5"
-                                />
-                            </div>
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">Map Link</label>
                                 <input

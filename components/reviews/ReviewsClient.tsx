@@ -411,7 +411,7 @@ export default function ReviewsClient({
 
                                     {canManageReview(review) && (
                                         <div className="flex items-center gap-2">
-                                            <button
+                                            {isMine && <button
                                                 type="button"
                                                 onClick={() => {
                                                     if (isMine) {
@@ -422,7 +422,7 @@ export default function ReviewsClient({
                                             >
                                                 <Pencil className="h-4 w-4" />
                                                 {dict?.reviews?.edit || "Edit"}
-                                            </button>
+                                            </button>}
 
                                             <button
                                                 type="button"

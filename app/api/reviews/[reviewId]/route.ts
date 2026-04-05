@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 import connectDB from "@/lib/mongodb";
 import Review from "@/database/review/review.model";
+import { updatePlaceRating } from "@/lib/reviews";
 
 import { requireAuth } from "@/lib/permissions";
 import { deleteReviewSchema } from "@/database/review/review.schema";
@@ -60,7 +61,8 @@ export async function DELETE(
             );
         }
 
-        await Review.findByIdAndDelete(validated.reviewId);
+        await review.deleteOne();
+        await updatePlaceRating(review.placeId.toString());
 
         return NextResponse.json(
             {

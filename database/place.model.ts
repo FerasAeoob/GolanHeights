@@ -10,9 +10,10 @@ export interface IPlaceBase {
   slug: { en: string; he?: string; ar?: string };
   description: { en: string; he?: string; ar?: string };
   shortDescription: { en?: string; he?: string; ar?: string };
+  averageRating?: number;
+  reviewsCount?: number;
   price: string;
   duration: string;
-  rating?: string;
   openHours: {
     day: number;
     open: number;
@@ -46,7 +47,6 @@ export interface IPlaceBase {
   };
 
   featured: boolean;
-
 }
 
 export interface IPlace extends Document, IPlaceBase {
@@ -136,13 +136,13 @@ const PlaceSchema: Schema = new Schema(
       ],
       default: []
     },
-    rating: { type: String, trim: true },
+    averageRating: { type: Number, default: 0 },
+    reviewsCount: { type: Number, default: 0 },
     duration: { type: String, trim: true },
     price: { type: String, trim: true },
     mapLink: { type: String, trim: true },
 
     featured: { type: Boolean, default: false },
-
   },
   { timestamps: true }
 );

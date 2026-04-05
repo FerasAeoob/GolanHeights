@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
-
+import { updatePlaceRating } from "@/lib/reviews";
 import connectDB from "@/lib/mongodb";
 import Review from "@/database/review/review.model";
 import Place from "@/database/place.model";
@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
         text: validatedData.text,
       });
     }
+    await updatePlaceRating(validatedData.placeId);
 
     // return populated review
     const populatedReview = await Review.findById(review._id)
