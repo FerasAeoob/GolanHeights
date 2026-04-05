@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Star, Pencil, Trash2 } from "lucide-react";
 
 interface ReviewUser {
@@ -40,7 +40,7 @@ export default function ReviewsClient({
     const [deletingReviewId, setDeletingReviewId] = useState<string | null>(null);
     const [error, setError] = useState("");
     const [isEditing, setIsEditing] = useState(false);
-
+    const latestReviewsMarkerRef = useRef<string | null>(null);
     const currentUserReview = useMemo(() => {
         return reviews.find((review) => review.userId?._id === currentUserId);
     }, [reviews, currentUserId]);
@@ -60,6 +60,15 @@ export default function ReviewsClient({
         return total / reviews.length;
     }, [reviews]);
 
+    function buildReviewsMarker(reviewsList: ReviewItem[]) {
+        if (reviewsList.length === 0) {
+            return "empty";
+        }
+
+        const latestUpdatedAt = reviewsList[0]?.updatedAt || reviewsList[0]?.createdAt || "";
+        return `${reviewsList.length}-${latestUpdatedAt}`;
+    }
+
     async function fetchReviews(showLoading = false) {
         try {
             if (showLoading) setLoadingReviews(true);
@@ -76,19 +85,48 @@ export default function ReviewsClient({
                 return;
             }
 
-            const fetchedReviews = data.reviews || [];
-            setReviews(fetchedReviews);
+            const fetchedReviews: ReviewItem[] = data.reviews || [];
+            const newMarker = buildReviewsMarker(fetchedReviews);
 
-            const mine = fetchedReviews.find(
-                (review: ReviewItem) => review.userId?._id === currentUserId
-            );
+            // first load
+            if (latestReviewsMarkerRef.current === null) {
+                latestReviewsMarkerRef.current = newMarker;
+                setReviews(fetchedReviews);
 
-            if (mine) {
-                setRating(mine.rating);
-                setText(mine.text);
-            } else {
-                setRating(5);
-                setText("");
+                const mine = fetchedReviews.find(
+                    (review) => review.userId?._id === currentUserId
+                );
+
+                if (mine) {
+                    setRating(mine.rating);
+                    setText(mine.text);
+                } else {
+                    setRating(5);
+                    setText("");
+                }
+
+                return;
+            }
+
+            // update only if changed
+            if (newMarker !== latestReviewsMarkerRef.current) {
+                latestReviewsMarkerRef.current = newMarker;
+                setReviews(fetchedReviews);
+
+                const mine = fetchedReviews.find(
+                    (review) => review.userId?._id === currentUserId
+                );
+
+                // only sync form automatically if user is NOT editing
+                if (!isEditing) {
+                    if (mine) {
+                        setRating(mine.rating);
+                        setText(mine.text);
+                    } else {
+                        setRating(5);
+                        setText("");
+                    }
+                }
             }
         } catch {
             if (showLoading) setError("Something went wrong");
@@ -99,7 +137,15 @@ export default function ReviewsClient({
 
     useEffect(() => {
         fetchReviews(true);
-    }, [placeId, currentUserId]);
+
+        const interval = setInterval(() => {
+            if (document.visibilityState === "visible") {
+                fetchReviews(false);
+            }
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [placeId, currentUserId, isEditing]);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -141,13 +187,13 @@ export default function ReviewsClient({
                 setReviews((prev) => {
                     const exists = prev.some((r) => r._id === data.review._id);
 
-                    if (exists) {
-                        return prev.map((r) =>
-                            r._id === data.review._id ? data.review : r
-                        );
-                    }
+                    const updatedReviews = exists
+                        ? prev.map((r) => (r._id === data.review._id ? data.review : r))
+                        : [data.review, ...prev];
 
-                    return [data.review, ...prev];
+                    latestReviewsMarkerRef.current = buildReviewsMarker(updatedReviews);
+
+                    return updatedReviews;
                 });
             }
 
@@ -175,7 +221,11 @@ export default function ReviewsClient({
                 return;
             }
 
-            setReviews((prev) => prev.filter((r) => r._id !== reviewId));
+            setReviews((prev) => {
+                const updatedReviews = prev.filter((r) => r._id !== reviewId);
+                latestReviewsMarkerRef.current = buildReviewsMarker(updatedReviews);
+                return updatedReviews;
+            });
             setRating(5);
             setText("");
             setIsEditing(false);
