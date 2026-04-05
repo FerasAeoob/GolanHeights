@@ -10,8 +10,8 @@ export interface IPlaceBase {
   slug: { en: string; he?: string; ar?: string };
   description: { en: string; he?: string; ar?: string };
   shortDescription: { en?: string; he?: string; ar?: string };
-  averageRating?: number;
-  reviewsCount?: number;
+  averageRating: number;
+  reviewsCount: number;
   price: string;
   duration: string;
   openHours: {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 
 import { IPlaceSerializable } from "@/database/place.model";
 
@@ -45,7 +45,22 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                 <div className={`absolute z-10 top-4 start-4 text-sm font-bold px-1.5  ${categoryColors[place.category]}  rounded-md`}>
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
-                <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-gray-100 flex flex-col overflow-hidden">
+
+                <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-gray-100 flex flex-col ">
+                    {place.reviewsCount > 0 && (
+                        <div className="flex items-center gap-1 -ms-2 -mt-7 bg-gray-100 w-fit px-2 pt-1 rounded-full">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+
+                            <span className="text-sm font-medium">
+                                {(place.averageRating || 0).toFixed(1)}
+                            </span>
+
+                            <span className="text-xs text-gray-500">
+                                ({place.reviewsCount})
+                            </span>
+                        </div>
+                    )}
+
                     <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
                     <div className="flex my-1 gap-2 ">
                         <MapPin className="w-4 h-4 mt-1 " />
