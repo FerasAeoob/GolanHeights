@@ -119,6 +119,7 @@
         "deleteButton": "حذف التقييم",
         "saving": "جاري الحفظ...",
         "loading": "جاري تحميل التقييمات...",
-        "ratingLabel": "التقييم"
+        "ratingLabel": "التقييم",
+        "firstReview": "كن أول من يكتب تقييم"
     }
 }

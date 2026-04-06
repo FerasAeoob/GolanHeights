@@ -119,6 +119,7 @@
         "deleteButton": "Delete Review",
         "saving": "Saving...",
         "loading": "Loading reviews...",
-        "ratingLabel": "Rating"
+        "ratingLabel": "Rating",
+        "firstReview": "Be the first to write a review"
     }
 }

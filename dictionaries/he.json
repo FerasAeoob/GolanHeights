@@ -119,6 +119,7 @@
         "deleteButton": "מחק המלצה",
         "saving": "שמירה...",
         "loading": "טוען המלצות...",
-        "ratingLabel": "דירוג"
+        "ratingLabel": "דירוג",
+        "firstReview": "היה הראשון לכתוב המלצה"
     }
 }

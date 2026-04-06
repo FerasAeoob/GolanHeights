@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
     const reviews = await Review.find({ placeId })
       .populate("userId", "_id name image")
-      .sort({ createdAt: -1 });
+      .sort({ rating: -1, createdAt: -1 });
 
     return NextResponse.json(
       { success: true, reviews },

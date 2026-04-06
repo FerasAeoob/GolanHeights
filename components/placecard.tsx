@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
 import { IOpeningHoursDictionary } from "@/lib/types";
-
+import categories from "@/lib/categories";
 import { IPlaceSerializable } from "@/database/place.model";
 import OpenStatus from "./openStatus";
 
@@ -22,6 +22,8 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
         stays: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
         "scenic-spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
     };
+    const category = categories.find(cat => cat.slug === place.category);
+    const CategoryIcon = category?.icon;
     const mainImage = place.images?.[0];
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
 
@@ -45,7 +47,8 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     />
                 </div>
-                <div className={`absolute z-10 top-4 start-3 text-sm font-bold px-2 text-[12px] h-7 flex items-center justify-center ${categoryColors[place.category]}  rounded-md`}>
+                <div className={`absolute z-10 gap-1 font-bold px-2 top-2 start-2 text-[14px] h-7 flex items-center !bg-white/10 backdrop-blur-sm !text-white !border-white/40 shadow-inner shadow-black !border-1 justify-center ${categoryColors[place.category]}  rounded-md `}>
+                    {CategoryIcon && <CategoryIcon className="w-3.5 h-3.5 -mt-[1px] " />}
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
