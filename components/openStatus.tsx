@@ -27,9 +27,9 @@ export default function OpeningStatus({ openingHours, openString, dict, textordo
                 dict.closed;
 
     const statusStyles: Record<'open' | 'closing-soon' | 'closed', string> = {
-        open: "text-emerald-700 bg-emerald-100 border-emerald-200",
-        "closing-soon": "text-amber-700 bg-amber-100 border-amber-200",
-        closed: "text-red-700 bg-red-100 border-red-200"
+        open: "text-emerald-700 bg-emerald-100 border-emerald-200 border-1 border-emerald-200",
+        "closing-soon": "text-amber-700 bg-amber-100 border-amber-200 border-1 border-amber-200",
+        closed: "text-red-700 bg-red-100 border-red-200 border-1 border-red-200"
     };
 
     const currentStyle = statusStyles[status];
@@ -37,8 +37,8 @@ export default function OpeningStatus({ openingHours, openString, dict, textordo
     return (
         <div className="flex flex-col gap-1 h-full   ">
             {hasLiveHours && textordot === "status" && (
-                <div className="flex h-7   ">
-                    <span className={`text-[12px] h-full items-center justify-center font-bold px-[8px] uppercase rounded-md h-full flex  line-clamp-1 shadow-inner shadow-black/30 ${currentStyle}`}>
+                <div className="flex h-7 ">
+                    <span className={`text-[12px] h-full items-center justify-center font-bold px-[8px] uppercase rounded-md h-full flex  line-clamp-1 ${currentStyle}`}>
                         {statusLabel}
                     </span>
                 </div>

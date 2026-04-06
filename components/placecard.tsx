@@ -5,6 +5,9 @@ import { IOpeningHoursDictionary } from "@/lib/types";
 import categories from "@/lib/categories";
 import { IPlaceSerializable } from "@/database/place.model";
 import OpenStatus from "./openStatus";
+import FavoriteButton from "./favorites/Favorite.button";
+import { getCurrentUser } from "@/lib/auth";
+
 
 interface PlaceCardProps {
     place: IPlaceSerializable
@@ -13,7 +16,7 @@ interface PlaceCardProps {
 }
 
 
-export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps) {
+export default async function PlaceCard({ place, locale = "en", dict }: PlaceCardProps) {
     // Mapping categories to specific colors from your schema enum
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
@@ -26,7 +29,13 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
     const CategoryIcon = category?.icon;
     const mainImage = place.images?.[0];
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
+    const currentUser = await getCurrentUser();
+    const currentUserId = currentUser?._id?.toString();
 
+    const initialIsFavorite =
+        currentUser?.favorites?.some(
+            (fav) => fav.toString() === place._id.toString()
+        ) || false;
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
     function capitalizeFirst(str: string) {
@@ -53,31 +62,43 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                 </div>
 
                 <div className="mt-auto z-20 w-full h-40  sm:h-32 p-4 bg-gray-100 flex flex-col  ">
-                    {place.openHours.length > 0 && <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 ">
 
-                        <OpenStatus
-                            openingHours={place.openHours || []}
-                            openString={place.open}
-                            dict={openingHoursDict}
-                            textordot="status"
+                    {place.openHours.length > 0 && <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between ">
+                        <div className="flex items-center gap-1 ">
 
+                            <OpenStatus
+                                openingHours={place.openHours || []}
+                                openString={place.open}
+                                dict={openingHoursDict}
+                                textordot="status"
+
+                            />
+
+                            {place.reviewsCount > 0 && (
+                                <div className="flex items-center justify-center gap-1  bg-yellow-50  px-2 border-yellow-200 border-1  rounded-md h-7  ">
+                                    <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400 " />
+
+                                    <span className="text-[14px] font-medium ">
+                                        {(place.averageRating || 0).toFixed(1)}
+                                    </span>
+
+                                    <span className="text-[14px] text-gray-500 ">
+                                        ({place.reviewsCount})
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                        <FavoriteButton
+                            placeId={place._id.toString()}
+                            currentUserId={currentUserId}
+                            initialIsFavorite={initialIsFavorite}
+                            dict={dict}
                         />
 
-                        {place.reviewsCount > 0 && (
-                            <div className="flex items-center justify-center gap-1  bg-amber-50  px-2  rounded-md h-7 shadow-inner shadow-black/30 ">
-                                <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400 " />
-
-                                <span className="text-[14px] font-medium ">
-                                    {(place.averageRating || 0).toFixed(1)}
-                                </span>
-
-                                <span className="text-[14px] text-gray-500 ">
-                                    ({place.reviewsCount})
-                                </span>
-                            </div>
-                        )}
 
                     </div>}
+
+
 
                     <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
                     <div className="flex my-1 gap-1 ">

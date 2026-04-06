@@ -5,31 +5,35 @@ import User from "@/database/user/user.model";
 import Place from "@/database/place.model";
 import { requireAuth } from "@/lib/permissions";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
         const currentUser = await requireAuth();
-
         await connectDB();
 
-        const user = await User.findById(currentUser._id)
-            .populate("favorites")
-            .select("favorites");
+
+        const full = req.nextUrl.searchParams.get("full") === "true";
+
+
+        let userQuery = User.findById(currentUser._id).select("favorites");
+
+        if (full) {
+            userQuery = userQuery.populate({
+                path: "favorites",
+                select: "title address",
+            });
+        }
+
+        const user = await userQuery;
 
         if (!user) {
             return NextResponse.json(
-                {
-                    success: false,
-                    message: "User not found",
-                },
+                { success: false, message: "User not found" },
                 { status: 404 }
             );
         }
 
         return NextResponse.json(
-            {
-                success: true,
-                favorites: user.favorites,
-            },
+            { success: true, favorites: user.favorites },
             { status: 200 }
         );
     } catch (error: any) {
@@ -41,12 +45,8 @@ export async function GET() {
         }
 
         console.error("GET FAVORITES ERROR:", error);
-
         return NextResponse.json(
-            {
-                success: false,
-                message: "Something went wrong",
-            },
+            { success: false, message: "Something went wrong" },
             { status: 500 }
         );
     }
