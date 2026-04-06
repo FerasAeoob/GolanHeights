@@ -121,5 +121,10 @@
         "loading": "Loading reviews...",
         "ratingLabel": "Rating",
         "firstReview": "Be the first to write a review"
+    },
+    "sort": {
+        "title": "Sort",
+        "newest": "Newest",
+        "topRated": "Top Rated"
     }
 }

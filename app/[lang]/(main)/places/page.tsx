@@ -2,17 +2,16 @@ import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
 import SearchBar from "@/components/search"; // Adjust path if needed
 import PlaceCard from "@/components/placecard"; // Adjust path if needed
-import OpenStatus from "@/components/openStatus";
 import FilterDropdown from "@/components/filter.dropdown";
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
-import { IOpeningHoursDictionary, PRICE_KEYS } from "@/lib/types";
+import { IOpeningHoursDictionary } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 
 export default async function PlacesPage({
     searchParams,
     params,
 }: {
-    searchParams: Promise<{ search?: string; category?: string; price?: string }>;
+    searchParams: Promise<{ search?: string; category?: string; price?: string; sort?: string }>;
     params: Promise<{ lang: 'en' | 'ar' | 'he' }>;
 }) {
     const { lang } = await params;
@@ -23,6 +22,7 @@ export default async function PlacesPage({
     const query = resolvedParams.search || "";
     const category = resolvedParams.category || "";
     const price = resolvedParams.price || "";
+    const sort = resolvedParams.sort || "";
 
 
     // 2. Connect and fetch from the database
@@ -49,11 +49,20 @@ export default async function PlacesPage({
             ],
         }),
         ...(safeCategory && { category: { $regex: safeCategory, $options: "i" } }),
-        ...(price && { price })
+        ...(price && { price }),
+
 
     };
+    let sortOption: Record<string, 1 | -1> = { createdAt: -1 };
 
-    const places = await Place.find(filter).lean();
+    if (sort === "top-rated") {
+        sortOption = {
+            averageRating: -1,
+            reviewsCount: -1,
+        };
+    }
+
+    const places = await Place.find(filter).sort(sortOption).lean();
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
     // 3. Render your custom UI
     return (
@@ -106,6 +115,20 @@ export default async function PlacesPage({
                                     dict.price.high,
                                 ]}
                                 slugs={["", "free", "$", "$$", "$$$"]}
+                            />
+                        </div>
+                        <div className="flex-1 md:w-48">
+                            <FilterDropdown
+                                title={dict.sort.title}
+                                paramKey="sort"
+                                options={[
+                                    dict.sort.newest,
+                                    dict.sort.topRated
+                                ]}
+                                slugs={[
+                                    "", // default (newest)
+                                    "top-rated"
+                                ]}
                             />
                         </div>
                     </div>

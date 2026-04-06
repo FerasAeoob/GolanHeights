@@ -121,5 +121,10 @@
         "loading": "טוען המלצות...",
         "ratingLabel": "דירוג",
         "firstReview": "היה הראשון לכתוב המלצה"
+    },
+    "sort": {
+        "title": "מיון",
+        "newest": "הכי חדש",
+        "topRated": "הכי מומלץ"
     }
 }

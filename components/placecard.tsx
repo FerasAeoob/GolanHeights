@@ -47,13 +47,14 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     />
                 </div>
-                <div className={`absolute z-10 gap-1 font-bold px-2 top-2 start-2 text-[14px] h-7 flex items-center !bg-white/10 backdrop-blur-sm !text-white !border-white/40 shadow-inner shadow-black !border-1 justify-center ${categoryColors[place.category]}  rounded-md `}>
+                <div className={`absolute z-10 gap-1 font-bold px-2 top-2 start-2 text-[14px] h-7 flex items-center !bg-black/20 backdrop-blur-sm !text-white !border-white/40 shadow-inner shadow-black !border-1 justify-center ${categoryColors[place.category]}  rounded-md `}>
                     {CategoryIcon && <CategoryIcon className="w-3.5 h-3.5 -mt-[1px] " />}
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
                 <div className="mt-auto z-20 w-full h-40  sm:h-32 p-4 bg-gray-100 flex flex-col  ">
-                    <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1">
+                    {place.openHours.length > 0 && <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 ">
+
                         <OpenStatus
                             openingHours={place.openHours || []}
                             openString={place.open}
@@ -63,20 +64,20 @@ export default function PlaceCard({ place, locale = "en", dict }: PlaceCardProps
                         />
 
                         {place.reviewsCount > 0 && (
-                            <div className="flex items-center justify-center gap-1  bg-amber-50  px-2  rounded-md h-7 ">
-                                <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400" />
+                            <div className="flex items-center justify-center gap-1  bg-amber-50  px-2  rounded-md h-7 shadow-inner shadow-black/30 ">
+                                <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400 " />
 
-                                <span className="text-xs font-medium pt-[1.7px]">
+                                <span className="text-[14px] font-medium ">
                                     {(place.averageRating || 0).toFixed(1)}
                                 </span>
 
-                                <span className="text-xs text-gray-500 pt-[1.7px]">
+                                <span className="text-[14px] text-gray-500 ">
                                     ({place.reviewsCount})
                                 </span>
                             </div>
                         )}
 
-                    </div>
+                    </div>}
 
                     <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
                     <div className="flex my-1 gap-1 ">

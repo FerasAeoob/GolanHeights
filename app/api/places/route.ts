@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
         const { searchParams } = new URL(req.url);
         const category = searchParams.get("category")?.trim().toLowerCase();
-
+        const sort = searchParams.get("sort")?.trim().toLowerCase();
 
         const query: { category?: string } = {};
 
@@ -20,10 +20,18 @@ export async function GET(req: NextRequest) {
             query.category = category;
         }
 
-        const places = await Place.find(query)
-            .sort({ createdAt: -1 })
-            .lean();
+        let sortOption: Record<string, 1 | -1> = { createdAt: -1 };
 
+        if (sort === "top-rated") {
+            sortOption = {
+                averageRating: -1,
+                reviewsCount: -1,
+            };
+        }
+
+        const places = await Place.find(query)
+            .sort(sortOption)
+            .lean();
 
         return NextResponse.json(places, { status: 200 });
 
