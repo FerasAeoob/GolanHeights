@@ -117,7 +117,7 @@ export default async function PlacesPage({
                                 slugs={["", "free", "$", "$$", "$$$"]}
                             />
                         </div>
-                        <div className="flex-1 md:w-48">
+                        {/* <div className="flex-1 md:w-48">
                             <FilterDropdown
                                 title={dict.sort.title}
                                 paramKey="sort"
@@ -130,7 +130,7 @@ export default async function PlacesPage({
                                     "top-rated"
                                 ]}
                             />
-                        </div>
+                        </div> */}
                     </div>
 
 

@@ -126,5 +126,11 @@
         "title": "Sort",
         "newest": "Newest",
         "topRated": "Top Rated"
+    },
+    "favoritesPage": {
+        "title": "Favorites",
+        "description": "Places you saved for later.",
+        "loginRequired": "You must be logged in to view your favorites.",
+        "empty": "You have no favorite places yet."
     }
 }

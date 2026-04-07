@@ -53,7 +53,7 @@ export default function FilterDropdown({
         <div ref={ref} className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex w-full px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 justify-between items-center "
+                className="flex w-full px-2 md:px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 justify-between items-center "
             >
                 {selectedLabel}
                 <ChevronDown className={isOpen ? "rotate-180" : ""} />
