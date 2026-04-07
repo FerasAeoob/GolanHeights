@@ -4,6 +4,7 @@ import User from "@/database/user/user.model";
 import PlaceCard from "@/components/placecard";
 import { getDictionary } from "@/lib/get-dictionary";
 import { IPlaceSerializable } from "@/database/place.model";
+import FavoriteCardLiveItem from "@/components/favorites/Favorite.Card.Live";
 
 export default async function FavoritesPage({
     params,
@@ -61,7 +62,9 @@ export default async function FavoritesPage({
                             key={place._id.toString()}
                             className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                         >
-                            <PlaceCard place={place} locale={lang} dict={dict} />
+                            <FavoriteCardLiveItem placeId={place._id.toString()}>
+                                <PlaceCard place={place} locale={lang} dict={dict} />
+                            </FavoriteCardLiveItem>
                         </div>
                     ))}
                 </div>

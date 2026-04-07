@@ -11,7 +11,7 @@ interface IBusiness {
 export interface IUser extends Document {
     name: string;
     email: string;
-    phone: string;
+    phone?: string;
     image?: string;
 
     role: "user" | "admin" | "business";
@@ -42,7 +42,7 @@ const UserSchema = new Schema<IUser>(
             index: true,
         },
 
-        phone: { type: String, required: true },
+        phone: { type: String, optional: true },
 
         image: { type: String },
 

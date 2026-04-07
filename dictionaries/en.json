@@ -132,5 +132,35 @@
         "description": "Places you saved for later.",
         "loginRequired": "You must be logged in to view your favorites.",
         "empty": "You have no favorite places yet."
+    },
+    "loginPage": {
+        "title": "Login",
+        "description": "Login to your account",
+        "email": "Email",
+        "password": "Password",
+        "emailPlaceholder": "Enter your email",
+        "passwordPlaceholder": "Enter your password",
+        "login": "Login",
+        "loggingIn": "Logging in...",
+        "somethingWrong": "Something went wrong",
+        "fillAll": "Please fill all fields"
+    },
+    "signupPage": {
+        "title": "Signup",
+        "description": "Signup to your account",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "signup": "Signup",
+        "signingUp": "Signing up...",
+        "somethingWrong": "Something went wrong",
+        "fillAll": "Please fill all fields",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "creatingAccount": "Creating account...",
+        "createAccount": "Create Account",
+        "alreadyHaveAccount": "Already have an account?",
+        "login": "Login"
     }
 }

@@ -10,7 +10,7 @@ const phoneSchema = z
 export const registerSchema = z.object({
     name: z.string().trim().min(2).max(50),
     email: z.string().trim().email(),
-    phone: phoneSchema,
+    phone: phoneSchema.optional(),
     image: z.string().trim().url().optional(),
     password: z.string().min(6),
 });

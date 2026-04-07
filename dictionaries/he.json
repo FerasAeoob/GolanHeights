@@ -132,5 +132,35 @@
         "description": "המקומות ששמרת להמשך.",
         "loginRequired": "יש להתחבר כדי לצפות במועדפים שלך.",
         "empty": "עדיין אין לך מקומות מועדפים."
+    },
+    "loginPage": {
+        "title": "כניסה",
+        "description": "כניסה לחשבון שלך",
+        "email": "אימייל",
+        "password": "סיסמה",
+        "emailPlaceholder": "הזן את האימייל שלך",
+        "passwordPlaceholder": "הזן את הסיסמה שלך",
+        "login": "כניסה",
+        "loggingIn": "כניסה...",
+        "somethingWrong": "משהו השתבש",
+        "fillAll": "יש למלא את כל השדות"
+    },
+    "signupPage": {
+        "title": "הרשמה",
+        "description": "הרשמה לחשבון שלך",
+        "name": "שם",
+        "email": "אימייל",
+        "phone": "טלפון",
+        "password": "סיסמה",
+        "confirmPassword": "אישור סיסמה",
+        "signup": "הרשמה",
+        "signingUp": "נרשם...",
+        "somethingWrong": "משהו השתבש",
+        "fillAll": "יש למלא את כל השדות",
+        "passwordsDoNotMatch": "הסיסמאות אינן תואמות",
+        "creatingAccount": "יוצר חשבון...",
+        "createAccount": "צור חשבון",
+        "alreadyHaveAccount": "כבר יש לך חשבון?",
+        "login": "כניסה"
     }
 }

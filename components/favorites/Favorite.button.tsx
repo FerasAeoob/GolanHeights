@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from "react"
-import { Bookmark } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Bookmark } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface FavoriteButtonProps {
     placeId: string;
@@ -10,20 +11,31 @@ interface FavoriteButtonProps {
     dict: Record<string, any>;
 }
 
-export default function FavoriteButton({ placeId, currentUserId, initialIsFavorite, dict }: FavoriteButtonProps) {
-    const [isFavorite, setIsFavorite] = useState(initialIsFavorite)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+export default function FavoriteButton({
+    placeId,
+    currentUserId,
+    initialIsFavorite,
+    dict
+}: FavoriteButtonProps) {
+    const router = useRouter();
 
-    // Auto-hide error after 3 seconds
+    const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         if (!error) return;
 
-        const timer = setTimeout(() => setError(null), 1500);
-        return () => clearTimeout(timer);
+        const timer = setTimeout(function () {
+            setError(null);
+        }, 1500);
+
+        return function () {
+            clearTimeout(timer);
+        };
     }, [error]);
 
-    async function handleToggle(e: React.MouseEvent) {
+    async function handleToggle(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -34,12 +46,17 @@ export default function FavoriteButton({ placeId, currentUserId, initialIsFavori
 
         if (loading) return;
 
+        const wasFavorite = isFavorite;
+        const nextIsFavorite = !wasFavorite;
+
         try {
             setLoading(true);
             setError(null);
 
+            setIsFavorite(nextIsFavorite);
+
             const res = await fetch("/api/users/favorites", {
-                method: isFavorite ? "DELETE" : "POST",
+                method: wasFavorite ? "DELETE" : "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -49,11 +66,22 @@ export default function FavoriteButton({ placeId, currentUserId, initialIsFavori
             const data = await res.json();
 
             if (!res.ok) {
+                setIsFavorite(wasFavorite);
                 throw new Error(data.message || "Failed to toggle favorite");
             }
 
-            setIsFavorite(!isFavorite);
-        } catch (error) {
+            window.dispatchEvent(
+                new CustomEvent("favorite-changed", {
+                    detail: {
+                        placeId: placeId,
+                        action: wasFavorite ? "remove" : "add",
+                    },
+                })
+            );
+
+            router.refresh();
+        } catch {
+            setIsFavorite(wasFavorite);
             setError(dict?.favorites?.error || "Something went wrong");
         } finally {
             setLoading(false);
