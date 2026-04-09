@@ -61,10 +61,10 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
 
 
     return (
-        <form className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-[3px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
+        <form className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 h-[625px] justify-center backdrop-blur-[3px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
             onSubmit={handleSubmit}>
 
-            <h1 className="text-3xl font-bold text-white">{dict?.auth?.titleSignup || "Create Account"}</h1>
+            <h1 className="text-xl md:text-3xl font-bold text-white">{dict?.auth?.titleSignup || "Create Account"}</h1>
 
             <div className="flex flex-col gap-4 ">
                 <div className="flex flex-col gap-[2px]">
@@ -123,7 +123,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                 <button
                     type="submit"
                     disabled={loading}
-                    className="bg-white text-green-700 p-3 rounded cursor-pointer"
+                    className="bg-white shadow-lg shadow-black/80  text-green-700 p-3 rounded cursor-pointer"
                 >
                     {loading ? dict?.auth?.creatingAccount : dict?.auth?.createAccount}
                 </button>

@@ -44,7 +44,7 @@ export default function LanguageSwitcher() {
             onClick={toggleLanguage}
             className=" cursor-pointer rounded-full"
         >
-            <Globe className="w-7 h-7 text-white bg-emerald-700/80 rounded-full" />
+            <Globe className="w-7 h-7 text-white" />
         </button>
     );
 }

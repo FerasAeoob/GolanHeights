@@ -134,11 +134,11 @@
         "empty": "You have no favorite places yet."
     },
     "auth": {
-        "titleLogin": "Login",
-        "titleSignup": "Signup",
+        "titleLogin": "Login to your account",
+        "titleSignup": "Create your account",
         "optional": "Optional",
         "descriptionLogin": "Login to your account",
-        "descriptionSignup": "Signup to your account",
+        "descriptionSignup": "Create your account",
         "name": "Name",
         "email": "Email",
         "phone": "Phone",
@@ -158,6 +158,6 @@
         "alreadyHaveAccount": "Already have an account?",
         "noAccount": "Don't have an account?",
         "required": "Required",
-        "qoute": "Elevation changes your perspective. The Heights change your soul"
+        "qoute": "Elevation changes your perspective, The Heights change your soul."
     }
 }

@@ -134,11 +134,11 @@
         "empty": "עדיין אין לך מקומות מועדפים."
     },
     "auth": {
-        "titleLogin": "כניסה",
-        "titleSignup": "הרשמה",
+        "titleLogin": "כניסה לחשבון שלך",
+        "titleSignup": "יצירת חשבון",
         "optional": "אופציונלי",
         "descriptionLogin": "כניסה לחשבון שלך",
-        "descriptionSignup": "הרשמה לחשבון שלך",
+        "descriptionSignup": "יצירת חשבון",
         "name": "שם",
         "email": "אימייל",
         "phone": "טלפון",
@@ -158,6 +158,6 @@
         "alreadyHaveAccount": "כבר יש לך חשבון?",
         "noAccount": "אין לך חשבון?",
         "required": "חובה",
-        "qoute": "הגובה משנה את המבט. הפסגות משנות את הנשמה"
+        "qoute": "הגובה משנה את המבט, הפסגות משנות את הנשמה."
     }
 }

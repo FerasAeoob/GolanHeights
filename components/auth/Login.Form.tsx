@@ -60,9 +60,9 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
 
         <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-md p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
+            className="flex flex-col gap-4 rounded-2xl justify-center  border border-white/35 bg-white/0.1 backdrop-blur-[3px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)] h-[450px]"
         >
-            <h1 className="text-3xl font-bold text-white">{dict?.auth?.titleLogin || "Login"}</h1>
+            <h1 className="text-xl md:text-3xl font-bold text-white">{dict?.auth?.titleLogin || "Login"}</h1>
             <div className="flex flex-col gap-[2px]">
                 <label htmlFor="email" className="text-white">{dict?.auth?.email}</label>
                 <input
@@ -84,17 +84,19 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
                 />
             </div>
 
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            {error && (
+                <p className="text-red-200 w-fit text-md mx-auto">{error}!</p>
+            )}
 
             <button
                 type="submit"
                 disabled={loading}
-                className="bg-white text-green-700 p-3 rounded cursor-pointer"
+                className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer"
             >
                 {loading ? dict?.auth?.loggingIn || "Logging in..." : dict?.auth?.login}
             </button>
             <p className="text-center text-white mt-4 ">
-                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-green-700 underline">{dict?.auth?.signup}</Link>
+                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-green-700 underline">{dict?.auth?.createAccount}</Link>
             </p>
         </form>
 
