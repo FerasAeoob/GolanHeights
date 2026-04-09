@@ -62,22 +62,25 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-md p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
         >
-            <div className="flex flex-col">
-                <label htmlFor="email" className="text-white">{dict?.signupPage?.email}</label>
+            <h1 className="text-3xl font-bold text-white">{dict?.auth?.titleLogin || "Login"}</h1>
+            <div className="flex flex-col gap-[2px]">
+                <label htmlFor="email" className="text-white">{dict?.auth?.email}</label>
                 <input
                     type="email"
                     value={email}
+                    placeholder={dict?.auth?.emailPlaceholder}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="border border-white/25 text-white   focus:border-white bg-transparent rounded-md p-2"
+                    className="border border-white/25 text-white bg-black/5 focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                 />
             </div>
-            <div className="flex flex-col">
-                <label htmlFor="password" className="text-white">{dict?.signupPage?.password}</label>
+            <div className="flex flex-col gap-[2px]">
+                <label htmlFor="password" className="text-white">{dict?.auth?.password}</label>
                 <input
                     type="password"
                     value={password}
+                    placeholder={dict?.auth?.passwordPlaceholder}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border border-white/25 text-white focus:border-white bg-transparent rounded-md p-2"
+                    className="border border-white/25 text-white bg-black/5  focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                 />
             </div>
 
@@ -88,12 +91,10 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
                 disabled={loading}
                 className="bg-white text-green-700 p-3 rounded cursor-pointer"
             >
-                {loading
-                    ? dict?.auth?.loggingIn || "Logging in..."
-                    : dict?.auth?.login || "Login"}
+                {loading ? dict?.auth?.loggingIn || "Logging in..." : dict?.auth?.login}
             </button>
             <p className="text-center text-white mt-4 ">
-                {dict?.signupPage?.noAccount} <Link href="/signup" className=" bg-white p-1 rounded text-green-700 underline">{dict?.signupPage?.signup}</Link>
+                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-green-700 underline">{dict?.auth?.signup}</Link>
             </p>
         </form>
 

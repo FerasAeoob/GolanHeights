@@ -20,12 +20,6 @@ export default async function SignupPage({
         </div>
         <section className="max-w-[1200px] mx-auto w-full px-4 relative z-10 h-dvh flex flex-col justify-center items-center overflow-hidden">
             <div className="flex flex-col gap-4 w-full max-w-md">
-                <h1 className="text-3xl font-bold  text-white">
-                    {dict?.signupPage?.title || "Signup"}
-                </h1>
-                <p className="text-white ">
-                    {dict?.signupPage?.description || "Signup to your account"}
-                </p>
 
 
 

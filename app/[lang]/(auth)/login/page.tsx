@@ -23,12 +23,6 @@ export default async function LoginPage({
             <section className="max-w-[1200px] mx-auto w-full px-4 py-16 my-auto">
                 <div className="flex flex-col gap-4 max-w-md mx-auto">
 
-                    <h1 className="text-3xl font-bold text-white">
-                        {dict?.loginPage?.title || "Login"}
-                    </h1>
-                    <p className="text-white ">
-                        {dict?.loginPage?.description || "Login to your account"}
-                    </p>
 
                     <LoginForm lang={lang} dict={dict} />
                 </div>

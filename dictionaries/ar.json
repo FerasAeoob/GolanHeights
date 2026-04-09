@@ -133,36 +133,31 @@
         "loginRequired": "يجب أن تكون مسجلاً للدخول لعرض المفضلة.",
         "empty": "لا توجد أماكن مفضلة حتى الآن."
     },
-    "loginPage": {
-        "title": "تسجيل الدخول",
-        "description": "تسجيل الدخول إلى حسابك",
+    "auth": {
+        "titleLogin": "تسجيل الدخول",
+        "titleSignup": "التسجيل",
+        "optional": "اختياري",
+        "descriptionLogin": "تسجيل الدخول إلى حسابك",
+        "descriptionSignup": "التسجيل في حسابك",
+        "name": "الاسم",
         "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
         "password": "كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور",
         "emailPlaceholder": "أدخل بريدك الإلكتروني",
         "passwordPlaceholder": "أدخل كلمة المرور",
         "login": "تسجيل الدخول",
         "loggingIn": "جاري تسجيل الدخول...",
-        "somethingWrong": "حدث خطأ ما",
-        "fillAll": "يرجى ملء جميع الحقول"
-    },
-    "signupPage": {
-        "title": "تسجيل حساب جديد",
-        "description": "أنشئ حسابك الخاص لاستكشاف المزيد من الميزات",
-        "name": "الاسم الكامل",
-        "email": "البريد الإلكتروني",
-        "phone": "رقم الهاتف",
-        "password": "كلمة المرور",
-        "confirmPassword": "تأكيد كلمة المرور",
-        "signup": "إنشاء حساب",
-        "signingUp": "جاري إنشاء الحساب...",
-        "alreadyHaveAccount": "لديك حساب بالفعل؟",
-        "loginLink": "تسجيل الدخول",
+        "signup": "التسجيل",
+        "signingUp": "جاري التسجيل...",
         "somethingWrong": "حدث خطأ ما",
         "fillAll": "يرجى ملء جميع الحقول",
         "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
         "creatingAccount": "جاري إنشاء الحساب...",
         "createAccount": "إنشاء حساب",
-        "login": "تسجيل الدخول",
-        "noAccount": "ليس لديك حساب؟"
+        "alreadyHaveAccount": "لديك حساب بالفعل؟",
+        "noAccount": "ليس لديك حساب؟",
+        "required": "مطلوب",
+        "qoute": "العلوّ يغيّر الرؤية، والقمم تغيّر الروح"
     }
 }

@@ -18,11 +18,11 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
         e.preventDefault();
         setError(null);
         if (!name || !email || !password || !confirmPassword) {
-            setError(dict?.signupPage?.fillAll || "Please fill all the fields");
+            setError(dict?.auth?.fillAll || "Please fill all the fields");
             return;
         }
         if (password !== confirmPassword) {
-            setError(dict?.signupPage?.passwordsDoNotMatch || "Passwords do not match");
+            setError(dict?.auth?.passwordsDoNotMatch || "Passwords do not match");
             return;
         }
         try {
@@ -51,7 +51,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
 
 
         } catch (error) {
-            setError(dict?.signupPage?.somethingWrong || "Something went wrong");
+            setError(dict?.auth?.somethingWrong || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -61,66 +61,74 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
 
 
     return (
-        <form className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-md p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
+        <form className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-[3px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
             onSubmit={handleSubmit}>
-            {error && (
-                <p className="text-red-500 text-sm">{error}</p>
-            )}
-            <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                    <label htmlFor="name" className="text-white">{dict?.signupPage?.name}</label>
+
+            <h1 className="text-3xl font-bold text-white">{dict?.auth?.titleSignup || "Create Account"}</h1>
+
+            <div className="flex flex-col gap-4 ">
+                <div className="flex flex-col gap-[2px]">
+                    <label htmlFor="name" className="text-white">{dict?.auth?.name}</label>
                     <input
                         type="text"
                         value={name}
+                        placeholder={dict?.auth?.required}
                         onChange={(e) => setName(e.target.value)}
-                        className="border border-white/25 text-white focus:border-white bg-transparent rounded-md p-2"
+                        className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                     />
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="phone" className="text-white">{dict?.signupPage?.phone}</label>
+                <div className="flex flex-col gap-[2px]">
+                    <label htmlFor="phone" className="text-white">{dict?.auth?.phone}</label>
                     <input
                         type="text"
                         value={phone}
+                        placeholder={dict?.auth?.optional}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                        className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                     />
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="email" className="text-white">{dict?.signupPage?.email}</label>
+                <div className="flex flex-col gap-[2px]">
+                    <label htmlFor="email" className="text-white">{dict?.auth?.email}</label>
                     <input
                         type="email"
                         value={email}
+                        placeholder={dict?.auth?.required}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                        className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                     />
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="password" className="text-white">{dict?.signupPage?.password}</label>
+                <div className="flex flex-col gap-[2px]">
+                    <label htmlFor="password" className="text-white">{dict?.auth?.password}</label>
                     <input
                         type="password"
                         value={password}
+                        placeholder={dict?.auth?.required}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                        className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                     />
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="confirmPassword" className="text-white">{dict?.signupPage?.confirmPassword}</label>
+                <div className="flex flex-col gap-[2px]">
+                    <label htmlFor="confirmPassword" className="text-white">{dict?.auth?.confirmPassword}</label>
                     <input
                         type="password"
                         value={confirmPassword}
+                        placeholder={dict?.auth?.required}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                        className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                     />
                 </div>
+                {error && (
+                    <p className="text-red-200 w-fit text-md mx-auto">{error}!</p>
+                )}
                 <button
                     type="submit"
                     disabled={loading}
                     className="bg-white text-green-700 p-3 rounded cursor-pointer"
                 >
-                    {loading ? dict?.signupPage?.creatingAccount : dict?.signupPage?.createAccount}
+                    {loading ? dict?.auth?.creatingAccount : dict?.auth?.createAccount}
                 </button>
                 <p className="text-center text-white mt-4 ">
-                    {dict?.signupPage?.alreadyHaveAccount} <Link href="/login" className=" bg-white p-1 rounded text-green-700 underline">{dict?.signupPage?.login}</Link>
+                    {dict?.auth?.alreadyHaveAccount} <Link href={`/${lang}/login`} className=" bg-white p-1 rounded text-green-700 underline">{dict?.auth?.login}</Link>
                 </p>
             </div>
         </form>

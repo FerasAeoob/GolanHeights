@@ -133,26 +133,21 @@
         "loginRequired": "You must be logged in to view your favorites.",
         "empty": "You have no favorite places yet."
     },
-    "loginPage": {
-        "title": "Login",
-        "description": "Login to your account",
-        "email": "Email",
-        "password": "Password",
-        "emailPlaceholder": "Enter your email",
-        "passwordPlaceholder": "Enter your password",
-        "login": "Login",
-        "loggingIn": "Logging in...",
-        "somethingWrong": "Something went wrong",
-        "fillAll": "Please fill all fields"
-    },
-    "signupPage": {
-        "title": "Signup",
-        "description": "Signup to your account",
+    "auth": {
+        "titleLogin": "Login",
+        "titleSignup": "Signup",
+        "optional": "Optional",
+        "descriptionLogin": "Login to your account",
+        "descriptionSignup": "Signup to your account",
         "name": "Name",
         "email": "Email",
         "phone": "Phone",
         "password": "Password",
         "confirmPassword": "Confirm Password",
+        "emailPlaceholder": "Enter your email",
+        "passwordPlaceholder": "Enter your password",
+        "login": "Login",
+        "loggingIn": "Logging in...",
         "signup": "Signup",
         "signingUp": "Signing up...",
         "somethingWrong": "Something went wrong",
@@ -161,7 +156,8 @@
         "creatingAccount": "Creating account...",
         "createAccount": "Create Account",
         "alreadyHaveAccount": "Already have an account?",
-        "login": "Login",
-        "noAccount": "Don't have an account?"
+        "noAccount": "Don't have an account?",
+        "required": "Required",
+        "qoute": "Elevation changes your perspective. The Heights change your soul"
     }
 }
