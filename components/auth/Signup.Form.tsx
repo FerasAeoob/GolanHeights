@@ -61,55 +61,68 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
 
 
     return (
-        <form className="flex flex-col gap-2 max-w-[400px] mx-auto border border-gray-300 rounded-md p-2" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-md p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
+            onSubmit={handleSubmit}>
             {error && (
                 <p className="text-red-500 text-sm">{error}</p>
             )}
-            <label htmlFor="name">{dict?.signupPage?.name}</label>
-            <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="border border-gray-300 rounded-md p-2"
-            />
-            <label htmlFor="phone">{dict?.signupPage?.phone}</label>
-            <input
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="border border-gray-300 rounded-md p-2"
-            />
-            <label htmlFor="email">{dict?.signupPage?.email}</label>
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border border-gray-300 rounded-md p-2"
-            />
-            <label htmlFor="password">{dict?.signupPage?.password}</label>
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border border-gray-300 rounded-md p-2"
-            />
-            <label htmlFor="confirmPassword">{dict?.signupPage?.confirmPassword}</label>
-            <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="border border-gray-300 rounded-md p-2"
-            />
-            <button
-                type="submit"
-                disabled={loading}
-                className="bg-green-700 text-white p-3 rounded"
-            >
-                {loading ? dict?.signupPage?.creatingAccount : dict?.signupPage?.createAccount}
-            </button>
-            <p className="text-center mt-4">
-                {dict?.signupPage?.alreadyHaveAccount} <Link href="/login" className="text-green-700">{dict?.signupPage?.login}</Link>
-            </p>
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                    <label htmlFor="name" className="text-white">{dict?.signupPage?.name}</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="border border-white/25 text-white focus:border-white bg-transparent rounded-md p-2"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="phone" className="text-white">{dict?.signupPage?.phone}</label>
+                    <input
+                        type="text"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="email" className="text-white">{dict?.signupPage?.email}</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="password" className="text-white">{dict?.signupPage?.password}</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="confirmPassword" className="text-white">{dict?.signupPage?.confirmPassword}</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="border border-white/25 text-white focus:border-white  rounded-md p-2"
+                    />
+                </div>
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-white text-green-700 p-3 rounded cursor-pointer"
+                >
+                    {loading ? dict?.signupPage?.creatingAccount : dict?.signupPage?.createAccount}
+                </button>
+                <p className="text-center text-white mt-4 ">
+                    {dict?.signupPage?.alreadyHaveAccount} <Link href="/login" className=" bg-white p-1 rounded text-green-700 underline">{dict?.signupPage?.login}</Link>
+                </p>
+            </div>
         </form>
     );
 }

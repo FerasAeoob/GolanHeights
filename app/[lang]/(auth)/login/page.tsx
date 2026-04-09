@@ -1,5 +1,6 @@
 import { getDictionary } from "@/lib/get-dictionary";
 import LoginForm from "@/components/auth/Login.Form";
+import Image from "next/image";
 
 export default async function LoginPage({
     params,
@@ -10,14 +11,29 @@ export default async function LoginPage({
     const dict = await getDictionary(lang);
 
     return (
-        <section className="max-w-[1200px] mx-auto px-4 py-16">
-            <h1 className="text-3xl font-bold text-slate-900 mb-4">
-                {dict?.loginPage?.title || "Login"}
-            </h1>
-            <p className="text-slate-600">
-                {dict?.loginPage?.description || "Login to your account"}
-            </p>
-            <LoginForm lang={lang} dict={dict} />
-        </section>
+        <>
+            <div className="fixed inset-0 -z-10 bg-black">
+                <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp"
+                    alt="auth-bg"
+                    fill
+                    className="object-cover opacity-90"
+                    priority
+                />
+            </div>
+            <section className="max-w-[1200px] mx-auto w-full px-4 py-16 my-auto">
+                <div className="flex flex-col gap-4 max-w-md mx-auto">
+
+                    <h1 className="text-3xl font-bold text-white">
+                        {dict?.loginPage?.title || "Login"}
+                    </h1>
+                    <p className="text-white ">
+                        {dict?.loginPage?.description || "Login to your account"}
+                    </p>
+
+                    <LoginForm lang={lang} dict={dict} />
+                </div>
+
+            </section>
+        </>
     );
 }

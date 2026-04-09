@@ -161,6 +161,7 @@
         "creatingAccount": "יוצר חשבון...",
         "createAccount": "צור חשבון",
         "alreadyHaveAccount": "כבר יש לך חשבון?",
-        "login": "כניסה"
+        "login": "כניסה",
+        "noAccount": "אין לך חשבון?"
     }
 }

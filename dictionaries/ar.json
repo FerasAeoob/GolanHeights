@@ -162,6 +162,7 @@
         "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
         "creatingAccount": "جاري إنشاء الحساب...",
         "createAccount": "إنشاء حساب",
-        "login": "تسجيل الدخول"
+        "login": "تسجيل الدخول",
+        "noAccount": "ليس لديك حساب؟"
     }
 }

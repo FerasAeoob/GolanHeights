@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface LoginFormProps {
     lang: "en" | "ar" | "he";
@@ -56,47 +57,45 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
     }
 
     return (
+
         <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+            className="flex flex-col gap-4 rounded-2xl border border-white/35 bg-white/0.1 backdrop-blur-md p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
         >
-            <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">
-                    {dict?.auth?.email || "Email"}
-                </label>
+            <div className="flex flex-col">
+                <label htmlFor="email" className="text-white">{dict?.signupPage?.email}</label>
                 <input
                     type="email"
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value); setError(""); }}
-                    className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-green-700"
-                    placeholder={dict?.auth?.emailPlaceholder || "Enter your email"}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="border border-white/25 text-white   focus:border-white bg-transparent rounded-md p-2"
                 />
             </div>
-
-            <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">
-                    {dict?.auth?.password || "Password"}
-                </label>
+            <div className="flex flex-col">
+                <label htmlFor="password" className="text-white">{dict?.signupPage?.password}</label>
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-green-700"
-                    placeholder={dict?.auth?.passwordPlaceholder || "Enter your password"}
+                    className="border border-white/25 text-white focus:border-white bg-transparent rounded-md p-2"
                 />
             </div>
 
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-red-500">{error}</p>}
 
             <button
                 type="submit"
                 disabled={loading}
-                className="rounded-xl bg-green-700 px-4 py-3 text-white disabled:opacity-50"
+                className="bg-white text-green-700 p-3 rounded cursor-pointer"
             >
                 {loading
                     ? dict?.auth?.loggingIn || "Logging in..."
                     : dict?.auth?.login || "Login"}
             </button>
+            <p className="text-center text-white mt-4 ">
+                {dict?.signupPage?.noAccount} <Link href="/signup" className=" bg-white p-1 rounded text-green-700 underline">{dict?.signupPage?.signup}</Link>
+            </p>
         </form>
+
     );
 }
