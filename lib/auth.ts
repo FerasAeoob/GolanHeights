@@ -53,7 +53,7 @@ export async function createUserToken(user: IUser) {
     })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt(Date.now())
-        .setExpirationTime("7d")
+        .setExpirationTime("1h")
         .sign(secret);
 }
 
@@ -63,7 +63,7 @@ export async function setAuthCookie(token: string) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: 60 * 60,
         path: "/",
     });
 }
@@ -89,8 +89,10 @@ export async function getTokenPayload() {
         const { payload } = await jwtVerify<UserTokenPayload>(token, secret);
 
         return payload;
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        if (error.code !== 'ERR_JWT_EXPIRED') {
+            console.error("JWT Verification Error:", error.message || error);
+        }
         return null;
     }
 }

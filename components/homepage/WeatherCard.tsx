@@ -1,4 +1,4 @@
-import { Sun, Cloud, CloudRain, CloudSnow, CloudLightning } from 'lucide-react';
+import { Sun, Moon, Cloud, CloudRain, CloudSnow, CloudLightning } from 'lucide-react';
 
 interface DailyForecast {
     date: string;
@@ -11,6 +11,7 @@ interface WeatherData {
     temp: number;
     code: number;
     wind: number;
+    isDay: number;
     daily: DailyForecast[];
 }
 
@@ -48,6 +49,7 @@ async function getWeather(): Promise<WeatherData | null> {
             temp: Math.round(data.current_weather.temperature),
             code: data.current_weather.weathercode,
             wind: Math.round(data.current_weather.windspeed),
+            isDay: data.current_weather.is_day,
             daily: dailyData
         };
     } catch (error) {
@@ -92,8 +94,8 @@ function getWeatherText(code: number, lang: string) {
     return 'Cloudy';
 }
 
-function getWeatherIcon(code: number) {
-    if (code === 0) return Sun;
+function getWeatherIcon(code: number, isDay: number = 1) {
+    if (code === 0) return isDay === 0 ? Moon : Sun;
     if (code >= 50 && code <= 69) return CloudRain;
     if (code >= 70 && code <= 79) return CloudSnow;
     if (code >= 90) return CloudLightning;
@@ -125,7 +127,7 @@ export default async function WeatherCard({ lang }: { lang: string }) {
         );
     }
 
-    const Icon = getWeatherIcon(weather.code);
+    const Icon = getWeatherIcon(weather.code, weather.isDay);
     const descriptionText = getWeatherText(weather.code, lang);
     const windText = lang === 'ar' ? `الرياح: ${weather.wind} كم/س` : lang === 'he' ? `רוח: ${weather.wind} קמ"ש` : `Wind: ${weather.wind} km/h`;
 
@@ -135,7 +137,7 @@ export default async function WeatherCard({ lang }: { lang: string }) {
            2. Added flex-1 and w-full
            3. Changed min-h to 180px to better match HeroInfoCard height
         */
-        <div className="flex-1 w-full mt-3 px-6 py-5 min-h-[180px] flex flex-col justify-between bg-white/10 backdrop-blur-md rounded-3xl shadow-lg border border-white/10 transition-all hover:bg-white/20">
+        <div className="flex-1 w-full mt-3 px-6 py-5 min-h-[180px] flex flex-col justify-between bg-white/6 backdrop-blur-[4px] rounded-3xl shadow-lg border border-white/10 transition-all hover:bg-white/20">
 
             {/* Current Weather Section */}
             <div className="flex flex-col items-center gap-1">
@@ -151,7 +153,7 @@ export default async function WeatherCard({ lang }: { lang: string }) {
             {/* Daily Forecast Section */}
             <div className="flex w-full justify-between items-center mt-4 pt-4 border-t border-white/20">
                 {weather.daily.map((day, idx) => {
-                    const DayIcon = getWeatherIcon(day.code);
+                    const DayIcon = getWeatherIcon(day.code, 1);
                     return (
                         <div key={idx} className="flex flex-col items-center gap-1 text-white">
                             <span className="text-[0.65rem] text-white/70 font-bold uppercase tracking-wider">

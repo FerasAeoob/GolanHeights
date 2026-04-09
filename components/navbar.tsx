@@ -28,7 +28,9 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
                 <div>
                     <Link href={`/${lang}`} className="flex items-center font-bold gap-3">
                         <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1775083745/output-onlinepngtools_aw183f.webp" alt="Logo" width={90} height={75} className="" />
-                        <h1 className="text-2xl font-bold text-emerald-700 hidden md:block">Golan WIKI</h1>
+                        <h1 className="text-2xl font-bold bg-[radial-gradient(circle,_#f2dbb6_40%,_#e8bf82_60%,_#d4a968_100%)] bg-clip-text text-transparent hidden md:block
+                        
+                        ">Golan WIKI</h1>
                     </Link>
                 </div>
                 <div className="flex items-center gap-4">
@@ -40,6 +42,6 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
                 </div>
             </div>
 
-        </header>
+        </header >
     );
 }

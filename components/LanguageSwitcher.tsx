@@ -1,5 +1,5 @@
 'use client';
-import { Globe } from 'lucide-react';
+import { Languages } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 
 export default function LanguageSwitcher() {
@@ -42,9 +42,9 @@ export default function LanguageSwitcher() {
     return (
         <button
             onClick={toggleLanguage}
-            className=" cursor-pointer rounded-full"
+            className=" cursor-pointer rounded-md h-[40px] w-[40px] flex items-center justify-center bg-black/40 backdrop-blur-md"
         >
-            <Globe className="w-7 h-7 text-white" />
+            <Languages className="w-5 h-5 text-white" />
         </button>
     );
 }
