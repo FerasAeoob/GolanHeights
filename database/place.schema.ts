@@ -17,11 +17,17 @@ export const SlugSchema = z.object({
         .string()
         .min(1, "Slug cannot be empty")
         .max(100, "Slug too long")
-        // 1. Add A-Z, Hebrew, and Arabic Unicode ranges to the regex
-        .regex(/^[a-zA-Z0-9\u0590-\u05FF\u0600-\u06FF\-\s]+$/, "Slug must contain only letters, numbers, hyphens, and valid Unicode characters")
-        // 2. Automatically transform the output to lowercase
-        .toLowerCase()
+        .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must contain only lowercase ASCII letters, numbers, and hyphens (no consecutive or trailing hyphens)")
 });
+
+/**
+ * Strict validation for manual SEO slugs
+ */
+const ManualSlugValidator = z
+    .string()
+    .min(1, "Slug is required")
+    .max(100, "Slug too long")
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid format: lowercase letters, numbers, and hyphens only. No spaces.");
 
 export const CategorySchema = z.object({
     category: z
@@ -42,6 +48,11 @@ export const UpdatePlaceSchema = z.object({
             ar: z.string().optional()
         })
         .optional(),
+
+    slug: z.object({
+        he: ManualSlugValidator.optional(),
+        ar: ManualSlugValidator.optional(),
+    }).optional(),
 
     description: z
         .object({
@@ -109,8 +120,12 @@ export const createplaceschema = z.object({
             en: z.string().min(3, "English title too short"),
             he: z.string(),
             ar: z.string()
-        })
-    ,
+        }),
+
+    slug: z.object({
+        he: ManualSlugValidator,
+        ar: ManualSlugValidator,
+    }),
 
     description: z
         .object({

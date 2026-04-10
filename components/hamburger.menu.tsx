@@ -44,10 +44,11 @@ export default function HamburgerMenu({ dict, lang }: { dict: Record<string, any
 
             {/* Mobile Menu Overlay */}
             <div
-                className={`fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center gap-8 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                className={`fixed inset-0 bg-black/95 z-70 flex flex-col items-center justify-center gap-8 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                 onClick={() => setIsOpen(false)}
             >
-                <NavbarButtons dict={dict} lang={lang} />
+
+
             </div>
         </div>
     );

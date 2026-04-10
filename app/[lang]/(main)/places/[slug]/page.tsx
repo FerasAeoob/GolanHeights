@@ -37,7 +37,6 @@ export default async function PlacePage({ params }: PageProps) {
     await connectDB();
     const t1 = performance.now();
 
-    // Run DB query, dictionary lookup, and auth lookup in parallel
     const [place, dict, currentUser] = await Promise.all([
         Place.findOne({
             $or: [

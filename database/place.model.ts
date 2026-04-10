@@ -1,4 +1,4 @@
-import { generateSlugs } from "@/utils/slug";
+import { generateEnglishSlug } from "@/utils/slug";
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { CATEGORY_SLUGS, CategorySlug } from "@/lib/categories";
 
@@ -7,7 +7,7 @@ import { CATEGORY_SLUGS, CategorySlug } from "@/lib/categories";
  */
 export interface IPlaceBase {
   title: { en: string; he?: string; ar?: string };
-  slug: { en: string; he?: string; ar?: string };
+  slug: { en: string; he: string; ar: string };
   description: { en: string; he?: string; ar?: string };
   shortDescription: { en?: string; he?: string; ar?: string };
   averageRating: number;
@@ -72,9 +72,9 @@ const PlaceSchema: Schema = new Schema(
     },
 
     slug: {
-      en: { type: String, unique: true, index: true, sparse: true },
-      he: { type: String, sparse: true }, // sparse allows unique nulls if needed
-      ar: { type: String, sparse: true },
+      en: { type: String, required: true },
+      he: { type: String, required: true },
+      ar: { type: String, required: true },
     },
     description: {
       en: { type: String, trim: true },
@@ -147,6 +147,10 @@ const PlaceSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+PlaceSchema.index({ "slug.en": 1 }, { unique: true });
+PlaceSchema.index({ "slug.he": 1 }, { unique: true });
+PlaceSchema.index({ "slug.ar": 1 }, { unique: true });
+
 /**
  * Pre-validate hook: slug generation from English title
  */
@@ -173,11 +177,9 @@ PlaceSchema.pre<IPlace>("validate", async function () {
   //   this.slug.ar = this.title.ar ? slugifyMultilingual(this.title.ar) : this.slug.en;
   // }
   if (this.isModified("title")) {
-    const slugs = generateSlugs(this.title);
-
-    this.slug.en = slugs.en;
-    this.slug.he = slugs.he;
-    this.slug.ar = slugs.ar;
+    if (this.title.en) {
+        this.slug.en = generateEnglishSlug(this.title.en);
+    }
   }
 
   // 3. Location Validation

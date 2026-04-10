@@ -16,20 +16,10 @@ export function slugifyMultilingual(text: string): string {
 }
 
 /**
- * Generate multilingual slugs with fallback
+ * Generate English slug from string
  */
-export function generateSlugs(title: {
-    en?: string;
-    ar?: string;
-    he?: string;
-}) {
-    const base = slugifyMultilingual(title.en || "");
-
-    return {
-        en: slugifyMultilingual(title.en || ""),
-        ar: title.ar ? slugifyMultilingual(title.ar) : base,
-        he: title.he ? slugifyMultilingual(title.he) : base,
-    };
+export function generateEnglishSlug(titleEn: string): string {
+    return slugifyMultilingual(titleEn || "");
 }
 
 /**

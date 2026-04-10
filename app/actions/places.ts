@@ -5,7 +5,7 @@ import Place from "@/database/place.model";
 import { createplaceschema, UpdatePlaceSchema } from "@/database/place.schema";
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import { generateSlugs } from "@/utils/slug";
+import { generateEnglishSlug } from "@/utils/slug";
 
 /**
  * HELPER: Verifies if the request is from an authenticated Admin.
@@ -32,12 +32,19 @@ export async function createPlaceAction(data: any) {
             return { error: "Validation Failed", details: validation.error.format() };
         }
 
-        const slug = generateSlugs(data.title);
+        data.slug.en = generateEnglishSlug(data.title.en);
 
-        const newPlace = await Place.create({
-            ...data,
-            slug
-        });
+        // 2a. Explicit uniqueness checks so the user gets friendly errors
+        const existingEn = await Place.findOne({ "slug.en": data.slug.en });
+        if (existingEn) return { error: `The generated English slug "${data.slug.en}" is already taken by another place.` };
+
+        const existingHe = await Place.findOne({ "slug.he": data.slug.he });
+        if (existingHe) return { error: `The exact Hebrew slug "${data.slug.he}" is already taken.` };
+
+        const existingAr = await Place.findOne({ "slug.ar": data.slug.ar });
+        if (existingAr) return { error: `The exact Arabic slug "${data.slug.ar}" is already taken.` };
+
+        const newPlace = await Place.create(data);
 
         revalidatePath('/[lang]/area-51-sec');
         revalidatePath('/[lang]/places');
@@ -45,7 +52,6 @@ export async function createPlaceAction(data: any) {
         return { success: true, id: newPlace._id.toString() };
     } catch (error: any) {
         console.error("Create Error:", error);
-        if (error.code === 11000) return { error: "A place with this title already exists." };
         return { error: error.message || "Something went wrong during creation." };
     }
 }
@@ -66,20 +72,46 @@ export async function updatePlaceAction(id: string, data: any) {
         const existingPlace = await Place.findById(id);
         if (!existingPlace) return { error: "Place not found ❌" };
 
-        // Regenerate slugs if title changed
-        if (data.title) {
-            existingPlace.slug = generateSlugs(data.title);
+        // 2a. Only regenerate English slug if title changed or if it was missing completely
+        // The data object received from Zod includes data.title.en, data.slug.he, data.slug.ar
+        if (data.title?.en && (data.title.en !== existingPlace.title.en || !existingPlace.slug?.en)) {
+            data.slug = data.slug || {};
+            data.slug.en = generateEnglishSlug(data.title.en);
+        } else {
+            // Keep existing English slug
+            data.slug = data.slug || {};
+            data.slug.en = existingPlace.slug.en;
+        }
+
+        // 2b. Explicit uniqueness checks against other documents
+        const duplicateEn = await Place.findOne({ _id: { $ne: id }, "slug.en": data.slug.en });
+        if (duplicateEn) return { error: `The English slug "${data.slug.en}" is already taken.` };
+
+        if (data.slug.he) {
+            const duplicateHe = await Place.findOne({ _id: { $ne: id }, "slug.he": data.slug.he });
+            if (duplicateHe) return { error: `The Hebrew slug "${data.slug.he}" is already taken.` };
+        }
+        
+        if (data.slug.ar) {
+            const duplicateAr = await Place.findOne({ _id: { $ne: id }, "slug.ar": data.slug.ar });
+            if (duplicateAr) return { error: `The Arabic slug "${data.slug.ar}" is already taken.` };
         }
 
         // Apply all updates
         Object.keys(data).forEach((key) => {
-            existingPlace.set(key, data[key]);
+            if (key === 'slug') {
+                existingPlace.slug.en = data.slug.en || existingPlace.slug.en;
+                if (data.slug.he) existingPlace.slug.he = data.slug.he;
+                if (data.slug.ar) existingPlace.slug.ar = data.slug.ar;
+            } else {
+                existingPlace.set(key, data[key]);
+            }
         });
 
         await existingPlace.save();
 
         revalidatePath('/[lang]/area-51-sec');
-        revalidatePath(`/[lang]/places/${existingPlace.slug.en}`);
+        revalidatePath(`/[lang]/places/${existingPlace.slug?.en}`);
         revalidatePath('/[lang]/places');
 
         return { success: true };

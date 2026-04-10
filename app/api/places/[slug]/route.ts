@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Place from '@/database/place.model';
-import { generateSlugs } from "@/utils/slug";
+import { generateEnglishSlug } from "@/utils/slug";
 import { UpdatePlaceSchema, SlugSchema } from "@/database/place.schema";
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
@@ -82,8 +82,9 @@ export async function PUT(
             }
         });
 
-        // Regenerate slugs based on the full merged title
-        place.slug = generateSlugs(place.title);
+        if (place.isModified("title.en") || place.title?.en) {
+            place.slug.en = generateEnglishSlug(place.title.en);
+        }
 
         // Save the document (this runs validators)
         const updatedPlace = await place.save();
