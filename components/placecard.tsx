@@ -40,7 +40,7 @@ export default function PlaceCard({
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
     return (
-        <Link href={`/${locale}/places/${place.slug?.[locale] || place.slug.en}`} className="block w-full">
+        <Link href={`/${locale}/places/${place.slug?.[locale]}`} className="block w-full">
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}

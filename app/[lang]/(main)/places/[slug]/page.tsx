@@ -4,9 +4,8 @@ import { SlugSchema } from "@/database/place.schema";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import PlaceDetails from "@/components/place.sidedetails";
-import { redirect } from "next/navigation";
 import { getDictionary } from "@/lib/get-dictionary";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import PhotoGallery from "@/components/PhotoGallery";
 import ReviewsClient from "@/components/reviews/ReviewsClient";
 import { getCurrentUser } from "@/lib/auth";
@@ -25,7 +24,7 @@ export default async function PlacePage({ params }: PageProps) {
 
 
     const { slug: rawSlug, lang } = await params;
-    const parsedSlug = SlugSchema.safeParse({ slug: decodeURIComponent(rawSlug) });
+    const parsedSlug = SlugSchema.safeParse({ slug: rawSlug });
 
     if (!parsedSlug.success) {
         return <div>Invalid slug</div>;
@@ -40,9 +39,9 @@ export default async function PlacePage({ params }: PageProps) {
     const [place, dict, currentUser] = await Promise.all([
         Place.findOne({
             $or: [
-                { "slug.en": decodedSlug },
-                { "slug.he": decodedSlug },
-                { "slug.ar": decodedSlug },
+                { "slug.en": decodedSlug.toLowerCase() },
+                { "slug.he": decodedSlug.toLowerCase() },
+                { "slug.ar": decodedSlug.toLowerCase() }
             ]
         }).lean(),
         getDictionary(lang),
@@ -54,13 +53,12 @@ export default async function PlacePage({ params }: PageProps) {
     if (!place) {
         return notFound();
     }
-    const correctSlug = place.slug[lang] || place.slug.en;
 
-    if (decodedSlug !== correctSlug) {
-        // If I'm on /he/places/banias-waterfall (English slug)
-        // Redirect me to /he/places/מפל-הבניאס (Hebrew slug)
+    const correctSlug = place.slug[lang] || place.slug.en;
+    if (decodedSlug.toLowerCase() !== correctSlug) {
         redirect(`/${lang}/places/${encodeURIComponent(correctSlug)}`);
     }
+
     function capitalizeFirst(str: string) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
@@ -152,6 +150,8 @@ export default async function PlacePage({ params }: PageProps) {
                     currentUserRole={currentUser?.role}
                     dict={dict}
                 />
+
+                <div id="place-slugs" data-en={place.slug.en} data-he={place.slug.he} data-ar={place.slug.ar} className="hidden" />
 
             </div >
         </div >

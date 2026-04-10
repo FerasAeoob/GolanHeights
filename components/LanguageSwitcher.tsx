@@ -24,20 +24,29 @@ export default function LanguageSwitcher() {
         // Create a copy of the segments
         const newSegments = [...segments];
 
-        // If the first segment is a known language, replace it.
-        // If it's not (e.g., someone is at /places/...), insert the new lang.
+        // 1. Language prefix update
         if (languages.includes(newSegments[1] as any)) {
             newSegments[1] = nextLang;
         } else {
             newSegments.splice(1, 0, nextLang);
         }
 
+        // 2. Localized Slug Handling (Smooth Transition)
+        // Check if we are on /[lang]/places/[slug]
+        const isPlaceDetail = newSegments[2] === 'places' && newSegments[3];
+        if (isPlaceDetail && typeof document !== 'undefined') {
+            const el = document.getElementById('place-slugs');
+            if (el) {
+                const localizedSlug = el.getAttribute('data-' + nextLang);
+                if (localizedSlug) {
+                    newSegments[3] = localizedSlug;
+                }
+            }
+        }
+
         const newPath = newSegments.join('/') || '/';
         router.push(newPath);
     };
-
-    const labels = { en: 'EN', he: 'HE', ar: 'AR' };
-    const nextLang = languages[(languages.indexOf(currentLang) + 1) % 3];
 
     return (
         <button
