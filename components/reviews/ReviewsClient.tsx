@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Star, Pencil, Trash2 } from "lucide-react";
+import UserAvatar from "@/components/UserAvatar";
 
 interface ReviewUser {
     _id: string;
@@ -383,15 +384,11 @@ export default function ReviewsClient({
                             >
                                 <div className="mb-2 flex items-start justify-between gap-3">
                                     <div className="flex items-center gap-3">
-                                        {review.userId?.image ? (
-                                            <img
-                                                src={review.userId.image}
-                                                alt={review.userId.name}
-                                                className="h-10 w-10 rounded-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="h-10 w-10 rounded-full bg-gray-200" />
-                                        )}
+                                        <UserAvatar
+                                            src={review.userId?.image}
+                                            name={review.userId?.name}
+                                            size={40}
+                                        />
 
                                         <div className="flex flex-col gap-1">
                                             <div className="flex flex-row gap-1">
