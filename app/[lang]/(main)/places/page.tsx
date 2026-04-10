@@ -1,11 +1,13 @@
 import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
-import SearchBar from "@/components/search"; // Adjust path if needed
-import PlaceCard from "@/components/placecard"; // Adjust path if needed
+import { perfLog } from "@/lib/perf";
+import SearchBar from "@/components/search";
+import PlaceCard from "@/components/placecard";
 import FilterDropdown from "@/components/filter.dropdown";
-import { getDictionary } from "@/lib/get-dictionary"; // ADDED THIS
+import { getDictionary } from "@/lib/get-dictionary";
 import { IOpeningHoursDictionary } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function PlacesPage({
     searchParams,
@@ -14,19 +16,21 @@ export default async function PlacesPage({
     searchParams: Promise<{ search?: string; category?: string; price?: string; sort?: string }>;
     params: Promise<{ lang: 'en' | 'ar' | 'he' }>;
 }) {
+    const pageStart = performance.now();
     const { lang } = await params;
-    const dict = await getDictionary(lang);
-
-    // 1. Read the URL to see if the user searched for anything
     const resolvedParams = await searchParams;
+
+    // Parallelize: dictionary, DB connection, and auth all at once
+    const [dict, currentUser] = await Promise.all([
+        getDictionary(lang),
+        (async () => { await connectDB(); return getCurrentUser(); })()
+    ]);
+    const t1 = performance.now();
+
     const query = resolvedParams.search || "";
     const category = resolvedParams.category || "";
     const price = resolvedParams.price || "";
     const sort = resolvedParams.sort || "";
-
-
-    // 2. Connect and fetch from the database
-    await connectDB();
 
     // Escape regex special characters to prevent ReDoS and injection
     function escapeRegex(str: string) {
@@ -42,6 +46,7 @@ export default async function PlacesPage({
                 { "title.en": { $regex: safeQuery, $options: "i" } },
                 { "title.he": { $regex: safeQuery, $options: "i" } },
                 { "title.ar": { $regex: safeQuery, $options: "i" } },
+                // category is a plain slug string (e.g. "food-drink"), not a localized object
                 { category: { $regex: safeQuery, $options: "i" } },
                 { "description.en": { $regex: safeQuery, $options: "i" } },
                 { "description.he": { $regex: safeQuery, $options: "i" } },
@@ -50,8 +55,6 @@ export default async function PlacesPage({
         }),
         ...(safeCategory && { category: { $regex: safeCategory, $options: "i" } }),
         ...(price && { price }),
-
-
     };
     let sortOption: Record<string, 1 | -1> = { createdAt: -1 };
 
@@ -62,7 +65,13 @@ export default async function PlacesPage({
         };
     }
 
-    const places = await Place.find(filter).sort(sortOption).lean();
+    const t2 = performance.now();
+    const places = await Place.find(filter)
+        .select("title slug images location averageRating reviewsCount category openHours open shortDescription price")
+        .sort(sortOption)
+        .lean();
+    const t3 = performance.now();
+    perfLog(`[PERF] PLACES /${lang}: parallel(dict+auth)=${((t1-pageStart)).toFixed(1)}ms | dbQuery=${((t3-t2)).toFixed(1)}ms | total=${((t3-pageStart)).toFixed(1)}ms`);
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
     // 3. Render your custom UI
     return (
@@ -151,8 +160,14 @@ export default async function PlacesPage({
                                     className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                                 >
 
-                                    {/* Removed the duplicate key prop here. Only the parent div needs it! */}
-                                    <PlaceCard key={place._id} place={place} locale={lang} dict={dict} />
+                                    <PlaceCard
+                                        key={place._id}
+                                        place={place}
+                                        locale={lang}
+                                        dict={dict}
+                                        currentUserId={currentUser?._id?.toString()}
+                                        initialIsFavorite={currentUser?.favorites?.some(f => f.toString() === place._id.toString()) ?? false}
+                                    />
                                 </div>
                             ))
                         ) : (

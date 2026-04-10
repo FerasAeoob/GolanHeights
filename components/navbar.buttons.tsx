@@ -1,13 +1,15 @@
 import Link from "next/link";
+import { House, UserRound } from "lucide-react";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function NavbarButtons({ dict, lang }: { dict: Record<string, any>; lang: string }) {
     return (
-        <div className="flex flex-col md:flex-row items-center gap-4">
-            <Link href={`/${lang}`} className=" text-white bg-black/40 backdrop-blur-md rounded-md px-4 py-2 cursor-pointer" >{dict.home}</Link>
+        <div className="flex  flex-row items-center gap-4">
 
-            <Link href={`/${lang}/places`} className=" text-white bg-black/40 backdrop-blur-md rounded-md px-4 py-2 cursor-pointer" >{dict.explore}</Link>
 
-            <Link href={`/${lang}/about`} className=" text-white bg-black/40 backdrop-blur-md rounded-md px-4 py-2 cursor-pointer" >{dict.aboutus}</Link>
+
+            <Link href={`/${lang}/login`} className=" text-white rounded-md px-2 py-2 cursor-pointer" ><UserRound className="text-white" /></Link>
+            <LanguageSwitcher />
         </div>
     );
 }

@@ -22,7 +22,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
             </div>
 
             {/* ── Content Container (Standardized Max-Width) ────────── */}
-            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center mt-25 md:mt-0
+            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center mt-25 md:mt-10
                             w-full w-[1200px] lg:max-w-[1400px] px-4 mx-auto gap-4 mb-7
                             ">
 
@@ -49,7 +49,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
 
                     <Link
                         href={`/${lang}/places`}
-                        className="group flex items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-100 font-bold text-lg rounded-full shadow-xl border border-white/10 transition-all"
+                        className="group flex items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-400 font-bold text-lg rounded-full shadow-xl border border-white/10 transition-all"
                     >
                         <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform mt-1" />
                         <span className="mt-1">{dict.explorenow}</span>

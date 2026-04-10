@@ -393,18 +393,26 @@ export default function ReviewsClient({
                                             <div className="h-10 w-10 rounded-full bg-gray-200" />
                                         )}
 
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <p className="font-medium">
-                                                    {review.userId?.name || "Unknown User"}
-                                                </p>
+                                        <div className="flex flex-col gap-1">
+                                            <div className="flex flex-row gap-1">
+                                                <div className="flex items-center justify-center w-fit">
 
-                                                {isMine && (
-                                                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                                                        {dict?.reviews?.yourReview || "Your review"}
-                                                    </span>
-                                                )}
+
+                                                    <p className="text-m w-fit">
+                                                        {review.userId?.name || "Unknown User"}
+                                                    </p>
+                                                </div>
+                                                <div className="flex-1 flex items-center justify-center">
+
+
+                                                    {isMine && (
+                                                        <span className="rounded-md text-center bg-green-100 px-2 py-0.5 sm:gap-1 text-xs text-green-700 ">
+                                                            {dict?.reviews?.yourReview || "Your review"}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
+
 
                                             <p className="text-xs text-gray-500">
                                                 {new Date(review.createdAt).toLocaleString()}
@@ -413,7 +421,7 @@ export default function ReviewsClient({
                                     </div>
 
                                     {canManageReview(review) && (
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-start flex-col sm:flex-row gap-2 sm:gap-4">
                                             {isMine && <button
                                                 type="button"
                                                 onClick={() => {
@@ -421,9 +429,9 @@ export default function ReviewsClient({
                                                         startEditReview();
                                                     }
                                                 }}
-                                                className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+                                                className="flex items-center gap-1 text-xs sm:text-sm text-blue-600 hover:underline"
                                             >
-                                                <Pencil className="h-4 w-4" />
+                                                <Pencil className="flex-1 h-4 w-4 sm:me-0" />
                                                 {dict?.reviews?.edit || "Edit"}
                                             </button>}
 
@@ -431,9 +439,9 @@ export default function ReviewsClient({
                                                 type="button"
                                                 onClick={() => handleDelete(review._id)}
                                                 disabled={deletingReviewId === review._id}
-                                                className="flex items-center gap-1 text-sm text-red-600 hover:underline disabled:opacity-50"
+                                                className="flex items-center gap-1 text-xs md:text-sm text-red-600 hover:underline disabled:opacity-50"
                                             >
-                                                <Trash2 className="h-4 w-4" />
+                                                <Trash2 className="flex-1 h-4 w-4" />
                                                 {dict?.reviews?.deleteButton || "Delete"}
                                             </button>
                                         </div>
@@ -452,12 +460,12 @@ export default function ReviewsClient({
                                     ))}
                                 </div>
 
-                                <p className="text-sm leading-6 text-gray-800">{review.text}</p>
+                                <p className="text-sm leading-6 text-gray-800 break-words whitespace-pre-wrap">{review.text}</p>
                             </div>
                         );
                     })
                 )}
             </div>
-        </section>
+        </section >
     );
 }

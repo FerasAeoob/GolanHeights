@@ -6,18 +6,23 @@ import categories from "@/lib/categories";
 import { IPlaceSerializable } from "@/database/place.model";
 import OpenStatus from "./openStatus";
 import FavoriteButton from "./favorites/Favorite.button";
-import { getCurrentUser } from "@/lib/auth";
-
 
 interface PlaceCardProps {
-    place: IPlaceSerializable
-    locale?: "en" | "he" | "ar"
-    dict: Record<string, any>
+    place: IPlaceSerializable;
+    locale?: "en" | "he" | "ar";
+    dict: Record<string, any>;
+    /** Pass from the parent page — avoids one DB query per card */
+    currentUserId?: string;
+    initialIsFavorite?: boolean;
 }
 
-
-export default async function PlaceCard({ place, locale = "en", dict }: PlaceCardProps) {
-    // Mapping categories to specific colors from your schema enum
+export default function PlaceCard({
+    place,
+    locale = "en",
+    dict,
+    currentUserId,
+    initialIsFavorite = false,
+}: PlaceCardProps) {
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
         "food-drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
@@ -29,13 +34,6 @@ export default async function PlaceCard({ place, locale = "en", dict }: PlaceCar
     const CategoryIcon = category?.icon;
     const mainImage = place.images?.[0];
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
-    const currentUser = await getCurrentUser();
-    const currentUserId = currentUser?._id?.toString();
-
-    const initialIsFavorite =
-        currentUser?.favorites?.some(
-            (fav) => fav.toString() === place._id.toString()
-        ) || false;
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
     function capitalizeFirst(str: string) {

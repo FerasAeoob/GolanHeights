@@ -1,8 +1,10 @@
 import 'server-only';
+import { cache } from 'react';
 import { jwtVerify, SignJWT, type JWTPayload } from 'jose';
 import { cookies } from 'next/headers';
 import User, { IUser } from '@/database/user/user.model';
 import connectDB from "@/lib/mongodb";
+import { perfLog } from "@/lib/perf";
 
 const COOKIE_NAME = "user_token";
 type UserTokenPayload = JWTPayload & {
@@ -97,16 +99,33 @@ export async function getTokenPayload() {
     }
 }
 
-export async function getCurrentUser() {
+async function _getCurrentUser() {
     try {
+        const t0 = performance.now();
         const payload = await getTokenPayload();
-        if (!payload) return null;
+        const t1 = performance.now();
+        if (!payload) {
+            perfLog(`[PERF] getCurrentUser: no token (jwt: ${(t1-t0).toFixed(1)}ms)`);
+            return null;
+        }
         await connectDB();
-        const user = await User.findById(payload.userId);
+        const t2 = performance.now();
+        const user = await User.findById(payload.userId)
+            .select('_id name email phone image role plan favorites business createdAt updatedAt')
+            .lean();
+        const t3 = performance.now();
+        perfLog(`[PERF] getCurrentUser: jwt=${((t1-t0)).toFixed(1)}ms | db=${((t3-t2)).toFixed(1)}ms | total=${((t3-t0)).toFixed(1)}ms`);
         if (!user) return null;
-        return serializeUser(user);
+        return serializeUser(user as IUser);
     } catch (error) {
         console.error(error);
         return null;
     }
 }
+
+/**
+ * Per-request memoized auth lookup.
+ * React cache() ensures cookie parse + JWT verify + User.findById
+ * runs at most ONCE per server render, even if called from multiple components.
+ */
+export const getCurrentUser = cache(_getCurrentUser);

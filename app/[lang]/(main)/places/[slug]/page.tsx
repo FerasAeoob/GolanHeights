@@ -1,16 +1,17 @@
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
 import { SlugSchema } from "@/database/place.schema";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import PlaceDetails from "@/components/place.sidedetails";
-import { redirect } from "next/navigation"; // Import this!
-import { getDictionary } from "@/lib/get-dictionary"; // ADDED
+import { redirect } from "next/navigation";
+import { getDictionary } from "@/lib/get-dictionary";
 import { notFound } from "next/navigation";
 import PhotoGallery from "@/components/PhotoGallery";
 import ReviewsClient from "@/components/reviews/ReviewsClient";
 import { getCurrentUser } from "@/lib/auth";
+import { perfLog } from "@/lib/perf";
+
 
 
 interface PageProps {
@@ -32,17 +33,24 @@ export default async function PlacePage({ params }: PageProps) {
     const slug = parsedSlug.data.slug;
     const decodedSlug = decodeURIComponent(slug);
 
+    const pageStart = performance.now();
     await connectDB();
+    const t1 = performance.now();
 
-    const place = await Place.findOne({
-        $or: [
-            { "slug.en": decodedSlug },
-            { "slug.he": decodedSlug },
-            { "slug.ar": decodedSlug },
-        ]
-    }).lean();
-
-    const dict = await getDictionary(lang); // Fetch dictionary
+    // Run DB query, dictionary lookup, and auth lookup in parallel
+    const [place, dict, currentUser] = await Promise.all([
+        Place.findOne({
+            $or: [
+                { "slug.en": decodedSlug },
+                { "slug.he": decodedSlug },
+                { "slug.ar": decodedSlug },
+            ]
+        }).lean(),
+        getDictionary(lang),
+        getCurrentUser(),
+    ]);
+    const t2 = performance.now();
+    perfLog(`[PERF] PLACE_DETAIL /${lang}/${decodedSlug}: dbConnect=${((t1 - pageStart)).toFixed(1)}ms | parallel(place+dict+auth)=${((t2 - t1)).toFixed(1)}ms | total=${((t2 - pageStart)).toFixed(1)}ms`);
 
     if (!place) {
         return notFound();
@@ -69,7 +77,6 @@ export default async function PlacePage({ params }: PageProps) {
         url: img.url,
         alt: img.alt?.[lang] || img.alt?.en || place.title[lang] || place.title.en || 'Place Image'
     }));
-    const currentUser = await getCurrentUser();
 
     return (
         <div className=" pt-20 flex flex-col w-dvw items-center px-3">

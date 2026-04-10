@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import Authnav from "@/components/authnav";
+
+
 
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
     title: "Golan Heights Guide",
@@ -21,7 +23,7 @@ export default async function LangLayout({
     const dict = await getDictionary(locale);
     return (
         <>
-            <Authnav dict={dict} lang={lang} />
+            <Navbar dict={dict} lang={lang} />
 
             <main className="flex-grow">
                 {children}

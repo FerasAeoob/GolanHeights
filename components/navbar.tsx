@@ -22,7 +22,7 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
     return (
         <header
             className={`fixed top-0 start-0 w-full z-50 h-16 md:h-20 flex items-center justify-center transition-all duration-300
-        ${scrolled ? "bg-white/5 backdrop-blur-sm py-4 md:py-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]" : "bg-transparent"}`}
+         bg-black/40  backdrop-blur-sm py-4 md:py-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]`}
         >
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] px-4  ">
                 <div>
@@ -33,12 +33,12 @@ export default function Navbar({ lang, dict }: { lang: string; dict: Record<stri
                         ">Golan WIKI</h1>
                     </Link>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="hidden md:block">
+                <div className="flex flex-row items-center gap-4">
+                    <div className="flex flex-row ">
                         <NavbarButtons dict={dict} lang={lang} />
                     </div>
-                    <LanguageSwitcher />
-                    <HamburgerMenu dict={dict} lang={lang} />
+
+
                 </div>
             </div>
 

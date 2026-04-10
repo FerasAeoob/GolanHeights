@@ -42,7 +42,7 @@ export default function LanguageSwitcher() {
     return (
         <button
             onClick={toggleLanguage}
-            className=" cursor-pointer rounded-md h-[40px] w-[40px] flex items-center justify-center bg-black/40 backdrop-blur-md"
+            className=" cursor-pointer rounded-md h-[40px] w-[40px] flex items-center justify-center "
         >
             <Languages className="w-5 h-5 text-white" />
         </button>

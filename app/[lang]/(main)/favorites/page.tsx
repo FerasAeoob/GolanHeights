@@ -1,9 +1,8 @@
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
-import User from "@/database/user/user.model";
+import Place, { IPlaceSerializable } from "@/database/place.model";
 import PlaceCard from "@/components/placecard";
 import { getDictionary } from "@/lib/get-dictionary";
-import { IPlaceSerializable } from "@/database/place.model";
 import FavoriteCardLiveItem from "@/components/favorites/Favorite.Card.Live";
 
 export default async function FavoritesPage({
@@ -12,9 +11,11 @@ export default async function FavoritesPage({
     params: Promise<{ lang: "en" | "ar" | "he" }>;
 }) {
     const { lang } = await params;
-    const dict = await getDictionary(lang);
 
-    const currentUser = await getCurrentUser();
+    const [dict, currentUser] = await Promise.all([
+        getDictionary(lang),
+        getCurrentUser(),
+    ]);
 
     if (!currentUser) {
         return (
@@ -31,12 +32,11 @@ export default async function FavoritesPage({
 
     await connectDB();
 
-    const user = await User.findById(currentUser._id)
-        .populate("favorites")
-        .select("favorites")
-        .lean();
-
-    const favorites = (user?.favorites || []) as unknown as IPlaceSerializable[];
+    const favorites = await Place.find({
+        _id: { $in: currentUser.favorites || [] },
+    })
+        .select("title slug images location averageRating reviewsCount category openHours open shortDescription")
+        .lean() as unknown as IPlaceSerializable[];
 
     return (
         <section className="lg:max-w-[1400px] max-w-[1200px] mt-20 mx-auto px-4 py-12">
@@ -63,7 +63,13 @@ export default async function FavoritesPage({
                             className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
                         >
                             <FavoriteCardLiveItem placeId={place._id.toString()}>
-                                <PlaceCard place={place} locale={lang} dict={dict} />
+                                <PlaceCard
+                                    place={place}
+                                    locale={lang}
+                                    dict={dict}
+                                    currentUserId={currentUser._id?.toString()}
+                                    initialIsFavorite={true}
+                                />
                             </FavoriteCardLiveItem>
                         </div>
                     ))}
