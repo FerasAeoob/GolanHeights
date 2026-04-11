@@ -23,7 +23,7 @@ export default async function LangLayout({
     const dict = await getDictionary(locale);
     return (
         <>
-            <Navbar dict={dict} lang={lang} />
+            <Navbar dict={dict} lang={lang} currentUser={null} />
 
             <main className="flex-grow">
                 {children}

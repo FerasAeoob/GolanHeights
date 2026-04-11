@@ -159,5 +159,16 @@
         "noAccount": "Don't have an account?",
         "required": "Required",
         "qoute": "Elevation changes your perspective, The Heights change your soul."
+    },
+    "nav": {
+        "menu": "Navigation",
+        "home": "Home",
+        "favorites": "Favorites",
+        "profile": "Profile",
+        "notifications": "Notifications",
+        "language": "Language",
+        "contact": "Contact",
+        "about": "About",
+        "guest": "Guest"
     }
 }

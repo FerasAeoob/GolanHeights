@@ -159,5 +159,16 @@
         "noAccount": "אין לך חשבון?",
         "required": "חובה",
         "qoute": "הגובה משנה את המבט, הפסגות משנות את הנשמה."
+    },
+    "nav": {
+        "menu": "ניווט",
+        "home": "בית",
+        "favorites": "מועדפים",
+        "profile": "פרופיל",
+        "notifications": "התראות",
+        "language": "שפה",
+        "contact": "צור קשר",
+        "about": "אודות",
+        "guest": "אורח"
     }
 }
