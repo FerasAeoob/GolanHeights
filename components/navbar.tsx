@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import NavbarButtons from "@/components/navbar.buttons";
 import Image from "next/image";
 import MobileDrawer from "@/components/layout/MobileDrawer";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 
 export default function Navbar({ lang, dict, currentUser }: { lang: string; dict: Record<string, any>; currentUser: any }) {
@@ -35,7 +35,7 @@ export default function Navbar({ lang, dict, currentUser }: { lang: string; dict
                 </div>
                 <div className="flex flex-row items-center gap-2 md:gap-4">
                     <div className="flex flex-row ">
-                        <NavbarButtons dict={dict} lang={lang} />
+                        <LanguageSwitcher />
                     </div>
 
                     {/* Mobile Menu Integration */}

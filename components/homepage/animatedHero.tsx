@@ -22,7 +22,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
             </div>
 
             {/* ── Content Container (Standardized Max-Width) ────────── */}
-            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center mt-25 md:mt-10
+            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center mt-25 md:mt-20
                             w-full w-[1200px] lg:max-w-[1400px] px-4 mx-auto gap-4 mb-7
                             ">
 

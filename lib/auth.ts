@@ -105,7 +105,7 @@ async function _getCurrentUser() {
         const payload = await getTokenPayload();
         const t1 = performance.now();
         if (!payload) {
-            perfLog(`[PERF] getCurrentUser: no token (jwt: ${(t1-t0).toFixed(1)}ms)`);
+            perfLog(`[PERF] getCurrentUser: no token (jwt: ${(t1 - t0).toFixed(1)}ms)`);
             return null;
         }
         await connectDB();
@@ -114,7 +114,7 @@ async function _getCurrentUser() {
             .select('_id name email phone image role plan favorites business createdAt updatedAt')
             .lean();
         const t3 = performance.now();
-        perfLog(`[PERF] getCurrentUser: jwt=${((t1-t0)).toFixed(1)}ms | db=${((t3-t2)).toFixed(1)}ms | total=${((t3-t0)).toFixed(1)}ms`);
+        perfLog(`[PERF] getCurrentUser: jwt=${((t1 - t0)).toFixed(1)}ms | db=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - t0)).toFixed(1)}ms`);
         if (!user) return null;
         return serializeUser(user as IUser);
     } catch (error) {

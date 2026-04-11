@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 
 export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; dict: any }) {
     const [name, setName] = useState("");
@@ -13,7 +13,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
-
+    const router = useRouter();
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setError(null);
@@ -47,6 +47,8 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
             setPassword("");
             setConfirmPassword("");
             setPhone("");
+            router.push(`/${lang}/login`);
+            router.refresh();
 
 
 

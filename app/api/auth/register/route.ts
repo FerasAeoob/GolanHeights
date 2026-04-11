@@ -3,6 +3,7 @@ import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { registerSchema } from "@/database/user/user.schema";
 import { createUserToken, setAuthCookie, serializeUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export async function POST(req: NextRequest) {
     try {
@@ -31,8 +32,7 @@ export async function POST(req: NextRequest) {
             favorites: [],
         });
 
-        const token = await createUserToken(user);
-        await setAuthCookie(token);
+
 
         return NextResponse.json(
             {
@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
             },
             { status: 201 }
         );
+        redirect("/[locale]/login");
     } catch (error: any) {
         if (error?.name === "ZodError") {
             return NextResponse.json(

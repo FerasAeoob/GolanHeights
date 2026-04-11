@@ -11,7 +11,9 @@ import {
     Mail,
     Info,
     X,
-    Menu
+    Menu,
+    LogOut,
+    LogIn
 } from 'lucide-react';
 import UserAvatar from '@/components/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
@@ -65,6 +67,18 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
         setIsOpen(false);
     };
 
+    const handleLogout = async () => {
+        try {
+            const res = await fetch('/api/auth/logout', { method: 'POST' });
+            if (res.ok) {
+                router.refresh();
+                setIsOpen(false);
+            }
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
+
     // Close drawer when clicking outside or on specialized keys
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -82,14 +96,21 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
         };
     }, [isOpen]);
 
-    const menuItems = [
-        { label: dict.nav?.home || 'Home', href: `/${lang}`, icon: Home },
-        { label: dict.nav?.favorites || 'Favorites', href: `/${lang}/favorites`, icon: Heart },
-        { label: dict.nav?.profile || 'Profile', href: `/${lang}/profile`, icon: UserIcon },
-        { label: dict.nav?.notifications || 'Notifications', href: `/${lang}/notifications`, icon: Bell },
-        { label: dict.nav?.language || 'Language', href: '#', icon: Languages, onClick: toggleLanguage },
-        { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail },
-        { label: dict.nav?.about || 'About', href: `/${lang}/about`, icon: Info },
+    const items = [
+        { label: dict.nav?.home || 'Home', href: `/${lang}`, icon: Home, separator: false },
+        { label: dict.nav?.favorites || 'Favorites', href: `/${lang}/favorites`, icon: Heart, separator: !currentUser },
+        ...(currentUser
+            ? [
+                  { label: dict.nav?.profile || 'Profile', href: `/${lang}/profile`, icon: UserIcon, separator: false },
+                  { label: dict.nav?.notifications || 'Notifications', href: `/${lang}/notifications`, icon: Bell, separator: true },
+              ]
+            : []),
+        { label: dict.nav?.language || 'Language', href: '#', icon: Languages, onClick: toggleLanguage, separator: false },
+        { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail, separator: true },
+        { label: dict.nav?.about || 'About', href: `/${lang}/about`, icon: Info, separator: true },
+        ...(currentUser
+            ? [{ label: dict.auth?.logout || 'Logout', href: '#', icon: LogOut, onClick: handleLogout, separator: false }]
+            : [{ label: dict.auth?.login || 'Login', href: `/${lang}/login`, icon: LogIn, separator: false }]),
     ];
 
     return (
@@ -158,7 +179,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                     {/* Navigation Links */}
                     <nav className="flex-1 overflow-y-auto py-6">
                         <ul className="space-y-1 px-4">
-                            {menuItems.map((item, index) => {
+                            {items.map((item, index) => {
                                 const isAction = !!item.onClick;
 
                                 return (
@@ -189,7 +210,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                                                 </span>
                                             </Link>
                                         )}
-                                        {(index === 3 || index === 5) && (
+                                        {item.separator && (
                                             <div className="h-px bg-white/5 mx-4 my-3" />
                                         )}
                                     </li>
