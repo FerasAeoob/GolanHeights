@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/components/ui/Toast";
 
 export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; dict: any }) {
     const [name, setName] = useState("");
@@ -10,19 +11,18 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        setError(null);
+        
         if (!name || !email || !password || !confirmPassword) {
-            setError(dict?.auth?.fillAll || "Please fill all the fields");
+            showToast('error', dict?.auth?.fillAll || "Please fill all the fields");
             return;
         }
         if (password !== confirmPassword) {
-            setError(dict?.auth?.passwordsDoNotMatch || "Passwords do not match");
+            showToast('error', dict?.auth?.passwordsDoNotMatch || "Passwords do not match");
             return;
         }
         try {
@@ -39,7 +39,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
             })
             const data = await res.json();
             if (!res.ok) {
-                setError(data.message || "Something went wrong");
+                showToast('error', data.message || "Something went wrong");
                 return;
             }
             setName("");
@@ -53,7 +53,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
 
 
         } catch (error) {
-            setError(dict?.auth?.somethingWrong || "Something went wrong");
+            showToast('error', dict?.auth?.somethingWrong || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -119,9 +119,6 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                         className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                     />
                 </div>
-                {error && (
-                    <p className="text-red-200 w-fit text-md mx-auto">{error}!</p>
-                )}
                 <button
                     type="submit"
                     disabled={loading}

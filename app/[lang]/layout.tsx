@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { PostHogProvider } from "@/app/providers";
 import { PostHogPageView } from "@/app/pageview";
 import { Suspense } from "react";
+import ToastContainer from "@/components/ui/Toast";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -54,6 +55,7 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <PostHogPageView />
           </Suspense>
+          <ToastContainer />
           {children}
         </PostHogProvider>
       </body>

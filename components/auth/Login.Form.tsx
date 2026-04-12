@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { showToast } from "@/components/ui/Toast";
 
 interface LoginFormProps {
     lang: "en" | "ar" | "he";
@@ -15,19 +16,17 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (!email.trim() || !password.trim()) {
-            setError(dict?.auth?.fillAll || "Please fill all fields");
+            showToast('error', dict?.auth?.fillAll || "Please fill all fields");
             return;
         }
 
         try {
             setLoading(true);
-            setError("");
 
             const res = await fetch("/api/auth/login", {
                 method: "POST",
@@ -43,14 +42,14 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message || "Login failed");
+                showToast('error', data.message || "Login failed");
                 return;
             }
 
             router.push(`/${lang}`);
             router.refresh();
         } catch {
-            setError(dict?.auth?.somethingWrong || "Something went wrong");
+            showToast('error', dict?.auth?.somethingWrong || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -83,10 +82,6 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
                     className="border border-white/25 text-white bg-black/5  focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
                 />
             </div>
-
-            {error && (
-                <p className="text-red-200 w-fit text-md mx-auto">{error}!</p>
-            )}
 
             <button
                 type="submit"

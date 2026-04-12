@@ -170,5 +170,43 @@
         "contact": "צור קשר",
         "about": "אודות",
         "guest": "אורח"
+    },
+    "profile": {
+        "title": "הפרופיל שלי",
+        "editProfile": "עריכת פרופיל",
+        "personalInfo": "פרטים אישיים",
+        "security": "אבטחה",
+        "name": "שם מלא",
+        "email": "כתובת אימייל",
+        "phone": "מספר טלפון",
+        "memberSince": "חבר מאז",
+        "role": "סוג חשבון",
+        "plan": "תוכנית",
+        "save": "שמור שינויים",
+        "saving": "שומר...",
+        "saved": "הפרופיל עודכן בהצלחה!",
+        "cancel": "ביטול",
+        "changeAvatar": "שנה תמונה",
+        "removeAvatar": "הסר תמונה",
+        "uploadAvatar": "העלה תמונה",
+        "uploading": "מעלה...",
+        "changePassword": "שנה סיסמה",
+        "currentPassword": "סיסמה נוכחית",
+        "newPassword": "סיסמה חדשה",
+        "confirmPassword": "אשר סיסמה חדשה",
+        "passwordChanged": "הסיסמה שונתה בהצלחה!",
+        "passwordMismatch": "הסיסמאות אינן תואמות",
+        "logout": "התנתק",
+        "loginRequired": "יש להתחבר כדי לצפות בפרופיל.",
+        "errorGeneric": "משהו השתבש.",
+        "roles": {
+            "user": "מטייל",
+            "admin": "מנהל",
+            "business": "בעל עסק"
+        },
+        "plans": {
+            "free": "חינם",
+            "vip": "VIP"
+        }
     }
 }

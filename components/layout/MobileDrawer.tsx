@@ -101,9 +101,9 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
         { label: dict.nav?.favorites || 'Favorites', href: `/${lang}/favorites`, icon: Heart, separator: !currentUser },
         ...(currentUser
             ? [
-                  { label: dict.nav?.profile || 'Profile', href: `/${lang}/profile`, icon: UserIcon, separator: false },
-                  { label: dict.nav?.notifications || 'Notifications', href: `/${lang}/notifications`, icon: Bell, separator: true },
-              ]
+                { label: dict.nav?.profile || 'Profile', href: `/${lang}/profile`, icon: UserIcon, separator: false },
+                { label: dict.nav?.notifications || 'Notifications', href: `/${lang}/notifications`, icon: Bell, separator: true },
+            ]
             : []),
         { label: dict.nav?.language || 'Language', href: '#', icon: Languages, onClick: toggleLanguage, separator: false },
         { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail, separator: true },
@@ -118,7 +118,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             {/* Hamburger Button */}
             <button
                 onClick={toggleDrawer}
-                className=" p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="text-white hover:bg-white/10 rounded-lg transition-colors"
                 aria-label="Open Menu"
             >
                 <Menu size={24} />

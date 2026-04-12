@@ -22,7 +22,7 @@ export default async function LangLayout({
     const locale = lang as 'en' | 'ar' | 'he';
     const dict = await getDictionary(locale);
     const currentUser = await getCurrentUser();
-    const isRTL = locale === 'ar' || locale === 'he';
+
 
     return (
         <div className="flex min-h-screen">

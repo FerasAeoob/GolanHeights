@@ -170,5 +170,43 @@
         "contact": "اتصل بنا",
         "about": "معلومات عنا",
         "guest": "ضيف"
+    },
+    "profile": {
+        "title": "ملفي الشخصي",
+        "editProfile": "تعديل الملف الشخصي",
+        "personalInfo": "المعلومات الشخصية",
+        "security": "الأمان",
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "memberSince": "عضو منذ",
+        "role": "نوع الحساب",
+        "plan": "الخطة",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "saved": "تم تحديث الملف الشخصي بنجاح!",
+        "cancel": "إلغاء",
+        "changeAvatar": "تغيير الصورة",
+        "removeAvatar": "إزالة الصورة",
+        "uploadAvatar": "رفع صورة",
+        "uploading": "جاري الرفع...",
+        "changePassword": "تغيير كلمة المرور",
+        "currentPassword": "كلمة المرور الحالية",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور الجديدة",
+        "passwordChanged": "تم تغيير كلمة المرور بنجاح!",
+        "passwordMismatch": "كلمات المرور غير متطابقة",
+        "logout": "تسجيل الخروج",
+        "loginRequired": "يرجى تسجيل الدخول لعرض ملفك الشخصي.",
+        "errorGeneric": "حدث خطأ ما.",
+        "roles": {
+            "user": "مستكشف",
+            "admin": "مدير",
+            "business": "صاحب عمل"
+        },
+        "plans": {
+            "free": "مجاني",
+            "vip": "VIP"
+        }
     }
 }

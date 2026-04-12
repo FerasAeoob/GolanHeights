@@ -170,5 +170,43 @@
         "contact": "Contact",
         "about": "About",
         "guest": "Guest"
+    },
+    "profile": {
+        "title": "My Profile",
+        "editProfile": "Edit Profile",
+        "personalInfo": "Personal Information",
+        "security": "Security",
+        "name": "Full Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "memberSince": "Member Since",
+        "role": "Account Type",
+        "plan": "Plan",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "saved": "Profile updated successfully!",
+        "cancel": "Cancel",
+        "changeAvatar": "Change Photo",
+        "removeAvatar": "Remove Photo",
+        "uploadAvatar": "Upload Photo",
+        "uploading": "Uploading...",
+        "changePassword": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password",
+        "passwordChanged": "Password changed successfully!",
+        "passwordMismatch": "Passwords do not match",
+        "logout": "Log Out",
+        "loginRequired": "Please log in to view your profile.",
+        "errorGeneric": "Something went wrong.",
+        "roles": {
+            "user": "Explorer",
+            "admin": "Administrator",
+            "business": "Business Owner"
+        },
+        "plans": {
+            "free": "Free",
+            "vip": "VIP"
+        }
     }
 }
