@@ -29,7 +29,7 @@ export default function FavoriteCardLiveItem({
 
                 setTimeout(function () {
                     setVisible(false);
-                }, 180);
+                }, 300);
             }
         }
 
@@ -44,7 +44,7 @@ export default function FavoriteCardLiveItem({
 
     return (
         <div
-            className={`transition-all duration-200 ${removing ? "scale-95 opacity-0" : "scale-100 opacity-100"
+            className={`transition-all duration-300 ease-in-out origin-center ${removing ? "scale-90 opacity-0" : "scale-100 opacity-100"
                 }`}
         >
             {children}

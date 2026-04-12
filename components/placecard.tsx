@@ -44,14 +44,15 @@ export default function PlaceCard({
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
-            <div className="group z-10 flex relative h-100 sm:h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:shadow-2xl">
+            <div className="group z-10 flex relative h-100 sm:h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100 bg-white transition-all duration-400 ease-out hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-slate-400">
 
                 <div className="absolute top-0 left-0 right-0 bottom-40 sm:bottom-32">
                     <Image
                         src={mainImage?.url || "/placeholder.jpg"}
                         alt={mainImage?.alt?.[locale] || place.title.en}
                         fill
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                 </div>
                 <div className={`absolute z-10 gap-1 font-bold px-2 top-2 start-2 text-[14px] h-7 flex items-center !bg-black/20 backdrop-blur-sm !text-white !border-white/40 shadow-inner shadow-black !border-1 justify-center ${categoryColors[place.category]}  rounded-md `}>
@@ -59,7 +60,7 @@ export default function PlaceCard({
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
-                <div className="mt-auto z-20 w-full h-40  sm:h-32 p-4 bg-gray-100 flex flex-col  ">
+                <div className="mt-auto z-20 w-full h-40 sm:h-32 p-4 bg-white/95 backdrop-blur-sm flex flex-col justify-between">
 
                     {place.openHours.length > 0 && <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between ">
                         <div className="flex items-center gap-1 ">

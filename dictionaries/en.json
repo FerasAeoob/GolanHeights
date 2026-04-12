@@ -128,10 +128,12 @@
         "topRated": "Top Rated"
     },
     "favoritesPage": {
-        "title": "Favorites",
-        "description": "Places you saved for later.",
+        "title": "Your Favorites",
+        "subtitle": "Your curated collection of unforgettable moments.",
         "loginRequired": "You must be logged in to view your favorites.",
-        "empty": "You have no favorite places yet."
+        "emptyTitle": "Nothing saved yet",
+        "emptySubtitle": "As you explore, click the heart icon to save places you'd love to visit.",
+        "exploreCTA": "Explore Places"
     },
     "auth": {
         "titleLogin": "Login to your account",
