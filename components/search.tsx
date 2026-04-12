@@ -1,26 +1,36 @@
 "use client"; // Required because we are using React hooks and user interaction
 
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebounce } from "@/utils/useDebounce";
 
 export default function SearchBar({ placeholder = "Search places, locations, tags..." }: { placeholder?: string }) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
 
-    function handleSearch(term: string) {
-        // Create a new URLSearchParams object based on the current URL parameters
-        const params = new URLSearchParams(searchParams);
+    const initialSearch = searchParams.get("search")?.toString() || "";
+    const [searchTerm, setSearchTerm] = useState(initialSearch);
+    const debouncedSearch = useDebounce(searchTerm, 300);
 
-        if (term) {
-            params.set("search", term); // Add the search term to the URL
-        } else {
-            params.delete("search"); // Remove the param if the input is empty
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams.toString());
+        const currentSearch = params.get("search") || "";
+
+        // Prevent unnecessary exact-match pushes
+        if (debouncedSearch === currentSearch) {
+            return;
         }
 
-        // Update the URL without reloading the page
+        if (debouncedSearch) {
+            params.set("search", debouncedSearch);
+        } else {
+            params.delete("search");
+        }
+
         replace(`${pathname}?${params.toString()}`);
-    }
+    }, [debouncedSearch, pathname, replace, searchParams]);
 
     return (
         <div className="relative w-full">
@@ -33,8 +43,8 @@ export default function SearchBar({ placeholder = "Search places, locations, tag
             <input
                 type="text"
                 placeholder={placeholder}
-                onChange={(e) => handleSearch(e.target.value)}
-                defaultValue={searchParams.get("search")?.toString()}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full ps-10 pe-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
             />
         </div>
