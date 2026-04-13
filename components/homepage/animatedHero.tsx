@@ -7,7 +7,7 @@ import WeatherCard from "./WeatherCard";
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
 
     return (
-        <section className="relative w-full min-h-[100dvh] flex flex-col overflow-hidden">
+        <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col overflow-hidden">
 
             {/* ── Full-bleed background ─────────────────────────────── */}
             <div className="absolute inset-0 z-0">
@@ -22,8 +22,8 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
             </div>
 
             {/* ── Content Container (Standardized Max-Width) ────────── */}
-            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center mt-25 md:mt-20
-                            w-full w-[1200px] lg:max-w-[1400px] px-4 mx-auto gap-4 mb-7
+            <div className="relative z-10 flex-1 flex flex-col items-center md:justify-center pt-24 md:pt-0 md:mt-20
+                            w-full max-w-[1200px] lg:max-w-[1400px] px-4 mx-auto gap-4 mb-7
                             ">
 
                 {/* Upper Text Section */}

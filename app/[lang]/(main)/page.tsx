@@ -44,7 +44,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
     }));
 
     return (
-        <main className="min-h-screen w-dvw">
+        <main className="min-h-screen min-h-[100dvh] w-full">
             {/* Hero Section */}
             <section className="pb-10 w-full">
                 <AnimatedHero lang={lang} dict={dict} />

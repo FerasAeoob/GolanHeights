@@ -133,7 +133,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
 
             {/* Drawer Panel */}
             <div
-                className={`fixed top-0 bottom-0 h-screen w-[300px] bg-[#111111] z-[120] shadow-[10px_0_30px_-5px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-in-out ${isRTL
+                className={`fixed top-0 bottom-0 h-screen h-[100dvh] w-[300px] bg-[#111111] z-[120] shadow-[10px_0_30px_-5px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-in-out ${isRTL
                     ? (isOpen ? 'translate-x-0 right-0' : 'translate-x-[100%] right-0')
                     : (isOpen ? 'translate-x-0 left-0' : 'translate-x-[-100%] left-0')
                     }`}

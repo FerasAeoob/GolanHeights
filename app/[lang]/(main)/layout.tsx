@@ -25,7 +25,7 @@ export default async function LangLayout({
 
 
     return (
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen min-h-[100dvh]">
             {/* Desktop Sidebar - Left for LTR */}
 
             <div className="flex-1 flex flex-col min-w-0">
