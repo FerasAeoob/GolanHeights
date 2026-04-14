@@ -40,6 +40,13 @@ export default async function PlacesPage({
     const safeQuery = escapeRegex(query);
     const safeCategory = escapeRegex(category);
 
+    // Map common price symbols in search query to DB keys
+    let searchPriceKey: string | null = null;
+    if (safeQuery === "$") searchPriceKey = "low";
+    else if (safeQuery === "$$") searchPriceKey = "mid";
+    else if (safeQuery === "$$$") searchPriceKey = "high";
+    else if (safeQuery.toLowerCase() === "free") searchPriceKey = "free";
+
     const filter: any = {
         ...(safeQuery && {
             $or: [
@@ -51,6 +58,8 @@ export default async function PlacesPage({
                 { "description.en": { $regex: safeQuery, $options: "i" } },
                 { "description.he": { $regex: safeQuery, $options: "i" } },
                 { "description.ar": { $regex: safeQuery, $options: "i" } },
+                // If the user typed a symbol like "$", "$$", or "free", also match the price field
+                ...(searchPriceKey ? [{ price: searchPriceKey }] : []),
             ],
         }),
         ...(safeCategory && { category: { $regex: safeCategory, $options: "i" } }),
@@ -123,7 +132,7 @@ export default async function PlacesPage({
                                     dict.price.mid,
                                     dict.price.high,
                                 ]}
-                                slugs={["", "free", "$", "$$", "$$$"]}
+                                slugs={["", "free", "low", "mid", "high"]}
                             />
                         </div>
                         {/* <div className="flex-1 md:w-48">
