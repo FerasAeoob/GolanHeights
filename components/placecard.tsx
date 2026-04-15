@@ -44,7 +44,7 @@ export default function PlaceCard({
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
-            <div className="group z-10 flex relative h-100 sm:h-80 w-full mx-auto overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100 bg-white transition-all duration-400 ease-out hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-slate-400">
+            <div className="group z-10 flex relative h-100 sm:h-100 w-full mx-auto overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100 bg-white transition-all duration-400 ease-out hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-slate-400">
 
                 <div className="absolute top-0 left-0 right-0 bottom-40 sm:bottom-35">
                     <Image
@@ -60,53 +60,56 @@ export default function PlaceCard({
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
-                <div className="mt-auto z-20 w-full h-40 sm:h-35 p-4 bg-white/95 backdrop-blur-sm flex flex-col justify-between border-1 border-black rounded-b-2xl">
+                <div className="mt-auto z-20 w-full h-40 sm:h-35 p-4 bg-white/95 backdrop-blur-sm flex flex-col">
 
-                    {place.openHours.length > 0 && <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between ">
-                        <div className="flex items-center gap-1 ">
+                    {place.openHours.length > 0 &&
+                        <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between  ">
+                            <div className="flex items-center gap-1 ">
 
-                            <OpenStatus
-                                openingHours={place.openHours || []}
-                                openString={place.open}
-                                dict={openingHoursDict}
-                                textordot="status"
+                                <OpenStatus
+                                    openingHours={place.openHours || []}
+                                    openString={place.open}
+                                    dict={openingHoursDict}
+                                    textordot="status"
 
+                                />
+
+                                {place.reviewsCount > 0 && (
+                                    <div className="flex items-center justify-center gap-1  bg-yellow-50  px-2 border-yellow-200 border-1  rounded-md h-7  ">
+                                        <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400 " />
+
+                                        <span className="text-[14px] font-medium ">
+                                            {(place.averageRating || 0).toFixed(1)}
+                                        </span>
+
+                                        <span className="text-[14px] text-gray-500 ">
+                                            ({place.reviewsCount})
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <FavoriteButton
+                                placeId={place._id.toString()}
+                                currentUserId={currentUserId}
+                                initialIsFavorite={initialIsFavorite}
+                                dict={dict}
                             />
 
-                            {place.reviewsCount > 0 && (
-                                <div className="flex items-center justify-center gap-1  bg-yellow-50  px-2 border-yellow-200 border-1  rounded-md h-7  ">
-                                    <Star className="h-3 w-3 -mt-[1px] fill-yellow-400 text-yellow-400 " />
 
-                                    <span className="text-[14px] font-medium ">
-                                        {(place.averageRating || 0).toFixed(1)}
-                                    </span>
-
-                                    <span className="text-[14px] text-gray-500 ">
-                                        ({place.reviewsCount})
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-                        <FavoriteButton
-                            placeId={place._id.toString()}
-                            currentUserId={currentUserId}
-                            initialIsFavorite={initialIsFavorite}
-                            dict={dict}
-                        />
-
-
-                    </div>}
+                        </div>}
 
 
 
-                    <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
+
+                    <h3 className=" group-hover:text-green-800 text-l font-bold line-clamp-1">{displayTitle}</h3>
                     <div className="flex my-1 gap-1 ">
                         <MapPin className="w-4 h-4 mt-1 " />
                         <h1 className="line-clamp-1">{place.location.name[locale] || place.location.name.en}</h1>
 
 
                     </div>
-                    <p className=" text-l line-clamp-2 ">{displayShortDesc}</p>
+
+                    <p className=" text-l line-clamp-3 md:line-clamp-2 ">{displayShortDesc}</p>
                 </div>
 
 
