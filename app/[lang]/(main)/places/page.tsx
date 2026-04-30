@@ -8,6 +8,7 @@ import { getDictionary } from "@/lib/get-dictionary";
 import { IOpeningHoursDictionary } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 import { getCurrentUser } from "@/lib/auth";
+import PlacesMapClient from "@/components/places/PlacesMapClient";
 
 export default async function PlacesPage({
     searchParams,
@@ -80,7 +81,7 @@ export default async function PlacesPage({
         .sort(sortOption)
         .lean();
     const t3 = performance.now();
-    perfLog(`[PERF] PLACES /${lang}: parallel(dict+auth)=${((t1-pageStart)).toFixed(1)}ms | dbQuery=${((t3-t2)).toFixed(1)}ms | total=${((t3-pageStart)).toFixed(1)}ms`);
+    perfLog(`[PERF] PLACES /${lang}: parallel(dict+auth)=${((t1 - pageStart)).toFixed(1)}ms | dbQuery=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - pageStart)).toFixed(1)}ms`);
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
     // 3. Render your custom UI
     return (
@@ -155,6 +156,10 @@ export default async function PlacesPage({
 
                 </div>
             </section>
+
+            {/* Map Section */}
+
+
             <section className="max-w-[1400px] px-4 mx-auto mt-10 md:mt-15 ">
                 <div className="flex flex-col items-center justify-center w-full max-w-[1200px] lg:max-w-[1400px] " >
 
@@ -191,6 +196,13 @@ export default async function PlacesPage({
                     </div>
                 </div>
             </section >
+            <section className="max-w-[1400px] px-4 mx-auto mt-8 z-0">
+                <PlacesMapClient
+                    places={JSON.parse(JSON.stringify(places))}
+                    lang={lang}
+                    dict={dict}
+                />
+            </section>
             {/*<section className="flex flex-col items-center justify-center mt-12 mb-20">*/}
             {/*    <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">*/}
             {/*        <div>*/}
