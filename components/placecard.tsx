@@ -102,9 +102,9 @@ export default function PlaceCard({
                             {displayTitle}
                         </h3>
 
-                        <div className="flex gap-1 items-center">
+                        <div className="flex gap-1 items-center text-green-800 font-bold ">
                             <MapPin className="w-4 h-4" />
-                            <h1 className="line-clamp-1 text-emerald-700">{place.location.name[locale] || place.location.name.en}</h1>
+                            <h1 className="line-clamp-1 ">{place.location.name[locale] || place.location.name.en}</h1>
                         </div>
 
                         {/* This will take remaining space and center text */}
