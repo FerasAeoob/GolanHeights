@@ -45,7 +45,7 @@
     "newsletterdesc": "Subscribe to receive special offers, free giveaways, and once-in-a-lifetime deals.",
     "enteremail": "Enter your email",
     "subscribe": "Subscribe",
-    "rights": "© 2024 Golan Heights Guide. All rights reserved.",
+    "rights": "Â© 2024 Golan Heights Guide. All rights reserved.",
     "privacypolicy": "Privacy Policy",
     "termsofservice": "Terms of Service",
     "categories": {
@@ -127,12 +127,31 @@
         "newest": "Newest",
         "topRated": "Top Rated"
     },
+    "villages": {
+        "all": "All Villages",
+        "majdal-shams": "Majdal Shams",
+        "masade": "Mas'ada",
+        "buqata": "Buq'ata",
+        "ein-qiniyye": "Ein Qiniyye"
+    },
+    "favorites": {
+        "add": "Add to favorites",
+        "remove": "Remove from favorites",
+        "signInRequiredTitle": "Sign in required",
+        "signInRequiredMessage": "Please sign in to save places to your favorites.",
+        "signInButton": "Sign in",
+        "error": "Failed to update favorites.",
+        "favoriteLoginRequiredTitle": "Login required",
+        "favoriteLoginRequiredMessage": "Sign in to save places to your favorites.",
+        "favoriteLoginRequiredAction": "Sign in",
+        "favoriteLoginRequiredClose": "Close"
+    },
     "favoritesPage": {
         "title": "Your Favorites",
         "subtitle": "Your curated collection of unforgettable moments.",
         "loginRequired": "You must be logged in to view your favorites.",
         "emptyTitle": "Nothing saved yet",
-        "emptySubtitle": "As you explore, click the heart icon to save places you’d love to visit.",
+        "emptySubtitle": "As you explore, click the bookmark icon to save places you love to visit.",
         "exploreCTA": "Explore Places"
     },
     "auth": {
@@ -210,5 +229,61 @@
             "free": "Free",
             "vip": "VIP"
         }
+    },
+    "errors": {
+        "VALIDATION_FAILED": "Validation failed.",
+        "UNAUTHORIZED": "Unauthorized.",
+        "FORBIDDEN": "Forbidden.",
+        "NOT_FOUND": "Not found.",
+        "INVALID_CREDENTIALS": "Invalid email or password.",
+        "EMAIL_ALREADY_EXISTS": "Email is already in use.",
+        "USER_NOT_FOUND": "User not found.",
+        "INVALID_EMAIL": "Invalid email address.",
+        "INVALID_PHONE": "Invalid phone number.",
+        "NAME_TOO_SHORT": "Name is required.",
+        "NAME_TOO_LONG": "Name is too long.",
+        "NAME_INVALID": "Name must be between 2 and 50 characters.",
+        "PASSWORD_TOO_SHORT": "Password must be at least 8 characters long.",
+        "PASSWORD_TOO_LONG": "Password cannot exceed 72 characters.",
+        "PASSWORD_TOO_WEAK": "Password is too weak. Use uppercase, lowercase, numbers, and special characters.",
+        "PASSWORD_MISSING_UPPERCASE": "Password must contain at least one uppercase letter.",
+        "PASSWORD_MISSING_LOWERCASE": "Password must contain at least one lowercase letter.",
+        "PASSWORD_MISSING_NUMBER": "Password must contain at least one number.",
+        "PASSWORD_MISSING_SPECIAL": "Password must contain at least one special character.",
+        "PASSWORDS_DO_NOT_MATCH": "Passwords do not match.",
+        "PASSWORDS_REQUIRED": "Please fill in all password fields.",
+        "CURRENT_PASSWORD_INCORRECT": "Current password is incorrect.",
+        "NEW_PASSWORD_SAME_AS_CURRENT": "New password cannot be the same as the current password.",
+        "IMAGE_TOO_LARGE": "Image must be under 5MB.",
+        "UPLOAD_FAILED": "Failed to upload image. Please try again.",
+        "AVATAR_REMOVE_FAILED": "Failed to remove photo.",
+        "PROFILE_UPDATE_FAILED": "Failed to update profile.",
+        "REVIEW_LOAD_FAILED": "Failed to load reviews.",
+        "REVIEW_SAVE_FAILED": "Failed to save your review.",
+        "REVIEW_DELETE_FAILED": "Failed to delete review.",
+        "REVIEW_EMPTY": "Review cannot be empty.",
+        "REVIEW_TOO_LONG": "Review is too long.",
+        "RATING_TOO_LOW": "Rating must be at least 1.",
+        "RATING_TOO_HIGH": "Rating cannot exceed 5.",
+        "PLACE_CREATE_FAILED": "Failed to create place.",
+        "PLACE_UPDATE_FAILED": "Failed to update place.",
+        "PLACE_DELETE_FAILED": "Failed to delete place.",
+        "SLUG_EN_ALREADY_EXISTS": "The English slug is already taken.",
+        "SLUG_HE_ALREADY_EXISTS": "The Hebrew slug is already taken.",
+        "SLUG_AR_ALREADY_EXISTS": "The Arabic slug is already taken.",
+        "UPLOAD_TOO_LARGE": "Image must be under 5MB.",
+        "FILL_ALL": "Please fill in all required fields.",
+        "UNKNOWN_ERROR": "Something went wrong. Please try again."
+    },
+    "success": {
+        "AVATAR_UPDATED": "Photo updated successfully!",
+        "AVATAR_REMOVED": "Photo removed successfully.",
+        "PROFILE_UPDATED": "Profile updated successfully!",
+        "PASSWORD_CHANGED": "Password changed successfully!",
+        "PLACE_CREATED": "Place created successfully!",
+        "PLACE_UPDATED": "Place updated successfully!",
+        "REVIEW_SUBMITTED": "Review submitted!",
+        "REVIEW_DELETED": "Review deleted.",
+        "ACCOUNT_CREATED": "Account created successfully!"
     }
 }

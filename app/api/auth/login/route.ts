@@ -4,6 +4,8 @@ import User from "@/database/user/user.model";
 import { loginSchema } from "@/database/user/user.schema";
 import { createUserToken, setAuthCookie, serializeUser } from "@/lib/auth";
 
+export const runtime = "nodejs";
+
 export async function POST(req: NextRequest) {
     try {
         await connectDB();
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest) {
 
         if (!user) {
             return NextResponse.json(
-                { success: false, message: "Invalid email or password" },
+                { success: false, errorCode: "INVALID_CREDENTIALS" },
                 { status: 401 }
             );
         }
@@ -24,7 +26,7 @@ export async function POST(req: NextRequest) {
 
         if (!isPasswordValid) {
             return NextResponse.json(
-                { success: false, message: "Invalid email or password" },
+                { success: false, errorCode: "INVALID_CREDENTIALS" },
                 { status: 401 }
             );
         }
@@ -45,7 +47,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Validation failed",
+                    errorCode: "VALIDATION_FAILED",
                     errors: error.issues,
                 },
                 { status: 400 }
@@ -55,7 +57,7 @@ export async function POST(req: NextRequest) {
         console.error("LOGIN ERROR:", error);
 
         return NextResponse.json(
-            { success: false, message: "Something went wrong" },
+            { success: false, errorCode: "UNKNOWN_ERROR" },
             { status: 500 }
         );
     }

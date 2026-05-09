@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Save, Loader2, User, Phone } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
+import { getErrorMessage } from '@/utils/error';
 import { useRouter } from 'next/navigation';
 
 interface EditProfileFormProps {
@@ -40,13 +41,13 @@ export default function EditProfileForm({ user, dict }: EditProfileFormProps) {
         // Client-side validation
         const trimmedName = name.trim();
         if (trimmedName.length < 2 || trimmedName.length > 50) {
-            showToast('error', 'Name must be between 2 and 50 characters');
+            showToast('error', dict?.errors?.NAME_TOO_SHORT || 'Name must be between 2 and 50 characters');
             return;
         }
 
         const trimmedPhone = phone.trim();
         if (trimmedPhone && !/^\+?[0-9]{10,15}$/.test(trimmedPhone)) {
-            showToast('error', 'Invalid phone number');
+            showToast('error', dict?.errors?.INVALID_PHONE || 'Invalid phone number');
             return;
         }
 
@@ -65,7 +66,7 @@ export default function EditProfileForm({ user, dict }: EditProfileFormProps) {
             const data = await res.json();
 
             if (!res.ok) {
-                showToast('error', data.message || p?.errorGeneric || 'Update failed');
+                showToast('error', getErrorMessage(data, dict));
                 return;
             }
 
@@ -73,7 +74,7 @@ export default function EditProfileForm({ user, dict }: EditProfileFormProps) {
             setDirty(false);
             router.refresh();
         } catch {
-            showToast('error', p?.errorGeneric || 'Something went wrong');
+            showToast('error', dict?.errors?.UNKNOWN_ERROR || 'Something went wrong');
         } finally {
             setSaving(false);
         }

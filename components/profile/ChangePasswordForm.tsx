@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Lock, Eye, EyeOff, Loader2, ShieldCheck } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
+import { getErrorMessage } from "@/utils/error";
 
 interface ChangePasswordFormProps {
     dict: Record<string, any>;
@@ -18,22 +19,19 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
     const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setFieldErrors({});
 
         if (!currentPassword || !newPassword || !confirmPassword) {
-            showToast('error', dict?.auth?.fillAll || 'Please fill all fields');
-            return;
-        }
-
-        if (newPassword.length < 6) {
-            showToast('error', 'Password must be at least 6 characters');
+            showToast('error', dict?.errors?.FILL_ALL || dict?.auth?.fillAll || 'Please fill all fields');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            showToast('error', p?.passwordMismatch || 'Passwords do not match');
+            showToast('error', dict?.errors?.PASSWORDS_DO_NOT_MATCH || p?.passwordMismatch || 'Passwords do not match');
             return;
         }
 
@@ -48,7 +46,12 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
             const data = await res.json();
 
             if (!res.ok) {
-                showToast('error', data.message || p?.errorGeneric || 'Failed');
+                const errorMessage = getErrorMessage(data, dict);
+                if (data.field) {
+                    setFieldErrors({ [data.field]: errorMessage });
+                } else {
+                    showToast('error', errorMessage);
+                }
                 return;
             }
 
@@ -57,7 +60,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
             setNewPassword('');
             setConfirmPassword('');
         } catch {
-            showToast('error', p?.errorGeneric || 'Something went wrong');
+            showToast('error', dict?.errors?.UNKNOWN_ERROR || 'Something went wrong');
         } finally {
             setSaving(false);
         }
@@ -85,7 +88,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                             type={showCurrent ? 'text' : 'password'}
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
-                            className="w-full px-4 py-3 pe-12 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 transition-all duration-200 focus:border-emerald-400 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 text-left"
+                            className={`w-full px-4 py-3 pe-12 rounded-xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 text-left ${fieldErrors.currentPassword ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-emerald-400'}`}
                             placeholder="••••••••"
                         />
                         <button
@@ -96,6 +99,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                             {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
+                    {fieldErrors.currentPassword && <p className="text-red-500 text-sm mt-1">{fieldErrors.currentPassword}</p>}
                 </div>
 
                 {/* New Password */}
@@ -109,7 +113,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                             type={showNew ? 'text' : 'password'}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                            className="w-full px-4 py-3 pe-12 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 transition-all duration-200 focus:border-emerald-400 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 text-left"
+                            className={`w-full px-4 py-3 pe-12 rounded-xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 text-left ${fieldErrors.newPassword ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-emerald-400'}`}
                             placeholder="••••••••"
                         />
                         <button
@@ -120,6 +124,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                             {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
+                    {fieldErrors.newPassword && <p className="text-red-500 text-sm mt-1">{fieldErrors.newPassword}</p>}
                 </div>
 
                 {/* Confirm New Password */}
@@ -133,7 +138,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                             type={showConfirm ? 'text' : 'password'}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full px-4 py-3 pe-12 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 transition-all duration-200 focus:border-emerald-400 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 text-left"
+                            className={`w-full px-4 py-3 pe-12 rounded-xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 text-left ${fieldErrors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-emerald-400'}`}
                             placeholder="••••••••"
                         />
                         <button
@@ -144,6 +149,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                             {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
+                    {fieldErrors.confirmPassword && <p className="text-red-500 text-sm mt-1">{fieldErrors.confirmPassword}</p>}
                 </div>
 
                 {/* Submit */}

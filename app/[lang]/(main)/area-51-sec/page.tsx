@@ -2,9 +2,21 @@ import { getPlaces } from "@/lib/db/places";
 import AdminButton from "@/components/admin/AdminButton";
 import { deletePlaceAction, toggleFeaturedAction } from "@/app/actions/places";
 import Link from "next/link";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { isOwner, isAdmin } from "@/lib/permissions";
 
 export default async function AdminDashboard({ params }: { params: Promise<{ lang: string }> }) {
     const { lang } = await params;
+
+    const user = await getCurrentUser();
+    if (!user || !isAdmin(user)) {
+        redirect(`/${lang}`);
+    }
+
+    const canAdd = isOwner(user);
+    const canDelete = isOwner(user);
+
     const places = await getPlaces();
 
     return (
@@ -17,12 +29,14 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                         <h1 className="text-3xl font-bold">Area 51 Dashboard</h1>
                         <p className="text-slate-500">Managing {places.length} locations in Golan Heights</p>
                     </div>
-                    <Link
-                        href={`/${lang}/area-51-sec/new`}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-all"
-                    >
-                        + Add New Place
-                    </Link>
+                    {canAdd && (
+                        <Link
+                            href={`/${lang}/area-51-sec/new`}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-all"
+                        >
+                            + Add New Place
+                        </Link>
+                    )}
                 </div>
 
                 {/* Places Table */}
@@ -72,13 +86,15 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                                             Edit
                                         </Link>
 
-                                        <AdminButton
-                                            action={deletePlaceAction.bind(null, place._id.toString())}
-                                            label="Delete"
-                                            loadingLabel="Deleting..."
-                                            confirmMessage="Are you absolutely sure? This cannot be undone."
-                                            className="text-sm text-red-500 hover:text-red-700 font-medium cursor-pointer"
-                                        />
+                                        {canDelete && (
+                                            <AdminButton
+                                                action={deletePlaceAction.bind(null, place._id.toString())}
+                                                label="Delete"
+                                                loadingLabel="Deleting..."
+                                                confirmMessage="Are you absolutely sure? This cannot be undone."
+                                                className="text-sm text-red-500 hover:text-red-700 font-medium cursor-pointer"
+                                            />
+                                        )}
                                     </td>
                                 </tr>
                             ))}

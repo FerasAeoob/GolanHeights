@@ -3,8 +3,6 @@ import { getDictionary } from "@/lib/get-dictionary";
 import Image from "next/image";
 
 
-// Public page, same HTML for all users per locale — safe to cache
-export const revalidate = 3600; // 1 hour
 
 export default async function SignupPage({
     params,

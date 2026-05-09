@@ -127,6 +127,25 @@
         "newest": "الأحدث",
         "topRated": "الأعلى تقييمًا"
     },
+    "villages": {
+        "all": "جميع القرى",
+        "majdal-shams": "مجدل شمس",
+        "masade": "مسعدة",
+        "buqata": "بقعاثا",
+        "ein-qiniyye": "عين قنية"
+    },
+    "favorites": {
+        "add": "إضافة إلى المفضلة",
+        "remove": "إزالة من المفضلة",
+        "signInRequiredTitle": "يجب تسجيل الدخول",
+        "signInRequiredMessage": "يرجى تسجيل الدخول لحفظ الأماكن في المفضلة.",
+        "signInButton": "تسجيل الدخول",
+        "error": "فشل تحديث المفضلة.",
+        "favoriteLoginRequiredTitle": "تسجيل الدخول مطلوب",
+        "favoriteLoginRequiredMessage": "سجّل الدخول لحفظ الأماكن في المفضلة.",
+        "favoriteLoginRequiredAction": "تسجيل الدخول",
+        "favoriteLoginRequiredClose": "إغلاق"
+    },
     "favoritesPage": {
         "title": "المفضلة الخاصة بك",
         "subtitle": "مجموعتك الشخصية من اللحظات التي لا تُنسى.",
@@ -210,5 +229,46 @@
             "free": "مجاني",
             "vip": "VIP"
         }
+    },
+    "errors": {
+        "PASSWORD_TOO_SHORT": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+        "PASSWORD_TOO_LONG": "لا يمكن أن تتجاوز كلمة المرور 72 حرفًا.",
+        "PASSWORD_MISSING_UPPERCASE": "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل.",
+        "PASSWORD_MISSING_LOWERCASE": "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل.",
+        "PASSWORD_MISSING_NUMBER": "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل.",
+        "PASSWORD_MISSING_SPECIAL": "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل.",
+        "INVALID_EMAIL": "عنوان البريد الإلكتروني غير صالح.",
+        "INVALID_PHONE": "رقم الهاتف غير صالح.",
+        "NAME_TOO_SHORT": "الاسم مطلوب.",
+        "NAME_TOO_LONG": "الاسم طويل جداً.",
+        "SLUG_REQUIRED": "الرابط المختصر مطلوب.",
+        "COMMENT_EMPTY": "لا يمكن أن يكون التعليق فارغاً.",
+        "COMMENT_TOO_LONG": "التعليق طويل جداً.",
+        "RATING_TOO_LOW": "يجب أن يكون التقييم 1 على الأقل.",
+        "RATING_TOO_HIGH": "لا يمكن أن يتجاوز التقييم 5.",
+        "REVIEW_EMPTY": "لا يمكن أن يكون التقييم فارغاً.",
+        "REVIEW_TOO_LONG": "التقييم طويل جداً.",
+        "VALIDATION_FAILED": "فشل التحقق من صحة البيانات.",
+        "INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+        "EMAIL_ALREADY_EXISTS": "البريد الإلكتروني مستخدم بالفعل.",
+        "UNAUTHORIZED": "غير مصرح.",
+        "USER_NOT_FOUND": "المستخدم غير موجود.",
+        "CURRENT_PASSWORD_INCORRECT": "كلمة المرور الحالية غير صحيحة.",
+        "NEW_PASSWORD_SAME_AS_CURRENT": "لا يمكن أن تكون كلمة المرور الجديدة مطابقة لكلمة المرور الحالية.",
+        "FORBIDDEN": "ممنوع الدخول.",
+        "SLUG_EN_ALREADY_EXISTS": "الرابط المختصر باللغة الإنجليزية مستخدم بالفعل.",
+        "SLUG_HE_ALREADY_EXISTS": "الرابط المختصر باللغة العبرية مستخدم بالفعل.",
+        "SLUG_AR_ALREADY_EXISTS": "الرابط المختصر باللغة العربية مستخدم بالفعل.",
+        "PLACE_NOT_FOUND": "المكان غير موجود.",
+        "PLACE_ALREADY_GONE": "المكان محذوف بالفعل.",
+        "REVIEW_SAVE_FAILED": "فشل حفظ التقييم. يرجى المحاولة مرة أخرى.",
+        "REVIEW_DELETE_FAILED": "فشل حذف التقييم. يرجى المحاولة مرة أخرى.",
+        "REVIEW_LOAD_FAILED": "فشل تحميل التقييمات. يرجى تحديث الصفحة.",
+        "UPLOAD_FAILED": "فشل الرفع. يرجى المحاولة مرة أخرى.",
+        "UPLOAD_TOO_LARGE": "يجب أن تكون الصورة أقل من 5MB.",
+        "AVATAR_REMOVE_FAILED": "فشل حذف الصورة. يرجى المحاولة مرة أخرى.",
+        "PASSWORDS_DO_NOT_MATCH": "كلمات المرور غير متطابقة.",
+        "FILL_ALL": "يرجى ملء جميع الحقول المطلوبة.",
+        "UNKNOWN_ERROR": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
     }
 }

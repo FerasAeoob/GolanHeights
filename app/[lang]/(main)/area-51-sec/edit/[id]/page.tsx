@@ -1,6 +1,7 @@
 import PlaceForm from "@/components/admin/PlaceForm";
 import { getPlaceById } from "@/lib/db/places";
 import { notFound } from "next/navigation";
+import { getDictionary } from "@/lib/get-dictionary";
 
 export default async function EditPlacePage({
     params,
@@ -12,5 +13,7 @@ export default async function EditPlacePage({
     const place = await getPlaceById(id);
     if (!place) notFound();
 
-    return <PlaceForm mode="edit" initialData={place} lang={lang} />;
+    const dict = await getDictionary(lang as "en" | "he" | "ar");
+
+    return <PlaceForm mode="edit" initialData={place} lang={lang} dict={dict} />;
 }

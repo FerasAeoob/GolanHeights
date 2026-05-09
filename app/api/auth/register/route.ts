@@ -5,6 +5,8 @@ import { registerSchema } from "@/database/user/user.schema";
 import { createUserToken, setAuthCookie, serializeUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
+export const runtime = "nodejs";
+
 export async function POST(req: NextRequest) {
     try {
         await connectDB();
@@ -16,7 +18,7 @@ export async function POST(req: NextRequest) {
 
         if (existingUser) {
             return NextResponse.json(
-                { success: false, message: "Email already in use" },
+                { success: false, errorCode: "EMAIL_ALREADY_EXISTS" },
                 { status: 409 }
             );
         }
@@ -45,11 +47,12 @@ export async function POST(req: NextRequest) {
         redirect("/[locale]/login");
     } catch (error: any) {
         if (error?.name === "ZodError") {
+            const firstIssue = error.issues[0];
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Validation failed",
-                    errors: error.issues,
+                    errorCode: firstIssue.message,
+                    field: firstIssue.path[0],
                 },
                 { status: 400 }
             );
@@ -58,7 +61,7 @@ export async function POST(req: NextRequest) {
         console.error("REGISTER ERROR:", error);
 
         return NextResponse.json(
-            { success: false, message: "Something went wrong" },
+            { success: false, errorCode: "UNKNOWN_ERROR" },
             { status: 500 }
         );
     }

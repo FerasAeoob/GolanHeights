@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { showToast } from "@/components/ui/Toast";
+import { getErrorMessage } from "@/utils/error";
 
 interface LoginFormProps {
     lang: "en" | "ar" | "he";
@@ -42,14 +43,15 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             const data = await res.json();
 
             if (!res.ok) {
-                showToast('error', data.message || "Login failed");
+                const errorMessage = getErrorMessage(data, dict);
+                showToast('error', errorMessage);
                 return;
             }
 
             router.push(`/${lang}`);
             router.refresh();
         } catch {
-            showToast('error', dict?.auth?.somethingWrong || "Something went wrong");
+            showToast('error', dict?.errors?.UNKNOWN_ERROR || 'Something went wrong');
         } finally {
             setLoading(false);
         }

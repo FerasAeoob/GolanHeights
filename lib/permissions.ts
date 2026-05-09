@@ -18,5 +18,22 @@ export async function requireRole(allowedRoles: Array<"user" | "admin" | "busine
     return user;
 
 }
+export function isAdmin(user: any) {
+    return user?.role === "admin";
+}
 
+export function isOwner(user: any) {
+    return user?.role === "admin" && user?.email === process.env.OWNER_EMAIL;
+}
 
+export function canEditArea51(user: any) {
+    return isAdmin(user);
+}
+
+export function canAddArea51(user: any) {
+    return isOwner(user);
+}
+
+export function canDeleteArea51(user: any) {
+    return isOwner(user);
+}

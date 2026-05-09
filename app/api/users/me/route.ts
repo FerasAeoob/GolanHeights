@@ -23,7 +23,7 @@ export async function GET() {
     } catch (error) {
         console.error("GET USER ERROR:", error);
         return NextResponse.json(
-            { success: false, message: "Something went wrong" },
+            { success: false, errorCode: "UNKNOWN_ERROR" },
             { status: 500 }
         );
     }
@@ -81,7 +81,7 @@ export async function PATCH(req: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Validation failed",
+                    errorCode: "VALIDATION_FAILED",
                     errors: error.issues,
                 },
                 { status: 400 }
@@ -93,7 +93,7 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json(
             {
                 success: false,
-                message: "Something went wrong",
+                errorCode: "UNKNOWN_ERROR",
             },
             { status: 500 }
         );

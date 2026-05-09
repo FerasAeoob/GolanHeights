@@ -110,27 +110,21 @@ export async function POST(req: NextRequest) {
     );
   } catch (error: any) {
     if (error?.name === "ZodError") {
+      const firstIssue = error.issues[0];
       return NextResponse.json(
-        {
-          success: false,
-          message: "Validation failed",
-          errors: error.issues,
-        },
+        { success: false, errorCode: firstIssue.message, field: firstIssue.path[0] },
         { status: 400 }
       );
     }
 
     if (error?.message === "Unauthorized") {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, errorCode: "UNAUTHORIZED" }, { status: 401 });
     }
 
     console.error("CREATE/UPDATE REVIEW ERROR:", error);
 
     return NextResponse.json(
-      { success: false, message: "Something went wrong" },
+      { success: false, errorCode: "UNKNOWN_ERROR" },
       { status: 500 }
     );
   }

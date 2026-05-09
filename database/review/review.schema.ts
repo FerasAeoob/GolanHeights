@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 export const createOrUpdateReviewSchema = z.object({
-    placeId: z.string().min(1, "placeId is required"),
-    rating: z.number().min(1, "Rating must be at least 1").max(5, "Rating cannot be more than 5"),
+    placeId: z.string().min(1, "PLACE_ID_REQUIRED"),
+    rating: z.number().min(1, "RATING_TOO_LOW").max(5, "RATING_TOO_HIGH"),
     text: z
         .string()
         .trim()
-        .min(1, "Review cannot be empty")
-        .max(1000, "Review is too long"),
+        .min(1, "REVIEW_EMPTY")
+        .max(1000, "REVIEW_TOO_LONG"),
 });
 
 export const deleteReviewSchema = z.object({
-    reviewId: z.string().min(1, "reviewId is required"),
+    reviewId: z.string().min(1, "REVIEW_ID_REQUIRED"),
 });

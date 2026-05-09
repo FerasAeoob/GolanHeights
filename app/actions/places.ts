@@ -7,15 +7,26 @@ import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { generateEnglishSlug } from "@/utils/slug";
 
+import { getCurrentUser } from "@/lib/auth";
+import { isAdmin, isOwner } from "@/lib/permissions";
+
 /**
  * HELPER: Verifies if the request is from an authenticated Admin.
  */
 async function verifyAdmin() {
-    const cookieStore = await cookies();
-    const session = cookieStore.get('admin_session');
+    const user = await getCurrentUser();
+    if (!isAdmin(user)) {
+        throw new Error("UNAUTHORIZED");
+    }
+}
 
-    if (!session || session.value !== 'true') {
-        throw new Error("Unauthorized: Access Denied ❌");
+/**
+ * HELPER: Verifies if the request is from the Site Owner.
+ */
+async function verifyOwner() {
+    const user = await getCurrentUser();
+    if (!isOwner(user)) {
+        throw new Error("FORBIDDEN");
     }
 }
 
@@ -24,25 +35,25 @@ async function verifyAdmin() {
    ============================================================ */
 export async function createPlaceAction(data: any) {
     try {
-        await verifyAdmin();
+        await verifyOwner();
         await connectDB();
 
         const validation = createplaceschema.safeParse(data);
         if (!validation.success) {
-            return { error: "Validation Failed", details: validation.error.format() };
+            return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
         }
 
         data.slug.en = generateEnglishSlug(data.title.en);
 
         // 2a. Explicit uniqueness checks so the user gets friendly errors
         const existingEn = await Place.findOne({ "slug.en": data.slug.en });
-        if (existingEn) return { error: `The generated English slug "${data.slug.en}" is already taken by another place.` };
+        if (existingEn) return { errorCode: "SLUG_EN_ALREADY_EXISTS" };
 
         const existingHe = await Place.findOne({ "slug.he": data.slug.he });
-        if (existingHe) return { error: `The exact Hebrew slug "${data.slug.he}" is already taken.` };
+        if (existingHe) return { errorCode: "SLUG_HE_ALREADY_EXISTS" };
 
         const existingAr = await Place.findOne({ "slug.ar": data.slug.ar });
-        if (existingAr) return { error: `The exact Arabic slug "${data.slug.ar}" is already taken.` };
+        if (existingAr) return { errorCode: "SLUG_AR_ALREADY_EXISTS" };
 
         const newPlace = await Place.create(data);
 
@@ -52,7 +63,7 @@ export async function createPlaceAction(data: any) {
         return { success: true, id: newPlace._id.toString() };
     } catch (error: any) {
         console.error("Create Error:", error);
-        return { error: error.message || "Something went wrong during creation." };
+        return { errorCode: error.message || "UNKNOWN_ERROR" };
     }
 }
 
@@ -66,11 +77,11 @@ export async function updatePlaceAction(id: string, data: any) {
 
         const validation = UpdatePlaceSchema.safeParse(data);
         if (!validation.success) {
-            return { error: "Invalid Update Data", details: validation.error.format() };
+            return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
         }
 
         const existingPlace = await Place.findById(id);
-        if (!existingPlace) return { error: "Place not found ❌" };
+        if (!existingPlace) return { errorCode: "PLACE_NOT_FOUND" };
 
         // 2a. Only regenerate English slug if title changed or if it was missing completely
         // The data object received from Zod includes data.title.en, data.slug.he, data.slug.ar
@@ -85,16 +96,16 @@ export async function updatePlaceAction(id: string, data: any) {
 
         // 2b. Explicit uniqueness checks against other documents
         const duplicateEn = await Place.findOne({ _id: { $ne: id }, "slug.en": data.slug.en });
-        if (duplicateEn) return { error: `The English slug "${data.slug.en}" is already taken.` };
+        if (duplicateEn) return { errorCode: "SLUG_EN_ALREADY_EXISTS" };
 
         if (data.slug.he) {
             const duplicateHe = await Place.findOne({ _id: { $ne: id }, "slug.he": data.slug.he });
-            if (duplicateHe) return { error: `The Hebrew slug "${data.slug.he}" is already taken.` };
+            if (duplicateHe) return { errorCode: "SLUG_HE_ALREADY_EXISTS" };
         }
         
         if (data.slug.ar) {
             const duplicateAr = await Place.findOne({ _id: { $ne: id }, "slug.ar": data.slug.ar });
-            if (duplicateAr) return { error: `The Arabic slug "${data.slug.ar}" is already taken.` };
+            if (duplicateAr) return { errorCode: "SLUG_AR_ALREADY_EXISTS" };
         }
 
         // Apply all updates
@@ -117,7 +128,7 @@ export async function updatePlaceAction(id: string, data: any) {
         return { success: true };
     } catch (error: any) {
         console.error("Update Error:", error);
-        return { error: error.message || "Failed to update place." };
+        return { errorCode: error.message || "UNKNOWN_ERROR" };
     }
 }
 
@@ -126,11 +137,11 @@ export async function updatePlaceAction(id: string, data: any) {
    ============================================================ */
 export async function deletePlaceAction(id: string) {
     try {
-        await verifyAdmin();
+        await verifyOwner();
         await connectDB();
 
         const placeToDelete = await Place.findById(id);
-        if (!placeToDelete) return { error: "Place already gone ❌" };
+        if (!placeToDelete) return { errorCode: "PLACE_ALREADY_GONE" };
 
         await Place.findByIdAndDelete(id);
 
@@ -140,7 +151,7 @@ export async function deletePlaceAction(id: string) {
         return { success: true };
     } catch (error: any) {
         console.error("Delete Error:", error);
-        return { error: "Could not delete the place." };
+        return { errorCode: error.message || "UNKNOWN_ERROR" };
     }
 }
 
@@ -155,7 +166,7 @@ export async function toggleFeaturedAction(id: string) {
         await connectDB();
 
         const place = await Place.findById(id);
-        if (!place) return { error: "Place not found" };
+        if (!place) return { errorCode: "PLACE_NOT_FOUND" };
 
         place.featured = !place.featured;
         await place.save();
@@ -164,7 +175,7 @@ export async function toggleFeaturedAction(id: string) {
         revalidatePath('/[lang]');
 
         return { success: true, featured: place.featured };
-    } catch (error) {
-        return { error: "Failed to update featured status." };
+    } catch (error: any) {
+        return { errorCode: error.message || "UNKNOWN_ERROR" };
     }
 }

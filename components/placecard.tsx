@@ -93,6 +93,7 @@ export default function PlaceCard({
                                 currentUserId={currentUserId}
                                 initialIsFavorite={initialIsFavorite}
                                 dict={dict}
+                                lang={locale}
                             />
 
 
@@ -102,7 +103,7 @@ export default function PlaceCard({
                             {displayTitle}
                         </h3>
 
-                        <div className="flex gap-1 items-center text-green-800 font-bold ">
+                        <div className="flex start gap-1 items-center text-green-800 font-bold ">
                             <MapPin className="w-4 h-4" />
                             <h1 className="line-clamp-1 ">{place.location.name[locale] || place.location.name.en}</h1>
                         </div>

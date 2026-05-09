@@ -7,6 +7,7 @@ import { Trash2, Plus, GripVertical, Image as ImageIcon, Globe, MapPin, Phone, C
 import Link from 'next/link';
 import Image from 'next/image';
 import { CATEGORY_SLUGS } from '@/lib/categories';
+import { getErrorMessage } from "@/utils/error";
 
 // ─── Types ───────────────────────────────────────────────────────
 type Lang = 'en' | 'he' | 'ar';
@@ -58,6 +59,7 @@ interface PlaceFormProps {
     mode: 'create' | 'edit';
     initialData?: any;
     lang: string;
+    dict?: any;
 }
 
 const EMPTY_FORM: PlaceFormData = {
@@ -86,7 +88,7 @@ const TABS: { key: Lang; label: string }[] = [
 ];
 
 // ─── Component ───────────────────────────────────────────────────
-export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
+export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [activeTab, setActiveTab] = useState<Lang>('en');
@@ -211,14 +213,13 @@ export default function PlaceForm({ mode, initialData, lang }: PlaceFormProps) {
                     result = await updatePlaceAction(initialData._id, form);
                 }
 
-                if (result?.error) {
-                    // Show detailed validation errors if available
-                    let errorText = result.error;
+                if (result?.errorCode || result?.error) {
+                    let errorText = getErrorMessage({ errorCode: result.errorCode, message: result.error }, dict);
                     if (result.details) {
                         const fieldErrors = Object.entries(result.details)
                             .filter(([key]) => key !== '_errors')
                             .map(([key, val]: [string, any]) => {
-                                const msgs = val?._errors?.join(', ') || JSON.stringify(val);
+                                const msgs = val?._errors?.map((err: string) => getErrorMessage({ errorCode: err, message: err }, dict)).join(', ') || JSON.stringify(val);
                                 return `• ${key}: ${msgs}`;
                             })
                             .join('\n');

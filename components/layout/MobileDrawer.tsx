@@ -13,7 +13,8 @@ import {
     X,
     Menu,
     LogOut,
-    LogIn
+    LogIn,
+    Shield
 } from 'lucide-react';
 import UserAvatar from '@/components/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
@@ -103,6 +104,11 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             ? [
                 { label: dict.nav?.profile || 'Profile', href: `/${lang}/profile`, icon: UserIcon, separator: false },
                 { label: dict.nav?.notifications || 'Notifications', href: `/${lang}/notifications`, icon: Bell, separator: true },
+            ]
+            : []),
+        ...(currentUser?.role === 'admin'
+            ? [
+                { label: dict.nav?.adminPanel || 'Admin Panel', href: `/${lang}/area-51-sec`, icon: Shield, separator: true },
             ]
             : []),
         { label: dict.nav?.language || 'Language', href: '#', icon: Languages, onClick: toggleLanguage, separator: false },

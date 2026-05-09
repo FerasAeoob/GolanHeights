@@ -4,6 +4,7 @@ import { perfLog } from "@/lib/perf";
 import SearchBar from "@/components/search";
 import PlaceCard from "@/components/placecard";
 import FilterDropdown from "@/components/filter.dropdown";
+import VillageFilter from "@/components/village.filter";
 import { getDictionary } from "@/lib/get-dictionary";
 import { IOpeningHoursDictionary } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
@@ -14,7 +15,7 @@ export default async function PlacesPage({
     searchParams,
     params,
 }: {
-    searchParams: Promise<{ search?: string; category?: string; price?: string; sort?: string }>;
+    searchParams: Promise<{ search?: string; category?: string; price?: string; sort?: string; villages?: string }>;
     params: Promise<{ lang: 'en' | 'ar' | 'he' }>;
 }) {
     const pageStart = performance.now();
@@ -32,6 +33,8 @@ export default async function PlacesPage({
     const category = resolvedParams.category || "";
     const price = resolvedParams.price || "";
     const sort = resolvedParams.sort || "";
+    const villagesParam = resolvedParams.villages || "";
+    const selectedVillages = villagesParam ? villagesParam.split(",").filter(Boolean) : [];
 
     // Escape regex special characters to prevent ReDoS and injection
     function escapeRegex(str: string) {
@@ -40,6 +43,17 @@ export default async function PlacesPage({
 
     const safeQuery = escapeRegex(query);
     const safeCategory = escapeRegex(category);
+
+    // Map village slugs to regex patterns matching DB location names
+    const villageRegexMap: Record<string, string> = {
+        "majdal-shams": "Majdal Shams",
+        "masade": "Mas.*ade",
+        "buqata": "Buq.*ata",
+        "ein-qiniyye": "Ein Qiniyye",
+    };
+    const villageRegexPatterns = selectedVillages
+        .map(slug => villageRegexMap[slug])
+        .filter(Boolean);
 
     // Map common price symbols in search query to DB keys
     let searchPriceKey: string | null = null;
@@ -65,6 +79,11 @@ export default async function PlacesPage({
         }),
         ...(safeCategory && { category: { $regex: safeCategory, $options: "i" } }),
         ...(price && { price }),
+        ...(villageRegexPatterns.length > 0 && {
+            $or: villageRegexPatterns.map(pattern => ({
+                "location.name.en": { $regex: pattern, $options: "i" }
+            }))
+        }),
     };
     let sortOption: Record<string, 1 | -1> = { createdAt: -1 };
 
@@ -83,6 +102,14 @@ export default async function PlacesPage({
     const t3 = performance.now();
     perfLog(`[PERF] PLACES /${lang}: parallel(dict+auth)=${((t1 - pageStart)).toFixed(1)}ms | dbQuery=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - pageStart)).toFixed(1)}ms`);
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
+
+    const villageOptions = [
+        { label: dict.villages["majdal-shams"], slug: "majdal-shams" },
+        { label: dict.villages.masade, slug: "masade" },
+        { label: dict.villages.buqata, slug: "buqata" },
+        { label: dict.villages["ein-qiniyye"], slug: "ein-qiniyye" },
+    ];
+
     // 3. Render your custom UI
     return (
 
@@ -102,41 +129,40 @@ export default async function PlacesPage({
 
             </section>
             <section className="max-w-[1400px] mx-auto px-4 -mt-16 md:-mt-12 ">
-                <div className="bg-white rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center border border-slate-100">
+                <div className="bg-white rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col gap-4 border border-slate-100">
 
-
-                    <div className="flex-grow">
-                        <SearchBar placeholder={dict.searchplaceholder} />
-
-                    </div>
-                    <div className="flex flex-row gap-3 w-full md:w-auto">
-                        <div className="flex-1 md:w-48">
-
-                            <FilterDropdown
-                                title={dict.categories.all}
-                                paramKey="category"
-                                options={[
-                                    dict.categories.all,
-                                    ...CATEGORY_SLUGS.map(slug => dict.categories[slug] || slug)
-                                ]}
-                                slugs={["", ...CATEGORY_SLUGS]}
-                            />
+                    <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+                        <div className="flex-grow">
+                            <SearchBar placeholder={dict.searchplaceholder} />
                         </div>
-                        <div className="flex-1 md:w-48">
-                            <FilterDropdown
-                                title={dict.price.any}
-                                paramKey="price"
-                                options={[
-                                    dict.price.any,
-                                    dict.price.free,
-                                    dict.price.low,
-                                    dict.price.mid,
-                                    dict.price.high,
-                                ]}
-                                slugs={["", "free", "low", "mid", "high"]}
-                            />
-                        </div>
-                        {/* <div className="flex-1 md:w-48">
+                        <div className="flex flex-row gap-3 w-full md:w-auto">
+                            <div className="flex-1 md:w-48">
+
+                                <FilterDropdown
+                                    title={dict.categories.all}
+                                    paramKey="category"
+                                    options={[
+                                        dict.categories.all,
+                                        ...CATEGORY_SLUGS.map(slug => dict.categories[slug] || slug)
+                                    ]}
+                                    slugs={["", ...CATEGORY_SLUGS]}
+                                />
+                            </div>
+                            <div className="flex-1 md:w-48">
+                                <FilterDropdown
+                                    title={dict.price.any}
+                                    paramKey="price"
+                                    options={[
+                                        dict.price.any,
+                                        dict.price.free,
+                                        dict.price.low,
+                                        dict.price.mid,
+                                        dict.price.high,
+                                    ]}
+                                    slugs={["", "free", "low", "mid", "high"]}
+                                />
+                            </div>
+                            {/* <div className="flex-1 md:w-48">
                             <FilterDropdown
                                 title={dict.sort.title}
                                 paramKey="sort"
@@ -150,10 +176,11 @@ export default async function PlacesPage({
                                 ]}
                             />
                         </div> */}
+                        </div>
                     </div>
 
-
-
+                    {/* Village Filter Chips */}
+                    <VillageFilter options={villageOptions} />
                 </div>
             </section>
 

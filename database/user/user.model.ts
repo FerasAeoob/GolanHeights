@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import bcrypt from "bcryptjs";
+import argon2 from "argon2";
 
 interface IBusiness {
     businessName: string;
@@ -89,15 +89,19 @@ const UserSchema = new Schema<IUser>(
 UserSchema.pre<IUser>("save", async function () {
     if (!this.isModified("password")) return;
 
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await argon2.hash(this.password, {
+        type: argon2.argon2id,
+        memoryCost: 65536,
+        timeCost: 3,
+        parallelism: 1,
+    });
 });
 
 /**
  * Compare password for login
  */
 UserSchema.methods.comparePassword = async function (candidate: string) {
-    return bcrypt.compare(candidate, this.password);
+    return argon2.verify(this.password, candidate);
 };
 
 const User: Model<IUser> =

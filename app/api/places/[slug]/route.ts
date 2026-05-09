@@ -3,6 +3,8 @@ import connectDB from "@/lib/mongodb";
 import Place from '@/database/place.model';
 import { generateEnglishSlug } from "@/utils/slug";
 import { UpdatePlaceSchema, SlugSchema } from "@/database/place.schema";
+import { getCurrentUser } from "@/lib/auth";
+import { isAdmin } from "@/lib/permissions";
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
     try {
@@ -39,6 +41,14 @@ export async function PUT(
 ) {
     try {
         await connectDB();
+
+        const user = await getCurrentUser();
+        if (!isAdmin(user)) {
+            return NextResponse.json(
+                { error: "Forbidden: Admin Access Required ❌" },
+                { status: 403 }
+            );
+        }
 
         const resolvedParams = await params;
         const slug = resolvedParams.slug?.toLowerCase();

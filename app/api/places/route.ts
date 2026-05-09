@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Place from "@/database/place.model";
 import { createplaceschema } from "@/database/place.schema";
+import { getCurrentUser } from "@/lib/auth";
+import { isOwner } from "@/lib/permissions";
 
 /* ======================
    GET ALL PLACES
@@ -49,6 +51,13 @@ export async function GET(req: NextRequest) {
 ====================== */
 export async function POST(req: NextRequest) {
     try {
+        const user = await getCurrentUser();
+        if (!isOwner(user)) {
+            return NextResponse.json(
+                { error: "Forbidden: Owner Access Required ❌" },
+                { status: 403 }
+            );
+        }
 
 
         await connectDB();

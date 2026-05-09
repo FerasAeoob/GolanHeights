@@ -4,6 +4,8 @@ import User from "@/database/user/user.model";
 import { getCurrentUser } from "@/lib/auth";
 import { changePasswordSchema } from "@/database/user/user.schema";
 
+export const runtime = "nodejs";
+
 export async function POST(req: NextRequest) {
     try {
         const currentUser = await getCurrentUser();
@@ -12,7 +14,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Unauthorized",
+                    errorCode: "UNAUTHORIZED",
                 },
                 { status: 401 }
             );
@@ -29,7 +31,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "User not found",
+                    errorCode: "USER_NOT_FOUND",
                 },
                 { status: 404 }
             );
@@ -43,7 +45,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Current password is incorrect",
+                    errorCode: "CURRENT_PASSWORD_INCORRECT",
                 },
                 { status: 401 }
             );
@@ -52,7 +54,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "New password cannot be the same as current password",
+                    errorCode: "NEW_PASSWORD_SAME_AS_CURRENT",
                 },
                 { status: 400 }
             );
@@ -70,11 +72,12 @@ export async function POST(req: NextRequest) {
         );
     } catch (error: any) {
         if (error?.name === "ZodError") {
+            const firstIssue = error.issues[0];
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Validation failed",
-                    errors: error.issues,
+                    errorCode: firstIssue.message,
+                    field: firstIssue.path[0],
                 },
                 { status: 400 }
             );
@@ -85,7 +88,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
             {
                 success: false,
-                message: "Something went wrong",
+                errorCode: "UNKNOWN_ERROR",
             },
             { status: 500 }
         );

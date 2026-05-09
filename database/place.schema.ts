@@ -15,9 +15,9 @@ const OpeningHoursZodSchema = z.object({
 export const SlugSchema = z.object({
     slug: z
         .string()
-        .min(1, "Slug cannot be empty")
-        .max(100, "Slug too long")
-        .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must contain only lowercase ASCII letters, numbers, and hyphens (no consecutive or trailing hyphens)")
+        .min(1, "SLUG_REQUIRED")
+        .max(100, "SLUG_TOO_LONG")
+        .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "SLUG_INVALID_FORMAT")
 });
 
 /**
@@ -25,9 +25,9 @@ export const SlugSchema = z.object({
  */
 const ManualSlugValidator = z
     .string()
-    .min(1, "Slug is required")
-    .max(100, "Slug too long")
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid format: lowercase letters, numbers, and hyphens only. No spaces.");
+    .min(1, "SLUG_REQUIRED")
+    .max(100, "SLUG_TOO_LONG")
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "SLUG_INVALID_FORMAT");
 
 export const CategorySchema = z.object({
     category: z
@@ -43,7 +43,7 @@ export const CategorySchema = z.object({
 export const UpdatePlaceSchema = z.object({
     title: z
         .object({
-            en: z.string().min(3, "English title too short").optional(),
+            en: z.string().min(3, "PLACE_TITLE_TOO_SHORT").optional(),
             he: z.string().optional(),
             ar: z.string().optional()
         })
@@ -56,7 +56,7 @@ export const UpdatePlaceSchema = z.object({
 
     description: z
         .object({
-            en: z.string().min(10, "English description too short").optional(),
+            en: z.string().min(10, "PLACE_DESCRIPTION_TOO_SHORT").optional(),
             he: z.string().optional(),
             ar: z.string().optional()
         })
@@ -64,7 +64,7 @@ export const UpdatePlaceSchema = z.object({
 
     shortDescription: z
         .object({
-            en: z.string().max(255, "English short description too long").optional(),
+            en: z.string().max(255, "PLACE_SHORT_DESC_TOO_LONG").optional(),
             he: z.string().max(255).optional(),
             ar: z.string().max(255).optional()
         })
@@ -77,7 +77,7 @@ export const UpdatePlaceSchema = z.object({
     images: z
         .array(
             z.object({
-                url: z.string().min(1, "Image URL cannot be empty"),
+                url: z.string().min(1, "IMAGE_URL_INVALID"),
                 alt: z.object({
                     en: z.string().optional().default("Place image"),
                     he: z.string().optional(),
@@ -117,7 +117,7 @@ export const UpdatePlaceSchema = z.object({
 export const createplaceschema = z.object({
     title: z
         .object({
-            en: z.string().min(3, "English title too short"),
+            en: z.string().min(3, "PLACE_TITLE_TOO_SHORT"),
             he: z.string(),
             ar: z.string()
         }),
@@ -129,7 +129,7 @@ export const createplaceschema = z.object({
 
     description: z
         .object({
-            en: z.string().min(10, "English description too short"),
+            en: z.string().min(10, "PLACE_DESCRIPTION_TOO_SHORT"),
             he: z.string(),
             ar: z.string()
         })
@@ -137,7 +137,7 @@ export const createplaceschema = z.object({
 
     shortDescription: z
         .object({
-            en: z.string().max(255, "English short description too long"),
+            en: z.string().max(255, "PLACE_SHORT_DESC_TOO_LONG"),
             he: z.string().max(255),
             ar: z.string().max(255)
         })
@@ -149,7 +149,7 @@ export const createplaceschema = z.object({
 
     images: z.array(
         z.object({
-            url: z.string().min(1, "Image URL cannot be empty"),
+            url: z.string().min(1, "IMAGE_URL_INVALID"),
             alt: z.object({
                 en: z.string().optional().default("Place image"),
                 he: z.string().optional(),

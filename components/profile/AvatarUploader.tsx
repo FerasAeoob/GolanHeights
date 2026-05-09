@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { Camera, Trash2, Loader2 } from 'lucide-react';
 import UserAvatar from '@/components/UserAvatar';
 import { showToast } from '@/components/ui/Toast';
+import { getErrorMessage } from '@/utils/error';
 import { useRouter } from 'next/navigation';
 
 interface AvatarUploaderProps {
@@ -26,7 +27,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
 
         // File size check (5MB max)
         if (file.size > 5 * 1024 * 1024) {
-            showToast('error', 'Image must be under 5MB');
+            showToast('error', dict?.errors?.UPLOAD_TOO_LARGE || 'Image must be under 5MB');
             return;
         }
 
@@ -48,7 +49,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
 
             const data = await res.json();
             if (!res.ok) {
-                showToast('error', data.message || p?.errorGeneric || 'Upload failed');
+                showToast('error', getErrorMessage(data, dict));
                 setPreview(null);
                 return;
             }
@@ -56,7 +57,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
             showToast('success', p?.saved || 'Photo updated!');
             router.refresh();
         } catch {
-            showToast('error', p?.errorGeneric || 'Something went wrong');
+            showToast('error', dict?.errors?.UNKNOWN_ERROR || 'Something went wrong');
             setPreview(null);
         } finally {
             setUploading(false);
@@ -70,7 +71,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
             const data = await res.json();
 
             if (!res.ok) {
-                showToast('error', data.message || p?.errorGeneric || 'Failed');
+                showToast('error', getErrorMessage(data, dict));
                 return;
             }
 
@@ -78,7 +79,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
             showToast('success', p?.removeAvatar || 'Photo removed');
             router.refresh();
         } catch {
-            showToast('error', p?.errorGeneric || 'Something went wrong');
+            showToast('error', dict?.errors?.UNKNOWN_ERROR || 'Something went wrong');
         } finally {
             setUploading(false);
         }

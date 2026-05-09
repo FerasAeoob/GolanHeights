@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/components/ui/Toast";
+import { getErrorMessage } from "@/utils/error";
 
 export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; dict: any }) {
     const [name, setName] = useState("");
@@ -12,10 +13,12 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
     const router = useRouter();
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setFieldErrors({});
         
         if (!name || !email || !password || !confirmPassword) {
             showToast('error', dict?.auth?.fillAll || "Please fill all the fields");
@@ -36,25 +39,33 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                     phone: phone.trim() || undefined,
                     password,
                 })
-            })
+            });
+
             const data = await res.json();
+
             if (!res.ok) {
-                showToast('error', data.message || "Something went wrong");
+                const errorMessage = getErrorMessage(data, dict);
+                if (data.field) {
+                    setFieldErrors({ [data.field]: errorMessage });
+                } else {
+                    showToast('error', errorMessage);
+                }
+                setLoading(false);
                 return;
             }
+
+            // Success — reset form and navigate
             setName("");
             setEmail("");
             setPassword("");
             setConfirmPassword("");
             setPhone("");
+            setLoading(false);
             router.push(`/${lang}/login`);
             router.refresh();
-
-
-
-        } catch (error) {
-            showToast('error', dict?.auth?.somethingWrong || "Something went wrong");
-        } finally {
+        } catch {
+            // Only true network errors reach here (fetch failed, JSON parse failed, etc.)
+            showToast('error', dict?.errors?.UNKNOWN_ERROR || "Something went wrong. Please try again.");
             setLoading(false);
         }
 
@@ -106,8 +117,9 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                         value={password}
                         placeholder={dict?.auth?.required}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="border border-white/25 bg-black/5 text-white focus:border-white shadow-inner shadow-white/20 rounded-md p-2"
+                        className={`border bg-black/5 text-white shadow-inner shadow-white/20 rounded-md p-2 ${fieldErrors.password ? 'border-red-500 focus:border-red-500' : 'border-white/25 focus:border-white'}`}
                     />
+                    {fieldErrors.password && <span className="text-red-400 text-sm mt-1">{fieldErrors.password}</span>}
                 </div>
                 <div className="flex flex-col gap-[2px]">
                     <label htmlFor="confirmPassword" className="text-white">{dict?.auth?.confirmPassword}</label>

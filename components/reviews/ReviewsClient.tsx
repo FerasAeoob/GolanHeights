@@ -82,7 +82,7 @@ export default function ReviewsClient({
             const data = await res.json();
 
             if (!res.ok) {
-                if (showLoading) setError(data.message || "Failed to load reviews");
+                if (showLoading) setError(dict?.errors?.REVIEW_LOAD_FAILED || "Failed to load reviews");
                 return;
             }
 
@@ -130,7 +130,7 @@ export default function ReviewsClient({
                 }
             }
         } catch {
-            if (showLoading) setError("Something went wrong");
+            if (showLoading) setError(dict?.errors?.UNKNOWN_ERROR || "Something went wrong");
         } finally {
             if (showLoading) setLoadingReviews(false);
         }
@@ -152,12 +152,12 @@ export default function ReviewsClient({
         e.preventDefault();
 
         if (!currentUserId) {
-            setError("You must be logged in to leave a review");
+            setError(dict?.errors?.UNAUTHORIZED || "You must be logged in to leave a review");
             return;
         }
 
         if (!text.trim()) {
-            setError("Review cannot be empty");
+            setError(dict?.errors?.REVIEW_EMPTY || "Review cannot be empty");
             return;
         }
 
@@ -180,7 +180,8 @@ export default function ReviewsClient({
             const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message || "Failed to save review");
+                const code = data.errorCode || "REVIEW_SAVE_FAILED";
+                setError(dict?.errors?.[code] || dict?.errors?.REVIEW_SAVE_FAILED || "Failed to save review");
                 return;
             }
 
@@ -200,7 +201,7 @@ export default function ReviewsClient({
 
             setIsEditing(false);
         } catch {
-            setError("Something went wrong");
+            setError(dict?.errors?.UNKNOWN_ERROR || "Something went wrong");
         } finally {
             setSubmitting(false);
         }
@@ -218,7 +219,8 @@ export default function ReviewsClient({
             const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message || "Failed to delete review");
+                const code = data.errorCode || "REVIEW_DELETE_FAILED";
+                setError(dict?.errors?.[code] || dict?.errors?.REVIEW_DELETE_FAILED || "Failed to delete review");
                 return;
             }
 
@@ -231,7 +233,7 @@ export default function ReviewsClient({
             setText("");
             setIsEditing(false);
         } catch {
-            setError("Something went wrong");
+            setError(dict?.errors?.UNKNOWN_ERROR || "Something went wrong");
         } finally {
             setDeletingReviewId(null);
         }
