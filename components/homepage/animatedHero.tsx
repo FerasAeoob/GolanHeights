@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Compass, MapPin, Mountain } from "lucide-react";
 import HeroInfoCard from "./Hero.infocard";
+import { Reveal } from "@/components/animation/Reveal";
 import WeatherCard from "./WeatherCard";
 
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
@@ -27,34 +28,36 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                             ">
 
                 {/* Upper Text Section */}
-                <div className="flex flex-col items-center text-center gap-4 md:mt-0">
-                    <div className="flex items-center gap-2 text-emerald-400 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full font-bold text-sm md:text-base border border-white/10">
-                        <MapPin className="w-4 h-4 shrink-0" />
-                        <span>{dict.northenisrael}</span>
+                <Reveal>
+                    <div className="flex flex-col items-center text-center gap-4 md:mt-0">
+                        <div className="flex items-center gap-2 text-emerald-400 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full font-bold text-sm md:text-base border border-white/10">
+                            <MapPin className="w-4 h-4 shrink-0" />
+                            <span>{dict.northenisrael}</span>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1">
+                            <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-white leading-tight">
+                                {dict.explore}
+                            </h1>
+                            <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-emerald-500 leading-tight">
+                                {dict.golanheights}
+                            </h1>
+                        </div>
+
+                        <p className="text-white/90 text-base md:text-xl max-w-[90%] md:max-w-[42rem] leading-relaxed">
+                            {dict.herodes}
+                        </p>
+
+
+                        <Link
+                            href={`/${lang}/places`}
+                            className="group flex items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-400 font-bold text-lg rounded-full shadow-xl border border-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                        >
+                            <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform mt-1" />
+                            <span className="mt-1">{dict.explorenow}</span>
+                        </Link>
                     </div>
-
-                    <div className="flex flex-col items-center gap-1">
-                        <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-white leading-tight">
-                            {dict.explore}
-                        </h1>
-                        <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-emerald-500 leading-tight">
-                            {dict.golanheights}
-                        </h1>
-                    </div>
-
-                    <p className="text-white/90 text-base md:text-xl max-w-[90%] md:max-w-[42rem] leading-relaxed">
-                        {dict.herodes}
-                    </p>
-
-
-                    <Link
-                        href={`/${lang}/places`}
-                        className="group flex items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-400 font-bold text-lg rounded-full shadow-xl border border-white/10 transition-all"
-                    >
-                        <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform mt-1" />
-                        <span className="mt-1">{dict.explorenow}</span>
-                    </Link>
-                </div>
+                </Reveal>
 
 
                 <div className="w-full flex justify-center items-center flex-col md:flex-row gap-4 ">

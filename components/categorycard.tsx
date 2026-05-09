@@ -17,7 +17,7 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
 
     return (
         <Link href={`/${lang}/places?category=${category.slug}`} className="block w-full h-full">
-            <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-500 hover:shadow-2xl">
+            <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
 
                 <Image
                     src={category.image}

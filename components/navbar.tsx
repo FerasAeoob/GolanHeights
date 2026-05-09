@@ -27,10 +27,13 @@ export default function Navbar({ lang, dict, currentUser }: { lang: string; dict
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm -z-10" />
 
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] px-4 h-full relative">
-                <div>
+                <div className="">
                     <Link href={`/${lang}`} className="flex items-center font-bold gap-3">
-                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1775083745/output-onlinepngtools_aw183f.webp" alt="Logo" width={90} height={75} className="" />
-                        <h1 className="text-2xl font-bold font-outfit bg-[radial-gradient(circle,_#f2dbb6_40%,_#e8bf82_60%,_#d4a968_100%)] bg-clip-text text-transparent hidden md:block">Golan WIKI</h1>
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1778314889/Untitled_design-Photoroom_wcyhzr.png"
+                            alt="Logo"
+                            width={60}
+                            height={45} />
+                        <h1 className="text-2xl font-bold font-outfit bg-[radial-gradient(circle,_#FFFDA3_40%,_#F7F57C_60%,_#F0ED59_100%)] bg-clip-text text-transparent hidden md:block">Golan WIKI</h1>
                     </Link>
                 </div>
                 <div className="flex flex-row items-center gap-2 md:gap-4">
