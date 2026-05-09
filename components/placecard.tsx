@@ -105,7 +105,7 @@ export default function PlaceCard({
 
                         <div className="flex start gap-1 items-center text-green-800 font-bold ">
                             <MapPin className="w-4 h-4" />
-                            <h1 className="line-clamp-1 ">{place.location.name[locale] || place.location.name.en}</h1>
+                            <span className="line-clamp-1 ">{place.location.name[locale] || place.location.name.en}</span>
                         </div>
 
                         {/* This will take remaining space and center text */}

@@ -6,7 +6,7 @@
     "explorebycategory": "Explore by Category",
     "explorebycategorydescription": "From ancient ruins to adventure experiences, the Golan Heights offers something for every traveler",
     "herodes": "Ancient history, stunning nature, and unforgettable experiences await you in one of the most beautiful regions of Israel",
-    "explorenow": "Explore Now",
+    "explorenow": "Explore Golan Heights Places",
     "welcome": "Welcome to the Golan Heights",
     "exploreplaces": "Explore Places",
     "exploreplacesdesc": "Discover amazing attractions, restaurants, and experiences throughout the Golan Heights.",
@@ -285,5 +285,25 @@
         "REVIEW_SUBMITTED": "Review submitted!",
         "REVIEW_DELETED": "Review deleted.",
         "ACCOUNT_CREATED": "Account created successfully!"
+    },
+    "heroTitleMain": "Golan Heights Guide",
+    "heroTitleSub": "— Discover Places, Nature, Food & Stays",
+    "metadata": {
+        "homeTitle": "Golan Heights Guide | Places, Restaurants, Nature & Stays",
+        "homeDescription": "Discover the best places in the Golan Heights, including restaurants, nature spots, viewpoints, activities, villages, and stays."
+    },
+    "seo": {
+        "travelGuideTitle": "Golan Heights Travel Guide",
+        "travelGuideText": "The Golan Heights offers an unforgettable blend of ancient history, breathtaking natural beauty, and vibrant local culture. From the rugged volcanic peaks to the lush valleys, this region in northern Israel is the ultimate destination for adventurers and food lovers alike. Whether you're seeking a quiet weekend retreat or an action-packed vacation, the Golan Heights delivers an experience like no other.",
+        "natureTitle": "Nature Attractions & Trails",
+        "natureText": "Explore world-class nature reserves, cascading waterfalls, and scenic hiking trails. The Banias Nature Reserve and Yehudiya Forest offer spectacular year-round flows, while Mount Hermon provides stunning snowy landscapes in winter. Nature lovers will find endless opportunities for bird watching, off-road jeep tours, and peaceful walks among cherry orchards.",
+        "foodTitle": "Restaurants and Local Food",
+        "foodText": "Taste the authentic flavors of the region through our curated guide to Golan Heights restaurants. Enjoy farm-to-table dining experiences, renowned local wineries, and traditional Druze cuisine. From high-end culinary establishments to cozy local eateries serving fresh labneh, pita, and grilled meats, the food scene here is rich and diverse.",
+        "staysTitle": "Stays and B&Bs",
+        "staysText": "Find the perfect place to rest after a day of exploration. The Golan Heights boasts a wide variety of accommodations, including rustic log cabins (tzimmerim), luxury boutique hotels, and comfortable bed & breakfasts. Wake up to panoramic mountain views and enjoy renowned northern hospitality.",
+        "viewpointsTitle": "Breathtaking Viewpoints",
+        "viewpointsText": "Take in the majestic landscapes from incredible scenic spots like Mount Bental, offering views across the borders, or the tranquil Birkat Ram crater lake. The Golan is famous for its wide-open skies and dramatic sunsets, providing countless perfect photo opportunities.",
+        "villagesTitle": "The Four Druze Villages",
+        "villagesText": "Experience the unique culture and warmth of the four main Druze villages: Majdal Shams, Mas'ade, Buq'ata, and Ein Qiniyye. Nestled in the high mountains, these vibrant communities offer bustling markets, incredible local sweets, and a fascinating glimpse into the rich heritage of the Golan."
     }
 }

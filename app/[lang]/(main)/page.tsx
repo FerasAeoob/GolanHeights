@@ -9,6 +9,28 @@ import { getDictionary } from "@/lib/get-dictionary";
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
 import { perfLog } from "@/lib/perf";
+import type { Metadata } from "next";
+import SeoTextSection from "@/components/homepage/SeoTextSection";
+
+export async function generateMetadata({ params }: { params: { lang: 'en' | 'ar' | 'he' } }): Promise<Metadata> {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+    
+    return {
+        title: {
+            absolute: dict.metadata?.homeTitle || "Golan Heights Guide",
+        },
+        description: dict.metadata?.homeDescription || "Discover the best places in the Golan Heights",
+        alternates: {
+            languages: {
+                'en': 'https://www.golanwiki.com/',
+                'he': 'https://www.golanwiki.com/he',
+                'ar': 'https://www.golanwiki.com/ar',
+                'x-default': 'https://www.golanwiki.com/'
+            }
+        }
+    };
+}
 
 export default async function HomePage({ params }: { params: { lang: 'en' | 'ar' | 'he' } }) {
     const pageStart = performance.now();
@@ -126,6 +148,8 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
 
                 </div>
             </section>
+
+            <SeoTextSection dict={dict} />
         </main >
     );
 }

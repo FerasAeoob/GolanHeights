@@ -35,14 +35,14 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                             <span>{dict.northenisrael}</span>
                         </div>
 
-                        <div className="flex flex-col items-center gap-1">
-                            <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-white leading-tight">
-                                {dict.explore}
-                            </h1>
-                            <h1 className="text-3xl md:text-7xl font-bold font-serif text-shadow-lg text-emerald-500 leading-tight">
-                                {dict.golanheights}
-                            </h1>
-                        </div>
+                        <h1 className="flex flex-col items-center gap-1 text-center">
+                            <span className="text-4xl md:text-7xl font-bold font-serif text-shadow-lg text-white leading-tight">
+                                {dict.heroTitleMain}
+                            </span>
+                            <span className="text-xl md:text-3xl font-bold font-serif text-shadow-lg text-emerald-500 leading-tight">
+                                {dict.heroTitleSub}
+                            </span>
+                        </h1>
 
                         <p className="text-white/90 text-base md:text-xl max-w-[90%] md:max-w-[42rem] leading-relaxed">
                             {dict.herodes}

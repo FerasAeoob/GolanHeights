@@ -26,8 +26,15 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
-  title: "Golan Heights Guide",
+  metadataBase: new URL('https://www.golanwiki.com'),
+  title: {
+    template: "%s | Golan Heights Guide",
+    default: "Golan Heights Guide",
+  },
   description: "Discover the best places in the Golan Heights",
+  icons: {
+    apple: "/apple-icon.png",
+  },
 };
 
 export default async function RootLayout({

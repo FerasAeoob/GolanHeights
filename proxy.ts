@@ -1,18 +1,34 @@
+import { jwtVerify } from 'jose';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const locales = ['en', 'he', 'ar'];
 const ADMIN_SEGMENT = 'area-51-sec';
-const LOGIN_SEGMENT = 'login';
+
+async function checkIsAdmin(request: NextRequest): Promise<boolean> {
+    const token = request.cookies.get('user_token')?.value;
+    if (!token) return false;
+
+    const secretStr = process.env.JWT_SECRET;
+    if (!secretStr) return false;
+
+    try {
+        const secret = new TextEncoder().encode(secretStr);
+        const { payload } = await jwtVerify(token, secret);
+        return payload.role === 'admin';
+    } catch (e) {
+        return false;
+    }
+}
 
 /**
  * Next.js 16 Proxy function.
- * Protects /[lang]/area-51-sec/* routes behind an admin cookie,
- * while always allowing access to the login page.
+ * Protects /[lang]/area-51-sec/* routes behind JWT admin role,
+ * redirecting unauthenticated users to the main login page.
  */
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
-    
+
     // 1. Remove explicit '/en' from the URL (SEO & default behavior)
     // If a user visits /en/places, redirect them to /places
     if (pathname.startsWith('/en')) {
@@ -32,14 +48,13 @@ export function proxy(request: NextRequest) {
     const isAdminRoute = routeSegments[0] === ADMIN_SEGMENT;
 
     if (isAdminRoute) {
-        const isLoginPage = routeSegments[1] === LOGIN_SEGMENT;
-        const isAdmin = request.cookies.get('admin_session')?.value === 'true';
+        const isAdmin = await checkIsAdmin(request);
 
-        // Block unauthenticated access to non-login admin routes
-        if (!isLoginPage && !isAdmin) {
-            // Redirect to login page, preserving any non-English locale (like /he)
+        // Block unauthenticated access to admin routes
+        if (!isAdmin) {
+            // Redirect to main login page, preserving any non-English locale
             const prefix = hasLocale ? `/${segments[0]}` : '';
-            const loginUrl = new URL(`${prefix}/${ADMIN_SEGMENT}/${LOGIN_SEGMENT}`, request.url);
+            const loginUrl = new URL(`${prefix}/login`, request.url);
             loginUrl.search = request.nextUrl.search;
             return NextResponse.redirect(loginUrl);
         }
