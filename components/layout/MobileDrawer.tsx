@@ -125,7 +125,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             <button
                 onClick={toggleDrawer}
                 className="text-white hover:bg-white/10 rounded-lg transition-colors"
-                aria-label="Open Menu"
+                aria-label={dict.nav?.openMenu || "Open Menu"}
             >
                 <Menu size={24} />
             </button>
@@ -154,6 +154,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                                aria-label={dict.nav?.closeMenu || "Close Menu"}
                             >
                                 <X size={22} />
                             </button>

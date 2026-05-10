@@ -4,6 +4,9 @@ import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import Place from "@/database/place.model";
 import { requireAuth } from "@/lib/permissions";
+import { checkRateLimit } from "@/lib/rate-limit";
+
+const favoritesLimiter = { name: "favorites", maxRequests: 60, windowSeconds: 60 * 60 };
 
 export async function GET(req: NextRequest) {
     try {
@@ -55,6 +58,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         const currentUser = await requireAuth();
+
+        const { allowed } = checkRateLimit(favoritesLimiter, currentUser._id);
+        if (!allowed) {
+            return NextResponse.json(
+                { success: false, errorCode: "RATE_LIMITED" },
+                { status: 429 }
+            );
+        }
 
         const body = await req.json();
         const { placeId } = body;
@@ -122,6 +133,14 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     try {
         const currentUser = await requireAuth();
+
+        const { allowed } = checkRateLimit(favoritesLimiter, currentUser._id);
+        if (!allowed) {
+            return NextResponse.json(
+                { success: false, errorCode: "RATE_LIMITED" },
+                { status: 429 }
+            );
+        }
 
         const body = await req.json();
         const { placeId } = body;

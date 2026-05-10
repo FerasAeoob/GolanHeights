@@ -57,7 +57,7 @@ export default function ProfileHeader({ user, dict, lang }: ProfileHeaderProps) 
                         <h1 className="text-2xl sm:text-3xl font-bold text-white truncate max-w-full">
                             {user.name}
                         </h1>
-                        <p className="text-sm text-white/50 truncate max-w-full">{user.email}</p>
+                        <p className="text-sm text-white/80 truncate max-w-full">{user.email}</p>
 
                         {/* Badges */}
                         <div className="flex flex-wrap items-center gap-2 mt-2">
@@ -72,7 +72,7 @@ export default function ProfileHeader({ user, dict, lang }: ProfileHeaderProps) 
                                 </span>
                             )}
                             {user.plan === "free" && (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/5 text-white/50 border border-white/10">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/5 text-white/80 border border-white/10">
                                     {planLabel}
                                 </span>
                             )}

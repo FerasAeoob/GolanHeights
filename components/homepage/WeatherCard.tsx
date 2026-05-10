@@ -156,13 +156,13 @@ export default async function WeatherCard({ lang }: { lang: string }) {
                     const DayIcon = getWeatherIcon(day.code, 1);
                     return (
                         <div key={idx} className="flex flex-col items-center gap-1 text-white">
-                            <span className="text-[0.65rem] text-white/70 font-bold uppercase tracking-wider">
+                            <span className="text-[0.65rem] text-white/90 font-bold uppercase tracking-wider">
                                 {getDayName(day.date, lang)}
                             </span>
                             <DayIcon className="w-5 h-5 my-1" />
                             <span className="text-sm font-bold">
                                 {day.maxTemp}°
-                                <span className="text-white/40 font-normal ml-1"> {day.minTemp}°</span>
+                                <span className="text-white/70 font-normal ml-1"> {day.minTemp}°</span>
                             </span>
                         </div>
                     );

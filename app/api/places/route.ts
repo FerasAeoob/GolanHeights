@@ -73,19 +73,21 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        const validatedPlace = validation.data;
+
         const newPlace = await Place.create({
-            title: body.title,
-            description: body.description,
-            shortDescription: body.shortDescription,
-            category: body.category,
-            images: body.images,
-            location: body.location,
-            contact: body.contact,
-            open: body.open,
-            duration: body.duration,
-            price: body.price,
-            mapLink: body.mapLink,
-            featured: body.featured ?? false
+            title: validatedPlace.title,
+            description: validatedPlace.description,
+            shortDescription: validatedPlace.shortDescription,
+            category: validatedPlace.category,
+            images: validatedPlace.images,
+            location: validatedPlace.location,
+            contact: validatedPlace.contact,
+            open: validatedPlace.open,
+            duration: validatedPlace.duration,
+            price: validatedPlace.price,
+            mapLink: validatedPlace.mapLink,
+            featured: validatedPlace.featured ?? false
         });
 
         return NextResponse.json(
@@ -102,10 +104,10 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        console.error(error);
+        console.error("CREATE PLACE ERROR:", error);
 
         return NextResponse.json(
-            { error: error.message || "Something went wrong ❌" },
+            { success: false, errorCode: "UNKNOWN_ERROR" },
             { status: 500 }
         );
     }

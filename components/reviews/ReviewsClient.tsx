@@ -277,7 +277,7 @@ export default function ReviewsClient({
                             ))}
                         </div>
 
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-gray-600">
                             {averageRating.toFixed(1)} • {reviews.length}{" "}
                             {dict?.reviews?.count || "reviews"}
                         </span>
@@ -285,7 +285,7 @@ export default function ReviewsClient({
                 ) : (
                     <div className="flex flex-col gap-1">
 
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-gray-500">
                             {dict?.reviews?.firstReview || "Be the first to review this place."}
                         </p>
                     </div>
@@ -312,6 +312,7 @@ export default function ReviewsClient({
                                     key={star}
                                     type="button"
                                     onClick={() => setRating(star)}
+                                    aria-label={`${dict?.reviews?.rateStar || 'Rate'} ${star} ${star === 1 ? (dict?.reviews?.star || 'star') : (dict?.reviews?.stars || 'stars')}`}
                                     className="transition-transform hover:scale-110"
                                 >
                                     <Star
@@ -367,11 +368,11 @@ export default function ReviewsClient({
 
             <div className="flex flex-col gap-4">
                 {loadingReviews ? (
-                    <p className="text-gray-500">
+                    <p className="text-gray-600">
                         {dict?.reviews?.loading || "Loading reviews..."}
                     </p>
                 ) : orderedReviews.length === 0 ? (
-                    <p className="text-gray-500">
+                    <p className="text-gray-600">
                         {dict?.reviews?.empty || "No reviews yet."}
                     </p>
                 ) : (
@@ -413,7 +414,7 @@ export default function ReviewsClient({
                                             </div>
 
 
-                                            <p className="text-xs text-gray-500">
+                                            <p className="text-xs text-gray-600">
                                                 {new Date(review.createdAt).toLocaleString()}
                                             </p>
                                         </div>

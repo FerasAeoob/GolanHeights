@@ -5,7 +5,7 @@ import { IOpeningHoursDictionary } from "@/lib/types";
 import categories from "@/lib/categories";
 import { IPlaceSerializable } from "@/database/place.model";
 import OpenStatus from "./openStatus";
-import FavoriteButton from "./favorites/Favorite.button";
+import FavoriteButton from "../favorites/Favorite.button";
 
 interface PlaceCardProps {
     place: IPlaceSerializable;
@@ -82,7 +82,7 @@ export default function PlaceCard({
                                             {(place.averageRating || 0).toFixed(1)}
                                         </span>
 
-                                        <span className="text-[14px] text-gray-500 ">
+                                        <span className="text-[14px] text-gray-600 ">
                                             ({place.reviewsCount})
                                         </span>
                                     </div>

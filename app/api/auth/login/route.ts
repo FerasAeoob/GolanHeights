@@ -3,11 +3,23 @@ import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { loginSchema } from "@/database/user/user.schema";
 import { createUserToken, setAuthCookie, serializeUser } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
+const loginLimiter = { name: "login", maxRequests: 5, windowSeconds: 15 * 60 };
+
 export async function POST(req: NextRequest) {
     try {
+        const ip = getClientIp(req);
+        const { allowed } = checkRateLimit(loginLimiter, ip);
+        if (!allowed) {
+            return NextResponse.json(
+                { success: false, errorCode: "RATE_LIMITED" },
+                { status: 429 }
+            );
+        }
+
         await connectDB();
 
         const body = await req.json();

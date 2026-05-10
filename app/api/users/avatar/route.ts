@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
         const currentUser = await getCurrentUser();
         if (!currentUser) {
             return NextResponse.json(
-                { success: false, message: "Unauthorized" },
+                { success: false, errorCode: "UNAUTHORIZED" },
                 { status: 401 }
             );
         }
@@ -17,15 +17,39 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData();
         const file = formData.get("avatar") as File | null;
 
-        if (!file || !file.type.startsWith("image/")) {
+        if (!file || file.size === 0) {
             return NextResponse.json(
-                { success: false, message: "No valid image provided" },
+                { success: false, errorCode: "IMAGE_REQUIRED" },
                 { status: 400 }
             );
         }
 
-        // Convert File to base64 for Cloudinary upload
+        // Enforce 5MB server-side limit
+        const MAX_SIZE = 5 * 1024 * 1024;
+        if (file.size > MAX_SIZE) {
+            return NextResponse.json(
+                { success: false, errorCode: "IMAGE_TOO_LARGE" },
+                { status: 400 }
+            );
+        }
+
+        // Read bytes once for both validation and upload
         const bytes = await file.arrayBuffer();
+        const header = new Uint8Array(bytes).slice(0, 12);
+
+        // Magic-byte validation
+        const isJpeg = header[0] === 0xFF && header[1] === 0xD8 && header[2] === 0xFF;
+        const isPng = header[0] === 0x89 && header[1] === 0x50 && header[2] === 0x4E && header[3] === 0x47;
+        const isWebp = header[0] === 0x52 && header[1] === 0x49 && header[2] === 0x46 && header[3] === 0x46
+            && header[8] === 0x57 && header[9] === 0x45 && header[10] === 0x42 && header[11] === 0x50;
+
+        if (!isJpeg && !isPng && !isWebp) {
+            return NextResponse.json(
+                { success: false, errorCode: "INVALID_IMAGE_FORMAT" },
+                { status: 400 }
+            );
+        }
+
         const buffer = Buffer.from(bytes);
         const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
 
@@ -57,7 +81,7 @@ export async function POST(req: NextRequest) {
     } catch (error) {
         console.error("AVATAR UPLOAD ERROR:", error);
         return NextResponse.json(
-            { success: false, message: "Something went wrong" },
+            { success: false, errorCode: "UPLOAD_FAILED" },
             { status: 500 }
         );
     }

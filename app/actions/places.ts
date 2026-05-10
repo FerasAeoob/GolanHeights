@@ -43,19 +43,23 @@ export async function createPlaceAction(data: any) {
             return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
         }
 
-        data.slug.en = generateEnglishSlug(data.title.en);
+        const validatedData = validation.data;
+        const enSlug = generateEnglishSlug(validatedData.title.en);
 
         // 2a. Explicit uniqueness checks so the user gets friendly errors
-        const existingEn = await Place.findOne({ "slug.en": data.slug.en });
+        const existingEn = await Place.findOne({ "slug.en": enSlug });
         if (existingEn) return { errorCode: "SLUG_EN_ALREADY_EXISTS" };
 
-        const existingHe = await Place.findOne({ "slug.he": data.slug.he });
+        const existingHe = await Place.findOne({ "slug.he": validatedData.slug.he });
         if (existingHe) return { errorCode: "SLUG_HE_ALREADY_EXISTS" };
 
-        const existingAr = await Place.findOne({ "slug.ar": data.slug.ar });
+        const existingAr = await Place.findOne({ "slug.ar": validatedData.slug.ar });
         if (existingAr) return { errorCode: "SLUG_AR_ALREADY_EXISTS" };
 
-        const newPlace = await Place.create(data);
+        const newPlace = await Place.create({
+            ...validatedData,
+            slug: { en: enSlug, he: validatedData.slug.he, ar: validatedData.slug.ar },
+        });
 
         revalidatePath('/[lang]/area-51-sec');
         revalidatePath('/[lang]/places');

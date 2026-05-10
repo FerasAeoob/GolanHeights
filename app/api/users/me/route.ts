@@ -44,14 +44,17 @@ export async function PATCH(req: NextRequest) {
 
         const body = await req.json();
         const validatedData = updateUserSchema.parse(body);
+        const { name, phone, image } = validatedData;
+        const updateFields: Record<string, string> = {};
+        if (name !== undefined) updateFields.name = name;
+        if (phone !== undefined) updateFields.phone = phone;
+        if (image !== undefined) updateFields.image = image;
 
         await connectDB();
 
         const updatedUser = await User.findByIdAndUpdate(
             currentUser._id,
-            {
-                $set: validatedData,
-            },
+            { $set: updateFields },
             {
                 new: true,
                 runValidators: true,

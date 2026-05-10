@@ -2,7 +2,7 @@ import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
 import { perfLog } from "@/lib/perf";
 import SearchBar from "@/components/search";
-import PlaceCard from "@/components/placecard";
+import PlaceCard from "@/components/places/placecard";
 import FilterDropdown from "@/components/filter.dropdown";
 import VillageFilter from "@/components/village.filter";
 import { getDictionary } from "@/lib/get-dictionary";

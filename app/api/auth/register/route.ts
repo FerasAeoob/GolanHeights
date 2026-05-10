@@ -2,13 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { registerSchema } from "@/database/user/user.schema";
-import { createUserToken, setAuthCookie, serializeUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { serializeUser } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
+const registerLimiter = { name: "register", maxRequests: 3, windowSeconds: 60 * 60 };
+
 export async function POST(req: NextRequest) {
     try {
+        const ip = getClientIp(req);
+        const { allowed } = checkRateLimit(registerLimiter, ip);
+        if (!allowed) {
+            return NextResponse.json(
+                { success: false, errorCode: "RATE_LIMITED" },
+                { status: 429 }
+            );
+        }
+
         await connectDB();
 
         const body = await req.json();
@@ -44,7 +55,6 @@ export async function POST(req: NextRequest) {
             },
             { status: 201 }
         );
-        redirect("/[locale]/login");
     } catch (error: any) {
         if (error?.name === "ZodError") {
             const firstIssue = error.issues[0];

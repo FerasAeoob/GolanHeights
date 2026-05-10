@@ -159,7 +159,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
                                     alt={img.alt}
                                     fill
                                     priority={index === 0}
-                                    sizes="86vw"
+                                    sizes="90vw"
                                     className="object-cover"
                                 />
                             </div>

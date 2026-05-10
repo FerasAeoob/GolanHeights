@@ -54,7 +54,7 @@ export async function createUserToken(user: IUser) {
         plan: user.plan,
     })
         .setProtectedHeader({ alg: "HS256" })
-        .setIssuedAt(Date.now())
+        .setIssuedAt()
         .setExpirationTime("1h")
         .sign(secret);
 }
@@ -76,7 +76,7 @@ export async function clearAuthCookie() {
     cookieStore.set(COOKIE_NAME, "", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        sameSite: "strict",
         path: "/",
         maxAge: 0,
     });

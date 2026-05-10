@@ -3,7 +3,7 @@ import CategoryCard from "@/components/categorycard";
 import { Reveal } from "@/components/animation/Reveal";
 import categories from "@/lib/categories";
 import AnimatedHero from "@/components/homepage/animatedHero";
-import PlaceCard from "@/components/placecard";
+import PlaceCard from "@/components/places/placecard";
 import Place, { IPlace, IPlaceSerializable } from "@/database/place.model";
 import { getDictionary } from "@/lib/get-dictionary";
 import { getCurrentUser } from "@/lib/auth";
@@ -15,7 +15,7 @@ import SeoTextSection from "@/components/homepage/SeoTextSection";
 export async function generateMetadata({ params }: { params: { lang: 'en' | 'ar' | 'he' } }): Promise<Metadata> {
     const { lang } = await params;
     const dict = await getDictionary(lang);
-    
+
     return {
         title: {
             absolute: dict.metadata?.homeTitle || "Golan Heights Guide",
@@ -74,14 +74,14 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
             </section>
 
             {/* Categories Section */}
-            <section className="flex flex-col items-center justify-center">
+            <section id="explore-golan" className="flex flex-col items-center justify-center scroll-mt-24">
                 <div className="flex flex-col items-center justify-center gap-10 w-full max-w-[1200px] lg:max-w-[1400px] px-4  ">
 
                     <Reveal>
                         <div className="flex flex-col items-center mx-auto w-[85%] gap-3">
-                            <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
+                            <p className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
                                 {dict.discover}
-                            </h3>
+                            </p>
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900  text-center">
                                 {dict.explorebycategory}
                             </h2>

@@ -7,7 +7,9 @@ import Place from "@/database/place.model";
 
 import { requireAuth } from "@/lib/permissions";
 import { createOrUpdateReviewSchema } from "@/database/review/review.schema";
+import { checkRateLimit } from "@/lib/rate-limit";
 
+const reviewLimiter = { name: "reviews", maxRequests: 10, windowSeconds: 60 * 60 };
 // GET reviews for a place
 export async function GET(req: NextRequest) {
   try {
@@ -45,6 +47,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const currentUser = await requireAuth();
+
+    const { allowed } = checkRateLimit(reviewLimiter, currentUser._id);
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, errorCode: "RATE_LIMITED" },
+        { status: 429 }
+      );
+    }
 
     const body = await req.json();
     const validatedData = createOrUpdateReviewSchema.parse(body);

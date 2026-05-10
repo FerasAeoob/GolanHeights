@@ -30,7 +30,7 @@ export default function Navbar({ lang, dict, currentUser }: { lang: string; dict
                 <div className="">
                     <Link href={`/${lang}`} className="flex items-center font-bold gap-3">
                         <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1778314889/Untitled_design-Photoroom_wcyhzr.png"
-                            alt="Logo"
+                            alt="Golan Wiki logo"
                             width={60}
                             height={45} />
                         <span className="text-2xl font-bold font-outfit bg-[radial-gradient(circle,_#FFFDA3_40%,_#F7F57C_60%,_#F0ED59_100%)] bg-clip-text text-transparent hidden md:block">Golan WIKI</span>

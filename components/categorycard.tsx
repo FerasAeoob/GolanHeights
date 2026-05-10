@@ -23,7 +23,7 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
                     src={category.image}
                     alt={title}
                     fill
-                    /* 2. Changed 'hover:' to 'group-hover:' so the zoom works through the layers */
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                 />
 

@@ -51,6 +51,7 @@ export default function LanguageSwitcher() {
     return (
         <button
             onClick={toggleLanguage}
+            aria-label="Switch language"
             className=" cursor-pointer rounded-md h-[40px] w-[40px] flex items-center justify-center "
         >
             <Languages className="w-5 h-5 text-white" />

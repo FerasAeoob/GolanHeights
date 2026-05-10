@@ -94,6 +94,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                         <button
                             type="button"
                             onClick={() => setShowCurrent(!showCurrent)}
+                            aria-label={showCurrent ? (p?.hidePassword || 'Hide password') : (p?.showPassword || 'Show password')}
                             className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                         >
                             {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -119,6 +120,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                         <button
                             type="button"
                             onClick={() => setShowNew(!showNew)}
+                            aria-label={showNew ? (p?.hidePassword || 'Hide password') : (p?.showPassword || 'Show password')}
                             className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                         >
                             {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -144,6 +146,7 @@ export default function ChangePasswordForm({ dict }: ChangePasswordFormProps) {
                         <button
                             type="button"
                             onClick={() => setShowConfirm(!showConfirm)}
+                            aria-label={showConfirm ? (p?.hidePassword || 'Hide password') : (p?.showPassword || 'Show password')}
                             className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                         >
                             {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}

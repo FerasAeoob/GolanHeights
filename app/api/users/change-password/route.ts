@@ -3,8 +3,11 @@ import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { getCurrentUser } from "@/lib/auth";
 import { changePasswordSchema } from "@/database/user/user.schema";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
+
+const passwordLimiter = { name: "change-password", maxRequests: 5, windowSeconds: 60 * 60 };
 
 export async function POST(req: NextRequest) {
     try {
@@ -12,11 +15,16 @@ export async function POST(req: NextRequest) {
 
         if (!currentUser) {
             return NextResponse.json(
-                {
-                    success: false,
-                    errorCode: "UNAUTHORIZED",
-                },
+                { success: false, errorCode: "UNAUTHORIZED" },
                 { status: 401 }
+            );
+        }
+
+        const { allowed } = checkRateLimit(passwordLimiter, currentUser._id);
+        if (!allowed) {
+            return NextResponse.json(
+                { success: false, errorCode: "RATE_LIMITED" },
+                { status: 429 }
             );
         }
 

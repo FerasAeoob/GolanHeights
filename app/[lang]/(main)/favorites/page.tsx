@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
 import Place, { IPlaceSerializable } from "@/database/place.model";
-import PlaceCard from "@/components/placecard";
+import PlaceCard from "@/components/places/placecard";
 import { getDictionary } from "@/lib/get-dictionary";
 import FavoriteCardLiveItem from "@/components/favorites/Favorite.Card.Live";
 import FavoritesEmptyState from "@/components/favorites/FavoritesEmptyState";

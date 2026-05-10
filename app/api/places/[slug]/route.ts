@@ -28,9 +28,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
         }).lean();
         return NextResponse.json(place, { status: 200 });
     } catch (error) {
-        console.error(error);
+        console.error("GET PLACE ERROR:", error);
         return NextResponse.json(
-            { error: "Failed to fetch place ❌" },
+            { success: false, errorCode: "UNKNOWN_ERROR" },
             { status: 500 }
         );
     }
@@ -101,9 +101,9 @@ export async function PUT(
 
         return NextResponse.json(updatedPlace, { status: 200 });
     } catch (error: any) {
-        console.error(error);
+        console.error("UPDATE PLACE ERROR:", error);
         return NextResponse.json(
-            { error: "Failed to update place ❌", details: error.message },
+            { success: false, errorCode: "UNKNOWN_ERROR" },
             { status: 500 }
         );
     }

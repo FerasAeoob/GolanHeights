@@ -1,9 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
+
 import { Compass, MapPin, Mountain } from "lucide-react";
 import HeroInfoCard from "./Hero.infocard";
 import { Reveal } from "@/components/animation/Reveal";
 import WeatherCard from "./WeatherCard";
+import ScrollToExploreButton from "./ScrollToExploreButton";
 
 export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
 
@@ -14,8 +15,9 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
             <div className="absolute inset-0 z-0">
                 <Image
                     src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp"
-                    alt="Golan Heights"
+                    alt="Golan Heights landscape"
                     fill
+                    sizes="100vw"
                     priority
                     className="object-cover"
                 />
@@ -49,13 +51,12 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                         </p>
 
 
-                        <Link
-                            href={`/${lang}/places`}
+                        <ScrollToExploreButton
                             className="group flex items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-400 font-bold text-lg rounded-full shadow-xl border border-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
                         >
                             <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform mt-1" />
                             <span className="mt-1">{dict.explorenow}</span>
-                        </Link>
+                        </ScrollToExploreButton>
                     </div>
                 </Reveal>
 
