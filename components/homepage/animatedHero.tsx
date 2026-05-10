@@ -14,7 +14,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
             {/* ── Full-bleed background ─────────────────────────────── */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp"
+                    src="https://res.cloudinary.com/dsjzcazdi/image/upload/f_auto,q_auto/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp"
                     alt="Golan Heights landscape"
                     fill
                     sizes="100vw"
