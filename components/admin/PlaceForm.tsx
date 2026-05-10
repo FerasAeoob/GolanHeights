@@ -250,8 +250,8 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
 
     // ─── Render ──────────────────────────────────────
     return (
-        <div className="p-8 bg-slate-50 min-h-screen text-slate-900 pt-30">
-            <div className="max-w-4xl mx-auto">
+        <div className="p-4 md:p-8 bg-slate-50 min-h-screen text-slate-900 pt-24 md:pt-30">
+            <div className="max-w-4xl mx-auto relative pb-24 md:pb-0">
 
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
@@ -426,7 +426,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                         </div>
 
                         {/* Location Coordinates */}
-                        <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">Latitude</label>
                                 <input
@@ -528,48 +528,59 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                             {form.openHours
                                 .sort((a, b) => a.day - b.day)
                                 .map((hour, index) => (
-                                    <div key={index} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                                        <select
+                                    <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                        <div className="flex items-center justify-between sm:w-auto gap-3">
+                                            <select
                                             value={hour.day}
                                             onChange={e => updateOpenHour(index, 'day', parseInt(e.target.value))}
-                                            className="px-3 py-2 rounded-lg border border-slate-200 text-sm font-medium"
+                                            className="px-2 md:px-3 py-2 rounded-lg border border-slate-200 text-sm font-medium"
                                         >
                                             {DAYS.map((d, i) => (
                                                 <option key={i} value={i}>{d}</option>
                                             ))}
                                         </select>
 
-                                        <label className="flex items-center gap-2 text-sm">
+                                        <label className="flex items-center gap-2 text-sm whitespace-nowrap">
                                             <input
                                                 type="checkbox"
                                                 checked={hour.isClosed}
                                                 onChange={e => updateOpenHour(index, 'isClosed', e.target.checked)}
-                                                className="accent-red-500"
+                                                className="accent-red-500 w-4 h-4"
                                             />
                                             Closed
                                         </label>
+                                        
+                                        {/* Mobile Delete Button (hidden on sm+) */}
+                                        <button
+                                            onClick={() => removeOpenHour(index)}
+                                            className="sm:hidden ml-auto text-red-400 hover:text-red-600 cursor-pointer p-1"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                        </div>
 
                                         {!hour.isClosed && (
-                                            <>
+                                            <div className="flex items-center gap-2 w-full sm:w-auto">
                                                 <input
                                                     type="time"
                                                     value={formatMilitaryTime(hour.open)}
                                                     onChange={e => updateOpenHour(index, 'open', parseMilitaryTime(e.target.value))}
-                                                    className="px-2 py-2 rounded-lg border border-slate-200 text-sm"
+                                                    className="flex-1 sm:flex-none px-2 py-2 rounded-lg border border-slate-200 text-sm min-w-0"
                                                 />
-                                                <span className="text-slate-400">→</span>
+                                                <span className="text-slate-400 shrink-0">→</span>
                                                 <input
                                                     type="time"
                                                     value={formatMilitaryTime(hour.close)}
                                                     onChange={e => updateOpenHour(index, 'close', parseMilitaryTime(e.target.value))}
-                                                    className="px-2 py-2 rounded-lg border border-slate-200 text-sm"
+                                                    className="flex-1 sm:flex-none px-2 py-2 rounded-lg border border-slate-200 text-sm min-w-0"
                                                 />
-                                            </>
+                                            </div>
                                         )}
 
+                                        {/* Desktop Delete Button (hidden on mobile) */}
                                         <button
                                             onClick={() => removeOpenHour(index)}
-                                            className="ml-auto text-red-400 hover:text-red-600 cursor-pointer"
+                                            className="hidden sm:block ml-auto text-red-400 hover:text-red-600 cursor-pointer p-1"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -652,7 +663,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                 placeholder="Paste Cloudinary URL..."
                                 onKeyDown={e => e.key === 'Enter' && addImage()}
                             />
-                            <div className="flex gap-3">
+                            <div className="flex flex-col md:flex-row gap-3">
                                 <input
                                     type="text"
                                     value={newImageAlt.en}
@@ -694,11 +705,11 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
 
 
                     {/* ═══════════ SUBMIT ═══════════ */}
-                    <div className="flex items-center gap-4">
+                    <div className="fixed bottom-0 left-0 right-0 z-40 bg-slate-50/90 backdrop-blur-md p-4 border-t border-slate-200 flex items-center justify-between shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none md:justify-start md:shadow-none gap-4">
                         <button
                             onClick={handleSubmit}
                             disabled={isPending}
-                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-3 rounded-xl font-bold text-sm flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 md:px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer flex-1 md:flex-none"
                         >
                             <Save className="w-4 h-4" />
                             {isPending ? 'Saving...' : mode === 'create' ? 'Create Place' : 'Save Changes'}
@@ -706,7 +717,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
 
                         <Link
                             href={`/${lang}/area-51-sec`}
-                            className="text-slate-500 hover:text-slate-700 text-sm font-medium"
+                            className="text-slate-500 hover:text-slate-700 text-sm font-medium px-4 py-3 rounded-xl hover:bg-slate-200 md:hover:bg-transparent transition-colors text-center"
                         >
                             Cancel
                         </Link>
