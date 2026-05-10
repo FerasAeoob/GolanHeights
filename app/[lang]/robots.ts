@@ -25,6 +25,6 @@ export default function robots(): MetadataRoute.Robots {
                 '/dashboard'
             ],
         },
-        sitemap: 'https://golanwiki.com/sitemap.xml',
+        sitemap: 'https://www.golanwiki.com/sitemap.xml',
     };
 }

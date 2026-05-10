@@ -10,6 +10,27 @@ import { IOpeningHoursDictionary } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 import { getCurrentUser } from "@/lib/auth";
 import PlacesMapClient from "@/components/places/PlacesMapClient";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: 'en' | 'ar' | 'he' }> }): Promise<Metadata> {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+    const path = lang === 'en' ? '/places' : `/${lang}/places`;
+
+    return {
+        title: dict.exploreplaces || "Explore Places",
+        description: dict.exploreplacesdesc || "Discover all places in the Golan Heights",
+        alternates: {
+            canonical: `https://www.golanwiki.com${path}`,
+            languages: {
+                'en': 'https://www.golanwiki.com/places',
+                'he': 'https://www.golanwiki.com/he/places',
+                'ar': 'https://www.golanwiki.com/ar/places',
+                'x-default': 'https://www.golanwiki.com/places'
+            }
+        }
+    };
+}
 
 export default async function PlacesPage({
     searchParams,

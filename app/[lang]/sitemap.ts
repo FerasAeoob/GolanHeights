@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import connectDB from '@/lib/mongodb';
 import Place from '@/database/place.model';
 
-const baseUrl = 'https://golanwiki.com';
+const baseUrl = 'https://www.golanwiki.com';
 
 type PlaceForSitemap = {
     slug?: {

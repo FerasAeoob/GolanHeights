@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: { params: { lang: 'en' | 'ar'
         },
         description: dict.metadata?.homeDescription || "Discover the best places in the Golan Heights",
         alternates: {
+            canonical: lang === 'en' ? 'https://www.golanwiki.com/' : `https://www.golanwiki.com/${lang}`,
             languages: {
                 'en': 'https://www.golanwiki.com/',
                 'he': 'https://www.golanwiki.com/he',

@@ -10,14 +10,50 @@ import PhotoGallery from "@/components/places/PhotoGallery";
 import ReviewsClient from "@/components/reviews/ReviewsClient";
 import { getCurrentUser } from "@/lib/auth";
 import { perfLog } from "@/lib/perf";
-
-
+import type { Metadata } from "next";
 
 interface PageProps {
     params: Promise<{
         slug: string;
         lang: "en" | "he" | "ar";
     }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { slug: rawSlug, lang } = await params;
+    const parsedSlug = SlugSchema.safeParse({ slug: rawSlug });
+    if (!parsedSlug.success) return {};
+    const decodedSlug = decodeURIComponent(parsedSlug.data.slug);
+
+    await connectDB();
+    const place = await Place.findOne({
+        $or: [
+            { "slug.en": decodedSlug.toLowerCase() },
+            { "slug.he": decodedSlug.toLowerCase() },
+            { "slug.ar": decodedSlug.toLowerCase() }
+        ]
+    }).lean();
+
+    if (!place) return {};
+
+    const dict = await getDictionary(lang);
+    
+    const currentSlug = place.slug[lang] || place.slug.en;
+    const path = lang === 'en' ? `/places/${currentSlug}` : `/${lang}/places/${currentSlug}`;
+
+    return {
+        title: place.title[lang] || place.title.en,
+        description: place.shortDescription?.[lang] || place.shortDescription?.en || dict.metadata?.homeDescription,
+        alternates: {
+            canonical: `https://www.golanwiki.com${path}`,
+            languages: {
+                'en': `https://www.golanwiki.com/places/${place.slug.en}`,
+                'he': `https://www.golanwiki.com/he/places/${place.slug.he || place.slug.en}`,
+                'ar': `https://www.golanwiki.com/ar/places/${place.slug.ar || place.slug.en}`,
+                'x-default': `https://www.golanwiki.com/places/${place.slug.en}`
+            }
+        }
+    };
 }
 
 export default async function PlacePage({ params }: PageProps) {

@@ -1,6 +1,37 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    async redirects() {
+        return [
+            {
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'golanwiki.com',
+                    },
+                ],
+                destination: 'https://www.golanwiki.com/:path*',
+                permanent: true,
+            },
+            {
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'header',
+                        key: 'x-forwarded-proto',
+                        value: 'http',
+                    },
+                    {
+                        type: 'host',
+                        value: 'www.golanwiki.com',
+                    }
+                ],
+                destination: 'https://www.golanwiki.com/:path*',
+                permanent: true,
+            }
+        ];
+    },
     poweredByHeader: false,
     allowedDevOrigins: ["192.168.0.129", "192.168.1.106"],
     images: {
