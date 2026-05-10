@@ -6,10 +6,6 @@ import { getCurrentUser } from "@/lib/auth";
 
 import { getDictionary } from "@/lib/get-dictionary"; // ADDED
 
-export const metadata: Metadata = {
-    title: "Golan Heights Guide",
-    description: "Discover the best places in the Golan Heights",
-};
 
 export default async function LangLayout({
     children,

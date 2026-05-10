@@ -1,17 +1,12 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
+
+const baseUrl = 'https://www.golanwiki.com';
 
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: {
             userAgent: '*',
-            allow: [
-                '/',
-                '/places',
-                '/ar',
-                '/ar/places',
-                '/he',
-                '/he/places'
-            ],
+            allow: '/',
             disallow: [
                 '/api/',
                 '/admin/',
@@ -22,9 +17,9 @@ export default function robots(): MetadataRoute.Robots {
                 '/rewards',
                 '/my-coupons',
                 '/profile',
-                '/dashboard'
+                '/dashboard',
             ],
         },
-        sitemap: 'https://www.golanwiki.com/sitemap.xml',
+        sitemap: `${baseUrl}/sitemap.xml`,
     };
 }

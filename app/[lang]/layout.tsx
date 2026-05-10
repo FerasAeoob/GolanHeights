@@ -28,12 +28,20 @@ const tajawal = Tajawal({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.golanwiki.com'),
   title: {
-    template: "%s | Golan Heights Guide",
-    default: "Golan Heights Guide",
+    template: "%s | Golan Wiki",
+    default: "Golan Wiki",
+  },
+  applicationName: "Golan Wiki",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Golan Wiki",
   },
   description: "Discover the best places in the Golan Heights",
   icons: {
-    apple: "/apple-icon.png",
+    apple: "/logox.png",
+    icon: "/logox.png",
+    shortcut: "/logox.png",
   },
 };
 
