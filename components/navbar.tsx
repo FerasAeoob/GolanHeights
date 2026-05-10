@@ -18,7 +18,7 @@ export default function Navbar({ lang, dict, currentUser }: { lang: string; dict
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] px-4 h-full relative">
                 <div className="">
                     <Link href={`/${lang}`} className="flex items-center font-bold gap-3">
-                        <Image src="/logox.png"
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1778314889/Untitled_design-Photoroom_wcyhzr.png"
                             alt="Golan Wiki logo"
                             width={60}
                             height={45}

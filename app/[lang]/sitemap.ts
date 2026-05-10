@@ -1,44 +1,55 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 import connectDB from '@/lib/mongodb';
 import Place from '@/database/place.model';
 
+const baseUrl = 'https://golanwiki.com';
+
+type PlaceForSitemap = {
+    slug?: {
+        en?: string;
+        ar?: string;
+        he?: string;
+    };
+    updatedAt?: Date;
+};
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://golanwiki.com';
+    const now = new Date();
 
     const routes: MetadataRoute.Sitemap = [
         {
-            url: `${baseUrl}`,
-            lastModified: new Date(),
+            url: baseUrl,
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 1,
         },
         {
             url: `${baseUrl}/places`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 0.9,
         },
         {
             url: `${baseUrl}/ar`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 0.8,
         },
         {
             url: `${baseUrl}/ar/places`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 0.9,
         },
         {
             url: `${baseUrl}/he`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 0.8,
         },
         {
             url: `${baseUrl}/he/places`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 0.9,
         },
@@ -46,36 +57,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     try {
         await connectDB();
-        
-        // Fetch published/public places
+
         const places = await Place.find({})
             .select('slug updatedAt')
-            .lean();
+            .lean<PlaceForSitemap[]>();
 
-        places.forEach((place: any) => {
-            // English/default
+        places.forEach((place) => {
+            const lastModified = place.updatedAt || now;
+
             if (place.slug?.en) {
                 routes.push({
                     url: `${baseUrl}/places/${place.slug.en}`,
-                    lastModified: place.updatedAt || new Date(),
+                    lastModified,
                     changeFrequency: 'monthly',
                     priority: 0.8,
                 });
             }
-            // Arabic
+
             if (place.slug?.ar) {
                 routes.push({
                     url: `${baseUrl}/ar/places/${place.slug.ar}`,
-                    lastModified: place.updatedAt || new Date(),
+                    lastModified,
                     changeFrequency: 'monthly',
                     priority: 0.8,
                 });
             }
-            // Hebrew
+
             if (place.slug?.he) {
                 routes.push({
                     url: `${baseUrl}/he/places/${place.slug.he}`,
-                    lastModified: place.updatedAt || new Date(),
+                    lastModified,
                     changeFrequency: 'monthly',
                     priority: 0.8,
                 });
