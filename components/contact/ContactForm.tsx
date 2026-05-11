@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 
 interface ContactFormProps {
@@ -19,6 +19,8 @@ export default function ContactForm({
   const [reason, setReason] = useState(initialReason);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     setReason(initialReason);
@@ -40,26 +42,45 @@ export default function ContactForm({
 
   if (!t) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setApiError(null);
 
-    // TODO: Connect to your backend API here
-    // Example:
-    // const formData = new FormData(e.currentTarget as HTMLFormElement);
-    // const res = await fetch("/api/contact", {
-    //   method: "POST",
-    //   body: JSON.stringify(Object.fromEntries(formData)),
-    // });
+    const formData = new FormData(e.currentTarget);
 
-    // Simulating API call
-    setTimeout(() => {
+    const body = JSON.stringify({
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      subject: String(formData.get("subject") || ""),
+      reason,
+      message: String(formData.get("message") || ""),
+    });
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+
+      const data = await res.json() as { success: boolean; message: string };
+
+      if (!res.ok || !data.success) {
+        setApiError(data.message || "Something went wrong. Please try again.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Success — clear the form and show the success screen
+      formRef.current?.reset();
+      setReason(initialReason);
       setIsSubmitting(false);
       setIsSuccess(true);
-
-      // Reset after 5 seconds
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 1500);
+    } catch {
+      setApiError("Network error. Please check your connection and try again.");
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
@@ -101,7 +122,7 @@ export default function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Name */}
         <div className="flex flex-col gap-2">
@@ -197,6 +218,13 @@ export default function ContactForm({
           className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm transition-all focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
         />
       </div>
+
+      {/* API Error Banner */}
+      {apiError && (
+        <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          {apiError}
+        </p>
+      )}
 
       {/* Submit Button */}
       <button
