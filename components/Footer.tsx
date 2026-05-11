@@ -35,7 +35,6 @@ export default function Footer({ lang, dict }: { lang: string; dict: Record<stri
               {[
                 { name: dict.home, href: `/${lang}` },
                 { name: dict.destinations, href: `/${lang}/places` },
-                { name: dict.tours, href: `/${lang}/tours` },
                 { name: dict.aboutus, href: `/${lang}/about` },
                 { name: dict.contact, href: `/${lang}/contact` },
               ].map((link) => (
@@ -78,9 +77,10 @@ export default function Footer({ lang, dict }: { lang: string; dict: Record<stri
           <p className="text-zinc-400 text-sm">
             {dict.rights.replace('{year}', new Date().getFullYear().toString())}
           </p>
-          <div className="flex gap-6 text-sm text-zinc-400">
-            <Link href={`/${lang}/privacy`} className="hover:text-emerald-400 transition-colors">{dict.privacypolicy}</Link>
-            <Link href={`/${lang}/terms`} className="hover:text-emerald-400 transition-colors">{dict.termsofservice}</Link>
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-zinc-400">
+            <Link href={`/${lang}/privacy-policy`} className="hover:text-emerald-400 transition-colors">{dict.privacypolicy}</Link>
+            <Link href={`/${lang}/terms-of-use`} className="hover:text-emerald-400 transition-colors">{dict.termsofuse ?? dict.termsofservice}</Link>
+            <Link href={`/${lang}/cookie-policy`} className="hover:text-emerald-400 transition-colors">{dict.cookiepolicy}</Link>
           </div>
         </div>
       </div>
