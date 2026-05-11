@@ -12,15 +12,15 @@ export async function generateMetadata({
   const { lang } = await params;
 
   const titles: Record<string, string> = {
-    en: "Cookie Policy | Golan Heights Guide",
-    he: "מדיניות עוגיות | מדריך הגולן",
-    ar: "سياسة ملفات تعريف الارتباط | دليل الجولان",
+    en: "Cookie Policy | Golan Wiki",
+    he: "מדיניות עוגיות | Golan Wiki",
+    ar: "سياسة ملفات تعريف الارتباط | Golan Wiki",
   };
 
   const descs: Record<string, string> = {
-    en: "Read how Golan Heights Guide uses cookies and similar technologies.",
-    he: "קראו כיצד מדריך הגולן משתמש בעוגיות ובטכנולוגיות דומות.",
-    ar: "اقرأ كيف يستخدم دليل الجولان ملفات تعريف الارتباط والتقنيات المشابهة.",
+    en: "Read how Golan Wiki uses cookies and similar technologies.",
+    he: "קראו כיצד Golan Wiki משתמש בעוגיות ובטכנולוגיות דומות.",
+    ar: "اقرأ كيف يستخدم Golan Wiki ملفات تعريف الارتباط والتقنيات المشابهة.",
   };
 
   return {

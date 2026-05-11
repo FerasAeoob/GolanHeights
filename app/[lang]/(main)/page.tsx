@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: { lang: 'en' | 'ar'
 
     return {
         title: {
-            absolute: dict.metadata?.homeTitle || "Golan Heights Guide",
+            absolute: dict.metadata?.homeTitle || "Golan Wiki",
         },
         description: dict.metadata?.homeDescription || "Discover the best places in the Golan Heights",
         alternates: {

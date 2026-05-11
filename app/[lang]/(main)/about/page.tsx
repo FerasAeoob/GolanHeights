@@ -86,7 +86,7 @@ export default async function AboutPage({
       className="flex min-h-screen w-full flex-col bg-white"
     >
       {/* ── Hero ── */}
-      <section className="relative flex w-full flex-col overflow-hidden bg-zinc-950 px-4 pb-9 pt-16 sm:px-6 md:pb-12 md:pt-28">
+      <section className="relative flex w-full flex-col overflow-hidden bg-zinc-950 px-4 pb-9 pt-25 md:pt-16 sm:px-6 md:pb-12 md:pt-28">
         {/* emerald glow */}
         <div
           aria-hidden="true"

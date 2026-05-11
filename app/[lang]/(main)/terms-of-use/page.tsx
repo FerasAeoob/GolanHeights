@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import LegalPageLayout from "@/components/legal/LegalPageLayout";
 
 const SITE_URL = "https://www.golanwiki.com";
@@ -12,15 +12,15 @@ export async function generateMetadata({
   const { lang } = await params;
 
   const titles: Record<string, string> = {
-    en: "Terms of Use | Golan Heights Guide",
-    he: "תנאי שימוש | מדריך הגולן",
-    ar: "شروط الاستخدام | دليل الجولان",
+    en: "Terms of Use | Golan Wiki",
+    he: "תנאי שימוש | Golan Wiki",
+    ar: "شروط الاستخدام | Golan Wiki",
   };
 
   const descs: Record<string, string> = {
-    en: "Read the terms and conditions for using Golan Heights Guide.",
-    he: "קראו את תנאי השימוש של מדריך הגולן.",
-    ar: "اقرأ شروط وأحكام استخدام دليل الجولان.",
+    en: "Read the terms and conditions for using Golan Wiki.",
+    he: "קראו את תנאי השימוש של Golan Wiki.",
+    ar: "اقرأ شروط وأحكام استخدام Golan Wiki.",
   };
 
   return {
@@ -36,7 +36,7 @@ function EnContent() {
   return (
     <LegalPageLayout
       title="Terms of Use"
-      subtitle="By using Golan Heights Guide, you agree to these terms. Please read them carefully."
+      subtitle="By using Golan Wiki, you agree to these terms. Please read them carefully."
       lastUpdated="Last updated: May 11, 2026"
       icon="📋"
       sections={[
@@ -54,7 +54,7 @@ function EnContent() {
           heading: "2. Purpose of the Website",
           content: (
             <p>
-              Golan Heights Guide is a local tourism and discovery platform for
+              Golan Wiki is a local tourism and discovery platform for
               the Golan region. We help users discover places, restaurants,
               nature spots, viewpoints, activities, stays, and local businesses.
             </p>
@@ -153,7 +153,7 @@ function EnContent() {
               </p>
 
               <p className="mt-2">
-                By submitting content, you grant Golan Heights Guide a
+                By submitting content, you grant Golan Wiki a
                 non-exclusive, worldwide, royalty-free license to display, use,
                 store, reproduce, resize, crop, compress, adapt, and technically
                 modify that content as needed to operate and present the
@@ -203,7 +203,7 @@ function EnContent() {
           heading: "11. Limitation of Liability",
           content: (
             <p>
-              To the maximum extent permitted by law, Golan Heights Guide and
+              To the maximum extent permitted by law, Golan Wiki and
               the people operating it are not liable for any direct, indirect,
               incidental, consequential, or special damages arising from your use
               of the Website, reliance on information found on the Website,
@@ -267,7 +267,7 @@ function HeContent() {
   return (
     <LegalPageLayout
       title="תנאי שימוש"
-      subtitle="בשימוש במדריך הגולן אתם מסכימים לתנאים אלו. אנא קראו אותם בעיון."
+      subtitle="בשימוש בGolan Wiki אתם מסכימים לתנאים אלו. אנא קראו אותם בעיון."
       lastUpdated="עודכן לאחרונה: 11 במאי 2026"
       icon="📋"
       sections={[
@@ -285,7 +285,7 @@ function HeContent() {
           heading: "2. מטרת האתר",
           content: (
             <p>
-              מדריך הגולן הוא פלטפורמת תיירות וגילוי מקומית לאזור הגולן. אנו
+              Golan Wiki הוא פלטפורמת תיירות וגילוי מקומית לאזור הגולן. אנו
               עוזרים למשתמשים לגלות מקומות, מסעדות, אתרי טבע, תצפיות,
               פעילויות, מקומות אירוח ועסקים מקומיים.
             </p>
@@ -378,7 +378,7 @@ function HeContent() {
               </p>
 
               <p className="mt-2">
-                בהגשת תוכן, אתם מעניקים למדריך הגולן רישיון לא בלעדי, עולמי
+                בהגשת תוכן, אתם מעניקים לGolan Wiki רישיון לא בלעדי, עולמי
                 וללא תמלוגים להציג, להשתמש, לאחסן, לשכפל, לשנות גודל, לחתוך,
                 לדחוס, להתאים ולבצע שינויים טכניים בתוכן לפי הצורך לצורך
                 הפעלת והצגת האתר.
@@ -398,7 +398,7 @@ function HeContent() {
             <>
               <p>
                 עיצוב האתר, המיתוג, הלוגו, הממשק, הטקסט המקורי, הפריסה
-                והאלמנטים החזותיים המקוריים שייכים למדריך הגולן או לבעלי
+                והאלמנטים החזותיים המקוריים שייכים לGolan Wiki או לבעלי
                 הזכויות המתאימים, ואין להעתיקם, לשכפלם, להפיצם מחדש או להשתמש
                 בהם מסחרית ללא אישור מראש.
               </p>
@@ -424,7 +424,7 @@ function HeContent() {
           heading: "11. הגבלת אחריות",
           content: (
             <p>
-              במידה המרבית המותרת על פי דין, מדריך הגולן והאנשים המפעילים אותו
+              במידה המרבית המותרת על פי דין, Golan Wiki והאנשים המפעילים אותו
               אינם אחראים לכל נזק ישיר, עקיף, מקרי, תוצאתי או מיוחד הנובע
               מהשימוש שלכם באתר, הסתמכות על מידע באתר, ביקור במקומות, התקשרות
               עם עסקים, קישורים חיצוניים, תוכן שנשלח על ידי משתמשים או הפסקות
@@ -485,7 +485,7 @@ function ArContent() {
   return (
     <LegalPageLayout
       title="شروط الاستخدام"
-      subtitle="باستخدام دليل الجولان، فأنت توافق على هذه الشروط. يرجى قراءتها بعناية."
+      subtitle="باستخدام Golan Wiki، فأنت توافق على هذه الشروط. يرجى قراءتها بعناية."
       lastUpdated="آخر تحديث: 11 مايو 2026"
       icon="📋"
       sections={[
@@ -504,7 +504,7 @@ function ArContent() {
           heading: "2. هدف الموقع",
           content: (
             <p>
-              دليل الجولان هو منصة سياحية واكتشافية محلية لمنطقة الجولان. نساعد
+              Golan Wiki هو منصة سياحية واكتشافية محلية لمنطقة الجولان. نساعد
               المستخدمين على اكتشاف الأماكن والمطاعم والمواقع الطبيعية
               والإطلالات والأنشطة وأماكن الإقامة والأعمال المحلية.
             </p>
@@ -598,7 +598,7 @@ function ArContent() {
               </p>
 
               <p className="mt-2">
-                بتقديمك للمحتوى، تمنح دليل الجولان ترخيصاً غير حصري، عالمياً،
+                بتقديمك للمحتوى، تمنح Golan Wiki ترخيصاً غير حصري، عالمياً،
                 مجانياً، ودون مطالبة برسوم لعرض هذا المحتوى واستخدامه وتخزينه
                 ونسخه وتغيير حجمه وقصه وضغطه وتكييفه وتعديله تقنياً عند الحاجة
                 لتشغيل الموقع وعرضه بشكل مناسب.
@@ -618,7 +618,7 @@ function ArContent() {
             <>
               <p>
                 تصميم الموقع، العلامة التجارية، الشعار، الواجهة، النصوص الأصلية،
-                التخطيط والعناصر المرئية الأصلية مملوكة لدليل الجولان أو لأصحاب
+                التخطيط والعناصر المرئية الأصلية مملوكة لGolan Wiki أو لأصحاب
                 الحقوق المعنيين، ولا يجوز نسخها أو إعادة إنتاجها أو إعادة
                 توزيعها أو استخدامها تجارياً دون إذن مسبق.
               </p>
@@ -645,7 +645,7 @@ function ArContent() {
           heading: "11. تحديد المسؤولية",
           content: (
             <p>
-              بالقدر الأقصى المسموح به قانوناً، لا يتحمل دليل الجولان أو
+              بالقدر الأقصى المسموح به قانوناً، لا يتحمل Golan Wiki أو
               القائمون عليه أي مسؤولية عن أي أضرار مباشرة أو غير مباشرة أو
               عرضية أو تبعية أو خاصة تنشأ عن استخدامك للموقع أو اعتمادك على
               معلومات موجودة فيه أو زيارة أماكن أو التعامل مع أعمال تجارية أو

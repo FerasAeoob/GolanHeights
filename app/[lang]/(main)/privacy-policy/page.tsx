@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import LegalPageLayout from "@/components/legal/LegalPageLayout";
 
 const SITE_URL = "https://www.golanwiki.com";
@@ -12,15 +12,15 @@ export async function generateMetadata({
   const { lang } = await params;
 
   const titles: Record<string, string> = {
-    en: "Privacy Policy | Golan Heights Guide",
-    he: "מדיניות פרטיות | מדריך הגולן",
-    ar: "سياسة الخصوصية | دليل الجولان",
+    en: "Privacy Policy | Golan Wiki",
+    he: "מדיניות פרטיות | Golan Wiki",
+    ar: "سياسة الخصوصية | Golan Wiki",
   };
 
   const descs: Record<string, string> = {
-    en: "Read how Golan Heights Guide collects, uses, stores, and protects personal information.",
-    he: "קראו כיצד מדריך הגולן אוסף, משתמש, שומר ומגן על מידע אישי.",
-    ar: "اقرأ كيف يجمع دليل الجولان المعلومات الشخصية ويستخدمها ويحفظها ويحميها.",
+    en: "Read how Golan Wiki collects, uses, stores, and protects personal information.",
+    he: "קראו כיצד Golan Wiki אוסף, משתמש, שומר ומגן על מידע אישי.",
+    ar: "اقرأ كيف يجمع Golan Wiki المعلومات الشخصية ويستخدمها ويحفظها ويحميها.",
   };
 
   return {
@@ -44,7 +44,7 @@ function EnContent() {
           heading: "1. Who We Are",
           content: (
             <p>
-              Golan Heights Guide, also known as Golan Wiki, is a local tourism
+              Golan Wiki is a local tourism
               and discovery platform available at <strong>www.golanwiki.com</strong>.
               For privacy questions, contact us at{" "}
               <a
@@ -307,7 +307,7 @@ function HeContent() {
           heading: "1. מי אנחנו",
           content: (
             <p>
-              מדריך הגולן, הידוע גם בשם Golan Wiki, הוא פלטפורמת תיירות וגילוי
+              Golan Wiki הוא פלטפורמת תיירות וגילוי
               מקומית הזמינה בכתובת <strong>www.golanwiki.com</strong>. לשאלות
               בנושא פרטיות ניתן ליצור איתנו קשר בכתובת{" "}
               <a
@@ -555,7 +555,7 @@ function ArContent() {
           heading: "1. من نحن",
           content: (
             <p>
-              دليل الجولان، المعروف أيضاً باسم Golan Wiki، هو منصة سياحية
+              Golan Wiki هو منصة سياحية
               واكتشافية محلية متاحة على <strong>www.golanwiki.com</strong>.
               للاستفسارات المتعلقة بالخصوصية، يمكنك التواصل معنا عبر{" "}
               <a
