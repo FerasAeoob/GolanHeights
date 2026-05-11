@@ -15,18 +15,20 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const subject = encodeURIComponent(formData.subject || "Contact Golan Wiki");
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Reason: ${formData.reason}\n\n` +
-      `Message:\n${formData.message}`
-    );
+    // TODO: Connect to your backend API here
+    // Example: const res = await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
 
-    window.location.href = `mailto:contact@golanwiki.com?subject=${subject}&body=${body}`;
+    // Simulating API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      // Reset after 5 seconds
+      setTimeout(() => setIsSuccess(false), 5000);
+    }, 1500);
   };
 
   if (isSuccess) {

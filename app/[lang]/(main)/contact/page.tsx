@@ -70,7 +70,7 @@ export default async function ContactPage({
       className="flex min-h-screen w-full flex-col bg-white"
     >
       {/* ── Hero ── */}
-      <section className="relative flex w-full flex-col overflow-hidden bg-zinc-950 px-4 pb-12 pt-16 sm:px-6 md:pb-20 md:pt-28">
+      <section className="relative flex w-full flex-col overflow-hidden bg-zinc-950 px-4 pb-12 pt-25 md:pt-16 sm:px-6 md:pb-20 md:pt-28">
         {/* Decorative elements */}
         <div
           aria-hidden="true"
@@ -120,7 +120,7 @@ export default async function ContactPage({
       {/* ── Main Contact Section (Form + Info) ── */}
       <section className="flex w-full flex-col px-4 py-16 sm:px-6 md:py-24">
         <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12 lg:flex-row lg:gap-16">
-          
+
           {/* Left: Form Card */}
           <div className="w-full lg:w-2/3">
             <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm sm:p-10 md:p-12">
@@ -130,20 +130,20 @@ export default async function ContactPage({
                 </h2>
                 <div className="h-1 w-12 rounded-full bg-emerald-500"></div>
               </div>
-              
+
               <ContactForm lang={lang} dict={dict} />
             </div>
           </div>
 
           {/* Right: Info Column */}
           <div className="flex w-full flex-col gap-8 lg:w-1/3">
-            
+
             {/* Contact Info Card */}
             <div className="rounded-[32px] border border-slate-200 bg-slate-50 p-8 shadow-sm">
               <h3 className="mb-8 text-xl font-extrabold text-slate-950">
                 {t.infoTitle}
               </h3>
-              
+
               <div className="flex flex-col gap-8">
                 {/* Email */}
                 <div className="flex items-start gap-4">
@@ -203,11 +203,11 @@ export default async function ContactPage({
                   {lang === 'he' ? 'אוהבים את הגולן?' : lang === 'ar' ? 'تحب الجولان؟' : 'Love the Golan?'}
                 </h4>
                 <p className="text-sm font-medium text-emerald-50 leading-relaxed">
-                  {lang === 'he' 
-                    ? 'הצטרפו אלינו בבניית המדריך המקיף ביותר לאזור. כל המלצה עוזרת!' 
-                    : lang === 'ar' 
-                    ? 'انضم إلينا في بناء الدليل الأكثر شمولاً للمنطقة. كل توصية تساعد!' 
-                    : 'Join us in building the most comprehensive guide to the region. Every recommendation helps!'}
+                  {lang === 'he'
+                    ? 'הצטרפו אלינו בבניית המדריך המקיף ביותר לאזור. כל המלצה עוזרת!'
+                    : lang === 'ar'
+                      ? 'انضم إلينا في بناء الدليل الأكثر شمولاً للمنطقة. كل توصية تساعد!'
+                      : 'Join us in building the most comprehensive guide to the region. Every recommendation helps!'}
                 </p>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default async function ContactPage({
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute -end-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-emerald-500/20 blur-[100px]"></div>
             </div>
-            
+
             <div className="relative flex flex-col items-center justify-between gap-10 lg:flex-row">
               <div className="flex max-w-2xl flex-col gap-4">
                 <h2 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">
@@ -234,7 +234,7 @@ export default async function ContactPage({
                   {t.businessBody}
                 </p>
               </div>
-              
+
               <Link
                 href="#"
                 className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-white px-8 py-5 text-sm font-bold text-zinc-950 transition-all hover:bg-emerald-50 active:scale-[0.98] whitespace-nowrap"
