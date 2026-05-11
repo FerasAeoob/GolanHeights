@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getDictionary } from "@/lib/get-dictionary";
 import {
   Mail,
@@ -8,10 +7,10 @@ import {
   Store,
   AlertCircle,
   MessageSquare,
-  ArrowRight,
   Heart,
 } from "lucide-react";
 import ContactForm from "@/components/contact/ContactForm";
+import BusinessRequestButton from "@/components/contact/BusinessRequestButton";
 
 /* ─── Metadata ─── */
 export async function generateMetadata({
@@ -26,7 +25,10 @@ export async function generateMetadata({
     title: dict.contactPage?.metaTitle,
     description: dict.contactPage?.metaDescription,
     alternates: {
-      canonical: `https://www.golanwiki.com/${lang}/contact`,
+      canonical:
+        lang === "en"
+          ? "https://www.golanwiki.com/contact"
+          : `https://www.golanwiki.com/${lang}/contact`,
     },
   };
 }
@@ -34,14 +36,21 @@ export async function generateMetadata({
 /* ─── Page ─── */
 export default async function ContactPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<{ reason?: string }>;
 }) {
   const { lang } = await params;
+  const { reason } = await searchParams;
+
   const dict = await getDictionary(lang as "en" | "he" | "ar");
   const t = dict.contactPage;
 
   const isRtl = lang === "ar" || lang === "he";
+
+  const allowedReasons = ["general", "add", "update", "report", "partnership"];
+  const initialReason = allowedReasons.includes(reason || "") ? reason : "general";
 
   const cards = [
     {
@@ -103,12 +112,16 @@ export default async function ContactPage({
               key={index}
               className="group flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50"
             >
-              <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl ${card.color}`}>
+              <div
+                className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl ${card.color}`}
+              >
                 {card.icon}
               </div>
+
               <h3 className="mb-3 text-lg font-extrabold text-slate-950">
                 {card.title}
               </h3>
+
               <p className="text-[15px] leading-7 text-slate-600">
                 {card.body}
               </p>
@@ -117,27 +130,30 @@ export default async function ContactPage({
         </div>
       </section>
 
-      {/* ── Main Contact Section (Form + Info) ── */}
+      {/* ── Main Contact Section Form + Info ── */}
       <section className="flex w-full flex-col px-4 py-16 sm:px-6 md:py-24">
         <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12 lg:flex-row lg:gap-16">
-
           {/* Left: Form Card */}
-          <div className="w-full lg:w-2/3">
+          <div id="contact-form" className="w-full scroll-mt-28 lg:w-2/3">
             <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm sm:p-10 md:p-12">
               <div className="mb-10">
                 <h2 className="mb-4 text-2xl font-extrabold tracking-tight text-slate-950 md:text-3xl">
                   {t.formTitle}
                 </h2>
-                <div className="h-1 w-12 rounded-full bg-emerald-500"></div>
+
+                <div className="h-1 w-12 rounded-full bg-emerald-500" />
               </div>
 
-              <ContactForm lang={lang} dict={dict} />
+              <ContactForm
+                lang={lang}
+                dict={dict}
+                initialReason={initialReason}
+              />
             </div>
           </div>
 
           {/* Right: Info Column */}
           <div className="flex w-full flex-col gap-8 lg:w-1/3">
-
             {/* Contact Info Card */}
             <div className="rounded-[32px] border border-slate-200 bg-slate-50 p-8 shadow-sm">
               <h3 className="mb-8 text-xl font-extrabold text-slate-950">
@@ -150,11 +166,16 @@ export default async function ContactPage({
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200">
                     <Mail className="h-5 w-5" />
                   </div>
+
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       {t.infoEmail}
                     </span>
-                    <a href="mailto:support@golanwiki.com" className="font-bold text-slate-900 transition-colors hover:text-emerald-600">
+
+                    <a
+                      href="mailto:support@golanwiki.com"
+                      className="font-bold text-slate-900 transition-colors hover:text-emerald-600"
+                    >
                       support@golanwiki.com
                     </a>
                   </div>
@@ -165,10 +186,12 @@ export default async function ContactPage({
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200">
                     <MapPin className="h-5 w-5" />
                   </div>
+
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       {t.infoLocation}
                     </span>
+
                     <span className="font-bold text-slate-900">
                       {t.infoLocationValue}
                     </span>
@@ -180,10 +203,12 @@ export default async function ContactPage({
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200">
                     <Clock className="h-5 w-5" />
                   </div>
+
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       {t.infoResponse}
                     </span>
+
                     <span className="font-bold text-slate-900">
                       {t.infoResponseValue}
                     </span>
@@ -194,24 +219,30 @@ export default async function ContactPage({
 
             {/* Social / Support Card */}
             <div className="relative overflow-hidden rounded-[32px] bg-emerald-600 p-8 text-white shadow-lg shadow-emerald-600/20">
-              <div className="absolute end-[-20px] top-[-20px] h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+              <div className="absolute end-[-20px] top-[-20px] h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+
               <div className="relative flex flex-col gap-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 text-white backdrop-blur-md">
                   <Heart className="h-5 w-5 fill-current" />
                 </div>
+
                 <h4 className="text-lg font-extrabold leading-tight">
-                  {lang === 'he' ? 'אוהבים את הגולן?' : lang === 'ar' ? 'تحب الجولان؟' : 'Love the Golan?'}
+                  {lang === "he"
+                    ? "אוהבים את הגולן?"
+                    : lang === "ar"
+                      ? "تحب الجولان؟"
+                      : "Love the Golan?"}
                 </h4>
-                <p className="text-sm font-medium text-emerald-50 leading-relaxed">
-                  {lang === 'he'
-                    ? 'הצטרפו אלינו בבניית המדריך המקיף ביותר לאזור. כל המלצה עוזרת!'
-                    : lang === 'ar'
-                      ? 'انضم إلينا في بناء الدليل الأكثر شمولاً للمنطقة. كل توصية تساعد!'
-                      : 'Join us in building the most comprehensive guide to the region. Every recommendation helps!'}
+
+                <p className="text-sm font-medium leading-relaxed text-emerald-50">
+                  {lang === "he"
+                    ? "הצטרפו אלינו בבניית המדריך המקיף ביותר לאזור. כל המלצה עוזרת!"
+                    : lang === "ar"
+                      ? "انضم إلينا في بناء الدليل الأكثر شمولاً للمنطقة. كل توصية تساعد!"
+                      : "Join us in building the most comprehensive guide to the region. Every recommendation helps!"}
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -220,9 +251,9 @@ export default async function ContactPage({
       <section className="flex w-full flex-col px-4 pb-24 sm:px-6">
         <div className="mx-auto w-full max-w-[1200px]">
           <div className="relative overflow-hidden rounded-[40px] bg-zinc-950 px-8 py-12 text-center md:px-16 md:py-20 lg:text-start">
-            {/* glow */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute -end-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-emerald-500/20 blur-[100px]"></div>
+            {/* Glow */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute -end-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-emerald-500/20 blur-[100px]" />
             </div>
 
             <div className="relative flex flex-col items-center justify-between gap-10 lg:flex-row">
@@ -230,18 +261,17 @@ export default async function ContactPage({
                 <h2 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">
                   {t.businessTitle}
                 </h2>
+
                 <p className="text-base leading-relaxed text-zinc-400 md:text-lg">
                   {t.businessBody}
                 </p>
               </div>
 
-              <Link
-                href="#"
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-white px-8 py-5 text-sm font-bold text-zinc-950 transition-all hover:bg-emerald-50 active:scale-[0.98] whitespace-nowrap"
-              >
-                <span>{t.businessCta}</span>
-                <ArrowRight className={`h-4 w-4 transition-transform group-hover:translate-x-1 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
-              </Link>
+              <BusinessRequestButton
+                lang={lang}
+                label={t.businessCta}
+                isRtl={isRtl}
+              />
             </div>
           </div>
         </div>

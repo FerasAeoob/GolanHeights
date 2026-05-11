@@ -125,14 +125,12 @@ export default function Footer({
                   <MapPin className="h-4 w-4" />
                 </span>
 
-                <span className="text-sm leading-6 text-zinc-400">
-                  {dict.address1}
-                  <br />
-                  {dict.address2}
+                <span className="text-sm align-center justify-center leading-6 text-zinc-400">
+                  {dict.address1}.
                 </span>
               </li>
 
-              <li className="flex items-center justify-center gap-3 text-center">
+              {/* <li className="flex items-center justify-center gap-3 text-center">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
                   <Phone className="h-4 w-4" />
                 </span>
@@ -144,7 +142,7 @@ export default function Footer({
                 >
                   +972 50 123 4567
                 </a>
-              </li>
+              </li> */}
 
               <li className="flex items-center justify-center gap-3 text-center">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
