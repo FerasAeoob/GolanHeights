@@ -111,7 +111,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                 { label: dict.nav?.adminPanel || 'Admin Panel', href: `/${lang}/area-51-sec`, icon: Shield, separator: true },
             ]
             : []),
-        { label: dict.nav?.language || 'Language', href: '#', icon: Languages, onClick: toggleLanguage, separator: false },
+
         { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail, separator: true },
         { label: dict.nav?.about || 'About', href: `/${lang}/about`, icon: Info, separator: true },
         ...(currentUser
@@ -124,7 +124,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             {/* Hamburger Button */}
             <button
                 onClick={toggleDrawer}
-                className="text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
                 aria-label={dict.nav?.openMenu || "Open Menu"}
             >
                 <Menu size={24} />
@@ -147,10 +147,11 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                 <div className="flex flex-col h-full text-white">
                     {/* Header / User Profile */}
                     <div className="p-6 border-b border-white/5 bg-black/40">
-                        <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center justify-between">
                             <span className="text-xs font-bold opacity-40 uppercase tracking-[0.2em]">
                                 {dict.nav?.menu || 'Navigation'}
                             </span>
+
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -160,27 +161,30 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                             </button>
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <div className="relative">
-                                <UserAvatar
-                                    src={currentUser?.image}
-                                    name={currentUser?.name}
-                                    size={60}
-                                    className="ring-2 ring-emerald-500/20"
-                                />
-                                {currentUser && (
+                        {currentUser && (
+                            <div className="flex items-center gap-4 mt-8">
+                                <div className="relative">
+                                    <UserAvatar
+                                        src={currentUser.image}
+                                        name={currentUser.name}
+                                        size={60}
+                                        className="ring-2 ring-emerald-500/20"
+                                    />
+
                                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#111111] rounded-full" />
-                                )}
+                                </div>
+
+                                <div className="flex flex-col overflow-hidden">
+                                    <span className="font-bold text-lg truncate leading-tight">
+                                        {currentUser.name}
+                                    </span>
+
+                                    <span className="text-xs text-neutral-500 truncate mt-0.5">
+                                        {currentUser.email}
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex flex-col overflow-hidden">
-                                <span className="font-bold text-lg truncate leading-tight">
-                                    {currentUser?.name || dict.nav?.guest || 'Guest'}
-                                </span>
-                                <span className="text-xs text-neutral-500 truncate mt-0.5">
-                                    {currentUser?.email || (lang === 'en' ? 'Welcome Traveler' : 'ברוכים הבאים')}
-                                </span>
-                            </div>
-                        </div>
+                        )}
                     </div>
 
                     {/* Navigation Links */}
@@ -233,7 +237,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                             <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                                 <span className="text-[10px] text-neutral-600 font-bold font-outfit uppercase tracking-widest italic">
-                                    Golan Wiki v1.2
+                                    Golan Wiki v1.0
                                 </span>
                             </div>
                             <span className="text-[10px] text-neutral-700">© 2026</span>
