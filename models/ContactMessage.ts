@@ -8,6 +8,7 @@ export interface IContactMessage extends Document {
     reason: (typeof CONTACT_REASONS)[number];
     message: string;
     status: "new" | "read" | "archived";
+    adminNote?: string;
     source: string;
     ip?: string;
     userAgent?: string;
@@ -51,6 +52,11 @@ const ContactMessageSchema: Schema = new Schema(
             type: String,
             enum: ["new", "read", "archived"],
             default: "new",
+        },
+        adminNote: {
+            type: String,
+            trim: true,
+            maxlength: 2000,
         },
         source: {
             type: String,

@@ -29,14 +29,22 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                         <h1 className="text-2xl md:text-3xl font-bold">Area 51 Dashboard</h1>
                         <p className="text-slate-500 text-sm md:text-base">Managing {places.length} locations in Golan Heights</p>
                     </div>
-                    {canAdd && (
+                    <div className="flex gap-2 w-full md:w-auto">
                         <Link
-                            href={`/${lang}/area-51-sec/new`}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-6 py-2 rounded-lg font-medium transition-all text-center w-full md:w-auto"
+                            href={`/${lang}/area-51-sec/contact-messages`}
+                            className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 md:px-6 py-2 rounded-lg font-medium transition-all text-center flex-1 md:flex-none"
                         >
-                            + Add New Place
+                            Messages
                         </Link>
-                    )}
+                        {canAdd && (
+                            <Link
+                                href={`/${lang}/area-51-sec/new`}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-6 py-2 rounded-lg font-medium transition-all text-center flex-1 md:flex-none"
+                            >
+                                + Add New Place
+                            </Link>
+                        )}
+                    </div>
                 </div>
 
                 {/* Places Table */}
