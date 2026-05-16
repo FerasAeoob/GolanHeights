@@ -180,6 +180,27 @@
         "alreadyHaveAccount": "Already have an account?",
         "noAccount": "Don't have an account?",
         "required": "Required",
+        "rememberMe": "Remember me",
+        "acceptTermsPrefix": "I agree to the",
+        "termsOfUse": "Terms of Use",
+        "acceptTermsMiddle": "and",
+        "privacyPolicy": "Privacy Policy",
+        "acceptTermsError": "You must accept the Terms of Use and Privacy Policy",
+        "showPassword": "Show password",
+        "hidePassword": "Hide password",
+        "errors": {
+            "nameRequired": "Name is required",
+            "nameTooShort": "Name must be at least 2 characters",
+            "emailRequired": "Email is required",
+            "emailInvalid": "Please enter a valid email address",
+            "passwordRequired": "Password is required",
+            "passwordTooShort": "Password must be at least 8 characters",
+            "confirmPasswordRequired": "Please confirm your password",
+            "passwordsDoNotMatch": "Passwords do not match",
+            "acceptTermsRequired": "You must accept the Terms of Use and Privacy Policy",
+            "invalidCredentials": "Invalid email or password",
+            "somethingWentWrong": "Something went wrong. Please try again."
+        },
         "qoute": "Elevation changes your perspective. The Heights change your soul."
     },
     "nav": {
@@ -274,6 +295,7 @@
         "SLUG_AR_ALREADY_EXISTS": "The Arabic slug is already taken.",
         "UPLOAD_TOO_LARGE": "Image must be under 5MB.",
         "FILL_ALL": "Please fill in all required fields.",
+        "TERMS_NOT_ACCEPTED": "You must accept the Terms of Use and Privacy Policy.",
         "UNKNOWN_ERROR": "Something went wrong. Please try again."
     },
     "success": {

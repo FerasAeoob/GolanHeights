@@ -27,8 +27,8 @@ export default async function SignupPage({
                 <div className="absolute inset-0 bg-black/25" />
             </div>
 
-            <section className="max-w-[1200px] min-h-[100dvh] mx-auto w-full px-4 pt-20 md:pt-24 relative z-10 flex items-start md:items-center justify-center">
-                <div className="flex flex-col gap-4 w-[350px] h-[625px] md:w-[400px]">
+            <section className="min-h-screen overflow-y-auto w-full px-4 py-24 relative z-10 flex items-start justify-center sm:items-center">
+                <div className="w-full max-w-md">
                     <SignupForm dict={dict} lang={lang} />
                 </div>
             </section>

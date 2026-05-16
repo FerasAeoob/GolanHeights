@@ -29,17 +29,17 @@ export default async function LoginPage({
             </div>
 
             {/* Main */}
-            <section className="max-w-[1200px] min-h-[100dvh] mx-auto w-full px-4 pt-20 md:pt-24 relative z-10 flex items-start md:items-center justify-center">
+            <section className="min-h-screen overflow-y-auto max-w-[1200px] mx-auto w-full px-4 py-24 relative z-10 flex items-start justify-center sm:items-center">
 
-                <div className="w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-10">
+                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-10">
 
                     {/* Form */}
-                    <div className="flex flex-col gap-4 w-[350px] md:w-[400px]">
+                    <div className="w-full max-w-md">
                         <LoginForm lang={lang} dict={dict} />
                     </div>
 
                     {/* Quote */}
-                    <div className="flex flex-col gap-3 max-w-[350px] md:max-w-[400px] items-center text-center md:items-start md:text-start">
+                    <div className="flex flex-col gap-3 w-full max-w-md items-center text-center md:items-start md:text-start">
                         <h1 className="text-white text-shadow-lg text-3xl md:text-4xl font-bold">
                             {dict?.auth?.qoute || "Login"}
                         </h1>

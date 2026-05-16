@@ -43,8 +43,8 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const token = await createUserToken(user);
-        await setAuthCookie(token);
+        const token = await createUserToken(user, validatedData.rememberMe);
+        await setAuthCookie(token, validatedData.rememberMe);
 
         return NextResponse.json(
             {

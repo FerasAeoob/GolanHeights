@@ -46,8 +46,9 @@ export function serializeUser(user: IUser) {
 
 }
 
-export async function createUserToken(user: IUser) {
+export async function createUserToken(user: IUser, rememberMe: boolean = false) {
     const secret = getJwtSecret();
+    const expTime = rememberMe ? "30d" : "1h";
     return await new SignJWT({
         userId: user._id.toString(),
         role: user.role,
@@ -55,17 +56,18 @@ export async function createUserToken(user: IUser) {
     })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("1h")
+        .setExpirationTime(expTime)
         .sign(secret);
 }
 
-export async function setAuthCookie(token: string) {
+export async function setAuthCookie(token: string, rememberMe: boolean = false) {
     const cookieStore = await cookies();
+    const maxAge = rememberMe ? 30 * 24 * 60 * 60 : 60 * 60;
     cookieStore.set(COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 60 * 60,
+        maxAge,
         path: "/",
     });
 }

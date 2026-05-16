@@ -26,11 +26,15 @@ export const registerSchema = z.object({
     phone: phoneSchema.optional(),
     image: z.string().trim().url("IMAGE_URL_INVALID").optional(),
     password: passwordSchema,
+    acceptTerms: z.literal(true, {
+        message: "TERMS_NOT_ACCEPTED",
+    }),
 });
 
 export const loginSchema = z.object({
     email: z.string().trim().email("INVALID_EMAIL"),
     password: z.string().min(1, "PASSWORD_REQUIRED"),
+    rememberMe: z.boolean().optional(),
 });
 
 export const updateUserSchema = z.object({

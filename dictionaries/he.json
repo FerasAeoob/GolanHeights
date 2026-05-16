@@ -180,6 +180,27 @@
         "alreadyHaveAccount": "כבר יש לך חשבון?",
         "noAccount": "אין לך חשבון?",
         "required": "חובה",
+        "rememberMe": "זכור אותי",
+        "acceptTermsPrefix": "אני מסכים/ה ל",
+        "termsOfUse": "תנאי השימוש",
+        "acceptTermsMiddle": "ול",
+        "privacyPolicy": "מדיניות הפרטיות",
+        "acceptTermsError": "יש לאשר את תנאי השימוש ומדיניות הפרטיות",
+        "showPassword": "הצג סיסמה",
+        "hidePassword": "הסתר סיסמה",
+        "errors": {
+            "nameRequired": "יש להזין שם",
+            "nameTooShort": "השם חייב להכיל לפחות 2 תווים",
+            "emailRequired": "יש להזין אימייל",
+            "emailInvalid": "יש להזין כתובת אימייל תקינה",
+            "passwordRequired": "יש להזין סיסמה",
+            "passwordTooShort": "הסיסמה חייבת להכיל לפחות 8 תווים",
+            "confirmPasswordRequired": "יש לאשר את הסיסמה",
+            "passwordsDoNotMatch": "הסיסמאות אינן תואמות",
+            "acceptTermsRequired": "יש לאשר את תנאי השימוש ומדיניות הפרטיות",
+            "invalidCredentials": "האימייל או הסיסמה אינם נכונים",
+            "somethingWentWrong": "משהו השתבש. נסה שוב."
+        },
         "qoute": "הגובה משנה את המבט, הפסגות משנות את הנשמה."
     },
     "nav": {
@@ -280,7 +301,8 @@
         "UPLOAD_TOO_LARGE": "התמונה חייבת להיות קטנה מ-5MB.",
         "FILL_ALL": "אנא מלא את כל השדות הנדרשים.",
         "PLACE_UPDATE_FAILED": "עדכון המקום נכשל.",
-        "PLACE_DELETE_FAILED": "מחיקת המקום נכשלה."
+        "PLACE_DELETE_FAILED": "מחיקת המקום נכשלה.",
+        "TERMS_NOT_ACCEPTED": "יש לאשר את תנאי השימוש ומדיניות הפרטיות."
     },
     "success": {
         "AVATAR_UPDATED": "התמונה עודכנה בהצלחה!",

@@ -180,6 +180,27 @@
         "alreadyHaveAccount": "لديك حساب بالفعل؟",
         "noAccount": "ليس لديك حساب؟",
         "required": "مطلوب",
+        "rememberMe": "تذكرني",
+        "acceptTermsPrefix": "أوافق على",
+        "termsOfUse": "شروط الاستخدام",
+        "acceptTermsMiddle": "و",
+        "privacyPolicy": "سياسة الخصوصية",
+        "acceptTermsError": "يجب الموافقة على شروط الاستخدام وسياسة الخصوصية",
+        "showPassword": "إظهار كلمة المرور",
+        "hidePassword": "إخفاء كلمة المرور",
+        "errors": {
+            "nameRequired": "يجب إدخال الاسم",
+            "nameTooShort": "يجب أن يحتوي الاسم على حرفين على الأقل",
+            "emailRequired": "يجب إدخال البريد الإلكتروني",
+            "emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
+            "passwordRequired": "يجب إدخال كلمة المرور",
+            "passwordTooShort": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل",
+            "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+            "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+            "acceptTermsRequired": "يجب الموافقة على شروط الاستخدام وسياسة الخصوصية",
+            "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+            "somethingWentWrong": "حدث خطأ. يرجى المحاولة مرة أخرى."
+        },
         "qoute": "العلوّ يغيّر رؤيتك، والقمم تغيّر روحك."
     },
     "nav": {
@@ -270,6 +291,7 @@
         "AVATAR_REMOVE_FAILED": "فشل حذف الصورة. يرجى المحاولة مرة أخرى.",
         "PASSWORDS_DO_NOT_MATCH": "كلمات المرور غير متطابقة.",
         "FILL_ALL": "يرجى ملء جميع الحقول المطلوبة.",
+        "TERMS_NOT_ACCEPTED": "يجب الموافقة على شروط الاستخدام وسياسة الخصوصية.",
         "UNKNOWN_ERROR": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
     },
     "heroTitleMain": "هضبة الجولان",
