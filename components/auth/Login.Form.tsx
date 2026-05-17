@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
-import { showToast } from "@/components/ui/Toast";
 import { getErrorMessage } from "@/utils/error";
 
 interface LoginFormProps {
@@ -145,17 +144,25 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
                 )}
             </div>
 
-            <div className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    id="rememberMe"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-white/25 bg-black/5 text-green-600 focus:ring-green-500 cursor-pointer"
-                />
-                <label htmlFor="rememberMe" className="text-white text-sm cursor-pointer select-none">
-                    {dict?.auth?.rememberMe || "Remember me"}
-                </label>
+            <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="w-4 h-4 rounded border-white/25 bg-black/5 text-green-600 focus:ring-green-500 cursor-pointer"
+                    />
+                    <label htmlFor="rememberMe" className="text-white text-sm cursor-pointer select-none">
+                        {dict?.auth?.rememberMe || "Remember me"}
+                    </label>
+                </div>
+                <Link
+                    href={`/${lang}/forgot-password`}
+                    className="text-sm text-white/80 hover:text-white transition-colors underline"
+                >
+                    {dict?.auth?.forgotPassword || "Forgot password?"}
+                </Link>
             </div>
 
             {fieldErrors.form && (

@@ -201,7 +201,24 @@
             "invalidCredentials": "Invalid email or password",
             "somethingWentWrong": "Something went wrong. Please try again."
         },
-        "qoute": "Elevation changes your perspective. The Heights change your soul."
+        "qoute": "Elevation changes your perspective. The Heights change your soul.",
+        "forgotPassword": "Forgot password?",
+        "forgotPasswordTitle": "Reset your password",
+        "forgotPasswordDescription": "Enter your email and we will send you a reset link",
+        "sendResetLink": "Send reset link",
+        "resetPassword": "Reset Password",
+        "resetPasswordTitle": "Create new password",
+        "newPassword": "New Password",
+        "passwordResetSuccess": "Password has been successfully reset.",
+        "backToLogin": "Back to login",
+        "genericResetEmailSent": "If an account with this email exists, we sent a reset link.",
+        "invalidOrExpiredToken": "Invalid or expired reset token.",
+        "invalidToken": "The password reset link is invalid or expired.",
+        "rateLimited": "You have made too many attempts. Please wait 15 minutes.",
+        "validationFailed": "Please check your input and try again.",
+        "tokenRequired": "Reset token is required.",
+        "passwordTooShort": "Password must be at least 8 characters.",
+        "unknownError": "An unexpected error occurred. Please try again later."
     },
     "nav": {
         "menu": "Navigation",

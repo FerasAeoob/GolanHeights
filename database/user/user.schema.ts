@@ -66,3 +66,18 @@ export const updateBusinessSchema = z.object({
     website: z.string().trim().url("WEBSITE_URL_INVALID").optional(),
     instagram: z.string().trim().url("INSTAGRAM_URL_INVALID").optional(),
 });
+
+export const forgotPasswordSchema = z.object({
+    email: z.string().trim().email("INVALID_EMAIL"),
+});
+
+export const resetPasswordSchema = z
+    .object({
+        token: z.string().min(1, "TOKEN_REQUIRED"),
+        password: passwordSchema,
+        confirmPassword: z.string().min(1, "CONFIRM_PASSWORD_REQUIRED"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        path: ["confirmPassword"],
+        message: "PASSWORDS_DO_NOT_MATCH",
+    });

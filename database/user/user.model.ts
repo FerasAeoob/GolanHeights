@@ -23,6 +23,9 @@ export interface IUser extends Document {
 
     business?: IBusiness;
 
+    resetPasswordToken?: string;
+    resetPasswordExpires?: Date;
+
     createdAt: Date;
     updatedAt: Date;
 
@@ -79,6 +82,9 @@ const UserSchema = new Schema<IUser>(
             },
             default: undefined,
         },
+
+        resetPasswordToken: { type: String, select: false },
+        resetPasswordExpires: { type: Date, select: false },
     },
     { timestamps: true }
 );

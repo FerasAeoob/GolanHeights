@@ -201,7 +201,24 @@
             "invalidCredentials": "האימייל או הסיסמה אינם נכונים",
             "somethingWentWrong": "משהו השתבש. נסה שוב."
         },
-        "qoute": "הגובה משנה את המבט, הפסגות משנות את הנשמה."
+        "qoute": "הגובה משנה את המבט, הפסגות משנות את הנשמה.",
+        "forgotPassword": "שכחת סיסמה?",
+        "forgotPasswordTitle": "איפוס סיסמה",
+        "forgotPasswordDescription": "הזן את האימייל שלך ונשלח לך קישור לאיפוס",
+        "sendResetLink": "שלח קישור לאיפוס",
+        "resetPassword": "אפס סיסמה",
+        "resetPasswordTitle": "צור סיסמה חדשה",
+        "newPassword": "סיסמה חדשה",
+        "passwordResetSuccess": "הסיסמה אופסה בהצלחה.",
+        "backToLogin": "חזרה לכניסה",
+        "genericResetEmailSent": "אם קיים חשבון עם אימייל זה, שלחנו קישור לאיפוס.",
+        "invalidOrExpiredToken": "קישור איפוס לא חוקי או פג תוקף.",
+        "invalidToken": "קישור איפוס הסיסמה לא חוקי או פג תוקף.",
+        "rateLimited": "ביצעת יותר מדי ניסיונות. אנא המתן 15 דקות.",
+        "validationFailed": "אנא בדוק את הקלט שלך ונסה שוב.",
+        "tokenRequired": "נדרש אסימון איפוס.",
+        "passwordTooShort": "הסיסמה חייבת לכלול לפחות 8 תווים.",
+        "unknownError": "אירעה שגיאה בלתי צפויה. אנא נסה שוב מאוחר יותר."
     },
     "nav": {
         "menu": "ניווט",
