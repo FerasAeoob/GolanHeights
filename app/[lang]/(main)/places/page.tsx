@@ -9,7 +9,7 @@ import { getDictionary } from "@/lib/get-dictionary";
 import { IOpeningHoursDictionary } from "@/lib/types";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 import { getCurrentUser } from "@/lib/auth";
-import PlacesMapClient from "@/components/places/PlacesMapClient";
+import PlacesMapDynamic from "@/components/places/PlacesMapDynamic";
 import type { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: 'en' | 'ar' | 'he' }> }): Promise<Metadata> {
@@ -119,6 +119,7 @@ export default async function PlacesPage({
     const places = await Place.find(filter)
         .select("title slug images location averageRating reviewsCount category openHours open shortDescription price")
         .sort(sortOption)
+        .limit(100)
         .lean();
     const t3 = performance.now();
     perfLog(`[PERF] PLACES /${lang}: parallel(dict+auth)=${((t1 - pageStart)).toFixed(1)}ms | dbQuery=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - pageStart)).toFixed(1)}ms`);
@@ -245,7 +246,7 @@ export default async function PlacesPage({
                 </div>
             </section >
             <section className="max-w-[1400px] px-4 mx-auto mt-8 z-0">
-                <PlacesMapClient
+                <PlacesMapDynamic
                     places={JSON.parse(JSON.stringify(places))}
                     lang={lang}
                     dict={dict}
