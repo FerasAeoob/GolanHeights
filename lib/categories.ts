@@ -1,4 +1,4 @@
-import { Bike, TreePine, Utensils, Hotel, Mountain, type LucideIcon } from "lucide-react";
+import { Bike, TreePine, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
 
 export interface Category {
   slug: string;
@@ -10,7 +10,7 @@ export interface Category {
 }
 
 /** Category slugs used as keys in dict.categories and as URL params (always lowercase, kebab-case). */
-export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "scenic-spots"] as const;
+export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "scenic-spots", "local-services"] as const;
 export type CategorySlug = (typeof CATEGORY_SLUGS)[number];
 
 export const categories: Category[] = [
@@ -49,6 +49,13 @@ export const categories: Category[] = [
     image: "https://res.cloudinary.com/dsjzcazdi/image/upload/f_auto,q_auto/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp",
     color: "from-cyan-600/90",
     icon: TreePine,
+  },
+  {
+    slug: "local-services",
+    label: "Local Services",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/f_auto,q_auto/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp", // Fallback image
+    color: "from-blue-600/90",
+    icon: Wrench,
   },
 ];
 
