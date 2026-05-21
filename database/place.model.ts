@@ -47,6 +47,13 @@ export interface IPlaceBase {
     instagramHandle?: string;
   };
 
+  instagram?: {
+    url?: string;
+    handle?: string;
+  };
+  instagramUrl?: string;
+  instagramHandle?: string;
+
   featured: boolean;
 }
 
@@ -126,6 +133,12 @@ const PlaceSchema: Schema = new Schema(
       instagram: { type: String, trim: true },
       instagramHandle: { type: String, trim: true },
     },
+    instagram: {
+      url: { type: String, trim: true },
+      handle: { type: String, trim: true },
+    },
+    instagramUrl: { type: String, trim: true },
+    instagramHandle: { type: String, trim: true },
     open: { type: String, trim: true },
     openHours: {
       type: [
@@ -196,6 +209,13 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
   // No need to call next() here!
 });
+
+if (mongoose.models.Place) {
+  const paths = mongoose.models.Place.schema.paths;
+  if (!paths['instagramHandle'] || !paths['contact.instagramHandle']) {
+    delete mongoose.models.Place;
+  }
+}
 
 /**
  * Export model safely (Next.js HMR)

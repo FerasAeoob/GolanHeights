@@ -123,8 +123,8 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
             contact: {
                 phone: initialData.contact?.phone || '',
                 website: initialData.contact?.website || '',
-                instagram: initialData.contact?.instagram || '',
-                instagramHandle: initialData.contact?.instagramHandle || '',
+                instagram: initialData.contact?.instagram || initialData.instagramUrl || initialData.instagram?.url || '',
+                instagramHandle: initialData.contact?.instagramHandle || initialData.instagramHandle || initialData.instagram?.handle || '',
             },
             featured: initialData.featured || false,
         };

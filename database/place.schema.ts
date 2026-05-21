@@ -106,6 +106,12 @@ export const UpdatePlaceSchema = z.object({
             instagramHandle: z.string().max(50).optional()
         })
         .optional(),
+    instagram: z.object({
+        url: z.string().optional(),
+        handle: z.string().optional()
+    }).optional(),
+    instagramUrl: z.string().optional(),
+    instagramHandle: z.string().max(50).optional(),
     openHours: z.array(OpeningHoursZodSchema).optional(),
     open: z.string().optional(),
     rating: z.string().optional(),
@@ -179,6 +185,12 @@ export const createplaceschema = z.object({
             instagramHandle: z.string().max(50).optional()
         })
         .optional(),
+    instagram: z.object({
+        url: z.string().optional(),
+        handle: z.string().optional()
+    }).optional(),
+    instagramUrl: z.string().optional(),
+    instagramHandle: z.string().max(50).optional(),
     openHours: z.array(OpeningHoursZodSchema).optional(),
     open: z.string().optional(),
     rating: z.string().optional(),

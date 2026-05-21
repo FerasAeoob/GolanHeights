@@ -243,7 +243,13 @@
         "verifyEmailEmailDescription": "ברוכים הבאים ל-Golan Wiki! אנא אמת את כתובת האימייל שלך כדי ליהנות מכל התכונות.",
         "verifyEmailExpiryText": "קישור זה יהיה בתוקף למשך 24 שעות.",
         "verifyEmailFallbackLinkText": "אם הכפתור לא עובד, העתק והדבק את הקישור הבא:",
-        "verifyEmailIgnoreText": "אם לא יצרת חשבון, תוכל להתעלם מאימייל זה בבטחה."
+        "verifyEmailIgnoreText": "אם לא יצרת חשבון, תוכל להתעלם מאימייל זה בבטחה.",
+        "verifyEmailSubject": "אמת את כתובת האימייל שלך ב-Golan Wiki",
+        "emailChangeCodeSubject": "אשר את שינוי כתובת האימייל שלך ב-Golan Wiki",
+        "emailChangeCodeTitle": "אשר שינוי אימייל",
+        "emailChangeCodeDescription": "מישהו ביקש לשנות את כתובת האימייל של חשבון Golan Wiki שלך. השתמש בקוד הבא בן 6 ספרות כדי לאשר שינוי זה:",
+        "emailChangeCodeExpiry": "קוד זה בתוקף למשך 10 דקות.",
+        "emailChangeCodeIgnore": "אם זה לא היית אתה, תוכל להתעלם מאימייל זה בבטחה ואל תשתף את הקוד עם אף אחד."
     },
     "nav": {
         "menu": "ניווט",
@@ -299,10 +305,20 @@
         "emailDescription": "ניהול כתובת האימייל וסטטוס האימות שלך.",
         "currentEmail": "כתובת אימייל נוכחית",
         "emailAddress": "כתובת אימייל חדשה",
+        "newEmail": "כתובת אימייל חדשה",
         "updateEmail": "עדכן כתובת אימייל",
-        "updatingEmail": "מעדכן אימייל...",
+        "sendCode": "שלח קוד אישור",
+        "sendingCode": "שולח קוד...",
+        "confirmEmailChange": "אשר שינוי אימייל",
+        "confirmingEmailChange": "מאשר שינוי אימייל...",
+        "emailChangeCode": "קוד אישור",
+        "emailChangeCodePlaceholder": "הזן קוד בן 6 ספרות",
+        "emailChangeCodeSent": "שלחנו קוד אישור לכתובת האימייל הנוכחית שלך.",
         "emailUpdatedVerificationSent": "כתובת האימייל עודכנה. שלחנו קישור אימות לכתובת האימייל החדשה שלך.",
         "emailAlreadyExists": "אימייל זה כבר נמצא בשימוש בחשבון אחר.",
+        "noEmailChange": "זוהי כבר כתובת האימייל הנוכחית שלך.",
+        "invalidEmailChangeCode": "קוד האישור שהזנת אינו נכון.",
+        "emailChangeCodeExpired": "קוד האישור פג תוקף. אנא בקש קוד חדש.",
         "emailVerified": "מאומת",
         "emailNotVerified": "לא מאומת",
         "emailVerifiedDescription": "כתובת האימייל שלך מאומתת.",
@@ -310,8 +326,8 @@
         "sendVerificationLink": "שלח קישור אימות",
         "sendingVerificationLink": "שולח קישור אימות...",
         "verificationLinkSent": "קישור האימות נשלח לכתובת האימייל שלך.",
-        "noEmailChange": "זוהי כבר כתובת האימייל הנוכחית שלך.",
-        "saveChanges": "שמור שינויים"
+        "saveChanges": "שמור שינויים",
+        "cancel": "ביטול / שינוי האימייל החדש"
     },
     "admin": {
         "instagramHandleLabel": "שם תצוגה באינסטגרם",

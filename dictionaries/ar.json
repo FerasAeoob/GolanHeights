@@ -243,7 +243,13 @@
         "verifyEmailEmailDescription": "مرحباً بك في جولان ويكي! يرجى التحقق من عنوان بريدك الإلكتروني لتفعيل جميع الميزات.",
         "verifyEmailExpiryText": "هذا الرابط صالح لمدة 24 ساعة.",
         "verifyEmailFallbackLinkText": "إذا لم يعمل الزر، قم بنسخ ولصق الرابط التالي:",
-        "verifyEmailIgnoreText": "إذا لم تقم بإنشاء حساب، يمكنك تجاهل هذا البريد الإلكتروني بأمان."
+        "verifyEmailIgnoreText": "إذا لم تقم بإنشاء حساب، يمكنك تجاهل هذا البريد الإلكتروني بأمان.",
+        "verifyEmailSubject": "التحقق من بريدك الإلكتروني في جولان ويكي",
+        "emailChangeCodeSubject": "تأكيد تغيير بريدك الإلكتروني في جولان ويكي",
+        "emailChangeCodeTitle": "تأكيد تغيير البريد الإلكتروني",
+        "emailChangeCodeDescription": "طلب أحدهم تغيير عنوان البريد الإلكتروني الخاص بحسابك في جولان ويكي. استخدم رمز التأكيد التالي المكون من 6 أرقام لتأكيد هذا التغيير:",
+        "emailChangeCodeExpiry": "صلاحية هذا الرمز تنتهي بعد 10 دقائق.",
+        "emailChangeCodeIgnore": "إذا لم تكن أنت من طلب ذلك، يمكنك تجاهل هذا البريد الإلكتروني بأمان وعدم مشاركة الرمز مع أحد."
     },
     "nav": {
         "menu": "القائمة",
@@ -299,10 +305,20 @@
         "emailDescription": "إدارة عنوان بريدك الإلكتروني وحالة التحقق.",
         "currentEmail": "البريد الإلكتروني الحالي",
         "emailAddress": "عنوان البريد الإلكتروني الجديد",
+        "newEmail": "البريد الإلكتروني الجديد",
         "updateEmail": "تحديث البريد الإلكتروني",
-        "updatingEmail": "جاري تحديث البريد...",
+        "sendCode": "إرسال رمز التأكيد",
+        "sendingCode": "جاري إرسال الرمز...",
+        "confirmEmailChange": "تأكيد تغيير البريد الإلكتروني",
+        "confirmingEmailChange": "جاري تأكيد تغيير البريد...",
+        "emailChangeCode": "رمز التأكيد",
+        "emailChangeCodePlaceholder": "أدخل الرمز المكون من 6 أرقام",
+        "emailChangeCodeSent": "لقد أرسلنا رمز تأكيد إلى بريدك الإلكتروني الحالي.",
         "emailUpdatedVerificationSent": "تم تحديث البريد الإلكتروني. لقد أرسلنا رابط تحقق إلى بريدك الإلكتروني الجديد.",
         "emailAlreadyExists": "هذا البريد الإلكتروني مستخدم بالفعل في حساب آخر.",
+        "noEmailChange": "هذا هو بالفعل عنوان بريدك الإلكتروني الحالي.",
+        "invalidEmailChangeCode": "رمز التأكيد الذي أدخلته غير صحيح.",
+        "emailChangeCodeExpired": "لقد انتهت صلاحية رمز التأكيد. يرجى طلب رمز جديد.",
         "emailVerified": "تم التحقق",
         "emailNotVerified": "غير متحقق منه",
         "emailVerifiedDescription": "بريدك الإلكتروني متحقق منه.",
@@ -310,8 +326,8 @@
         "sendVerificationLink": "إرسال رابط التحقق",
         "sendingVerificationLink": "جاري إرسال رابط التحقق...",
         "verificationLinkSent": "تم إرسال رابط التحقق إلى عنوان بريدك الإلكتروني.",
-        "noEmailChange": "هذا هو بالفعل عنوان بريدك الإلكتروني الحالي.",
-        "saveChanges": "حفظ التغييرات"
+        "saveChanges": "حفظ التغييرات",
+        "cancel": "إلغاء / تغيير البريد الجديد"
     },
     "admin": {
         "instagramHandleLabel": "اسم المستخدم على إنستغرام",

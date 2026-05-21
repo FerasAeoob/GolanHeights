@@ -45,9 +45,16 @@ export async function createPlaceAction(data: any) {
                     handle = "@" + handle;
                 }
                 data.contact.instagramHandle = handle;
+                data.instagramHandle = handle;
+                data.instagram = data.instagram || {};
+                data.instagram.handle = handle;
             }
             if (data.contact.instagram) {
-                data.contact.instagram = data.contact.instagram.trim();
+                const url = data.contact.instagram.trim();
+                data.contact.instagram = url;
+                data.instagramUrl = url;
+                data.instagram = data.instagram || {};
+                data.instagram.url = url;
             }
         }
 
@@ -99,9 +106,16 @@ export async function updatePlaceAction(id: string, data: any) {
                     handle = "@" + handle;
                 }
                 data.contact.instagramHandle = handle;
+                data.instagramHandle = handle;
+                data.instagram = data.instagram || {};
+                data.instagram.handle = handle;
             }
             if (data.contact.instagram) {
-                data.contact.instagram = data.contact.instagram.trim();
+                const url = data.contact.instagram.trim();
+                data.contact.instagram = url;
+                data.instagramUrl = url;
+                data.instagram = data.instagram || {};
+                data.instagram.url = url;
             }
         }
 
@@ -148,6 +162,18 @@ export async function updatePlaceAction(id: string, data: any) {
                 existingPlace.set(key, data[key]);
             }
         });
+
+        // Explicitly set all Instagram formats to prevent HMR or Mongoose path stripping
+        if (data.contact) {
+            existingPlace.set('contact.instagramHandle', data.contact.instagramHandle || '');
+            existingPlace.set('contact.instagram', data.contact.instagram || '');
+        }
+        if (data.instagram) {
+            existingPlace.set('instagram.handle', data.instagram.handle || '');
+            existingPlace.set('instagram.url', data.instagram.url || '');
+        }
+        existingPlace.set('instagramHandle', data.instagramHandle || '');
+        existingPlace.set('instagramUrl', data.instagramUrl || '');
 
         await existingPlace.save();
 

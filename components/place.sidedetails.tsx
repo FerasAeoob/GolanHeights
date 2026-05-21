@@ -30,7 +30,13 @@ export default function PlaceDetails({
 }: PlaceDetailsProps) {
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
 
-    const instagramText = instagramHandle || "Instagram";
+    const rawInstagramHandle = instagramHandle;
+
+    const instagramLabel = rawInstagramHandle?.trim()
+        ? rawInstagramHandle.startsWith("@")
+            ? rawInstagramHandle
+            : `@${rawInstagramHandle}`
+        : "Instagram";
 
     const instagramElement = instagram && (
         <div className="flex items-center gap-3">
@@ -44,7 +50,7 @@ export default function PlaceDetails({
                     className="text-emerald-600 hover:underline font-medium truncate block text-left"
                     dir="ltr"
                 >
-                    {instagramText}
+                    {instagramLabel}
                 </Link>
             </div>
         </div>
