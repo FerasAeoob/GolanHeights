@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             { "slug.he": decodedSlug.toLowerCase() },
             { "slug.ar": decodedSlug.toLowerCase() }
         ]
-    }).lean();
+    }).select("title shortDescription slug").lean();
 
     if (!place) return {};
 
@@ -104,6 +104,7 @@ export default async function PlacePage({ params }: PageProps) {
         activities: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
         stays: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
         "scenic-spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
+        "local-services": "bg-blue-200/90 hover:bg-black/70 text-blue-700",
     };
 
     const galleryImages = place.images.map((img: any) => ({

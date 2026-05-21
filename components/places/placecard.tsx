@@ -29,6 +29,7 @@ export default function PlaceCard({
         activities: "bg-blue-200/90 hover:bg-black/70 text-blue-700",
         stays: "bg-indigo-200/90 hover:bg-black/70 text-indigo-700",
         "scenic-spots": "bg-purple-200/90 hover:bg-black/70 text-purple-700",
+        "local-services": "bg-blue-200/90 hover:bg-black/70 text-blue-700",
     };
     const category = categories.find(cat => cat.slug === place.category);
     const CategoryIcon = category?.icon;

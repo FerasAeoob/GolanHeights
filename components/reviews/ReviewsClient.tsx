@@ -143,7 +143,7 @@ export default function ReviewsClient({
             if (document.visibilityState === "visible") {
                 fetchReviews(false);
             }
-        }, 5000);
+        }, 30000);
 
         return () => clearInterval(interval);
     }, [placeId, currentUserId, isEditing]);

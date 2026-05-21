@@ -152,6 +152,10 @@ const PlaceSchema: Schema = new Schema(
 PlaceSchema.index({ "slug.en": 1 }, { unique: true });
 PlaceSchema.index({ "slug.he": 1 }, { unique: true });
 PlaceSchema.index({ "slug.ar": 1 }, { unique: true });
+PlaceSchema.index({ category: 1 });
+PlaceSchema.index({ featured: 1 });
+PlaceSchema.index({ averageRating: -1, reviewsCount: -1 });
+PlaceSchema.index({ createdAt: -1 });
 
 /**
  * Pre-validate hook: slug generation from English title
