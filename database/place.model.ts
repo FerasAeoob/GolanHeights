@@ -44,6 +44,7 @@ export interface IPlaceBase {
     phone?: string;
     website?: string;
     instagram?: string;
+    instagramHandle?: string;
   };
 
   featured: boolean;
@@ -123,6 +124,7 @@ const PlaceSchema: Schema = new Schema(
       phone: { type: String, trim: true },
       website: { type: String, trim: true },
       instagram: { type: String, trim: true },
+      instagramHandle: { type: String, trim: true },
     },
     open: { type: String, trim: true },
     openHours: {

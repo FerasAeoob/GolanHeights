@@ -38,6 +38,19 @@ export async function createPlaceAction(data: any) {
         await verifyOwner();
         await connectDB();
 
+        if (data?.contact) {
+            if (data.contact.instagramHandle) {
+                let handle = data.contact.instagramHandle.replace(/\s+/g, "");
+                if (handle && !handle.startsWith("@")) {
+                    handle = "@" + handle;
+                }
+                data.contact.instagramHandle = handle;
+            }
+            if (data.contact.instagram) {
+                data.contact.instagram = data.contact.instagram.trim();
+            }
+        }
+
         const validation = createplaceschema.safeParse(data);
         if (!validation.success) {
             return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
@@ -78,6 +91,19 @@ export async function updatePlaceAction(id: string, data: any) {
     try {
         await verifyAdmin();
         await connectDB();
+
+        if (data?.contact) {
+            if (data.contact.instagramHandle) {
+                let handle = data.contact.instagramHandle.replace(/\s+/g, "");
+                if (handle && !handle.startsWith("@")) {
+                    handle = "@" + handle;
+                }
+                data.contact.instagramHandle = handle;
+            }
+            if (data.contact.instagram) {
+                data.contact.instagram = data.contact.instagram.trim();
+            }
+        }
 
         const validation = UpdatePlaceSchema.safeParse(data);
         if (!validation.success) {

@@ -106,22 +106,7 @@ export default function EditProfileForm({ user, dict }: EditProfileFormProps) {
                     />
                 </div>
 
-                {/* Email (read-only) */}
-                <div className="space-y-1.5">
-                    <label htmlFor="profile-email" className="text-sm font-semibold text-slate-600">
-                        {p?.email || 'Email Address'}
-                    </label>
-                    <input
-                        id="profile-email"
-                        type="email"
-                        value={user.email}
-                        readOnly
-                        className="w-full px-4 py-3 rounded-xl border border-slate-100 bg-slate-100/80 text-slate-500 cursor-not-allowed"
-                    />
-                    <p className="text-xs text-slate-400 ps-1">
-                        {dict?.lang === 'ar' ? 'لا يمكن تغيير البريد الإلكتروني' : dict?.lang === 'he' ? 'לא ניתן לשנות אימייל' : 'Email cannot be changed'}
-                    </p>
-                </div>
+
 
                 {/* Phone */}
                 <div className="space-y-1.5">

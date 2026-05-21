@@ -218,7 +218,30 @@
         "validationFailed": "Please check your input and try again.",
         "tokenRequired": "Reset token is required.",
         "passwordTooShort": "Password must be at least 8 characters.",
-        "unknownError": "An unexpected error occurred. Please try again later."
+        "unknownError": "An unexpected error occurred. Please try again later.",
+        "invalidOrExpiredVerificationToken": "Invalid or expired verification token.",
+        "verifyEmailTitle": "Verify Email",
+        "emailVerifiedSuccess": "Your email has been successfully verified.",
+        "goToLogin": "Go to login",
+        "verifyEmailDescription": "Click the button below to verify your email address and activate your account.",
+        "verifying": "Verifying...",
+        "verifyEmailButton": "Verify Email",
+        "verificationEmailSent": "If an account with this email exists and is not verified, a verification link has been sent.",
+        "invalidVerificationToken": "Invalid or expired verification token.",
+        "emailVerified": "Email successfully verified!",
+        "resendVerificationTitle": "Resend Verification Email",
+        "resendVerificationDescription": "Enter your email address to receive a new verification link.",
+        "resendVerificationButton": "Resend Verification",
+        "resendingVerification": "Resending...",
+        "resendVerificationLink": "Resend verification email",
+        "emailNotVerified": "Your email is not verified yet.",
+        "emailRequired": "Email is required.",
+        "verifyEmailEmailSubject": "Verify your Golan Wiki email",
+        "verifyEmailEmailTitle": "Verify your email address",
+        "verifyEmailEmailDescription": "Welcome to Golan Wiki! Please verify your email address to unlock all features.",
+        "verifyEmailExpiryText": "This link will expire in 24 hours.",
+        "verifyEmailFallbackLinkText": "If the button does not work, copy and paste this link:",
+        "verifyEmailIgnoreText": "If you did not create an account, you can safely ignore this email."
     },
     "nav": {
         "menu": "Navigation",
@@ -269,6 +292,30 @@
             "vip": "VIP"
         }
     },
+    "settings": {
+        "emailTitle": "Email Settings",
+        "emailDescription": "Manage your email address and verification status.",
+        "currentEmail": "Current Email Address",
+        "emailAddress": "New Email Address",
+        "updateEmail": "Update Email Address",
+        "updatingEmail": "Updating Email...",
+        "emailUpdatedVerificationSent": "Email updated. We sent a verification link to your new email.",
+        "emailAlreadyExists": "This email is already in use by another account.",
+        "emailVerified": "Verified",
+        "emailNotVerified": "Not verified",
+        "emailVerifiedDescription": "Your email is verified.",
+        "emailNotVerifiedDescription": "Your email is not verified yet.",
+        "sendVerificationLink": "Send verification link",
+        "sendingVerificationLink": "Sending verification link...",
+        "verificationLinkSent": "Verification link has been sent to your email address.",
+        "noEmailChange": "This is already your current email address.",
+        "saveChanges": "Save Changes"
+    },
+    "admin": {
+        "instagramHandleLabel": "Instagram Handle / Display Name",
+        "instagramHandlePlaceholder": "@example or example",
+        "instagramHandleTooLong": "Instagram handle is too long. Max 50 characters."
+    },
     "errors": {
         "VALIDATION_FAILED": "Validation failed.",
         "UNAUTHORIZED": "Unauthorized.",
@@ -313,6 +360,14 @@
         "UPLOAD_TOO_LARGE": "Image must be under 5MB.",
         "FILL_ALL": "Please fill in all required fields.",
         "TERMS_NOT_ACCEPTED": "You must accept the Terms of Use and Privacy Policy.",
+        "RATE_LIMITED": "Too many attempts. Please wait 15 minutes.",
+        "SERVER_ERROR": "An unexpected server error occurred. Please try again later.",
+        "RESEND_EMAIL_ERROR": "Failed to send email. Please try again.",
+        "EMAIL_SEND_FAILED": "Failed to send email. Please try again.",
+        "INVALID_TOKEN": "The link is invalid or has expired.",
+        "TOKEN_EXPIRED": "The link has expired.",
+        "NETWORK_ERROR": "Network error. Please check your connection and try again.",
+        "EMAIL_NOT_VERIFIED": "Your email is not verified. Please check your inbox or request a new verification email.",
         "UNKNOWN_ERROR": "Something went wrong. Please try again."
     },
     "success": {

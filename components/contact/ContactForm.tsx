@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
+import { getErrorMessage } from "@/utils/error";
 
 interface ContactFormProps {
   lang: string;
@@ -42,7 +43,7 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setApiError(data.message || "Something went wrong. Please try again.");
+        setApiError(getErrorMessage(data, dict));
         setIsSubmitting(false);
         return;
       }
@@ -52,7 +53,7 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
       setIsSuccess(true);
       // Reset form handled by React unmounting or condition
     } catch (err) {
-      setApiError("Network error. Please try again.");
+      setApiError(getErrorMessage({ errorCode: "NETWORK_ERROR" }, dict));
       setIsSubmitting(false);
     }
   };

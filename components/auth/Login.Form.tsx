@@ -78,17 +78,16 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             router.push(`/${lang}`);
             router.refresh();
         } catch {
-            setFieldErrors({ form: dict?.auth?.errors?.somethingWentWrong || 'Something went wrong' });
+            setFieldErrors({ form: getErrorMessage({ errorCode: "NETWORK_ERROR" }, dict) });
         } finally {
             setLoading(false);
         }
     }
 
     return (
-
         <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 rounded-2xl border border-white/25 bg-white/0.1 backdrop-blur-[3px] p-6 sm:p-8 shadow-xl w-full max-w-md mx-auto h-auto box-border"
+            className="flex flex-col gap-4 rounded-2xl border border-white/25 bg-white/10 backdrop-blur-[3px] p-6 sm:p-8 shadow-xl w-full max-w-md mx-auto h-auto box-border"
         >
             <h1 className="text-xl md:text-3xl font-bold text-white">{dict?.auth?.titleLogin || "Login"}</h1>
             <div className="flex flex-col gap-[2px]">
@@ -174,14 +173,13 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             <button
                 type="submit"
                 disabled={loading}
-                className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer"
+                className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
             >
                 {loading ? dict?.auth?.loggingIn || "Logging in..." : dict?.auth?.login}
             </button>
             <p className="text-center text-white mt-4 ">
-                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-green-700 underline">{dict?.auth?.createAccount}</Link>
+                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-green-700 underline font-semibold">{dict?.auth?.createAccount}</Link>
             </p>
         </form>
-
     );
 }

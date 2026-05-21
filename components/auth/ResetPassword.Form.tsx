@@ -67,17 +67,18 @@ export default function ResetPasswordForm({ lang, dict }: ResetPasswordFormProps
             const data = await res.json();
 
             if (!res.ok) {
+                const resolvedError = getErrorMessage(data, dict);
                 if (data.field) {
-                    setFieldErrors({ [data.field]: data.message || getErrorMessage(data, dict) });
+                    setFieldErrors({ [data.field]: resolvedError });
                 } else {
-                    setFieldErrors({ form: data.message || getErrorMessage(data, dict) });
+                    setFieldErrors({ form: resolvedError });
                 }
                 return;
             }
 
             setSuccess(true);
         } catch {
-            setFieldErrors({ form: dict?.auth?.errors?.somethingWentWrong || 'Something went wrong' });
+            setFieldErrors({ form: getErrorMessage({ errorCode: "NETWORK_ERROR" }, dict) });
         } finally {
             setLoading(false);
         }

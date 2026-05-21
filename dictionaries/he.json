@@ -218,7 +218,30 @@
         "validationFailed": "אנא בדוק את הקלט שלך ונסה שוב.",
         "tokenRequired": "נדרש אסימון איפוס.",
         "passwordTooShort": "הסיסמה חייבת לכלול לפחות 8 תווים.",
-        "unknownError": "אירעה שגיאה בלתי צפויה. אנא נסה שוב מאוחר יותר."
+        "unknownError": "אירעה שגיאה בלתי צפויה. אנא נסה שוב מאוחר יותר.",
+        "invalidOrExpiredVerificationToken": "אסימון האימות אינו חוקי או פג תוקפו.",
+        "verifyEmailTitle": "אימות אימייל",
+        "emailVerifiedSuccess": "האימייל שלך אומת בהצלחה.",
+        "goToLogin": "מעבר להתחברות",
+        "verifyEmailDescription": "לחץ על הכפתור למטה כדי לאמת את כתובת האימייל שלך ולהפעיל את החשבון.",
+        "verifying": "מאמת...",
+        "verifyEmailButton": "אמת אימייל",
+        "verificationEmailSent": "אם קיים חשבון עם אימייל זה והוא אינו מאומת, שלחנו קישור לאימות.",
+        "invalidVerificationToken": "אסימון האימות אינו חוקי או פג תוקפו.",
+        "emailVerified": "האימייל אומת בהצלחה!",
+        "resendVerificationTitle": "שליחה מחדש של אימייל אימות",
+        "resendVerificationDescription": "הזן את כתובת האימייל שלך כדי לקבל קישור אימות חדש.",
+        "resendVerificationButton": "שלח אימות מחדש",
+        "resendingVerification": "שולח מחדש...",
+        "resendVerificationLink": "שלח שוב אימייל אימות",
+        "emailNotVerified": "כתובת האימייל שלך טרם אומתה.",
+        "emailRequired": "נדרש אימייל.",
+        "verifyEmailEmailSubject": "אמת את כתובת האימייל שלך ב-Golan Wiki",
+        "verifyEmailEmailTitle": "אמת את כתובת האימייל שלך",
+        "verifyEmailEmailDescription": "ברוכים הבאים ל-Golan Wiki! אנא אמת את כתובת האימייל שלך כדי ליהנות מכל התכונות.",
+        "verifyEmailExpiryText": "קישור זה יהיה בתוקף למשך 24 שעות.",
+        "verifyEmailFallbackLinkText": "אם הכפתור לא עובד, העתק והדבק את הקישור הבא:",
+        "verifyEmailIgnoreText": "אם לא יצרת חשבון, תוכל להתעלם מאימייל זה בבטחה."
     },
     "nav": {
         "menu": "ניווט",
@@ -268,6 +291,30 @@
             "free": "חינם",
             "vip": "VIP"
         }
+    },
+    "settings": {
+        "emailTitle": "הגדרות אימייל",
+        "emailDescription": "ניהול כתובת האימייל וסטטוס האימות שלך.",
+        "currentEmail": "כתובת אימייל נוכחית",
+        "emailAddress": "כתובת אימייל חדשה",
+        "updateEmail": "עדכן כתובת אימייל",
+        "updatingEmail": "מעדכן אימייל...",
+        "emailUpdatedVerificationSent": "כתובת האימייל עודכנה. שלחנו קישור אימות לכתובת האימייל החדשה שלך.",
+        "emailAlreadyExists": "אימייל זה כבר נמצא בשימוש בחשבון אחר.",
+        "emailVerified": "מאומת",
+        "emailNotVerified": "לא מאומת",
+        "emailVerifiedDescription": "כתובת האימייל שלך מאומתת.",
+        "emailNotVerifiedDescription": "כתובת האימייל שלך טרם אומתה.",
+        "sendVerificationLink": "שלח קישור אימות",
+        "sendingVerificationLink": "שולח קישור אימות...",
+        "verificationLinkSent": "קישור האימות נשלח לכתובת האימייל שלך.",
+        "noEmailChange": "זוהי כבר כתובת האימייל הנוכחית שלך.",
+        "saveChanges": "שמור שינויים"
+    },
+    "admin": {
+        "instagramHandleLabel": "שם תצוגה באינסטגרם",
+        "instagramHandlePlaceholder": "example@ או example",
+        "instagramHandleTooLong": "שם המשתמש באינסטגרם ארוך מדי. מקסימום 50 תווים."
     },
     "errors": {
         "PASSWORD_TOO_SHORT": "הסיסמה חייבת לכלול לפחות 8 תווים.",
@@ -319,7 +366,15 @@
         "FILL_ALL": "אנא מלא את כל השדות הנדרשים.",
         "PLACE_UPDATE_FAILED": "עדכון המקום נכשל.",
         "PLACE_DELETE_FAILED": "מחיקת המקום נכשלה.",
-        "TERMS_NOT_ACCEPTED": "יש לאשר את תנאי השימוש ומדיניות הפרטיות."
+        "TERMS_NOT_ACCEPTED": "יש לאשר את תנאי השימוש ומדיניות הפרטיות.",
+        "RATE_LIMITED": "ביצעת יותר מדי ניסיונות. אנא המתן 15 דקות.",
+        "SERVER_ERROR": "אירעה שגיאת שרת בלתי צפויה. אנא נסה שוב מאוחר יותר.",
+        "RESEND_EMAIL_ERROR": "שליחת האימייל נכשלה. אנא נסה שוב.",
+        "EMAIL_SEND_FAILED": "שליחת האימייל נכשله. אנא נסה שוב.",
+        "INVALID_TOKEN": "הקישור אינו חוקי או שפג תוקפו.",
+        "TOKEN_EXPIRED": "פג תוקפו של הקישור.",
+        "NETWORK_ERROR": "שגיאת רשת. אנא בדוק את החיבור שלך ונסה שוב.",
+        "EMAIL_NOT_VERIFIED": "האימייל שלך טרם אומת. אנא בדוק את תיבת הדואר הנכנס או בקש קישור אימות חדש."
     },
     "success": {
         "AVATAR_UPDATED": "התמונה עודכנה בהצלחה!",

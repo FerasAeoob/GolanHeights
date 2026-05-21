@@ -129,7 +129,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
             router.refresh();
         } catch {
             // Only true network errors reach here (fetch failed, JSON parse failed, etc.)
-            setFieldErrors({ form: dict?.auth?.errors?.somethingWentWrong || "Something went wrong. Please try again." });
+            setFieldErrors({ form: getErrorMessage({ errorCode: "NETWORK_ERROR" }, dict) });
             setLoading(false);
         }
 

@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!place) return {};
 
     const dict = await getDictionary(lang);
-    
+
     const currentSlug = place.slug[lang] || place.slug.en;
     const path = lang === 'en' ? `/places/${currentSlug}` : `/${lang}/places/${currentSlug}`;
 
@@ -177,6 +177,8 @@ export default async function PlacePage({ params }: PageProps) {
                         duration={place.duration}
                         dict={dict}
                         mapLink={place.mapLink}
+                        instagram={place?.contact?.instagram}
+                        instagramHandle={place?.contact?.instagramHandle}
                     />
 
                 </div>

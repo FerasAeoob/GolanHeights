@@ -102,7 +102,8 @@ export const UpdatePlaceSchema = z.object({
         .object({
             phone: z.string().optional(),
             website: z.string().optional(),
-            instagram: z.string().optional()
+            instagram: z.string().optional(),
+            instagramHandle: z.string().max(50).optional()
         })
         .optional(),
     openHours: z.array(OpeningHoursZodSchema).optional(),
@@ -174,7 +175,8 @@ export const createplaceschema = z.object({
         .object({
             phone: z.string().optional(),
             website: z.string().optional(),
-            instagram: z.string().optional()
+            instagram: z.string().optional(),
+            instagramHandle: z.string().max(50).optional()
         })
         .optional(),
     openHours: z.array(OpeningHoursZodSchema).optional(),

@@ -4,6 +4,7 @@ import { getDictionary } from "@/lib/get-dictionary";
 import type { Locale } from "@/lib/get-dictionary";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import EditProfileForm from "@/components/profile/EditProfileForm";
+import EmailSettingsForm from "@/components/profile/EmailSettingsForm";
 import ChangePasswordForm from "@/components/profile/ChangePasswordForm";
 import AvatarUploader from "@/components/profile/AvatarUploader";
 import ProfileSkeleton from "@/components/profile/ProfileSkeleton";
@@ -119,6 +120,9 @@ export default async function ProfilePage({
                     <div className="lg:col-span-2 space-y-8">
                         {/* Edit Profile Form */}
                         <EditProfileForm user={currentUser} dict={dict} />
+
+                        {/* Email Settings Form */}
+                        <EmailSettingsForm user={currentUser} dict={dict} lang={lang} />
 
                         {/* Change Password Form */}
                         <ChangePasswordForm dict={dict} />
