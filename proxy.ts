@@ -22,12 +22,56 @@ async function checkIsAdmin(request: NextRequest): Promise<boolean> {
 }
 
 /**
- * Next.js 16 Proxy function.
- * Protects /[lang]/area-51-sec/* routes behind JWT admin role,
- * redirecting unauthenticated users to the main login page.
+ * Next.js 16 Proxy function (acting as the edge middleware).
+ * Protects the site behind a password lock if SITE_ACCESS_CODE is configured.
+ * Also handles locale rewrites and admin segment route protection.
  */
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
+    // ============================================================ UNDER IS LOCK
+    // Check if site access code is configured
+    const accessCode = process.env.SITE_ACCESS_CODE;
+
+    if (accessCode) {
+        const unlockedCookie = request.cookies.get('site_unlocked')?.value;
+        if (unlockedCookie !== 'true') {
+            // Bypass lock check for:
+            // - /lock page itself
+            // - /api/unlock API route
+            // - Next.js internal static assets (_next/static, _next/image)
+            // - Favicons, public icons, and images
+            if (
+                pathname === '/lock' ||
+                pathname === '/api/unlock' ||
+                pathname.startsWith('/_next') ||
+                pathname.startsWith('/favicon.ico') ||
+                pathname.startsWith('/logox.png') ||
+                pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp)$/)
+            ) {
+                return NextResponse.next();
+            }
+
+            // Return 401 for API requests when locked
+            if (pathname.startsWith('/api/')) {
+                return new NextResponse(
+                    JSON.stringify({ success: false, error: 'Unauthorized. Site is locked.' }),
+                    { status: 401, headers: { 'Content-Type': 'application/json' } }
+                );
+            }
+
+            // Redirect all other pages to /lock
+            const lockUrl = new URL('/lock', request.url);
+            return NextResponse.redirect(lockUrl);
+        }
+    }
+
+    // Bypass original locale rewrite and admin routing logic for api calls and the lock page
+    if (pathname.startsWith('/api/') || pathname === '/lock') {
+        return NextResponse.next();
+    }
+
+    // ============================================================ ABOVE IS LOCK
+
 
     // 1. Remove explicit '/en' from the URL (SEO & default behavior)
     // If a user visits /en/places, redirect them to /places
@@ -74,5 +118,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+    // Match all routes except static assets and files with extensions
+    matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
 };

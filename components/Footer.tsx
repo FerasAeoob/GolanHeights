@@ -75,7 +75,7 @@ export default function Footer({
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/golanheightswinter/"
                 aria-label="Instagram"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-500 hover:text-white hover:ring-emerald-500"
               >
