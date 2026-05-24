@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     let dict: any = {};
     try {
         const body = await req.json();
-        const lang = body.lang || "en";
+        const lang = ["en", "ar", "he"].includes(body.lang) ? body.lang : "en";
         dict = await getDictionary(lang);
 
         const ip = getClientIp(req);
@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
         }
 
         user.password = validatedData.password;
+        user.tokenInvalidBefore = new Date();
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
 

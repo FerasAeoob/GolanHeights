@@ -49,7 +49,7 @@ export function serializeUser(user: IUser) {
 
 export async function createUserToken(user: IUser, rememberMe: boolean = false) {
     const secret = getJwtSecret();
-    const expTime = rememberMe ? "30d" : "1h";
+    const expTime = rememberMe ? "7d" : "1h";
     return await new SignJWT({
         userId: user._id.toString(),
         role: user.role,
@@ -63,7 +63,7 @@ export async function createUserToken(user: IUser, rememberMe: boolean = false) 
 
 export async function setAuthCookie(token: string, rememberMe: boolean = false) {
     const cookieStore = await cookies();
-    const maxAge = rememberMe ? 30 * 24 * 60 * 60 : 60 * 60;
+    const maxAge = rememberMe ? 7 * 24 * 60 * 60 : 60 * 60;
     cookieStore.set(COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -114,11 +114,20 @@ async function _getCurrentUser() {
         await connectDB();
         const t2 = performance.now();
         const user = await User.findById(payload.userId)
-            .select('_id name email phone image role plan favorites business isVerified createdAt updatedAt')
+            .select('_id name email phone image role plan favorites business isVerified tokenInvalidBefore createdAt updatedAt')
             .lean();
         const t3 = performance.now();
         perfLog(`[PERF] getCurrentUser: jwt=${((t1 - t0)).toFixed(1)}ms | db=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - t0)).toFixed(1)}ms`);
         if (!user) return null;
+
+        // Reject tokens issued before the user's last password change/reset
+        const invalidBefore = (user as any).tokenInvalidBefore;
+        if (invalidBefore && payload.iat) {
+            if (payload.iat < Math.floor(new Date(invalidBefore).getTime() / 1000)) {
+                return null;
+            }
+        }
+
         return serializeUser(user as IUser);
     } catch (error) {
         console.error(error);

@@ -87,7 +87,7 @@ export async function createPlaceAction(data: any) {
         return { success: true, id: newPlace._id.toString() };
     } catch (error: any) {
         console.error("Create Error:", error);
-        return { errorCode: error.message || "UNKNOWN_ERROR" };
+        return { errorCode: "UNKNOWN_ERROR" };
     }
 }
 
@@ -184,7 +184,7 @@ export async function updatePlaceAction(id: string, data: any) {
         return { success: true };
     } catch (error: any) {
         console.error("Update Error:", error);
-        return { errorCode: error.message || "UNKNOWN_ERROR" };
+        return { errorCode: "UNKNOWN_ERROR" };
     }
 }
 
@@ -207,7 +207,7 @@ export async function deletePlaceAction(id: string) {
         return { success: true };
     } catch (error: any) {
         console.error("Delete Error:", error);
-        return { errorCode: error.message || "UNKNOWN_ERROR" };
+        return { errorCode: "UNKNOWN_ERROR" };
     }
 }
 
@@ -232,6 +232,6 @@ export async function toggleFeaturedAction(id: string) {
 
         return { success: true, featured: place.featured };
     } catch (error: any) {
-        return { errorCode: error.message || "UNKNOWN_ERROR" };
+        return { errorCode: "UNKNOWN_ERROR" };
     }
 }

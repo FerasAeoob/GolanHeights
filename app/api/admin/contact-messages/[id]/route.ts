@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 import connectDB from "@/lib/mongodb";
 import ContactMessage from "@/models/ContactMessage";
 import { requireRole } from "@/lib/permissions";
@@ -14,6 +15,14 @@ export async function PATCH(
         await connectDB();
 
         const { id } = await params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return NextResponse.json(
+                { success: false, message: "Invalid message ID" },
+                { status: 400 }
+            );
+        }
+
         const body = await req.json();
 
         const updateData: any = {};
@@ -61,6 +70,13 @@ export async function DELETE(
         await connectDB();
 
         const { id } = await params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return NextResponse.json(
+                { success: false, message: "Invalid message ID" },
+                { status: 400 }
+            );
+        }
 
         // Soft delete / archive it
         const archivedMessage = await ContactMessage.findByIdAndUpdate(

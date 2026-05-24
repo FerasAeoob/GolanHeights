@@ -44,14 +44,6 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "images.unsplash.com",
             },
-            {
-                protocol: "https",
-                hostname: "example.com",
-            },
-            {
-                protocol: "http",
-                hostname: "example.com",
-            },
         ],
     },
     async headers() {
@@ -78,6 +70,10 @@ const nextConfig: NextConfig = {
                     {
                         key: "Strict-Transport-Security",
                         value: "max-age=63072000; includeSubDomains; preload",
+                    },
+                    {
+                        key: "Content-Security-Policy",
+                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu.i.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://res.cloudinary.com https://images.unsplash.com https://*.tile.openstreetmap.org data: blob:; connect-src 'self' https://eu.i.posthog.com https://*.tile.openstreetmap.org; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
                     },
                 ],
             },

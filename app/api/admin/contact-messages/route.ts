@@ -28,11 +28,12 @@ export async function GET(req: NextRequest) {
         }
 
         if (search) {
+            const safeSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             query.$or = [
-                { name: { $regex: search, $options: "i" } },
-                { email: { $regex: search, $options: "i" } },
-                { subject: { $regex: search, $options: "i" } },
-                { message: { $regex: search, $options: "i" } },
+                { name: { $regex: safeSearch, $options: "i" } },
+                { email: { $regex: safeSearch, $options: "i" } },
+                { subject: { $regex: safeSearch, $options: "i" } },
+                { message: { $regex: safeSearch, $options: "i" } },
             ];
         }
 

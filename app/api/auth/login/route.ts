@@ -43,7 +43,11 @@ export async function POST(req: NextRequest) {
             );
         }
 
-
+        // Clear any outstanding password reset tokens
+        await User.updateOne(
+            { _id: user._id },
+            { $unset: { resetPasswordToken: 1, resetPasswordExpires: 1 } }
+        );
 
         const token = await createUserToken(user, validatedData.rememberMe);
         await setAuthCookie(token, validatedData.rememberMe);

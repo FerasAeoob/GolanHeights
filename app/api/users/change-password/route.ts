@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, createUserToken, setAuthCookie } from "@/lib/auth";
 import { changePasswordSchema } from "@/database/user/user.schema";
 import { checkRateLimit } from "@/lib/rate-limit";
 
@@ -69,7 +69,12 @@ export async function POST(req: NextRequest) {
         }
 
         user.password = validatedData.newPassword;
+        user.tokenInvalidBefore = new Date();
         await user.save();
+
+        // Issue a fresh token so the current session stays alive
+        const token = await createUserToken(user);
+        await setAuthCookie(token);
 
         return NextResponse.json(
             {

@@ -3,6 +3,9 @@ import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { v2 as cloudinary } from "cloudinary";
+import { checkRateLimit } from "@/lib/rate-limit";
+
+const avatarLimiter = { name: "avatar-upload", maxRequests: 10, windowSeconds: 60 * 60 };
 
 export async function POST(req: NextRequest) {
     try {
@@ -11,6 +14,14 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 { success: false, errorCode: "UNAUTHORIZED" },
                 { status: 401 }
+            );
+        }
+
+        const { allowed } = checkRateLimit(avatarLimiter, currentUser._id);
+        if (!allowed) {
+            return NextResponse.json(
+                { success: false, errorCode: "RATE_LIMITED" },
+                { status: 429 }
             );
         }
 

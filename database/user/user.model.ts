@@ -33,6 +33,7 @@ export interface IUser extends Document {
     pendingEmail?: string;
     emailChangeCode?: string;
     emailChangeCodeExpires?: Date;
+    tokenInvalidBefore?: Date;
 
     createdAt: Date;
     updatedAt: Date;
@@ -101,6 +102,7 @@ const UserSchema = new Schema<IUser>(
         pendingEmail: { type: String, select: false },
         emailChangeCode: { type: String, select: false },
         emailChangeCodeExpires: { type: Date, select: false },
+        tokenInvalidBefore: { type: Date },
     },
     { timestamps: true }
 );
