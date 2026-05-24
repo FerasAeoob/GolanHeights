@@ -33,7 +33,6 @@ const nextConfig: NextConfig = {
         ];
     },
     poweredByHeader: false,
-    allowedDevOrigins: ["192.168.0.129", "192.168.1.106", "192.168.0.134"],
     images: {
         remotePatterns: [
             {

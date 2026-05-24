@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { SignJWT } from "jose";
 
 const unlockLimiter = { name: "unlock", maxRequests: 5, windowSeconds: 15 * 60 };
 
@@ -32,12 +33,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Set cookie: site_unlocked=true, httpOnly, secure, maxAge 7 days
+    const secretStr = process.env.JWT_SECRET;
+    if (!secretStr) {
+      return NextResponse.json(
+        { success: false, error: "Server authentication secret is not configured." },
+        { status: 500 }
+      );
+    }
+
+    const secret = new TextEncoder().encode(secretStr);
+    const token = await new SignJWT({ unlocked: true })
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("7d")
+      .sign(secret);
+
+    // Set cookie: site_unlocked=JWT_TOKEN, httpOnly, secure, maxAge 7 days
     const response = NextResponse.json({ success: true });
     
     response.cookies.set({
       name: "site_unlocked",
-      value: "true",
+      value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -53,3 +69,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

@@ -5,6 +5,22 @@ import type { NextRequest } from 'next/server';
 const locales = ['en', 'he', 'ar'];
 const ADMIN_SEGMENT = 'area-51-sec';
 
+async function checkIsUnlocked(request: NextRequest): Promise<boolean> {
+    const token = request.cookies.get('site_unlocked')?.value;
+    if (!token) return false;
+
+    const secretStr = process.env.JWT_SECRET;
+    if (!secretStr) return false;
+
+    try {
+        const secret = new TextEncoder().encode(secretStr);
+        const { payload } = await jwtVerify(token, secret);
+        return payload.unlocked === true;
+    } catch (e) {
+        return false;
+    }
+}
+
 async function checkIsAdmin(request: NextRequest): Promise<boolean> {
     const token = request.cookies.get('user_token')?.value;
     if (!token) return false;
@@ -33,8 +49,8 @@ export async function proxy(request: NextRequest) {
     const accessCode = process.env.SITE_ACCESS_CODE;
 
     if (accessCode) {
-        const unlockedCookie = request.cookies.get('site_unlocked')?.value;
-        if (unlockedCookie !== 'true') {
+        const isUnlocked = await checkIsUnlocked(request);
+        if (!isUnlocked) {
             // Bypass lock check for:
             // - /lock page itself
             // - /api/unlock API route
@@ -118,6 +134,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    // Match all routes except static assets and files with extensions
-    matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+    matcher: [
+        "/((?!_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|site.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|map|txt|xml|json|woff|woff2|ttf|otf|pdf)$).*)",
+    ],
 };
