@@ -249,7 +249,14 @@
         "emailChangeCodeTitle": "אשר שינוי אימייל",
         "emailChangeCodeDescription": "מישהו ביקש לשנות את כתובת האימייל של חשבון Golan Wiki שלך. השתמש בקוד הבא בן 6 ספרות כדי לאשר שינוי זה:",
         "emailChangeCodeExpiry": "קוד זה בתוקף למשך 10 דקות.",
-        "emailChangeCodeIgnore": "אם זה לא היית אתה, תוכל להתעלם מאימייל זה בבטחה ואל תשתף את הקוד עם אף אחד."
+        "emailChangeCodeIgnore": "אם זה לא היית אתה, תוכל להתעלם מאימייל זה בבטחה ואל תשתף את הקוד עם אף אחד.",
+        "forgotPasswordEmailSubject": "איפוס הסיסמה שלך ב-Golan Wiki",
+        "forgotPasswordEmailTitle": "איפוס הסיסמה שלך",
+        "forgotPasswordEmailDescription": "ביקשת לאפס את הסיסמה שלך עבור Golan Wiki.",
+        "forgotPasswordEmailExpiryText": "קישור זה יהיה בתוקף למשך 30 דקות.",
+        "forgotPasswordEmailFallbackLinkText": "אם הכפתור לא עובד, העתק והדבק את הקישור הבא:",
+        "forgotPasswordEmailIgnoreText": "אם לא ביקשת זאת, תוכל להתעלם מאימייל זה בבטחה.",
+        "forgotPasswordEmailButton": "איפוס סיסמה"
     },
     "nav": {
         "menu": "ניווט",

@@ -9,7 +9,7 @@ function escapeHtml(str: string): string {
         .replace(/'/g, "&#039;");
 }
 
-export async function sendVerificationEmail(email: string, verifyUrl: string, dict?: any) {
+export async function sendVerificationEmail(email: string, verifyUrl: string, dict?: any, lang?: string) {
     const subject = dict?.auth?.verifyEmailEmailSubject || "Verify your Golan Wiki email";
     const title = dict?.auth?.verifyEmailEmailTitle || "Verify your email address";
     const description = dict?.auth?.verifyEmailEmailDescription || "Welcome to Golan Wiki! Please verify your email address to unlock all features.";
@@ -17,6 +17,10 @@ export async function sendVerificationEmail(email: string, verifyUrl: string, di
     const expiryText = dict?.auth?.verifyEmailExpiryText || "This link will expire in 24 hours.";
     const fallbackLinkText = dict?.auth?.verifyEmailFallbackLinkText || "If the button does not work, copy and paste this link:";
     const ignoreText = dict?.auth?.verifyEmailIgnoreText || "If you did not create an account, you can safely ignore this email.";
+
+    const isRtl = lang === "ar" || lang === "he";
+    const dir = isRtl ? "rtl" : "ltr";
+    const textAlign = isRtl ? "right" : "left";
 
     if (process.env.NODE_ENV === "development") {
         console.log("-----------------------------------------");
@@ -46,7 +50,7 @@ export async function sendVerificationEmail(email: string, verifyUrl: string, di
         to: email,
         subject: subject,
         html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
+      <div dir="${dir}" style="font-family: Arial, sans-serif; line-height: 1.6; color: #111; text-align: ${textAlign};">
         <h2>${titleEsc}</h2>
 
         <p>${descriptionEsc}</p>
@@ -87,12 +91,16 @@ export async function sendVerificationEmail(email: string, verifyUrl: string, di
     }
 }
 
-export async function sendEmailChangeCodeEmail(email: string, code: string, dict?: any) {
+export async function sendEmailChangeCodeEmail(email: string, code: string, dict?: any, lang?: string) {
     const subject = dict?.auth?.emailChangeCodeSubject || "Confirm your Golan Wiki email change";
     const title = dict?.auth?.emailChangeCodeTitle || "Confirm Email Change";
     const description = dict?.auth?.emailChangeCodeDescription || "Someone requested to change your Golan Wiki account email address. Use the following 6-digit code to confirm this change:";
     const expiryText = dict?.auth?.emailChangeCodeExpiry || "This code expires in 10 minutes.";
     const ignoreText = dict?.auth?.emailChangeCodeIgnore || "If this was not you, you can safely ignore this email and do not share the code.";
+
+    const isRtl = lang === "ar" || lang === "he";
+    const dir = isRtl ? "rtl" : "ltr";
+    const textAlign = isRtl ? "right" : "left";
 
     if (process.env.NODE_ENV === "development") {
         console.log("-----------------------------------------");
@@ -120,7 +128,7 @@ export async function sendEmailChangeCodeEmail(email: string, code: string, dict
         to: email,
         subject: subject,
         html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+      <div dir="${dir}" style="font-family: Arial, sans-serif; line-height: 1.6; color: #111; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; text-align: ${textAlign};">
         <h2 style="color: #0f172a; margin-bottom: 16px;">${titleEsc}</h2>
 
         <p style="color: #475569; font-size: 16px; margin-bottom: 24px;">${descriptionEsc}</p>

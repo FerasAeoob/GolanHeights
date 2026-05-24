@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
             const baseUrl = process.env.APP_URL || url.origin;
             const resetUrl = `${baseUrl}/${reqLang}/reset-password?token=${resetToken}`;
 
-            await sendPasswordResetEmail(user.email, resetUrl);
+            await sendPasswordResetEmail(user.email, resetUrl, dict, reqLang);
         }
 
         return NextResponse.json(

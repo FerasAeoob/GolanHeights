@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
         const baseUrl = process.env.APP_URL || url.origin;
         const verifyUrl = `${baseUrl}/${lang}/verify-email?token=${verificationToken}`;
 
-        await sendVerificationEmail(newEmail, verifyUrl, dict);
+        await sendVerificationEmail(newEmail, verifyUrl, dict, lang);
 
         return NextResponse.json(
             {

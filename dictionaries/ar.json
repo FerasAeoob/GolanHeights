@@ -249,7 +249,14 @@
         "emailChangeCodeTitle": "تأكيد تغيير البريد الإلكتروني",
         "emailChangeCodeDescription": "طلب أحدهم تغيير عنوان البريد الإلكتروني الخاص بحسابك في جولان ويكي. استخدم رمز التأكيد التالي المكون من 6 أرقام لتأكيد هذا التغيير:",
         "emailChangeCodeExpiry": "صلاحية هذا الرمز تنتهي بعد 10 دقائق.",
-        "emailChangeCodeIgnore": "إذا لم تكن أنت من طلب ذلك، يمكنك تجاهل هذا البريد الإلكتروني بأمان وعدم مشاركة الرمز مع أحد."
+        "emailChangeCodeIgnore": "إذا لم تكن أنت من طلب ذلك، يمكنك تجاهل هذا البريد الإلكتروني بأمان وعدم مشاركة الرمز مع أحد.",
+        "forgotPasswordEmailSubject": "إعادة تعيين كلمة مرور جولان ويكي الخاصة بك",
+        "forgotPasswordEmailTitle": "إعادة تعيين كلمة المرور",
+        "forgotPasswordEmailDescription": "لقد طلبت إعادة تعيين كلمة المرور الخاصة بك في جولان ويكي.",
+        "forgotPasswordEmailExpiryText": "تنتهي صلاحية هذا الرابط خلال 30 دقيقة.",
+        "forgotPasswordEmailFallbackLinkText": "إذا لم يعمل الزر، قم بنسخ ولصق الرابط التالي:",
+        "forgotPasswordEmailIgnoreText": "إذا لم تطلب هذا، يمكنك تجاهل هذا البريد الإلكتروني بأمان.",
+        "forgotPasswordEmailButton": "إعادة تعيين كلمة المرور"
     },
     "nav": {
         "menu": "القائمة",
