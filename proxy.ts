@@ -1,21 +1,44 @@
-import { jwtVerify } from 'jose';
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { jwtVerify } from "jose";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const locales = ['en', 'he', 'ar'];
-const ADMIN_SEGMENT = 'area-51-sec';
+const locales = ["en", "he", "ar"];
+const ADMIN_SEGMENT = "area-51-sec";
 
+let cachedSecretValue: string | null = null;
 let cachedSecret: Uint8Array | null = null;
+
 function getEncodedSecret(): Uint8Array | null {
-    if (cachedSecret) return cachedSecret;
     const secretStr = process.env.JWT_SECRET;
     if (!secretStr) return null;
-    cachedSecret = new TextEncoder().encode(secretStr);
+
+    if (!cachedSecret || cachedSecretValue !== secretStr) {
+        cachedSecretValue = secretStr;
+        cachedSecret = new TextEncoder().encode(secretStr);
+    }
+
     return cachedSecret;
 }
 
+function isBypassPath(pathname: string) {
+    return (
+        pathname === "/lock" ||
+        pathname === "/api/unlock" ||
+        pathname.startsWith("/_next") ||
+        pathname === "/favicon.ico" ||
+        pathname === "/robots.txt" ||
+        pathname === "/sitemap.xml" ||
+        pathname === "/site.webmanifest" ||
+        pathname.startsWith("/images/") ||
+        pathname.startsWith("/icons/") ||
+        pathname.startsWith("/fonts/") ||
+        pathname === "/logox.png" ||
+        /\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|map|txt|xml|json|woff|woff2|ttf|otf|pdf)$/i.test(pathname)
+    );
+}
+
 async function checkIsUnlocked(request: NextRequest): Promise<boolean> {
-    const token = request.cookies.get('site_unlocked')?.value;
+    const token = request.cookies.get("site_unlocked")?.value;
     if (!token) return false;
 
     const secret = getEncodedSecret();
@@ -24,13 +47,13 @@ async function checkIsUnlocked(request: NextRequest): Promise<boolean> {
     try {
         const { payload } = await jwtVerify(token, secret);
         return payload.unlocked === true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }
 
 async function checkIsAdmin(request: NextRequest): Promise<boolean> {
-    const token = request.cookies.get('user_token')?.value;
+    const token = request.cookies.get("user_token")?.value;
     if (!token) return false;
 
     const secret = getEncodedSecret();
@@ -38,102 +61,109 @@ async function checkIsAdmin(request: NextRequest): Promise<boolean> {
 
     try {
         const { payload } = await jwtVerify(token, secret);
-        return payload.role === 'admin';
-    } catch (e) {
+        return payload.role === "admin";
+    } catch {
         return false;
     }
 }
 
-/**
- * Next.js 16 Proxy function (acting as the edge middleware).
- * Protects the site behind a password lock if SITE_ACCESS_CODE is configured.
- * Also handles locale rewrites and admin segment route protection.
- */
 export async function proxy(request: NextRequest) {
+    const isDebug = process.env.LOAD_TEST_DEBUG === "true";
+    const tStart = isDebug ? performance.now() : 0;
     const { pathname } = request.nextUrl;
-    // ============================================================ UNDER IS LOCK
-    // Check if site access code is configured
-    const accessCode = process.env.SITE_ACCESS_CODE;
 
-    if (accessCode) {
-        // 1. Bypass lock check immediately for public/system paths to avoid parsing site_unlocked cookie/JWT on every asset
-        if (
-            pathname === '/lock' ||
-            pathname === '/api/unlock' ||
-            pathname.startsWith('/_next') ||
-            pathname.startsWith('/favicon.ico') ||
-            pathname.startsWith('/logox.png') ||
-            pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp)$/)
-        ) {
-            return NextResponse.next();
+    let actionTaken = "skipped";
+    let jwtVerified = "no";
+
+    if (isBypassPath(pathname)) {
+        if (isDebug) {
+            const tEnd = performance.now();
+            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=skipped (bypass path) | jwtVerified=no | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
         }
-
-        // 2. Perform lock check for protected paths
-        const isUnlocked = await checkIsUnlocked(request);
-        if (!isUnlocked) {
-            // Return 401 for API requests when locked
-            if (pathname.startsWith('/api/')) {
-                return new NextResponse(
-                    JSON.stringify({ success: false, error: 'Unauthorized. Site is locked.' }),
-                    { status: 401, headers: { 'Content-Type': 'application/json' } }
-                );
-            }
-
-            // Redirect all other pages to /lock
-            const lockUrl = new URL('/lock', request.url);
-            return NextResponse.redirect(lockUrl);
-        }
-    }
-
-    // Bypass original locale rewrite and admin routing logic for api calls and the lock page
-    if (pathname.startsWith('/api/') || pathname === '/lock') {
         return NextResponse.next();
     }
 
-    // ============================================================ ABOVE IS LOCK
+    const accessCode = process.env.SITE_ACCESS_CODE;
 
+    if (accessCode) {
+        actionTaken = "checked";
+        const token = request.cookies.get("site_unlocked")?.value;
+        if (token) {
+            jwtVerified = "yes";
+        }
 
-    // 1. Remove explicit '/en' from the URL (SEO & default behavior)
-    // If a user visits /en/places, redirect them to /places
-    if (pathname.startsWith('/en')) {
-        const newPathname = pathname.replace(/^\/en/, '') || '/';
+        const isUnlocked = await checkIsUnlocked(request);
+
+        if (!isUnlocked) {
+            if (isDebug) {
+                const tEnd = performance.now();
+                console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=checked (redirect to lock) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+            }
+            if (pathname.startsWith("/api/")) {
+                return NextResponse.json(
+                    { success: false, error: "Unauthorized. Site is locked." },
+                    { status: 401 }
+                );
+            }
+
+            return NextResponse.redirect(new URL("/lock", request.url));
+        }
+    }
+
+    if (pathname.startsWith("/api/")) {
+        if (isDebug) {
+            const tEnd = performance.now();
+            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (api pass through) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+        }
+        return NextResponse.next();
+    }
+
+    if (pathname.startsWith("/en")) {
+        const newPathname = pathname.replace(/^\/en/, "") || "/";
+        if (isDebug) {
+            const tEnd = performance.now();
+            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (redirect /en prefix) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+        }
         const redirectUrl = new URL(newPathname, request.url);
         redirectUrl.search = request.nextUrl.search;
         return NextResponse.redirect(redirectUrl);
     }
 
-    const segments = pathname.split('/').filter(Boolean);
+    const segments = pathname.split("/").filter(Boolean);
     const hasLocale = locales.includes(segments[0]);
-
-    // Get the path segments after the locale (or from the start if no locale)
     const routeSegments = hasLocale ? segments.slice(1) : segments;
 
-    // 2. Admin Security Check (Must happen BEFORE the rewrite)
     const isAdminRoute = routeSegments[0] === ADMIN_SEGMENT;
 
     if (isAdminRoute) {
         const isAdmin = await checkIsAdmin(request);
 
-        // Block unauthenticated access to admin routes
         if (!isAdmin) {
-            // Redirect to main login page, preserving any non-English locale
-            const prefix = hasLocale ? `/${segments[0]}` : '';
+            if (isDebug) {
+                const tEnd = performance.now();
+                console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=checked (unauthorized admin access) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+            }
+            const prefix = hasLocale ? `/${segments[0]}` : "";
             const loginUrl = new URL(`${prefix}/login`, request.url);
             loginUrl.search = request.nextUrl.search;
             return NextResponse.redirect(loginUrl);
         }
     }
 
-    // 3. Locale Rewrite for bare paths
-    // If the path doesn't start with a locale (like /places), it means it's the default English.
-    // We rewrite it internally to /en/places so Next.js finds the right page folder.
     if (!hasLocale) {
-        const rewriteUrl = new URL(`/en${pathname === '/' ? '' : pathname}`, request.url);
+        if (isDebug) {
+            const tEnd = performance.now();
+            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (rewrite to /en) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+        }
+        const rewriteUrl = new URL(`/en${pathname === "/" ? "" : pathname}`, request.url);
         rewriteUrl.search = request.nextUrl.search;
         return NextResponse.rewrite(rewriteUrl);
     }
 
-    // Pass through for explicit locales like /he or /ar
+    if (isDebug) {
+        const tEnd = performance.now();
+        console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (pass through) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+    }
     return NextResponse.next();
 }
 
