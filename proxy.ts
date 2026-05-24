@@ -6,10 +6,11 @@ const locales = ['en', 'he', 'ar'];
 const ADMIN_SEGMENT = 'area-51-sec';
 
 let cachedSecret: Uint8Array | null = null;
-function getEncodedSecret(secretStr: string): Uint8Array {
-    if (!cachedSecret) {
-        cachedSecret = new TextEncoder().encode(secretStr);
-    }
+function getEncodedSecret(): Uint8Array | null {
+    if (cachedSecret) return cachedSecret;
+    const secretStr = process.env.JWT_SECRET;
+    if (!secretStr) return null;
+    cachedSecret = new TextEncoder().encode(secretStr);
     return cachedSecret;
 }
 
@@ -17,11 +18,10 @@ async function checkIsUnlocked(request: NextRequest): Promise<boolean> {
     const token = request.cookies.get('site_unlocked')?.value;
     if (!token) return false;
 
-    const secretStr = process.env.JWT_SECRET;
-    if (!secretStr) return false;
+    const secret = getEncodedSecret();
+    if (!secret) return false;
 
     try {
-        const secret = getEncodedSecret(secretStr);
         const { payload } = await jwtVerify(token, secret);
         return payload.unlocked === true;
     } catch (e) {
@@ -33,11 +33,10 @@ async function checkIsAdmin(request: NextRequest): Promise<boolean> {
     const token = request.cookies.get('user_token')?.value;
     if (!token) return false;
 
-    const secretStr = process.env.JWT_SECRET;
-    if (!secretStr) return false;
+    const secret = getEncodedSecret();
+    if (!secret) return false;
 
     try {
-        const secret = getEncodedSecret(secretStr);
         const { payload } = await jwtVerify(token, secret);
         return payload.role === 'admin';
     } catch (e) {
@@ -57,24 +56,21 @@ export async function proxy(request: NextRequest) {
     const accessCode = process.env.SITE_ACCESS_CODE;
 
     if (accessCode) {
+        // 1. Bypass lock check immediately for public/system paths to avoid parsing site_unlocked cookie/JWT on every asset
+        if (
+            pathname === '/lock' ||
+            pathname === '/api/unlock' ||
+            pathname.startsWith('/_next') ||
+            pathname.startsWith('/favicon.ico') ||
+            pathname.startsWith('/logox.png') ||
+            pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp)$/)
+        ) {
+            return NextResponse.next();
+        }
+
+        // 2. Perform lock check for protected paths
         const isUnlocked = await checkIsUnlocked(request);
         if (!isUnlocked) {
-            // Bypass lock check for:
-            // - /lock page itself
-            // - /api/unlock API route
-            // - Next.js internal static assets (_next/static, _next/image)
-            // - Favicons, public icons, and images
-            if (
-                pathname === '/lock' ||
-                pathname === '/api/unlock' ||
-                pathname.startsWith('/_next') ||
-                pathname.startsWith('/favicon.ico') ||
-                pathname.startsWith('/logox.png') ||
-                pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp)$/)
-            ) {
-                return NextResponse.next();
-            }
-
             // Return 401 for API requests when locked
             if (pathname.startsWith('/api/')) {
                 return new NextResponse(

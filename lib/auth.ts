@@ -13,12 +13,22 @@ type UserTokenPayload = JWTPayload & {
     plan: "free" | "vip";
 };
 
+let cachedSecretValue: string | null = null;
+let cachedSecret: Uint8Array | null = null;
+
 function getJwtSecret() {
     const secret = process.env.JWT_SECRET;
+
     if (!secret) {
         throw new Error("JWT_SECRET is not defined");
     }
-    return new TextEncoder().encode(secret);
+
+    if (!cachedSecret || cachedSecretValue !== secret) {
+        cachedSecretValue = secret;
+        cachedSecret = new TextEncoder().encode(secret);
+    }
+
+    return cachedSecret;
 }
 
 export function serializeUser(user: IUser) {
@@ -103,14 +113,31 @@ export async function getTokenPayload() {
 }
 
 async function _getCurrentUser() {
+    const isDebug = process.env.LOAD_TEST_DEBUG === "true";
+    let tStart: number | null = null;
+    if (isDebug) {
+        tStart = performance.now();
+        console.log(`[DEBUG] getCurrentUser started at ${new Date().toISOString()}`);
+    }
+
     try {
         const t0 = performance.now();
         const payload = await getTokenPayload();
         const t1 = performance.now();
         if (!payload) {
+            if (isDebug && tStart !== null) {
+                const tEnd = performance.now();
+                console.log(`[DEBUG] getCurrentUser ended at ${new Date().toISOString()} | elapsed: ${(tEnd - tStart).toFixed(2)}ms`);
+                console.log(`[DEBUG] getCurrentUser: skipped DB because no session existed`);
+            }
             perfLog(`[PERF] getCurrentUser: no token (jwt: ${(t1 - t0).toFixed(1)}ms)`);
             return null;
         }
+
+        if (isDebug) {
+            console.log(`[DEBUG] getCurrentUser: querying DB for userId: ${payload.userId}`);
+        }
+
         await connectDB();
         const t2 = performance.now();
         const user = await User.findById(payload.userId)
@@ -118,6 +145,13 @@ async function _getCurrentUser() {
             .lean();
         const t3 = performance.now();
         perfLog(`[PERF] getCurrentUser: jwt=${((t1 - t0)).toFixed(1)}ms | db=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - t0)).toFixed(1)}ms`);
+
+        if (isDebug && tStart !== null) {
+            const tEnd = performance.now();
+            console.log(`[DEBUG] getCurrentUser ended at ${new Date().toISOString()} | elapsed: ${(tEnd - tStart).toFixed(2)}ms`);
+            console.log(`[DEBUG] getCurrentUser: queried DB`);
+        }
+
         if (!user) return null;
 
         // Reject tokens issued before the user's last password change/reset
