@@ -1,5 +1,4 @@
-import connectDB from "@/lib/mongodb";
-import Place from "@/database/place.model";
+import { getRequestMemoizedPlace } from "@/lib/db/places";
 import { SlugSchema } from "@/database/place.schema";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
@@ -25,14 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!parsedSlug.success) return {};
     const decodedSlug = decodeURIComponent(parsedSlug.data.slug);
 
-    await connectDB();
-    const place = await Place.findOne({
-        $or: [
-            { "slug.en": decodedSlug.toLowerCase() },
-            { "slug.he": decodedSlug.toLowerCase() },
-            { "slug.ar": decodedSlug.toLowerCase() }
-        ]
-    }).select("title shortDescription slug").lean();
+    const place = await getRequestMemoizedPlace(decodedSlug);
 
     if (!place) return {};
 
@@ -69,22 +61,14 @@ export default async function PlacePage({ params }: PageProps) {
     const decodedSlug = decodeURIComponent(slug);
 
     const pageStart = performance.now();
-    await connectDB();
-    const t1 = performance.now();
 
     const [place, dict, currentUser] = await Promise.all([
-        Place.findOne({
-            $or: [
-                { "slug.en": decodedSlug.toLowerCase() },
-                { "slug.he": decodedSlug.toLowerCase() },
-                { "slug.ar": decodedSlug.toLowerCase() }
-            ]
-        }).lean(),
+        getRequestMemoizedPlace(decodedSlug),
         getDictionary(lang),
         getCurrentUser(),
     ]);
     const t2 = performance.now();
-    perfLog(`[PERF] PLACE_DETAIL /${lang}/${decodedSlug}: dbConnect=${((t1 - pageStart)).toFixed(1)}ms | parallel(place+dict+auth)=${((t2 - t1)).toFixed(1)}ms | total=${((t2 - pageStart)).toFixed(1)}ms`);
+    perfLog(`[PERF] PLACE_DETAIL /${lang}/${decodedSlug}: fetch(place+dict+auth)=${((t2 - pageStart)).toFixed(1)}ms`);
 
     if (!place) {
         return notFound();
@@ -130,7 +114,7 @@ export default async function PlacePage({ params }: PageProps) {
                     <div className="lg:max-w-2/3 flex-1 w-full gap-2 flex flex-col ">
                         <div className="flex flex-col w-fit gap-2  ">
                             <div className={` text-sm font-bold px-1.5 shadow-xl w-fit  ${categoryColors[place.category]}  rounded-md`}>
-                                {dict.categories[place.category] || capitalizeFirst(place.category)}
+                                {(dict.categories as any)[place.category] || capitalizeFirst(place.category)}
                             </div>
                             <p className="flex gap-2 ">
                                 <MapPin className="w-4 h-4 mt-1 " /> {place.location.name[lang] || place.location.name.en}
