@@ -1,5 +1,5 @@
 export const ENABLE_PERF =
-    process.env.NODE_ENV !== "production" || process.env.PERF === "true";
+    process.env.LOAD_TEST_DEBUG === "true" || process.env.PERF === "true" || process.env.NODE_ENV !== "production";
 
 export function perfStart(label: string) {
     if (ENABLE_PERF) {

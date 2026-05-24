@@ -5,6 +5,14 @@ import type { NextRequest } from 'next/server';
 const locales = ['en', 'he', 'ar'];
 const ADMIN_SEGMENT = 'area-51-sec';
 
+let cachedSecret: Uint8Array | null = null;
+function getEncodedSecret(secretStr: string): Uint8Array {
+    if (!cachedSecret) {
+        cachedSecret = new TextEncoder().encode(secretStr);
+    }
+    return cachedSecret;
+}
+
 async function checkIsUnlocked(request: NextRequest): Promise<boolean> {
     const token = request.cookies.get('site_unlocked')?.value;
     if (!token) return false;
@@ -13,7 +21,7 @@ async function checkIsUnlocked(request: NextRequest): Promise<boolean> {
     if (!secretStr) return false;
 
     try {
-        const secret = new TextEncoder().encode(secretStr);
+        const secret = getEncodedSecret(secretStr);
         const { payload } = await jwtVerify(token, secret);
         return payload.unlocked === true;
     } catch (e) {
@@ -29,7 +37,7 @@ async function checkIsAdmin(request: NextRequest): Promise<boolean> {
     if (!secretStr) return false;
 
     try {
-        const secret = new TextEncoder().encode(secretStr);
+        const secret = getEncodedSecret(secretStr);
         const { payload } = await jwtVerify(token, secret);
         return payload.role === 'admin';
     } catch (e) {
