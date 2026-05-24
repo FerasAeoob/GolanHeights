@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
                     },
                     {
                         key: "Content-Security-Policy",
-                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu.i.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://res.cloudinary.com https://images.unsplash.com https://*.tile.openstreetmap.org data: blob:; connect-src 'self' https://eu.i.posthog.com https://*.tile.openstreetmap.org; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu.i.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://res.cloudinary.com https://images.unsplash.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://unpkg.com data: blob:; connect-src 'self' https://eu.i.posthog.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
                     },
                 ],
             },

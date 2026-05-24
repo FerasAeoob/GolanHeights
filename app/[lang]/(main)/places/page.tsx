@@ -245,7 +245,7 @@ export default async function PlacesPage({
                     </div>
                 </div>
             </section >
-            <section className="max-w-[1400px] px-4 mx-auto mt-8 z-0">
+            <section className="max-w-[1400px] px-4 mx-auto mt-8 mb-16 md:mb-24 z-0">
                 <PlacesMapDynamic
                     places={JSON.parse(JSON.stringify(places))}
                     lang={lang}

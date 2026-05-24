@@ -113,7 +113,7 @@ export default async function PlacePage({ params }: PageProps) {
     }));
 
     return (
-        <div className=" pt-20 flex flex-col w-dvw items-center px-3">
+        <div className=" pt-20 pb-16 md:pb-24 flex flex-col w-dvw items-center px-3">
             <div className="flex h-20 w-full max-w-[1200px] items-center ">
 
                 <Link href={`/${lang}/places`} className=" flex text-lg font-bold gap-3 hover:text-emerald-900 transition-colors duration-300">

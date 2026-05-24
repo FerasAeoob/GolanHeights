@@ -14,7 +14,7 @@ export default async function ContactMessagesAdminPage({ params }: { params: Pro
     }
 
     return (
-        <div className="p-4 md:p-8 bg-slate-50 min-h-screen text-slate-900 pt-24 md:pt-30">
+        <div className="p-4 md:p-8 pb-16 md:pb-24 bg-slate-50 min-h-screen text-slate-900 pt-24 md:pt-30">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
