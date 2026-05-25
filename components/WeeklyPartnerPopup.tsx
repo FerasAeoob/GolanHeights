@@ -70,7 +70,7 @@ export default function WeeklyPartnerPopup({
   const [isOpen, setIsOpen] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(5);
-  
+
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const handleCtaClick = (e: React.MouseEvent) => {
@@ -160,7 +160,7 @@ export default function WeeklyPartnerPopup({
 
   const handleClose = () => {
     setIsOpen(false);
-    
+
     // Clear countdown timer immediately
     if (countdownRef.current) {
       clearInterval(countdownRef.current);
@@ -242,8 +242,8 @@ export default function WeeklyPartnerPopup({
             onClick={secondsLeft === 0 ? handleClose : undefined}
             disabled={secondsLeft > 0}
             className={`absolute top-4 ${lang === "he" || lang === "ar" ? "left-4" : "right-4"} z-20 flex items-center justify-center rounded-full transition-all duration-300 w-10 h-10 border text-white backdrop-blur-md shadow-lg
-              ${secondsLeft > 0 
-                ? "bg-black/40 border-white/10 text-slate-300 text-xs font-bold cursor-not-allowed select-none" 
+              ${secondsLeft > 0
+                ? "bg-black/40 border-white/10 text-slate-300 text-xs font-bold cursor-not-allowed select-none"
                 : "bg-black/60 hover:bg-black/80 border-white/20 cursor-pointer hover:scale-105"}`}
             aria-label={secondsLeft > 0 ? t.closeButtonAriaWaiting.replace("{seconds}", String(secondsLeft)) : t.closeButtonAriaActive}
           >

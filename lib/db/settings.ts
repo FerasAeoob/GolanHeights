@@ -11,7 +11,7 @@ export async function getSettings() {
                 specialPlacePopupPlaceId: null,
             }
         },
-        { upsert: true, new: true, lean: true }
+        { upsert: true, returnDocument: "after", lean: true }
     );
     return JSON.parse(JSON.stringify(settings));
 }

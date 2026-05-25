@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
             {
                 $addToSet: { favorites: placeId },
             },
-            { new: true }
+            { returnDocument: "after" }
         ).select("favorites");
 
         return NextResponse.json(
@@ -162,7 +162,7 @@ export async function DELETE(req: NextRequest) {
             {
                 $pull: { favorites: placeId },
             },
-            { new: true }
+            { returnDocument: "after" }
         ).select("favorites");
 
         return NextResponse.json(

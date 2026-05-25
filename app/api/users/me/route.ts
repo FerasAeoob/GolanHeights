@@ -56,7 +56,7 @@ export async function PATCH(req: NextRequest) {
             currentUser._id,
             { $set: updateFields },
             {
-                new: true,
+                returnDocument: "after",
                 runValidators: true,
             }
         ).select("-password");

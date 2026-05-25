@@ -26,11 +26,11 @@ export async function PATCH(
         const body = await req.json();
 
         const updateData: any = {};
-        
+
         if (body.status && ["new", "read", "archived"].includes(body.status)) {
             updateData.status = body.status;
         }
-        
+
         if (body.adminNote !== undefined) {
             updateData.adminNote = body.adminNote;
         }
@@ -38,7 +38,7 @@ export async function PATCH(
         const updatedMessage = await ContactMessage.findByIdAndUpdate(
             id,
             { $set: updateData },
-            { new: true, runValidators: true }
+            { returnDocument: "after", runValidators: true }
         ).lean();
 
         if (!updatedMessage) {
@@ -52,7 +52,7 @@ export async function PATCH(
     } catch (error: any) {
         if (error.message === "Unauthorized") return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
         if (error.message === "Forbidden") return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
-        
+
         console.error("[PATCH /api/admin/contact-messages/[id]] Error:", error);
         return NextResponse.json(
             { success: false, message: "Internal Server Error" },
@@ -82,7 +82,7 @@ export async function DELETE(
         const archivedMessage = await ContactMessage.findByIdAndUpdate(
             id,
             { $set: { status: "archived" } },
-            { new: true }
+            { returnDocument: "after" }
         ).lean();
 
         if (!archivedMessage) {
