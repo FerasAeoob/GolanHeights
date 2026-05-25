@@ -38,10 +38,10 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                         </div>
 
                         <h1 className="flex flex-col items-center gap-1 text-center">
-                            <span className="text-4xl md:text-7xl font-bold font-serif text-shadow-lg text-white leading-tight">
+                            <span className="text-4xl md:text-7xl font-bold text-shadow-lg text-white leading-tight">
                                 {dict.heroTitleMain}
                             </span>
-                            <span className="text-xl md:text-3xl font-bold font-serif text-shadow-lg text-emerald-500 leading-tight">
+                            <span className="text-xl md:text-3xl font-bold text-shadow-lg text-emerald-500 leading-tight">
                                 {dict.heroTitleSub}
                             </span>
                         </h1>

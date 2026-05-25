@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import { X, MapPin, Sparkles } from "lucide-react";
 
 export type SpecialPlacePopupProps = {
@@ -13,7 +12,6 @@ export type SpecialPlacePopupProps = {
   imageUrl?: string;
   href?: string;
   ctaLabel?: string;
-
   highlight?: string;
   lang?: "en" | "he" | "ar";
 };
@@ -51,7 +49,7 @@ const TRANSLATIONS = {
     closeButtonAriaActive: "إغلاق نافذة المكان المميز",
     defaultCta: "استكشف هذا المكان",
     highlightText: "اكتشاف محلي موصى به للغاية",
-  }
+  },
 };
 
 export default function WeeklyPartnerPopup({
@@ -65,6 +63,7 @@ export default function WeeklyPartnerPopup({
   lang = "en",
 }: SpecialPlacePopupProps) {
   const router = useRouter();
+
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
@@ -72,15 +71,55 @@ export default function WeeklyPartnerPopup({
 
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const handleCtaClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const isRtl = lang === "he" || lang === "ar";
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+  const displayHighlight =
+    highlight === "featured" ? t.highlightText : highlight;
+
+  const displayCtaLabel = ctaLabel || t.defaultCta;
+
+  const fontClass =
+    lang === "he"
+      ? "font-heebo"
+      : lang === "ar"
+        ? "font-tajawal"
+        : "font-outfit";
+
+  const clearCountdown = () => {
+    if (countdownRef.current) {
+      clearInterval(countdownRef.current);
+      countdownRef.current = null;
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    clearCountdown();
+
+    try {
+      const expiry = Date.now() + SUPPRESSION_DURATION;
+      localStorage.setItem(STORAGE_KEY, String(expiry));
+    } catch (error) {
+      console.warn("Failed to set localStorage: ", error);
+    }
+
+    document.body.style.overflow = "";
+
+    setTimeout(() => {
+      setShouldRender(false);
+    }, 500);
+  };
+
+  const handleCtaClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     handleClose();
+
     if (href) {
       router.push(href);
     }
   };
 
-  // Initialize and check suppression state on browser mount
   useEffect(() => {
     setMounted(true);
 
@@ -89,126 +128,89 @@ export default function WeeklyPartnerPopup({
       const now = Date.now();
 
       if (hiddenUntil && Number(hiddenUntil) > now) {
-        // Still within 10-minute suppression window, do not render
         return;
       }
 
-      // Safe to render, set element to DOM tree
       setShouldRender(true);
 
-      // Introduce a slight premium delay (500ms) before sliding up
       const entranceDelay = setTimeout(() => {
         setIsOpen(true);
       }, 500);
 
       return () => {
         clearTimeout(entranceDelay);
-        // Ensure timers are cleaned up if component unmounts prematurely
-        if (countdownRef.current) clearInterval(countdownRef.current);
+        clearCountdown();
       };
-    } catch (e) {
-      console.warn("Storage check failed: ", e);
+    } catch (error) {
+      console.warn("Storage check failed: ", error);
     }
   }, []);
 
-  // 🔒 Lock body scrolling when modal is open, and cleanly restore on close or unmount
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
 
-  // ⏱️ Start countdown ONLY when popup opens
   useEffect(() => {
-    if (isOpen) {
-      // Countdown interval ticking every 1 second
-      setSecondsLeft(5);
-      countdownRef.current = setInterval(() => {
-        setSecondsLeft((prev) => {
-          if (prev <= 1) {
-            if (countdownRef.current) {
-              clearInterval(countdownRef.current);
-            }
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
+    if (!isOpen) return;
 
-    return () => {
-      if (countdownRef.current) clearInterval(countdownRef.current);
-    };
+    setSecondsLeft(5);
+
+    countdownRef.current = setInterval(() => {
+      setSecondsLeft((previous) => {
+        if (previous <= 1) {
+          clearCountdown();
+          return 0;
+        }
+
+        return previous - 1;
+      });
+    }, 1000);
+
+    return clearCountdown;
   }, [isOpen]);
 
-  // ⌨️ Escape key dismiss listener (only allowed after countdown ends)
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && secondsLeft === 0 && isOpen) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && secondsLeft === 0 && isOpen) {
         handleClose();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen, secondsLeft]);
-
-  const handleClose = () => {
-    setIsOpen(false);
-
-    // Clear countdown timer immediately
-    if (countdownRef.current) {
-      clearInterval(countdownRef.current);
-      countdownRef.current = null;
-    }
-
-    // Save 10-minute suppression in localStorage
-    try {
-      const expiry = Date.now() + SUPPRESSION_DURATION;
-      localStorage.setItem(STORAGE_KEY, String(expiry));
-    } catch (e) {
-      console.warn("Failed to set localStorage: ", e);
-    }
-
-    // Clean up body scroll lock immediately on close
-    document.body.style.overflow = "";
-
-    // Unmount from DOM after transition out finishes (500ms)
-    setTimeout(() => {
-      setShouldRender(false);
-    }, 500);
-  };
 
   if (!mounted || !shouldRender) return null;
 
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  const displayHighlight = highlight === "featured" ? t.highlightText : highlight;
-  const displayCtaLabel = ctaLabel || t.defaultCta;
-
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm
-        transition-opacity duration-500 ease-out select-none
-        ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm transition-opacity duration-500 ease-out select-none ${fontClass} ${isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="place-title"
     >
       {/* Centered Featured Place Card */}
       <div
-        dir={lang === "he" || lang === "ar" ? "rtl" : "ltr"}
-        className={`w-full max-w-[calc(100%-1rem)] sm:max-w-[520px] rounded-[2.5rem]
-          bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 
-          shadow-2xl flex flex-col overflow-hidden relative pointer-events-auto
-          transform transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-          ${isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95 opacity-0"}`}
+        dir={isRtl ? "rtl" : "ltr"}
+        className={`pointer-events-auto relative flex w-full max-w-[calc(100%-1rem)] transform flex-col overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-gray-200 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] dark:border-slate-800/80 dark:bg-slate-900 sm:max-w-[520px] ${isOpen
+          ? "translate-y-0 scale-100 opacity-100"
+          : "translate-y-12 scale-95 opacity-0"
+          }`}
       >
-        {/* Top Image Section (Aspect 16:10) */}
-        <div className="relative w-full aspect-[16/10] overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-950">
+        {/* Top Image Section */}
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100 dark:bg-slate-950">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -219,78 +221,96 @@ export default function WeeklyPartnerPopup({
               priority
             />
           ) : (
-            // Premium Fallback Gradient
-            <div className="w-full h-full bg-gradient-to-tr from-emerald-600 via-teal-600 to-cyan-500 flex items-center justify-center">
-              <Sparkles className="w-16 h-16 text-white/30 animate-pulse" />
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-tr from-emerald-600 via-teal-600 to-cyan-500">
+              <Sparkles className="h-16 w-16 animate-pulse text-white/30" />
             </div>
           )}
-          {/* Subtle overlay gradient on image */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent" />
 
+          {/* Soft fade from image into the card body */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-gray-200 via-gray-200/70 to-transparent dark:from-slate-900 dark:via-slate-900/70" />
 
-
-          {/* Close / Countdown Button on end of image */}
+          {/* Close / Countdown Button */}
           <button
             onClick={secondsLeft === 0 ? handleClose : undefined}
             disabled={secondsLeft > 0}
-            className={`absolute top-4 ${lang === "he" || lang === "ar" ? "left-4" : "right-4"} z-20 flex items-center justify-center rounded-full transition-all duration-300 w-10 h-10 border text-white backdrop-blur-md shadow-lg
-              ${secondsLeft > 0
-                ? "bg-black/40 border-white/10 text-slate-300 text-xs font-bold cursor-not-allowed select-none"
-                : "bg-black/60 hover:bg-black/80 border-white/20 cursor-pointer hover:scale-105"}`}
-            aria-label={secondsLeft > 0 ? t.closeButtonAriaWaiting.replace("{seconds}", String(secondsLeft)) : t.closeButtonAriaActive}
+            className={`absolute top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border text-white shadow-lg backdrop-blur-md transition-all duration-300 ${isRtl ? "left-4" : "right-4"
+              } ${secondsLeft > 0
+                ? "cursor-not-allowed border-white/10 bg-black/40 text-xs font-bold text-slate-300 select-none"
+                : "cursor-pointer border-white/20 bg-black/60 hover:scale-105 hover:bg-black/80"
+              }`}
+            aria-label={
+              secondsLeft > 0
+                ? t.closeButtonAriaWaiting.replace(
+                  "{seconds}",
+                  String(secondsLeft),
+                )
+                : t.closeButtonAriaActive
+            }
           >
             {secondsLeft > 0 ? (
-              <span className="tabular-nums font-extrabold text-sm">{secondsLeft}</span>
+              <span className="text-sm font-extrabold tabular-nums">
+                {secondsLeft}
+              </span>
             ) : (
-              <X className="w-5 h-5" />
+              <X className="h-5 w-5" />
             )}
           </button>
         </div>
 
         {/* Content Section */}
-        <div className="flex flex-col gap-4 p-6 sm:p-8 text-start">
+        <div className="relative flex flex-col gap-4 p-6 text-start sm:p-8">
+          {/* Soft faded separator line */}
+          <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-slate-300/80 to-transparent dark:via-white/10" />
+
           {/* Tagline */}
-          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-extrabold text-[10px] tracking-widest uppercase">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
-            <span>{t.specialPlace}</span>
+          <div className="flex items-center gap-1.5 font-extrabold tracking-widest uppercase">
+            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+            <span className="text-[13px] text-amber-400 dark:text-amber-400">
+              {t.specialPlace}
+            </span>
           </div>
 
           {/* Title & Location */}
-          <div className="flex flex-col gap-1">
-            <h3 id="place-title" className="text-slate-900 dark:text-white font-black text-2xl tracking-tight leading-tight">
+          <div className="flex flex-col gap-4">
+            <h3
+              id="place-title"
+              className="text-2xl font-black leading-tight tracking-tight text-slate-950 dark:text-white"
+            >
               {placeName}
             </h3>
-            <div className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm flex items-center gap-1.5 font-medium">
-              <MapPin className="w-4 h-4 text-rose-500 shrink-0" />
+
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 sm:text-sm">
+              <MapPin className="h-4 w-4 shrink-0 text-slate-400 dark:text-slate-500" />
               <span>{location}</span>
             </div>
           </div>
 
           {/* Description */}
-          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
+          <p className="text-xs font-normal leading-relaxed text-slate-600 dark:text-slate-300 sm:text-sm">
             {description}
           </p>
 
-          {/* Highlight (Optional Accent Box) */}
+          {/* Highlight */}
           {displayHighlight && (
-            <div className="text-emerald-800 dark:text-emerald-300 bg-emerald-50/60 dark:bg-emerald-950/20 px-4 py-3 rounded-2xl border border-emerald-100/50 dark:border-emerald-900/30 text-xs leading-relaxed italic font-medium flex items-start gap-2">
-              <span className="text-amber-500 font-bold">★</span>
+            <div className="flex items-start gap-2 rounded-2xl border border-emerald-100/50 bg-emerald-50/60 px-4 py-3 text-xs font-medium italic leading-relaxed text-emerald-800 dark:border-emerald-900/30 dark:bg-emerald-950/20 dark:text-emerald-300">
+              <span className="font-bold text-amber-500">★</span>
               <span>{displayHighlight}</span>
             </div>
           )}
 
           {/* Action Area */}
-          <div className="w-full px-6 sm:px-8 mt-6">
-            <div className="flex w-full flex-col items-center text-center gap-4">
+          <div className="mt-6 w-full px-6 sm:px-8">
+            <div className="flex w-full flex-col items-center gap-4 text-center">
               {href && (
                 <button
                   onClick={handleCtaClick}
-                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-emerald-700 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-[#047857] py-3.5 text-center font-bold text-white shadow-[0_14px_30px_rgba(4,120,87,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#065F46] active:translate-y-0 dark:bg-emerald-600 dark:hover:bg-emerald-700"
                 >
                   {displayCtaLabel}
                 </button>
               )}
-              <p className="mx-auto mt-3 w-full max-w-[520px] text-center text-sm text-slate-400 dark:text-slate-500 font-semibold">
+
+              <p className="mx-auto mt-3 w-full max-w-[520px] text-center text-sm font-semibold text-slate-500 dark:text-slate-400">
                 {t.handpicked}
               </p>
             </div>
