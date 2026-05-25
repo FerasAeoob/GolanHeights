@@ -36,6 +36,12 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                         >
                             Messages
                         </Link>
+                        <Link
+                            href={`/${lang}/area-51-sec/popup-settings`}
+                            className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 md:px-6 py-2 rounded-lg font-medium transition-all text-center flex-1 md:flex-none"
+                        >
+                            Popup Settings
+                        </Link>
                         {canAdd && (
                             <Link
                                 href={`/${lang}/area-51-sec/new`}

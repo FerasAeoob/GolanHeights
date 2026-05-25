@@ -2,7 +2,8 @@ import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const locales = ["en", "he", "ar"];
+const locales = ["en", "he", "ar"] as const;
+type Lang = typeof locales[number];
 const ADMIN_SEGMENT = "area-51-sec";
 
 let cachedSecretValue: string | null = null;
@@ -67,6 +68,21 @@ async function checkIsAdmin(request: NextRequest): Promise<boolean> {
     }
 }
 
+function getBrowserLanguage(acceptLanguageHeader: string | null): Lang {
+    if (!acceptLanguageHeader) return "en";
+
+    const parts = acceptLanguageHeader.split(",");
+    for (const part of parts) {
+        const langPart = part.split(";")[0].trim().toLowerCase();
+        const baseLang = langPart.split("-")[0];
+        if (locales.includes(baseLang as Lang)) {
+            return baseLang as Lang;
+        }
+    }
+
+    return "en";
+}
+
 export async function proxy(request: NextRequest) {
     const isDebug = process.env.LOAD_TEST_DEBUG === "true";
     const tStart = isDebug ? performance.now() : 0;
@@ -75,6 +91,7 @@ export async function proxy(request: NextRequest) {
     let actionTaken = "skipped";
     let jwtVerified = "no";
 
+    // 1. Bypass static/public resources
     if (isBypassPath(pathname)) {
         if (isDebug) {
             const tEnd = performance.now();
@@ -83,8 +100,8 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
+    // 2. Site Lock Access Control
     const accessCode = process.env.SITE_ACCESS_CODE;
-
     if (accessCode) {
         actionTaken = "checked";
         const token = request.cookies.get("site_unlocked")?.value;
@@ -110,6 +127,7 @@ export async function proxy(request: NextRequest) {
         }
     }
 
+    // 3. API endpoints pass-through
     if (pathname.startsWith("/api/")) {
         if (isDebug) {
             const tEnd = performance.now();
@@ -118,21 +136,35 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    if (pathname.startsWith("/en")) {
-        const newPathname = pathname.replace(/^\/en/, "") || "/";
+    // 4. Localized URL redirect detection
+    const segments = pathname.split("/").filter(Boolean);
+    const hasLocale = locales.includes(segments[0] as Lang);
+
+    if (!hasLocale) {
+        // Determine user preferred language
+        let detectedLang: Lang = "en";
+        const cookieLang = request.cookies.get("preferred_language")?.value;
+
+        if (cookieLang && locales.includes(cookieLang as Lang)) {
+            detectedLang = cookieLang as Lang;
+        } else {
+            const acceptLang = request.headers.get("accept-language");
+            detectedLang = getBrowserLanguage(acceptLang);
+        }
+
+        const redirectUrl = new URL(`/${detectedLang}${pathname}`, request.url);
+        redirectUrl.search = request.nextUrl.search;
+
         if (isDebug) {
             const tEnd = performance.now();
-            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (redirect /en prefix) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=redirect (detected: ${detectedLang}) | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
         }
-        const redirectUrl = new URL(newPathname, request.url);
-        redirectUrl.search = request.nextUrl.search;
         return NextResponse.redirect(redirectUrl);
     }
 
-    const segments = pathname.split("/").filter(Boolean);
-    const hasLocale = locales.includes(segments[0]);
-    const routeSegments = hasLocale ? segments.slice(1) : segments;
-
+    // 5. Admin Authorization Route check
+    // At this stage, pathname starts with /[locale]
+    const routeSegments = segments.slice(1);
     const isAdminRoute = routeSegments[0] === ADMIN_SEGMENT;
 
     if (isAdminRoute) {
@@ -143,21 +175,11 @@ export async function proxy(request: NextRequest) {
                 const tEnd = performance.now();
                 console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=checked (unauthorized admin access) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
             }
-            const prefix = hasLocale ? `/${segments[0]}` : "";
+            const prefix = `/${segments[0]}`;
             const loginUrl = new URL(`${prefix}/login`, request.url);
             loginUrl.search = request.nextUrl.search;
             return NextResponse.redirect(loginUrl);
         }
-    }
-
-    if (!hasLocale) {
-        if (isDebug) {
-            const tEnd = performance.now();
-            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (rewrite to /en) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
-        }
-        const rewriteUrl = new URL(`/en${pathname === "/" ? "" : pathname}`, request.url);
-        rewriteUrl.search = request.nextUrl.search;
-        return NextResponse.rewrite(rewriteUrl);
     }
 
     if (isDebug) {

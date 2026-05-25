@@ -1,6 +1,38 @@
 import type { NextConfig } from "next";
 
+const allowedOrigins = [
+    "localhost:3000",
+    "192.168.0.134:3000",
+    "golanwiki.com",
+    "www.golanwiki.com",
+];
+
+const allowedDevOrigins = [
+    "localhost",
+    "192.168.0.134",
+];
+
+if (process.env.APP_URL) {
+    try {
+        const url = new URL(process.env.APP_URL);
+        if (url.host && !allowedOrigins.includes(url.host)) {
+            allowedOrigins.push(url.host);
+        }
+        if (url.hostname && !allowedDevOrigins.includes(url.hostname)) {
+            allowedDevOrigins.push(url.hostname);
+        }
+    } catch {
+        // ignore
+    }
+}
+
 const nextConfig: NextConfig = {
+    allowedDevOrigins,
+    experimental: {
+        serverActions: {
+            allowedOrigins,
+        },
+    },
     async redirects() {
         return [
             {
@@ -33,6 +65,7 @@ const nextConfig: NextConfig = {
         ];
     },
     poweredByHeader: false,
+
     images: {
         remotePatterns: [
             {

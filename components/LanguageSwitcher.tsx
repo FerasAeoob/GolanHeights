@@ -20,18 +20,11 @@ function buildPath(pathname: string, targetLang: Lang): string {
     // segments[0] is always "" (leading slash)
     const newSegments = [...segments];
 
-    // Remove or replace existing lang prefix
+    // Replace or insert the language prefix explicitly
     if (LANGS.includes(newSegments[1] as Lang)) {
-        if (targetLang === 'en') {
-            newSegments.splice(1, 1); // remove prefix → English root
-        } else {
-            newSegments[1] = targetLang;
-        }
+        newSegments[1] = targetLang;
     } else {
-        // No lang prefix present — means we are already on English root
-        if (targetLang !== 'en') {
-            newSegments.splice(1, 0, targetLang);
-        }
+        newSegments.splice(1, 0, targetLang);
     }
 
     // ── Localized place slug handling ─────────────────────────────────────────
@@ -85,8 +78,13 @@ export default function LanguageSwitcher() {
         };
     }, [isOpen]);
 
+    const setLanguageCookie = (lang: Lang) => {
+        document.cookie = `preferred_language=${lang}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
+    };
+
     const switchTo = (lang: Lang) => {
         setIsOpen(false);
+        setLanguageCookie(lang);
         if (lang === currentLang) return;
         const newPath = buildPath(pathname, lang);
         router.push(newPath);

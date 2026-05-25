@@ -8,9 +8,12 @@ import Place, { IPlace, IPlaceSerializable } from "@/database/place.model";
 import { getDictionary } from "@/lib/get-dictionary";
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
-import { perfLog } from "@/lib/perf";
 import type { Metadata } from "next";
+import { perfLog } from "@/lib/perf";
 import SeoTextSection from "@/components/homepage/SeoTextSection";
+import WeeklyPartnerPopup from "@/components/WeeklyPartnerPopup";
+import { getSettings } from "@/lib/db/settings";
+
 
 export async function generateMetadata({ params }: { params: { lang: 'en' | 'ar' | 'he' } }): Promise<Metadata> {
     const { lang } = await params;
@@ -48,14 +51,27 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
         .limit(6)
         .lean();
 
+    const settingsPromise = getSettings();
+
     const t1 = performance.now();
-    const [dict, rawPlaces, currentUser] = await Promise.all([
+    const [dict, rawPlaces, currentUser, settings] = await Promise.all([
         dictPromise,
         placesPromise,
         getCurrentUser(),
+        settingsPromise,
     ]);
     const t2 = performance.now();
     perfLog(`[PERF] HOME /${lang}: dbConnect=${((dbConnected - pageStart)).toFixed(1)}ms | parallel(dict+places+auth)=${((t2 - t1)).toFixed(1)}ms | total=${((t2 - pageStart)).toFixed(1)}ms`);
+
+    let popupPlace = null;
+    if (settings?.specialPlacePopupEnabled && settings?.specialPlacePopupPlaceId) {
+        try {
+            popupPlace = await Place.findById(settings.specialPlacePopupPlaceId).lean();
+        } catch (e) {
+            console.warn("Failed to fetch featured popup place: ", e);
+        }
+    }
+
 
     ;
 
@@ -151,6 +167,18 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
             </section>
 
             <SeoTextSection dict={dict} />
+            {popupPlace && (
+                <WeeklyPartnerPopup
+                    placeName={popupPlace.title[lang] || popupPlace.title.en}
+                    location={popupPlace.location?.name?.[lang] || popupPlace.location?.name?.en || "Golan Heights"}
+                    category={popupPlace.category}
+                    highlight={popupPlace.featured ? "featured" : undefined}
+                    description={popupPlace.shortDescription?.[lang] || popupPlace.shortDescription?.en || popupPlace.description?.[lang] || popupPlace.description?.en || ""}
+                    imageUrl={popupPlace.images?.[0]?.url}
+                    href={`/${lang}/places/${popupPlace.slug[lang] || popupPlace.slug.en}`}
+                    lang={lang}
+                />
+            )}
         </main >
     );
 }
