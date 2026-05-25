@@ -280,18 +280,20 @@ export default function WeeklyPartnerPopup({
           )}
 
           {/* Action Area */}
-          <div className="flex flex-col gap-2 mt-2">
-            {href && (
-              <button
-                onClick={handleCtaClick}
-                className="w-full py-3.5 rounded-2xl text-white font-extrabold text-xs sm:text-sm transition-all duration-300 shadow-xl bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-700 hover:scale-[1.01] shadow-emerald-700/20 hover:shadow-emerald-700/30 text-center uppercase tracking-wider cursor-pointer"
-              >
-                {displayCtaLabel}
-              </button>
-            )}
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center font-semibold">
-              {t.handpicked}
-            </p>
+          <div className="w-full px-6 sm:px-8 mt-6">
+            <div className="flex w-full flex-col items-center text-center gap-4">
+              {href && (
+                <button
+                  onClick={handleCtaClick}
+                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-emerald-700 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                >
+                  {displayCtaLabel}
+                </button>
+              )}
+              <p className="mx-auto mt-3 w-full max-w-[520px] text-center text-sm text-slate-400 dark:text-slate-500 font-semibold">
+                {t.handpicked}
+              </p>
+            </div>
           </div>
         </div>
       </div>
