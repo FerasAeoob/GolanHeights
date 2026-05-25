@@ -13,7 +13,7 @@ export type SpecialPlacePopupProps = {
   imageUrl?: string;
   href?: string;
   ctaLabel?: string;
-  category?: string;
+
   highlight?: string;
   lang?: "en" | "he" | "ar";
 };
@@ -61,7 +61,6 @@ export default function WeeklyPartnerPopup({
   imageUrl,
   href,
   ctaLabel,
-  category,
   highlight,
   lang = "en",
 }: SpecialPlacePopupProps) {
@@ -228,14 +227,7 @@ export default function WeeklyPartnerPopup({
           {/* Subtle overlay gradient on image */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent" />
 
-          {/* Category Badge on start of image */}
-          {category && (
-            <div className={`absolute top-4 ${lang === "he" || lang === "ar" ? "right-4" : "left-4"} z-10`}>
-              <span className="px-3.5 py-1.5 rounded-full text-[10px] font-extrabold tracking-wider text-emerald-800 dark:text-emerald-300 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md uppercase border border-white/20 shadow-sm">
-                {category}
-              </span>
-            </div>
-          )}
+
 
           {/* Close / Countdown Button on end of image */}
           <button

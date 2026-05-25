@@ -171,7 +171,6 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                 <WeeklyPartnerPopup
                     placeName={popupPlace.title[lang] || popupPlace.title.en}
                     location={popupPlace.location?.name?.[lang] || popupPlace.location?.name?.en || "Golan Heights"}
-                    category={popupPlace.category ? ((dict.categories as Record<string, string>)?.[popupPlace.category] || popupPlace.category) : undefined}
                     highlight={popupPlace.featured ? "featured" : undefined}
                     description={popupPlace.shortDescription?.[lang] || popupPlace.shortDescription?.en || popupPlace.description?.[lang] || popupPlace.description?.en || ""}
                     imageUrl={popupPlace.images?.[0]?.url}
