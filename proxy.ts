@@ -136,12 +136,16 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 4. Localized URL redirect detection
-    const segments = pathname.split("/").filter(Boolean);
-    const hasLocale = locales.includes(segments[0] as Lang);
+    // 4. Handle exact /en prefix cleanup
+    if (pathname === '/en' || pathname.startsWith('/en/')) {
+        const newPath = pathname.replace(/^\/en/, '') || '/';
+        const redirectUrl = new URL(newPath, request.url);
+        redirectUrl.search = request.nextUrl.search;
+        return NextResponse.redirect(redirectUrl);
+    }
 
-    if (!hasLocale) {
-        // Determine user preferred language
+    // 5. Root-only preferred language detection
+    if (pathname === '/') {
         let detectedLang: Lang = "en";
         const cookieLang = request.cookies.get("preferred_language")?.value;
 
@@ -152,19 +156,23 @@ export async function proxy(request: NextRequest) {
             detectedLang = getBrowserLanguage(acceptLang);
         }
 
-        const redirectUrl = new URL(`/${detectedLang}${pathname}`, request.url);
-        redirectUrl.search = request.nextUrl.search;
-
-        if (isDebug) {
-            const tEnd = performance.now();
-            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=redirect (detected: ${detectedLang}) | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+        if (detectedLang === "he" || detectedLang === "ar") {
+            const redirectUrl = new URL(`/${detectedLang}`, request.url);
+            redirectUrl.search = request.nextUrl.search;
+            if (isDebug) {
+                const tEnd = performance.now();
+                console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=redirect (root preferred: ${detectedLang}) | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+            }
+            return NextResponse.redirect(redirectUrl);
         }
-        return NextResponse.redirect(redirectUrl);
     }
 
-    // 5. Admin Authorization Route check
-    // At this stage, pathname starts with /[locale]
-    const routeSegments = segments.slice(1);
+    // 6. Admin Authorization Route check
+    const isHebrewOrArabic = pathname === '/he' || pathname.startsWith('/he/') || pathname === '/ar' || pathname.startsWith('/ar/');
+    const segments = pathname.split('/').filter(Boolean);
+    
+    // If it's he/ar, the first segment is the locale. Otherwise, it's English, so the first segment is the actual route.
+    const routeSegments = isHebrewOrArabic ? segments.slice(1) : segments;
     const isAdminRoute = routeSegments[0] === ADMIN_SEGMENT;
 
     if (isAdminRoute) {
@@ -175,18 +183,29 @@ export async function proxy(request: NextRequest) {
                 const tEnd = performance.now();
                 console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=checked (unauthorized admin access) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
             }
-            const prefix = `/${segments[0]}`;
+            const prefix = isHebrewOrArabic ? `/${segments[0]}` : '';
             const loginUrl = new URL(`${prefix}/login`, request.url);
             loginUrl.search = request.nextUrl.search;
             return NextResponse.redirect(loginUrl);
         }
     }
 
+    // 7. Pass through /he and /ar, rewrite everything else to /en/...
+    if (isHebrewOrArabic) {
+        if (isDebug) {
+            const tEnd = performance.now();
+            console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=pass-through (he/ar) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+        }
+        return NextResponse.next();
+    }
+
     if (isDebug) {
         const tEnd = performance.now();
-        console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=${actionTaken} (pass through) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
+        console.log(`[DEBUG] middleware/proxy: path=${pathname} | action=rewrite (to /en) | jwtVerified=${jwtVerified} | elapsed=${(tEnd - tStart).toFixed(2)}ms`);
     }
-    return NextResponse.next();
+    const url = request.nextUrl.clone();
+    url.pathname = `/en${pathname}`;
+    return NextResponse.rewrite(url);
 }
 
 export const config = {
