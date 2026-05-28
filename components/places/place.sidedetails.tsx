@@ -36,7 +36,7 @@ export default function PlaceDetails({
         ? rawInstagramHandle.startsWith("@")
             ? rawInstagramHandle
             : `@${rawInstagramHandle}`
-        : "Instagram";
+        : (dict.instagram || "Instagram");
 
     const instagramElement = instagram && (
         <div className="flex items-center gap-3">
