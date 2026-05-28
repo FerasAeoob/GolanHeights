@@ -76,11 +76,12 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
     ;
 
     // 🟢 FIX 2: Added 'any' (or you can use 'IPlace') so ESLint doesn't complain
-    const places: IPlaceSerializable[] = rawPlaces.map((place: IPlace) => ({
+    const places: IPlaceSerializable[] = rawPlaces.map((place: any) => ({
         ...place,
         _id: String(place._id),
         createdAt: place.createdAt ? String(place.createdAt) : undefined,
         updatedAt: place.updatedAt ? String(place.updatedAt) : undefined,
+        ownerId: place.ownerId ? String(place.ownerId) : null,
     }));
 
     return (

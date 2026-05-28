@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const allowedOrigins = [
     "localhost:3000",
     "192.168.0.134:3000",
+    "192.168.0.129:3000",
     "golanwiki.com",
     "www.golanwiki.com",
 ];
@@ -10,6 +11,7 @@ const allowedOrigins = [
 const allowedDevOrigins = [
     "localhost",
     "192.168.0.134",
+    "192.168.0.129",
 ];
 
 if (process.env.APP_URL) {

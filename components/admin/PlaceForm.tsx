@@ -54,6 +54,7 @@ interface PlaceFormData {
         instagramHandle?: string;
     };
     featured: boolean;
+    ownerEmail: string;
 }
 
 interface PlaceFormProps {
@@ -78,6 +79,7 @@ const EMPTY_FORM: PlaceFormData = {
     location: { lat: 0, lng: 0, name: { en: '', he: '', ar: '' } },
     contact: { phone: '', website: '', instagram: '', instagramHandle: '' },
     featured: false,
+    ownerEmail: '',
 };
 
 const CATEGORIES = CATEGORY_SLUGS;
@@ -127,6 +129,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                 instagramHandle: initialData.contact?.instagramHandle || initialData.instagramHandle || initialData.instagram?.handle || '',
             },
             featured: initialData.featured || false,
+            ownerEmail: initialData.ownerEmail || '',  // pre-filled from DB lookup
         };
     });
 
@@ -424,6 +427,31 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                     className="w-5 h-5 accent-blue-600 rounded cursor-pointer"
                                 />
                                 <label htmlFor="featured" className="text-sm font-semibold text-slate-700 cursor-pointer">⭐ Featured Place</label>
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                                    Owner Email <span className="text-xs text-slate-400 font-normal">(optional — business user email)</span>
+                                </label>
+                                <input
+                                    type="email"
+                                    value={form.ownerEmail}
+                                    onChange={e => setForm(prev => ({ ...prev, ownerEmail: e.target.value }))}
+                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                                    placeholder="owner@example.com"
+                                    dir="ltr"
+                                />
+                                {mode === 'edit' && initialData?.ownerEmail && (
+                                    <p className="mt-1.5 text-xs text-slate-500 flex items-center gap-1">
+                                        <span className="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        Current owner: <span className="font-medium text-slate-700">{initialData.ownerEmail}</span>
+                                        {form.ownerEmail !== initialData.ownerEmail && form.ownerEmail && (
+                                            <span className="ml-1 text-amber-600 font-medium">→ will change to: {form.ownerEmail}</span>
+                                        )}
+                                    </p>
+                                )}
+                                {mode === 'edit' && !initialData?.ownerEmail && (
+                                    <p className="mt-1.5 text-xs text-slate-400">No owner assigned. Enter an email to assign one.</p>
+                                )}
                             </div>
                         </div>
 

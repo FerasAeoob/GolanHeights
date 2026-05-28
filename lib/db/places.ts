@@ -19,8 +19,16 @@ export async function getPlaces() {
  */
 export async function getPlaceById(id: string) {
     await connectDB();
-    const place = await Place.findById(id).lean();
+    const place = await Place.findById(id).lean() as any;
     if (!place) return null;
+
+    // Populate owner email for the admin edit form
+    if (place.ownerId) {
+        const User = (await import("@/database/user/user.model")).default;
+        const owner = await User.findById(place.ownerId).select('email').lean<{ email: string }>();
+        place.ownerEmail = owner?.email ?? '';
+    }
+
     return JSON.parse(JSON.stringify(place)); // Serialize ObjectIds
 }
 

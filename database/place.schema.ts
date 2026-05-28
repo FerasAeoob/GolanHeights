@@ -120,6 +120,7 @@ export const UpdatePlaceSchema = z.object({
     mapLink: z.string().optional(),
 
     featured: z.boolean().optional().default(false),
+    ownerId: z.string().regex(/^[a-f\d]{24}$/i, "INVALID_OWNER_ID").nullable().optional(),
 });
 export const createplaceschema = z.object({
     title: z
@@ -198,7 +199,8 @@ export const createplaceschema = z.object({
     price: z.string().optional(),
     mapLink: z.string().optional(),
 
-    featured: z.boolean().optional().default(false)
+    featured: z.boolean().optional().default(false),
+    ownerId: z.string().regex(/^[a-f\d]{24}$/i, "INVALID_OWNER_ID").nullable().optional(),
 });
 
 /**

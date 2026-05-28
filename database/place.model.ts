@@ -55,6 +55,12 @@ export interface IPlaceBase {
   instagramHandle?: string;
 
   featured: boolean;
+
+  /**
+   * PlaceOwner relation — optional reference to the User who owns this place.
+   * null when the place has no owner or the owner has been deleted (SetNull).
+   */
+  ownerId?: mongoose.Types.ObjectId | null;
 }
 
 export interface IPlace extends Document, IPlaceBase {
@@ -65,10 +71,12 @@ export interface IPlace extends Document, IPlaceBase {
 /**
  * Interface representing a plain JS object (Serializable) for a Place.
  */
-export interface IPlaceSerializable extends IPlaceBase {
+export interface IPlaceSerializable extends Omit<IPlaceBase, "ownerId"> {
   _id: string;
   createdAt?: string;
   updatedAt?: string;
+  /** PlaceOwner relation — serialized as string or null (ObjectId.toString()) */
+  ownerId?: string | null;
 }
 
 const PlaceSchema: Schema = new Schema(
@@ -158,6 +166,16 @@ const PlaceSchema: Schema = new Schema(
     mapLink: { type: String, trim: true },
 
     featured: { type: Boolean, default: false },
+
+    /**
+     * PlaceOwner relation — optional reference to User.
+     * ref: "User" | onDelete: SetNull (handled via User pre-hook)
+     */
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   { timestamps: true }
 );
@@ -169,6 +187,7 @@ PlaceSchema.index({ category: 1 });
 PlaceSchema.index({ featured: 1 });
 PlaceSchema.index({ averageRating: -1, reviewsCount: -1 });
 PlaceSchema.index({ createdAt: -1 });
+PlaceSchema.index({ ownerId: 1 }); // PlaceOwner: fetch all places for a given owner
 
 /**
  * Pre-validate hook: slug generation from English title
@@ -197,7 +216,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
   // }
   if (this.isModified("title")) {
     if (this.title.en) {
-        this.slug.en = generateEnglishSlug(this.title.en);
+      this.slug.en = generateEnglishSlug(this.title.en);
     }
   }
 
@@ -212,7 +231,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
 if (mongoose.models.Place) {
   const paths = mongoose.models.Place.schema.paths;
-  if (!paths['instagramHandle'] || !paths['contact.instagramHandle']) {
+  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['ownerId']) {
     delete mongoose.models.Place;
   }
 }

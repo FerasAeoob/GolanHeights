@@ -9,6 +9,23 @@ import { generateEnglishSlug } from "@/utils/slug";
 
 import { getCurrentUser } from "@/lib/auth";
 import { isAdmin, isOwner } from "@/lib/permissions";
+import User from "@/database/user/user.model";
+
+/**
+ * HELPER: Resolves an email string to a User ObjectId.
+ * Returns { ownerId } on success, { errorCode } on failure.
+ */
+async function resolveOwnerEmail(email: string): Promise<{ ownerId: string } | { errorCode: string }> {
+    const user = await User.findOne({ email: email.trim().toLowerCase() }).select('_id role').lean<{ _id: any; role: string }>();
+    if (!user) return { errorCode: 'OWNER_EMAIL_NOT_FOUND' };
+
+    // Auto-promote to business role when assigned as a place owner
+    if (user.role !== 'business' && user.role !== 'admin') {
+        await User.updateOne({ _id: user._id }, { $set: { role: 'business' } });
+    }
+
+    return { ownerId: user._id.toString() };
+}
 
 /**
  * HELPER: Verifies if the request is from an authenticated Admin.
@@ -64,6 +81,14 @@ export async function createPlaceAction(data: any) {
         }
 
         const validatedData = validation.data;
+
+        // Resolve ownerEmail → ownerId before saving
+        const ownerEmail: string | undefined = (data as any).ownerEmail?.trim();
+        if (ownerEmail) {
+            const resolved = await resolveOwnerEmail(ownerEmail);
+            if ('errorCode' in resolved) return resolved;
+            validatedData.ownerId = resolved.ownerId;
+        }
         const enSlug = generateEnglishSlug(validatedData.title.en);
 
         // 2a. Explicit uniqueness checks so the user gets friendly errors
@@ -123,6 +148,15 @@ export async function updatePlaceAction(id: string, data: any) {
         if (!validation.success) {
             return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
         }
+
+        // Resolve ownerEmail → ownerId before saving
+        const ownerEmail: string | undefined = (data as any).ownerEmail?.trim();
+        if (ownerEmail) {
+            const resolved = await resolveOwnerEmail(ownerEmail);
+            if ('errorCode' in resolved) return resolved;
+            data.ownerId = resolved.ownerId;
+        }
+        delete (data as any).ownerEmail;
 
         const existingPlace = await Place.findById(id);
         if (!existingPlace) return { errorCode: "PLACE_NOT_FOUND" };

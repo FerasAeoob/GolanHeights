@@ -128,6 +128,21 @@ UserSchema.methods.comparePassword = async function (candidate: string) {
     return argon2.verify(this.password, candidate);
 };
 
+/**
+ * PlaceOwner — onDelete: SetNull
+ * When a User is deleted, null-out ownerId on all their owned Places.
+ */
+async function nullifyOwnedPlaces(this: mongoose.Query<unknown, IUser>) {
+    const user = await this.model.findOne(this.getFilter()).lean<{ _id: mongoose.Types.ObjectId }>();
+    if (user) {
+        const Place = mongoose.models.Place || mongoose.model("Place");
+        await Place.updateMany({ ownerId: user._id }, { $set: { ownerId: null } });
+    }
+}
+
+UserSchema.pre("findOneAndDelete", nullifyOwnedPlaces);
+UserSchema.pre("deleteOne", { document: false, query: true }, nullifyOwnedPlaces);
+
 const User: Model<IUser> =
     mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 
