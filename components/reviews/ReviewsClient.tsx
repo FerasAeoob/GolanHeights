@@ -18,12 +18,18 @@ interface ReviewItem {
     text: string;
     createdAt: string;
     updatedAt: string;
+    reply?: {
+        text: string;
+        userId: string;
+        createdAt: string;
+    } | null;
 }
 
 interface ReviewsClientProps {
     placeId: string;
     currentUserId?: string;
     currentUserRole?: "user" | "admin" | "business";
+    placeOwnerId?: string;
     dict?: any;
 }
 
@@ -31,6 +37,7 @@ export default function ReviewsClient({
     placeId,
     currentUserId,
     currentUserRole,
+    placeOwnerId,
     dict,
 }: ReviewsClientProps) {
     const [reviews, setReviews] = useState<ReviewItem[]>([]);
@@ -41,6 +48,9 @@ export default function ReviewsClient({
     const [deletingReviewId, setDeletingReviewId] = useState<string | null>(null);
     const [error, setError] = useState("");
     const [isEditing, setIsEditing] = useState(false);
+    const [replyingToId, setReplyingToId] = useState<string | null>(null);
+    const [replyText, setReplyText] = useState("");
+    const [replySubmitting, setReplySubmitting] = useState(false);
     const latestReviewsMarkerRef = useRef<string | null>(null);
     const currentUserReview = useMemo(() => {
         return reviews.find((review) => review.userId?._id === currentUserId);
@@ -152,7 +162,7 @@ export default function ReviewsClient({
         e.preventDefault();
 
         if (!currentUserId) {
-            setError(dict?.errors?.UNAUTHORIZED || "You must be logged in to leave a review");
+            setError(dict?.errors?.LOGIN_REQUIRED || "You must be logged in to leave a review");
             return;
         }
 
@@ -181,7 +191,11 @@ export default function ReviewsClient({
 
             if (!res.ok) {
                 const code = data.errorCode || "REVIEW_SAVE_FAILED";
-                setError(dict?.errors?.[code] || dict?.errors?.REVIEW_SAVE_FAILED || "Failed to save review");
+                if (code === "UNAUTHORIZED") {
+                    setError(dict?.errors?.LOGIN_REQUIRED || "You must be logged in to leave a review");
+                } else {
+                    setError(dict?.errors?.[code] || dict?.errors?.REVIEW_SAVE_FAILED || "Failed to save review");
+                }
                 return;
             }
 
@@ -243,6 +257,51 @@ export default function ReviewsClient({
         const isOwner = review.userId?._id === currentUserId;
         const isAdmin = currentUserRole === "admin";
         return isOwner || isAdmin;
+    }
+
+    // Can reply = admin OR place owner
+    const canReply = currentUserRole === "admin" || (!!currentUserId && currentUserId === placeOwnerId);
+
+    async function handleReply(reviewId: string) {
+        if (!replyText.trim()) return;
+        try {
+            setReplySubmitting(true);
+            const res = await fetch(`/api/reviews/${reviewId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: replyText.trim() }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                setError(data.errorCode || "Failed to post reply");
+                return;
+            }
+            setReviews(prev => prev.map(r =>
+                r._id === reviewId ? { ...r, reply: data.reply } : r
+            ));
+            setReplyingToId(null);
+            setReplyText("");
+        } catch {
+            setError("Something went wrong");
+        } finally {
+            setReplySubmitting(false);
+        }
+    }
+
+    async function handleDeleteReply(reviewId: string) {
+        try {
+            const res = await fetch(`/api/reviews/${reviewId}`, { method: "PATCH" });
+            if (!res.ok) {
+                const data = await res.json();
+                setError(data.errorCode || "Failed to delete reply");
+                return;
+            }
+            setReviews(prev => prev.map(r =>
+                r._id === reviewId ? { ...r, reply: null } : r
+            ));
+        } catch {
+            setError("Something went wrong");
+        }
     }
 
     function startEditReview() {
@@ -461,6 +520,75 @@ export default function ReviewsClient({
                                 </div>
 
                                 <p className="text-sm leading-6 text-gray-800 break-words whitespace-pre-wrap">{review.text}</p>
+
+                                {/* ─── Reply block ─── */}
+                                {review.reply && (
+                                    <div className="mt-3 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
+                                        <div className="flex items-center justify-between mb-1">
+                                            <p className="text-xs font-semibold text-emerald-700">
+                                                {review.reply.userId === placeOwnerId
+                                                    ? (dict?.reviews?.ownerReply || "Owner Reply")
+                                                    : (dict?.reviews?.adminReply || "Admin Reply")}
+                                            </p>
+                                            {review.reply.userId === currentUserId && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeleteReply(review._id)}
+                                                    className="flex items-center gap-1 text-xs text-red-500 hover:underline"
+                                                >
+                                                    <Trash2 className="w-3 h-3" /> {dict?.reviews?.deleteReply || "Delete"}
+                                                </button>
+                                            )}
+                                        </div>
+                                        <p className="text-sm text-gray-800 leading-6 break-words whitespace-pre-wrap">{review.reply.text}</p>
+                                        <p className="text-xs text-gray-400 mt-1">{new Date(review.reply.createdAt).toLocaleString()}</p>
+                                    </div>
+                                )}
+
+                                {/* ─── Reply input (eligible users only) ─── */}
+                                {canReply && (!review.reply || review.reply.userId === currentUserId) && (
+                                    replyingToId === review._id ? (
+                                        <div className="mt-3 flex flex-col gap-2">
+                                            <textarea
+                                                value={replyText}
+                                                onChange={e => setReplyText(e.target.value)}
+                                                placeholder={dict?.reviews?.replyPlaceholder || "Write your reply..."}
+                                                className="w-full rounded-xl border border-emerald-300 p-3 text-sm outline-none focus:ring-2 focus:ring-emerald-600 min-h-[80px]"
+                                            />
+                                            <div className="flex gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleReply(review._id)}
+                                                    disabled={replySubmitting}
+                                                    className="rounded-xl bg-emerald-700 px-4 py-1.5 text-sm text-white disabled:opacity-50"
+                                                >
+                                                    {replySubmitting
+                                                        ? (dict?.reviews?.savingReply || "Saving...")
+                                                        : review.reply
+                                                            ? (dict?.reviews?.updateReply || "Update Reply")
+                                                            : (dict?.reviews?.postReply || "Post Reply")}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => { setReplyingToId(null); setReplyText(""); }}
+                                                    className="rounded-xl border border-gray-300 px-4 py-1.5 text-sm"
+                                                >
+                                                    {dict?.reviews?.cancelButton || "Cancel"}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            onClick={() => { setReplyingToId(review._id); setReplyText(review.reply?.text || ""); }}
+                                            className="mt-2 text-xs text-emerald-700 hover:underline font-medium"
+                                        >
+                                            {review.reply
+                                                ? (dict?.reviews?.editReply || "Edit Reply")
+                                                : (dict?.reviews?.reply || "Reply")}
+                                        </button>
+                                    )
+                                )}
                             </div>
                         );
                     })

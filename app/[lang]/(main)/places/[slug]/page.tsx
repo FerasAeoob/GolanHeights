@@ -171,6 +171,7 @@ export default async function PlacePage({ params }: PageProps) {
                     placeId={place._id.toString()}
                     currentUserId={currentUser?._id}
                     currentUserRole={currentUser?.role}
+                    placeOwnerId={place.ownerId?.toString()}
                     dict={dict}
                 />
 
