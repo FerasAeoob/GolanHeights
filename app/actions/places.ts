@@ -88,6 +88,8 @@ export async function createPlaceAction(data: any) {
             const resolved = await resolveOwnerEmail(ownerEmail);
             if ('errorCode' in resolved) return resolved;
             validatedData.ownerId = resolved.ownerId;
+        } else {
+            validatedData.ownerId = null;
         }
         const enSlug = generateEnglishSlug(validatedData.title.en);
 
@@ -155,6 +157,8 @@ export async function updatePlaceAction(id: string, data: any) {
             const resolved = await resolveOwnerEmail(ownerEmail);
             if ('errorCode' in resolved) return resolved;
             data.ownerId = resolved.ownerId;
+        } else {
+            data.ownerId = null;
         }
         delete (data as any).ownerEmail;
 
