@@ -83,7 +83,7 @@ export default function WeeklyPartnerPopup({
     lang === "he"
       ? "font-heebo"
       : lang === "ar"
-        ? "font-tajawal"
+        ? "font-arabic"
         : "font-outfit";
 
   const clearCountdown = () => {

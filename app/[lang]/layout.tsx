@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Heebo, Tajawal } from "next/font/google";
+import { Outfit, Heebo, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "@/app/globals.css";
 import { PostHogProvider } from "@/app/providers";
 import { PostHogPageView } from "@/app/pageview";
@@ -18,11 +18,11 @@ const heebo = Heebo({
   display: 'swap',
 });
 
-const tajawal = Tajawal({
-  variable: "--font-tajawal",
-  subsets: ["latin", "arabic"],
-  weight: ['400', '500', '700'],
-  display: 'swap',
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-arabic-font",
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -59,12 +59,12 @@ export default async function RootLayout({
   let fontClass = "font-sans";
   if (locale === "en") fontClass = "font-outfit";
   if (locale === "he") fontClass = "font-heebo";
-  if (locale === "ar") fontClass = "font-tajawal";
+  if (locale === "ar") fontClass = "font-arabic";
 
   return (
     <html lang={lang} dir={dir} >
       <body
-        className={`${outfit.variable} ${heebo.variable} ${tajawal.variable} ${fontClass} antialiased flex flex-col min-h-screen`}
+        className={`${outfit.variable} ${heebo.variable} ${ibmPlexSansArabic.variable} ${fontClass} antialiased flex flex-col min-h-screen`}
       >
         <PostHogProvider>
           <Suspense fallback={null}>

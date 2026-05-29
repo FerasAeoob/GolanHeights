@@ -11,7 +11,7 @@
 @theme {
   --font-outfit: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-heebo: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
-  --font-tajawal: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-arabic-font), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* modern cool font stack applied via Tailwind class dynamically */
@@ -64,10 +64,11 @@ html[lang="he"] {
   font-size: 96%;
 }
 
-/* Arabic Normalization (Tajawal) */
+/* Arabic Normalization (IBM Plex Sans Arabic) */
 html[lang="ar"] {
-  /* Tajawal glyphs are visually ~8% larger than Outfit. This achieves parity. */
+  /* IBM Plex Sans Arabic is configured dynamically. Keep baseline font-size at 92%. */
   font-size: 92%;
+  font-family: var(--font-arabic-font), sans-serif;
 }
 
 /* Global Font Metric Adjustments for Perfect Vertical Rhythm */
@@ -76,8 +77,9 @@ html[lang="ar"] {
   letter-spacing: -0.01em;
 }
 
-.font-tajawal {
-  line-height: 1.5;
+.font-arabic {
+  font-family: var(--font-arabic-font), sans-serif;
+  line-height: 1.7;
   letter-spacing: 0;
 }
 

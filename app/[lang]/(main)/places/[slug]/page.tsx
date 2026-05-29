@@ -162,6 +162,8 @@ export default async function PlacePage({ params }: PageProps) {
                         duration={place.duration}
                         dict={dict}
                         mapLink={place.mapLink}
+                        latitude={place.location?.lat}
+                        longitude={place.location?.lng}
                         instagram={place.instagram?.url || place.instagramUrl || place.contact?.instagram}
                         instagramHandle={place.instagram?.handle || place.instagramHandle || place.contact?.instagramHandle}
                     />
