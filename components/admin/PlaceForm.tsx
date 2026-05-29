@@ -28,6 +28,7 @@ interface OpenHour {
     open: number;
     close: number;
     isClosed: boolean;
+    is24Hours?: boolean;
 }
 
 interface PlaceFormData {
@@ -112,7 +113,10 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
             mapLink: initialData.mapLink || '',
             open: initialData.open || '',
             images: initialData.images || [],
-            openHours: initialData.openHours || [],
+            openHours: (initialData.openHours || []).map((h: any) => ({
+                ...h,
+                is24Hours: !!h.is24Hours
+            })),
             location: {
                 lat: initialData.location?.lat || 0,
                 lng: initialData.location?.lng || 0,
@@ -596,14 +600,42 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                             ))}
                                         </select>
 
-                                        <label className="flex items-center gap-2 text-sm whitespace-nowrap">
+                                        <label className="flex items-center gap-2 text-sm whitespace-nowrap cursor-pointer">
                                             <input
                                                 type="checkbox"
                                                 checked={hour.isClosed}
-                                                onChange={e => updateOpenHour(index, 'isClosed', e.target.checked)}
+                                                onChange={e => {
+                                                    const closed = e.target.checked;
+                                                    updateOpenHour(index, 'isClosed', closed);
+                                                    if (closed) {
+                                                        updateOpenHour(index, 'is24Hours', false);
+                                                    }
+                                                }}
                                                 className="accent-red-500 w-4 h-4"
                                             />
                                             Closed
+                                        </label>
+
+                                        <label className="flex items-center gap-2 text-sm whitespace-nowrap cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={!!hour.is24Hours}
+                                                disabled={hour.isClosed}
+                                                onChange={e => {
+                                                    const is24 = e.target.checked;
+                                                    updateOpenHour(index, 'is24Hours', is24);
+                                                    if (is24) {
+                                                        updateOpenHour(index, 'isClosed', false);
+                                                        updateOpenHour(index, 'open', 0);
+                                                        updateOpenHour(index, 'close', 0);
+                                                    } else {
+                                                        updateOpenHour(index, 'open', 900);
+                                                        updateOpenHour(index, 'close', 1700);
+                                                    }
+                                                }}
+                                                className="accent-blue-600 w-4 h-4 disabled:opacity-50"
+                                            />
+                                            {dict?.openingHours?.twentyFourSeven || "24/7"}
                                         </label>
                                         
                                         {/* Mobile Delete Button (hidden on sm+) */}
@@ -620,15 +652,17 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                                 <input
                                                     type="time"
                                                     value={formatMilitaryTime(hour.open)}
+                                                    disabled={!!hour.is24Hours}
                                                     onChange={e => updateOpenHour(index, 'open', parseMilitaryTime(e.target.value))}
-                                                    className="flex-1 sm:flex-none px-2 py-2 rounded-lg border border-slate-200 text-sm min-w-0"
+                                                    className={`flex-1 sm:flex-none px-2 py-2 rounded-lg border border-slate-200 text-sm min-w-0 ${hour.is24Hours ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60' : ''}`}
                                                 />
-                                                <span className="text-slate-400 shrink-0">→</span>
+                                                <span className={`text-slate-400 shrink-0 ${hour.is24Hours ? 'opacity-60' : ''}`}>→</span>
                                                 <input
                                                     type="time"
                                                     value={formatMilitaryTime(hour.close)}
+                                                    disabled={!!hour.is24Hours}
                                                     onChange={e => updateOpenHour(index, 'close', parseMilitaryTime(e.target.value))}
-                                                    className="flex-1 sm:flex-none px-2 py-2 rounded-lg border border-slate-200 text-sm min-w-0"
+                                                    className={`flex-1 sm:flex-none px-2 py-2 rounded-lg border border-slate-200 text-sm min-w-0 ${hour.is24Hours ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60' : ''}`}
                                                 />
                                             </div>
                                         )}

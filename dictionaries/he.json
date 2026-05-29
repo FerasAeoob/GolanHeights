@@ -87,7 +87,8 @@
         "closed": "סגור",
         "openNow": "פתוח עכשיו",
         "closingSoon": "נסגר בקרוב",
-        "separator": " | "
+        "separator": " | ",
+        "twentyFourSeven": "24/7"
     },
     "days": {
         "sun": "א",

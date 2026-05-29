@@ -87,7 +87,8 @@
         "closed": "مغلق",
         "openNow": "مفتوح الآن",
         "closingSoon": "يغلق قريباً",
-        "separator": " | "
+        "separator": " | ",
+        "twentyFourSeven": "24/7"
     },
     "days": {
         "sun": "الأحد",

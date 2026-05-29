@@ -87,7 +87,8 @@
         "closed": "Closed",
         "openNow": "Open Now",
         "closingSoon": "Closing Soon",
-        "separator": " | "
+        "separator": " | ",
+        "twentyFourSeven": "24/7"
     },
     "days": {
         "mon": "Mon",

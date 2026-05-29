@@ -3,6 +3,7 @@ export interface IBusinessDay {
     open: number;     // e.g., 1000
     close: number;    // e.g., 2200
     isClosed: boolean;
+    is24Hours?: boolean;
 }
 
 export interface IOpeningHoursDictionary {
@@ -11,6 +12,7 @@ export interface IOpeningHoursDictionary {
     openNow: string;     // "Open Now"
     closingSoon: string; // "Closing Soon"
     separator: string;   // " | "
+    twentyFourSeven?: string;
 }
 
 export const PRICE_KEYS = ["any", "free", "low", "mid", "high"] as const;

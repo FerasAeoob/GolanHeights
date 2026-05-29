@@ -19,6 +19,7 @@ export interface IPlaceBase {
     open: number;
     close: number;
     isClosed: boolean;
+    is24Hours?: boolean;
   }[];
   open?: string;
   category: CategorySlug;
@@ -155,6 +156,7 @@ const PlaceSchema: Schema = new Schema(
           open: { type: Number, required: true },
           close: { type: Number, required: true },
           isClosed: { type: Boolean, default: false },
+          is24Hours: { type: Boolean, default: false },
         }
       ],
       default: []
@@ -231,7 +233,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
 if (mongoose.models.Place) {
   const paths = mongoose.models.Place.schema.paths;
-  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['ownerId']) {
+  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['ownerId'] || !paths['openHours.is24Hours']) {
     delete mongoose.models.Place;
   }
 }

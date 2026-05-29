@@ -55,3 +55,34 @@ html {
 *:after {
   box-sizing: inherit;
 }
+
+/* Language-specific layout and typography normalization */
+
+/* Hebrew Normalization (Heebo) */
+html[lang="he"] {
+  /* Heebo glyphs are visually ~4% larger than Outfit. This achieves parity. */
+  font-size: 96%;
+}
+
+/* Arabic Normalization (Tajawal) */
+html[lang="ar"] {
+  /* Tajawal glyphs are visually ~8% larger than Outfit. This achieves parity. */
+  font-size: 92%;
+}
+
+/* Global Font Metric Adjustments for Perfect Vertical Rhythm */
+.font-heebo {
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.font-tajawal {
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* Ensure flex aligned icons and text are perfectly centered in RTL */
+html[dir="rtl"] .flex.items-center svg,
+html[dir="rtl"] .inline-flex.items-center svg {
+  transform: translateY(0.5px);
+}

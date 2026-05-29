@@ -10,6 +10,7 @@ const OpeningHoursZodSchema = z.object({
     open: z.number().min(0).max(2359), // e.g., 1000 for 10:00
     close: z.number().min(0).max(2359), // e.g., 2000 for 20:00
     isClosed: z.boolean().default(false),
+    is24Hours: z.boolean().optional().default(false),
 });
 
 export const SlugSchema = z.object({
