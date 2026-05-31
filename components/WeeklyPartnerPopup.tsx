@@ -67,7 +67,7 @@ export default function WeeklyPartnerPopup({
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [secondsLeft, setSecondsLeft] = useState(3);
 
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -161,7 +161,7 @@ export default function WeeklyPartnerPopup({
   useEffect(() => {
     if (!isOpen) return;
 
-    setSecondsLeft(5);
+    setSecondsLeft(3);
 
     countdownRef.current = setInterval(() => {
       setSecondsLeft((previous) => {

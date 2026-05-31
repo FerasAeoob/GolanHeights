@@ -57,7 +57,8 @@
         "food-drink": "Food & Drink",
         "activities": "Activities",
         "stays": "Stays",
-        "scenic-spots": "Scenic Spots",
+        "holy-places": "Holy Places",
+        "cherry-picking": "Cherry Picking",
         "local-services": "Local Services"
     },
     "categoriesDesc": {
@@ -65,7 +66,8 @@
         "food-drink": "Discover the best restaurants and cafes in the Golan Heights, with a variety of cuisines and dining experiences.",
         "activities": "Discover the best activities in the Golan Heights, with a variety of options for all ages and interests.",
         "stays": "Discover the best places to stay in the Golan Heights, with a variety of options for all budgets and preferences.",
-        "scenic-spots": "Discover the best scenic spots in the Golan Heights, with a variety of viewpoints and natural landscapes.",
+        "holy-places": "Discover the historical and sacred holy places in the Golan Heights, spanning different faiths and ancient periods.",
+        "cherry-picking": "Experience the joy of cherry picking in the fertile orchards of the northern Golan Heights during the harvest season.",
         "local-services": "Useful local businesses, repairs, shops, and everyday services across the Golan."
     },
     "price": {
@@ -529,99 +531,99 @@
         "visualLabel": "Living Landscape",
         "chapters": [
             {
-                "label": "Chapter 01",
-                "category": "Ancient routes",
-                "title": "Ancient Golan",
-                "period": "Early settlement to classical antiquity",
-                "visualTitle": "Basalt, water, and first villages",
-                "visualMeta": "Fertile volcanic soil, seasonal springs, and ridge routes shaped the first patterns of settlement.",
-                "imageAlt": "Mount Bental and volcanic hills in the Golan Heights",
-                "description": "Long before modern roads, the Golan was a high plateau of basalt fields, springs, grazing land, and routes connecting the Hauran, Galilee, Damascus, and the Jordan Valley. Early communities farmed the volcanic soil, raised animals, and left traces in stone that still make the landscape feel ancient and inhabited.",
+                "label": "Chapter 01 / Origins",
+                "category": "Origins",
+                "title": "Ancient Golan & Volcanic Foundations",
+                "period": "Geology - Early Antiquity",
+                "visualTitle": "Volcanic crater, basalt fields, and ancient dolmens",
+                "visualMeta": "Basalt soils, crater formations, rugged highlands, and megalithic burial sites reveal the Golan before the classical villages.",
+                "imageAlt": "Volcanic crater, basalt field, or ancient dolmen in the Golan Heights",
+                "description": "The Golan's landscape was shaped over millions of years by volcanic activity, leaving fertile basalt soils, crater formations, and rugged highlands. Long before the classical villages, early communities crossed, farmed, and settled across this region. Bronze Age dolmens, including monumental burial structures with rare carved stone details, remain among the most powerful traces of the people who lived with this dramatic landscape.",
                 "bullets": [
-                    "Early settlements formed near water, pasture, and fertile basalt soil.",
-                    "Agriculture, grazing, and movement shaped the first village patterns.",
-                    "Ancient routes connected the plateau with nearby valleys and cities.",
-                    "Dolmens, stone walls, and basalt remains give the land its deep-time texture."
+                    "Volcanic formations and fertile basalt soil",
+                    "Early settlement and agriculture",
+                    "Bronze Age dolmens and megalithic burial sites",
+                    "Ancient routes across the plateau"
                 ]
             },
             {
-                "label": "Chapter 02",
-                "category": "Ruins and trade",
-                "title": "Roman and Byzantine Period",
-                "period": "1st century BCE to 7th century CE",
-                "visualTitle": "Villages on the crossroads",
-                "visualMeta": "Basalt architecture, trade routes, churches, synagogues, and village ruins tell a layered regional story.",
-                "imageAlt": "Ancient basalt ruins and carved stone from a Roman or Byzantine site",
-                "description": "In the Roman and Byzantine periods, the Golan became part of a busy regional world. Villages grew along travel and trade corridors, religious life left its mark in churches and synagogues, and builders shaped local basalt into doorways, columns, presses, and homes that still anchor archaeological sites across the plateau.",
+                "label": "Chapter 02 / Archaeology",
+                "category": "Archaeology",
+                "title": "Roman & Byzantine Golan",
+                "period": "1st century BCE - 7th century CE",
+                "visualTitle": "Synagogue stones, basalt columns, and Yehudiya ruins",
+                "visualMeta": "Roads, religious buildings, inscriptions, columns, and basalt craftsmanship show a layered ancient landscape.",
+                "imageAlt": "Ancient synagogue stones, basalt columns, or Yehudiya ruins in the Golan Heights",
+                "description": "During the Roman and Byzantine periods, the Golan became a region of villages, roads, religious buildings, and basalt architecture. Synagogues, churches, inscriptions, columns, and stone-built remains show a layered landscape connected to regional trade, agriculture, and faith communities. Recent archaeological discoveries, including a 1,500-year-old synagogue in the Yehudiya area, continue to reveal how active and diverse life in the ancient Golan once was.",
                 "bullets": [
-                    "Roman roads and regional trade helped villages prosper.",
-                    "Churches, synagogues, presses, and courtyards reflect a rich village life.",
-                    "Basalt stonework became a defining architectural language.",
-                    "Ruins across the Golan connect travelers with a classical and Byzantine past."
+                    "Regional trade routes",
+                    "Ancient synagogues and Byzantine churches",
+                    "Basalt stone craftsmanship",
+                    "Layered Jewish, Christian, and local cultures"
                 ]
             },
             {
-                "label": "Chapter 03",
-                "category": "Village life",
-                "title": "Medieval and Ottoman Period",
-                "period": "7th century to early 20th century",
-                "visualTitle": "Fortresses, fields, and rural rhythms",
-                "visualMeta": "Medieval routes and Ottoman-era rural life shaped patterns of farming, grazing, and local community.",
-                "imageAlt": "Old stone village lanes and agricultural terraces in the Golan region",
-                "description": "Through medieval and Ottoman centuries, the Golan remained a strategic and rural highland. Fortified sites watched over routes, while local communities lived from farming, herding, orchards, seasonal movement, and village networks. The story here is quieter: terraces, paths, stone houses, and ways of life adapted to mountain weather.",
+                "label": "Chapter 03 / Fortresses & Rural Life",
+                "category": "Fortresses & Rural Life",
+                "title": "Medieval Fortresses & Ottoman Villages",
+                "period": "7th century - early 20th century CE",
+                "visualTitle": "Nimrod Fortress above the Damascus frontier",
+                "visualMeta": "Ayyubid and Mamluk fortifications meet the quieter rhythms of Ottoman-era farming, grazing, and village life.",
+                "imageAlt": "Nimrod Fortress on the slopes above the northern Golan and Mount Hermon",
+                "description": "In the medieval period, parts of the northern Golan and Mount Hermon slopes became a strategic frontier. Nimrod Fortress, also known as Qal'at al-Subeiba, was built around 1229 in the Ayyubid period as a defensive stronghold against a possible Crusader advance toward Damascus, and was later expanded under the Mamluks. Under Ottoman rule, much of the region was shaped by rural villages, farming, grazing, and seasonal movement.",
                 "bullets": [
-                    "Medieval fortifications guarded routes through the northern Golan.",
-                    "Rural communities depended on crops, animals, water, and seasonal movement.",
-                    "Old village layouts followed the shape of land, spring, and field.",
-                    "Ottoman-era patterns still echo in paths, terraces, and place names."
+                    "Nimrod Fortress and the Damascus frontier",
+                    "Ayyubid and Mamluk military architecture",
+                    "Farming, grazing, and village life",
+                    "Rural communities under Ottoman rule"
                 ]
             },
             {
-                "label": "Chapter 04",
+                "label": "Chapter 04 / Culture",
                 "category": "Culture",
-                "title": "Druze Heritage",
-                "period": "11th century to today",
-                "visualTitle": "Mountain identity and hospitality",
-                "visualMeta": "Majdal Shams, Masade, Buqata, and Ein Qiniyye preserve a living culture of food, family, orchards, and mountain belonging.",
-                "imageAlt": "Druze villages, orchards, and Mount Hermon slopes in the northern Golan",
-                "description": "On the slopes below Mount Hermon, Druze communities have carried a distinct mountain culture through generations. Majdal Shams, Masade, Buqata, and Ein Qiniyye are known for hospitality, local food, orchards, family traditions, and a strong sense of identity tied to the high landscape.",
+                "title": "Living Druze Culture & Mountain Villages",
+                "period": "11th century roots - present",
+                "visualTitle": "Villages, orchards, family tables, and Mount Hermon views",
+                "visualMeta": "Majdal Shams, Mas'ade, Buq'ata, and Ein Qiniyye preserve a living mountain culture of faith, food, hospitality, and orchards.",
+                "imageAlt": "Druze village street, apple orchard, family table, or Mount Hermon view",
+                "description": "The Druze faith traces its roots to the 11th century, while the Druze story in the Golan and Hermon slopes developed over centuries through migration, family networks, mountain life, and local memory. Today, the northern Golan villages of Majdal Shams, Mas'ade, Buq'ata, and Ein Qiniyye preserve a distinct culture shaped by faith, hospitality, food, orchards, and the rhythm of high-altitude agriculture.",
                 "bullets": [
-                    "Majdal Shams, Masade, Buqata, and Ein Qiniyye are central to northern Golan life.",
-                    "Food, hospitality, crafts, and family traditions remain part of everyday heritage.",
-                    "Apple and cherry orchards shape the seasonal rhythm of the villages.",
-                    "Mountain life connects culture, identity, climate, and landscape."
+                    "Majdal Shams, Mas'ade, Buq'ata, and Ein Qiniyye",
+                    "Mountain hospitality and local traditions",
+                    "Apple and cherry orchards",
+                    "Food, family stories, and spiritual heritage"
                 ]
             },
             {
-                "label": "Chapter 05",
-                "category": "Modern history",
-                "title": "Borders and Modern History",
-                "period": "20th century to today",
-                "visualTitle": "A border landscape with human memory",
-                "visualMeta": "Modern borders, separated families, and the Hill of Shouts are part of a sensitive history best told with care.",
-                "imageAlt": "Open border landscape and hills in the Golan Heights",
-                "description": "Modern history brought difficult changes to the Golan and to the people connected with it. The Syrian-Israeli border context, the ceasefire lines after regional wars, and stories of separated families are part of the landscape. Places such as the Hill of Shouts carry memory in a human, local way, beyond slogans.",
+                "label": "Chapter 05 / Border & Memory",
+                "category": "Border & Memory",
+                "title": "Modern History & Separated Families",
+                "period": "20th century - present",
+                "visualTitle": "The Hill of Shouts and a border landscape of memory",
+                "visualMeta": "Wars, separation lines, local Druze families, apples, students, and remembered voices form a sensitive modern chapter.",
+                "imageAlt": "Hill of Shouts, border landscape, or old family photo style near Majdal Shams",
+                "description": "The 20th century transformed the Golan's political landscape. After the 1967 war, the area came under Israeli control, and after the 1973 war, the 1974 Disengagement Agreement created a UN-monitored separation zone between Israeli and Syrian forces. For many local Druze families, the border carried a deep human cost, remembered through places like the Hill of Shouts near Majdal Shams, where relatives once called across the divide. At different times, apples, students, and family hopes crossed where ordinary movement could not.",
                 "bullets": [
-                    "The modern border context is complex and should be approached with respect.",
-                    "The Hill of Shouts became associated with families communicating across separation.",
-                    "Local memory includes resilience, longing, and everyday life near a border.",
-                    "A neutral tourism story can acknowledge history without turning people into symbols."
+                    "1967 war and Israeli control",
+                    "1973 war and the 1974 separation zone",
+                    "The Hill of Shouts near Majdal Shams",
+                    "Separated families, apples, students, and local memory"
                 ]
             },
             {
-                "label": "Chapter 06",
-                "category": "Golan today",
-                "title": "Golan Today",
-                "period": "Present day",
-                "visualTitle": "Nature, trails, kitchens, and heritage places",
-                "visualMeta": "Today the Golan invites travelers through waterfalls, volcanic viewpoints, village food, local businesses, wineries, and trails.",
-                "imageAlt": "Scenic viewpoint over the Golan Heights landscape",
-                "description": "Today, the Golan is explored through nature reserves, waterfalls, volcanic viewpoints, villages, restaurants, trails, local farms, guesthouses, and heritage places. The best visits connect landscape with people: a walk beside water, a meal in a village, a stop at a lookout, and time to notice how history still lives in the land.",
+                "label": "Chapter 06 / Discovery",
+                "category": "Discovery",
+                "title": "Golan Today: Nature, Food & Living Heritage",
+                "period": "The present era",
+                "visualTitle": "Apple harvests, local meals, waterfalls, and village viewpoints",
+                "visualMeta": "Nature reserves, restaurants, trails, orchards, guesthouses, and village stories connect deep history with everyday life.",
+                "imageAlt": "Apple harvest, local meal, waterfall, or village viewpoint in the Golan Heights",
+                "description": "Today, the Golan Heights is a powerful destination for travelers seeking open landscapes, local food, heritage, and outdoor experiences. Waterfalls, hiking trails, volcanic scenery, orchards, restaurants, guesthouses, and village stories connect the region's deep past with its living present. The story continues in simple human moments: an apple harvest, a family meal, a mountain view, a walk through an old village, or a quiet stop where history and landscape meet.",
                 "bullets": [
-                    "Travelers come for waterfalls, viewpoints, trails, and open landscapes.",
-                    "Local restaurants, farms, wineries, and guesthouses give the region its flavor.",
-                    "Heritage places add depth to nature-focused itineraries.",
-                    "The Golan today is best understood through both scenery and local life."
+                    "Waterfalls and nature reserves",
+                    "Local restaurants and mountain food",
+                    "Hiking trails and scenic viewpoints",
+                    "A living mix of nature, heritage, and community"
                 ]
             }
         ]

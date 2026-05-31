@@ -81,6 +81,7 @@ export default function HistoryStoryScroll({
   const [imageFailed, setImageFailed] = useState(false);
   const chapterRefs = useRef<Array<HTMLElement | null>>([]);
   const isRtl = lang === "ar" || lang === "he";
+  const isArabic = lang === "ar";
   const chapters = history.chapters ?? [];
 
   const activeChapter = chapters[activeIndex] ?? chapters[0];
@@ -267,10 +268,18 @@ export default function HistoryStoryScroll({
                           </span>
                         </div>
 
-                        <h3 className="mt-5 text-2xl font-extrabold leading-tight tracking-normal text-white sm:text-3xl md:text-4xl">
+                        <h3
+                          className={`mt-5 text-2xl font-extrabold tracking-normal text-white sm:text-3xl md:text-4xl ${
+                            isArabic ? "leading-[1.35]" : "leading-tight"
+                          }`}
+                        >
                           {chapter.title}
                         </h3>
-                        <p className="mt-3 text-sm font-semibold text-zinc-400">
+                        <p
+                          className={`text-sm font-semibold text-zinc-400 ${
+                            isArabic ? "mt-4 leading-7" : "mt-3"
+                          }`}
+                        >
                           {chapter.period}
                         </p>
                       </div>
@@ -279,15 +288,21 @@ export default function HistoryStoryScroll({
                         {chapter.description}
                       </p>
 
-                      <ul className="grid min-w-0 gap-4 sm:grid-cols-2">
+                      <div aria-hidden="true" className="my-1 h-px w-full bg-white/10" />
+
+                      <ul className="grid min-w-0 gap-x-10 gap-y-3 sm:grid-cols-2">
                         {chapter.bullets.map((bullet) => (
                           <li
                             key={bullet}
-                            className="min-w-0 list-none"
+                            className="group flex min-w-0 list-none items-start gap-3.5 text-start text-sm leading-6 text-zinc-300"
                           >
-                            <div className="flex min-h-[96px] min-w-0 items-center rounded-2xl border border-white/10 bg-black/15 px-7 py-6 text-sm leading-6 text-zinc-300 sm:min-h-[112px] xl:px-8">
-                              <span className="block min-w-0 break-words">{bullet}</span>
-                            </div>
+                            <span
+                              aria-hidden="true"
+                              className="mt-2.5 h-px w-6 shrink-0 rounded-full bg-emerald-300/60 transition-colors duration-300 group-hover:bg-emerald-200 motion-reduce:transition-none"
+                            />
+                            <span className="block min-w-0 break-words text-zinc-300/90 transition-colors duration-300 group-hover:text-white motion-reduce:transition-none">
+                              {bullet}
+                            </span>
                           </li>
                         ))}
                       </ul>

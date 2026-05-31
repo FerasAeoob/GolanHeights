@@ -1,4 +1,4 @@
-import { Bike, TreePine, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
+import { Bike, Cherry, Church, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
 
 export interface Category {
   slug: string;
@@ -10,7 +10,7 @@ export interface Category {
 }
 
 /** Category slugs used as keys in dict.categories and as URL params (always lowercase, kebab-case). */
-export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "scenic-spots", "local-services"] as const;
+export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "holy-places", "cherry-picking", "local-services"] as const;
 export type CategorySlug = (typeof CATEGORY_SLUGS)[number];
 
 export const categories: Category[] = [
@@ -44,16 +44,23 @@ export const categories: Category[] = [
     icon: Hotel,
   },
   {
-    slug: "scenic-spots",
-    label: "Scenic Spots",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/f_auto,q_auto/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp",
-    color: "from-cyan-600/90",
-    icon: TreePine,
+    slug: "holy-places",
+    label: "Holy Places",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780243698/Edit_this_image_to_make_202605311906_fp1e2f.webp",
+    color: "from-amber-600/90",
+    icon: Church,
+  },
+  {
+    slug: "cherry-picking",
+    label: "Cherry Picking",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780244122/make_it_hyper_realstic_2K_202605311914_ltwgpc.webp",
+    color: "from-rose-600/90",
+    icon: Cherry,
   },
   {
     slug: "local-services",
     label: "Local Services",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/f_auto,q_auto/v1774787693/Whisk_6213f7945e718019a174712d62700d7bdr_ekqzne.webp", // Fallback image
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780244433/Create_a_premium_category_image_202605311920_cpc78s.webp", // Fallback image
     color: "from-blue-600/90",
     icon: Wrench,
   },

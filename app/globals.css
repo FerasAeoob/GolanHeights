@@ -66,7 +66,7 @@ html[lang="he"] {
 
 /* Arabic Normalization (IBM Plex Sans Arabic) */
 html[lang="ar"] {
-  /* IBM Plex Sans Arabic is configured dynamically. Keep baseline font-size at 92%. */
+  /* IBM Plex Sans Arabic has generous vertical metrics; scale it slightly for card and control rhythm. */
   font-size: 92%;
   font-family: var(--font-arabic-font), sans-serif;
 }
@@ -79,7 +79,7 @@ html[lang="ar"] {
 
 .font-arabic {
   font-family: var(--font-arabic-font), sans-serif;
-  line-height: 1.7;
+  line-height: 1.36;
   letter-spacing: 0;
 }
 
