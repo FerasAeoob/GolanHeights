@@ -14,7 +14,8 @@ import {
     Menu,
     LogOut,
     LogIn,
-    Shield
+    Shield,
+    BookOpen
 } from 'lucide-react';
 import UserAvatar from '@/components/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
@@ -112,6 +113,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             ]
             : []),
 
+        { label: dict.nav?.history || 'History', href: `/${lang}/history`, icon: BookOpen, separator: false },
         { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail, separator: true },
         { label: dict.nav?.about || 'About', href: `/${lang}/about`, icon: Info, separator: true },
         ...(currentUser

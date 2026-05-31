@@ -29,6 +29,7 @@ export default function Footer({
   const quickLinks = [
     { name: dict.home, href: path("/") },
     { name: dict.destinations, href: path("/places") },
+    { name: dict.nav?.history || "History", href: path("/history") },
     { name: dict.aboutus, href: path("/about") },
     { name: dict.contact, href: path("/contact") },
   ];
