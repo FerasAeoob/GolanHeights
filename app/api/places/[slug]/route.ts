@@ -24,7 +24,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
                 { "slug.en": slug },
                 { "slug.he": slug },
                 { "slug.ar": slug }
-            ]
+            ],
+            hidden: { $ne: true }
         }).lean();
         return NextResponse.json(place, { status: 200 });
     } catch (error) {

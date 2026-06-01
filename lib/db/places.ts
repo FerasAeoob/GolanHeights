@@ -42,7 +42,8 @@ async function fetchPlaceBySlug(slug: string) {
             { "slug.en": slug.toLowerCase() },
             { "slug.he": slug.toLowerCase() },
             { "slug.ar": slug.toLowerCase() }
-        ]
+        ],
+        hidden: { $ne: true }
     }).lean();
     if (!place) return null;
     return JSON.parse(JSON.stringify(place)); // Serialize ObjectIds/dates

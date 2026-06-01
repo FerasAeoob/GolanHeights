@@ -1,6 +1,6 @@
 import { getPlaces } from "@/lib/db/places";
 import AdminButton from "@/components/admin/AdminButton";
-import { deletePlaceAction, toggleFeaturedAction } from "@/app/actions/places";
+import { deletePlaceAction, toggleFeaturedAction, toggleVisibilityAction } from "@/app/actions/places";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -62,6 +62,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                                 <th className="p-4 font-semibold text-sm">Location Name</th>
                                 <th className="p-4 font-semibold text-sm">Category</th>
                                 <th className="p-4 font-semibold text-sm text-center">Featured</th>
+                                <th className="p-4 font-semibold text-sm text-center">Visibility</th>
                                 <th className="p-4 font-semibold text-sm text-right">Actions</th>
                             </tr>
                         </thead>
@@ -89,6 +90,18 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                                             className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${place.featured
                                                 ? "bg-amber-100 text-amber-700 border border-amber-200"
                                                 : "bg-slate-100 text-slate-400 border border-slate-200"
+                                                }`}
+                                        />
+                                    </td>
+
+                                    <td className="p-4 text-center">
+                                        <AdminButton
+                                            action={toggleVisibilityAction.bind(null, place._id.toString())}
+                                            label={place.hidden ? "👁️‍🗨️ Hidden" : "👁️ Visible"}
+                                            loadingLabel="Updating..."
+                                            className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${place.hidden
+                                                ? "bg-rose-100 text-rose-700 border border-rose-200"
+                                                : "bg-emerald-100 text-emerald-700 border border-emerald-200"
                                                 }`}
                                         />
                                     </td>
@@ -128,15 +141,26 @@ export default async function AdminDashboard({ params }: { params: Promise<{ lan
                                     <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
                                         {place.category}
                                     </span>
-                                    <AdminButton
-                                        action={toggleFeaturedAction.bind(null, place._id.toString())}
-                                        label={place.featured ? "⭐ Featured" : "☆ Standard"}
-                                        loadingLabel="..."
-                                        className={`px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${place.featured
-                                            ? "bg-amber-100 text-amber-700 border border-amber-200"
-                                            : "bg-slate-100 text-slate-400 border border-slate-200"
-                                            }`}
-                                    />
+                                    <div className="flex gap-2">
+                                        <AdminButton
+                                            action={toggleFeaturedAction.bind(null, place._id.toString())}
+                                            label={place.featured ? "⭐ Featured" : "☆ Standard"}
+                                            loadingLabel="..."
+                                            className={`px-2 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${place.featured
+                                                ? "bg-amber-100 text-amber-700 border border-amber-200"
+                                                : "bg-slate-100 text-slate-400 border border-slate-200"
+                                                }`}
+                                        />
+                                        <AdminButton
+                                            action={toggleVisibilityAction.bind(null, place._id.toString())}
+                                            label={place.hidden ? "👁️‍🗨️ Hidden" : "👁️ Visible"}
+                                            loadingLabel="..."
+                                            className={`px-2 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${place.hidden
+                                                ? "bg-rose-100 text-rose-700 border border-rose-200"
+                                                : "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                                                }`}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="flex gap-2 mt-2 pt-3 border-t border-slate-50">
                                     <Link

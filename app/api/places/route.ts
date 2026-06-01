@@ -16,7 +16,9 @@ export async function GET(req: NextRequest) {
         const category = searchParams.get("category")?.trim().toLowerCase();
         const sort = searchParams.get("sort")?.trim().toLowerCase();
 
-        const query: { category?: string } = {};
+        const query: { category?: string; hidden?: any } = {
+            hidden: { $ne: true }
+        };
 
         if (category && category !== "all") {
             query.category = category;

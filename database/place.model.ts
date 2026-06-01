@@ -57,6 +57,7 @@ export interface IPlaceBase {
   instagramHandle?: string;
 
   featured: boolean;
+  hidden?: boolean;
 
   /**
    * PlaceOwner relation — optional reference to the User who owns this place.
@@ -170,6 +171,7 @@ const PlaceSchema: Schema = new Schema(
     mapLink: { type: String, trim: true },
 
     featured: { type: Boolean, default: false },
+    hidden: { type: Boolean, default: false },
 
     /**
      * PlaceOwner relation — optional reference to User.
@@ -189,6 +191,7 @@ PlaceSchema.index({ "slug.he": 1 }, { unique: true });
 PlaceSchema.index({ "slug.ar": 1 }, { unique: true });
 PlaceSchema.index({ category: 1 });
 PlaceSchema.index({ featured: 1 });
+PlaceSchema.index({ hidden: 1 });
 PlaceSchema.index({ averageRating: -1, reviewsCount: -1 });
 PlaceSchema.index({ createdAt: -1 });
 PlaceSchema.index({ ownerId: 1 }); // PlaceOwner: fetch all places for a given owner

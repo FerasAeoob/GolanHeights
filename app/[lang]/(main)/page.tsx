@@ -46,7 +46,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
     await dbPromise;
     const dbConnected = performance.now();
 
-    const placesPromise = Place.find({ featured: true })
+    const placesPromise = Place.find({ featured: true, hidden: { $ne: true } })
         .select("title slug images location averageRating reviewsCount category openHours open shortDescription createdAt updatedAt")
         .limit(6)
         .lean();

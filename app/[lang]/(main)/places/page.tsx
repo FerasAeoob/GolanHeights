@@ -84,6 +84,7 @@ export default async function PlacesPage({
     else if (safeQuery.toLowerCase() === "free") searchPriceKey = "free";
 
     const filter: any = {
+        hidden: { $ne: true },
         ...(safeQuery && {
             $or: [
                 { "title.en": { $regex: safeQuery, $options: "i" } },

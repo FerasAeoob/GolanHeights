@@ -273,3 +273,32 @@ export async function toggleFeaturedAction(id: string) {
         return { errorCode: "UNKNOWN_ERROR" };
     }
 }
+
+/* ============================================================
+   5. TOGGLE VISIBILITY (HIDE/SHOW)
+   — Works with `.bind(null, id)` from the dashboard.
+   — Automatically flips the current hidden value.
+   ============================================================ */
+export async function toggleVisibilityAction(id: string) {
+    try {
+        await verifyAdmin();
+        await connectDB();
+
+        const place = await Place.findById(id);
+        if (!place) return { errorCode: "PLACE_NOT_FOUND" };
+
+        place.hidden = !place.hidden;
+        await place.save();
+
+        revalidatePath('/[lang]/area-51-sec');
+        revalidatePath('/[lang]/places');
+        revalidatePath('/[lang]');
+        if (place.slug?.en) {
+            revalidatePath(`/[lang]/places/${place.slug.en}`);
+        }
+
+        return { success: true, hidden: place.hidden };
+    } catch (error: any) {
+        return { errorCode: "UNKNOWN_ERROR" };
+    }
+}

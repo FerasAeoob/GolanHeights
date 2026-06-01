@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     try {
         await connectDB();
 
-        const places = await Place.find({})
+        const places = await Place.find({ hidden: { $ne: true } })
             .select('slug updatedAt')
             .lean<PlaceForSitemap[]>();
 
