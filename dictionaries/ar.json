@@ -33,6 +33,7 @@
     "instagram": "إنستغرام",
     "viewonmap": "عرض على الخريطة",
     "openInWaze": "افتح في Waze",
+    "booknow": "احجز الآن",
     "footerdesc": "اكتشف المناظر الطبيعية الخلابة، والتاريخ الغني، والجواهر الخفية في هضبة الجولان.",
     "quicklinks": "روابط سريعة",
     "home": "الرئيسية",
@@ -360,7 +361,9 @@
     "admin": {
         "instagramHandleLabel": "اسم المستخدم على إنستغرام",
         "instagramHandlePlaceholder": "example@ أو example",
-        "instagramHandleTooLong": "اسم المستخدم على إنستغرام طويل جداً. الحد الأقصى 50 حرفاً."
+        "instagramHandleTooLong": "اسم المستخدم على إنستغرام طويل جداً. الحد الأقصى 50 حرفاً.",
+        "bookingLinkLabel": "رابط الحجز (الإقامة)",
+        "bookingLinkPlaceholder": "https://booking.com/..."
     },
     "errors": {
         "PASSWORD_TOO_SHORT": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",

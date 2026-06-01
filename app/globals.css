@@ -20,6 +20,35 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.reveal-motion {
+  opacity: 0;
+  filter: blur(6px);
+  transform: var(--reveal-hidden-transform, translate3d(0, 16px, 0));
+  transition-delay: var(--reveal-delay, 0ms);
+  transition-duration: var(--reveal-duration, 850ms);
+  transition-property: opacity, transform, filter;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-motion.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal-motion,
+  .reveal-motion.is-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
 /* reset*/
 input:focus,
 textarea:focus,

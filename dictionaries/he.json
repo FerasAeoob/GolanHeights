@@ -33,6 +33,7 @@
     "instagram": "אינסטגרם",
     "viewonmap": "צפה במפה",
     "openInWaze": "פתח ב-Waze",
+    "booknow": "הזמן עכשיו",
     "footerdesc": "גלו את הנופים עוצרי הנשימה, ההיסטוריה העשירה והפנינים הנסתרות של רמת הגולן.",
     "quicklinks": "קישורים מהירים",
     "home": "בית",
@@ -360,7 +361,9 @@
     "admin": {
         "instagramHandleLabel": "שם תצוגה באינסטגרם",
         "instagramHandlePlaceholder": "example@ או example",
-        "instagramHandleTooLong": "שם המשתמש באינסטגרם ארוך מדי. מקסימום 50 תווים."
+        "instagramHandleTooLong": "שם המשתמש באינסטגרם ארוך מדי. מקסימום 50 תווים.",
+        "bookingLinkLabel": "קישור להזמנה (אירוח)",
+        "bookingLinkPlaceholder": "https://booking.com/..."
     },
     "errors": {
         "PASSWORD_TOO_SHORT": "הסיסמה חייבת לכלול לפחות 8 תווים.",

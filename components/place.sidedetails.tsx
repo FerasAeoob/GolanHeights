@@ -1,4 +1,4 @@
-import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon, Instagram } from "lucide-react";
+import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon, Instagram, Calendar } from "lucide-react";
 import { IBusinessDay, IOpeningHoursDictionary } from "@/lib/types";
 import OpeningStatus from "./places/openStatus";
 import Link from "next/link";
@@ -14,6 +14,7 @@ interface PlaceDetailsProps {
     dict: Record<string, any>;
     instagram?: string;
     instagramHandle?: string;
+    bookingLink?: string;
 }
 
 export default function PlaceDetails({
@@ -26,7 +27,8 @@ export default function PlaceDetails({
     duration,
     dict,
     instagram,
-    instagramHandle
+    instagramHandle,
+    bookingLink
 }: PlaceDetailsProps) {
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
 
@@ -122,15 +124,31 @@ export default function PlaceDetails({
                     )}
                     {instagramElement}
 
-                    <Link
-                        href={mapLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex gap-2 bg-emerald-600 hover:bg-emerald-700 text-white w-full py-1 mt-3 rounded-md items-center justify-center font-semibold"
-                    >
-                        <MapPin className="w-4 h-4" />
-                        {dict.viewonmap}
-                    </Link>
+                    {(bookingLink || mapLink) && (
+                        <div className="flex flex-col gap-2 mt-4">
+                            {bookingLink && (
+                                <Link
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white w-full py-2.5 rounded-md items-center justify-center font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                >
+                                    <Calendar className="w-5 h-5 shrink-0" />
+                                    {dict.booknow || "Book Now"}
+                                </Link>
+                            )}
+
+                            <Link
+                                href={mapLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex gap-2 bg-emerald-600 hover:bg-emerald-700 text-white w-full py-2.5 rounded-md items-center justify-center font-semibold"
+                            >
+                                <MapPin className="w-4 h-4" />
+                                {dict.viewonmap}
+                            </Link>
+                        </div>
+                    )}
                 </dl>
             </aside>
 
@@ -198,15 +216,31 @@ export default function PlaceDetails({
                     )}
                     {instagramElement}
 
-                    <Link
-                        href={mapLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex gap-2 bg-emerald-600 hover:bg-emerald-700 text-white w-full py-1 mt-3 rounded-md items-center justify-center font-semibold"
-                    >
-                        <MapPin className="w-4 h-4" />
-                        {dict.viewonmap}
-                    </Link>
+                    {(bookingLink || mapLink) && (
+                        <div className="flex flex-col gap-2 mt-4">
+                            {bookingLink && (
+                                <Link
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white w-full py-2.5 rounded-md items-center justify-center font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                >
+                                    <Calendar className="w-5 h-5 shrink-0" />
+                                    {dict.booknow || "Book Now"}
+                                </Link>
+                            )}
+
+                            <Link
+                                href={mapLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex gap-2 bg-emerald-600 hover:bg-emerald-700 text-white w-full py-2.5 rounded-md items-center justify-center font-semibold"
+                            >
+                                <MapPin className="w-4 h-4" />
+                                {dict.viewonmap}
+                            </Link>
+                        </div>
+                    )}
                 </dl>
             </div>
         </>

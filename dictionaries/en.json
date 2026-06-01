@@ -33,6 +33,7 @@
     "instagram": "Instagram",
     "viewonmap": "View on Map",
     "openInWaze": "Open in Waze",
+    "booknow": "Book Now",
     "footerdesc": "Discover the breathtaking landscapes, rich history, and hidden gems of the Golan Heights.",
     "quicklinks": "Quick Links",
     "home": "Home",
@@ -360,7 +361,9 @@
     "admin": {
         "instagramHandleLabel": "Instagram Handle / Display Name",
         "instagramHandlePlaceholder": "@example or example",
-        "instagramHandleTooLong": "Instagram handle is too long. Max 50 characters."
+        "instagramHandleTooLong": "Instagram handle is too long. Max 50 characters.",
+        "bookingLinkLabel": "Booking Link (Stays)",
+        "bookingLinkPlaceholder": "https://booking.com/..."
     },
     "errors": {
         "VALIDATION_FAILED": "Validation failed.",

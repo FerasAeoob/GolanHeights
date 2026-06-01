@@ -1,53 +1,89 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
+
+type RevealDirection = "up" | "down" | "left" | "right" | "none";
 
 interface RevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  duration?: number;
+  direction?: RevealDirection;
+  distance?: number;
+  once?: boolean;
 }
 
-export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
+const getHiddenTransform = (direction: RevealDirection, distance: number) => {
+  switch (direction) {
+    case "down":
+      return `translate3d(0, -${distance}px, 0) scale(0.985)`;
+    case "left":
+      return `translate3d(${distance}px, 0, 0) scale(0.985)`;
+    case "right":
+      return `translate3d(-${distance}px, 0, 0) scale(0.985)`;
+    case "none":
+      return "translate3d(0, 0, 0) scale(0.985)";
+    case "up":
+    default:
+      return `translate3d(0, ${distance}px, 0) scale(0.985)`;
+  }
+};
+
+export function Reveal({
+  children,
+  className = "",
+  delay = 0,
+  duration = 850,
+  direction = "up",
+  distance = 28,
+  once = true,
+}: RevealProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Optional: Add a class to body or check if JS is loaded to make it safe.
-    // For now, we rely on Intersection Observer.
+    const element = ref.current;
+
+    if (!element) {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (ref.current) {
-            observer.unobserve(ref.current);
-          }
+        const shouldShow = entry.isIntersecting;
+
+        setIsVisible(shouldShow);
+
+        if (shouldShow && once) {
+          observer.unobserve(element);
         }
       },
       {
         root: null,
-        rootMargin: "0px",
-        threshold: 0.1,
+        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.16,
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    observer.observe(element);
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      observer.unobserve(element);
     };
-  }, []);
+  }, [once]);
+
+  const revealStyle = {
+    "--reveal-delay": `${delay}ms`,
+    "--reveal-duration": `${duration}ms`,
+    "--reveal-hidden-transform": getHiddenTransform(direction, distance),
+  } as CSSProperties;
 
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        } ${className}`}
+      style={revealStyle}
+      className={`reveal-motion ${isVisible ? "is-visible" : ""} ${className}`}
     >
       {children}
     </div>

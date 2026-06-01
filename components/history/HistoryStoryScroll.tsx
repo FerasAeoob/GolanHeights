@@ -152,7 +152,7 @@ export default function HistoryStoryScroll({
           </p>
         </div>
 
-        <div className="grid w-full items-start gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:gap-14">
+        <div className="grid w-full items-start gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:gap-14 xl:pb-32">
           <aside className="hidden self-start xl:sticky xl:top-24 xl:block">
             <div className="h-[calc(100dvh-7rem)] min-h-[480px] max-h-[640px]">
               <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-3 shadow-2xl shadow-black/30 backdrop-blur-xl">
@@ -232,7 +232,7 @@ export default function HistoryStoryScroll({
           </aside>
 
           <div className="relative">
-            <div className="flex flex-col gap-5 xl:gap-16 xl:pb-32">
+            <div className="flex flex-col gap-5 xl:gap-16">
               {chapters.map((chapter, index) => {
                 const ChapterIcon = icons[index % icons.length];
                 const skin = chapterSkins[index % chapterSkins.length];

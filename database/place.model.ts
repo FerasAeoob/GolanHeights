@@ -46,6 +46,7 @@ export interface IPlaceBase {
     website?: string;
     instagram?: string;
     instagramHandle?: string;
+    bookingLink?: string;
   };
 
   instagram?: {
@@ -141,6 +142,7 @@ const PlaceSchema: Schema = new Schema(
       website: { type: String, trim: true },
       instagram: { type: String, trim: true },
       instagramHandle: { type: String, trim: true },
+      bookingLink: { type: String, trim: true },
     },
     instagram: {
       url: { type: String, trim: true },

@@ -104,7 +104,8 @@ export const UpdatePlaceSchema = z.object({
             phone: z.string().optional(),
             website: z.string().optional(),
             instagram: z.string().optional(),
-            instagramHandle: z.string().max(50).optional()
+            instagramHandle: z.string().max(50).optional(),
+            bookingLink: z.string().optional()
         })
         .optional(),
     instagram: z.object({
@@ -184,7 +185,8 @@ export const createplaceschema = z.object({
             phone: z.string().optional(),
             website: z.string().optional(),
             instagram: z.string().optional(),
-            instagramHandle: z.string().max(50).optional()
+            instagramHandle: z.string().max(50).optional(),
+            bookingLink: z.string().optional()
         })
         .optional(),
     instagram: z.object({

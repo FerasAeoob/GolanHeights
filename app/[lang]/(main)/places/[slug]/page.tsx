@@ -167,6 +167,7 @@ export default async function PlacePage({ params }: PageProps) {
                         longitude={place.location?.lng}
                         instagram={place.instagram?.url || place.instagramUrl || place.contact?.instagram}
                         instagramHandle={place.instagram?.handle || place.instagramHandle || place.contact?.instagramHandle}
+                        bookingLink={place.contact?.bookingLink}
                     />
 
                 </div>

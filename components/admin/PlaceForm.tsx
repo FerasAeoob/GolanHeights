@@ -53,6 +53,7 @@ interface PlaceFormData {
         website: string;
         instagram: string;
         instagramHandle?: string;
+        bookingLink?: string;
     };
     featured: boolean;
     ownerEmail: string;
@@ -78,7 +79,7 @@ const EMPTY_FORM: PlaceFormData = {
     images: [],
     openHours: [],
     location: { lat: 0, lng: 0, name: { en: '', he: '', ar: '' } },
-    contact: { phone: '', website: '', instagram: '', instagramHandle: '' },
+    contact: { phone: '', website: '', instagram: '', instagramHandle: '', bookingLink: '' },
     featured: false,
     ownerEmail: '',
 };
@@ -131,6 +132,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                 website: initialData.contact?.website || '',
                 instagram: initialData.contact?.instagram || initialData.instagramUrl || initialData.instagram?.url || '',
                 instagramHandle: initialData.contact?.instagramHandle || initialData.instagramHandle || initialData.instagram?.handle || '',
+                bookingLink: initialData.contact?.bookingLink || '',
             },
             featured: initialData.featured || false,
             ownerEmail: initialData.ownerEmail || '',  // pre-filled from DB lookup
@@ -497,7 +499,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                         <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                             <Phone className="w-5 h-5 text-blue-600" /> Contact Information
                         </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">Phone</label>
                                 <input
@@ -560,6 +562,22 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                     }}
                                     className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
                                     placeholder={dict?.admin?.instagramHandlePlaceholder || "@example"}
+                                    dir="ltr"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                                    {dict?.admin?.bookingLinkLabel || "Booking Link (Stays)"}
+                                </label>
+                                <input
+                                    type="url"
+                                    value={form.contact.bookingLink || ''}
+                                    onChange={e => setForm(prev => ({
+                                        ...prev,
+                                        contact: { ...prev.contact, bookingLink: e.target.value }
+                                    }))}
+                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                                    placeholder={dict?.admin?.bookingLinkPlaceholder || "https://booking.com/..."}
                                     dir="ltr"
                                 />
                             </div>

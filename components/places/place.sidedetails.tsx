@@ -1,4 +1,4 @@
-import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon, Instagram, Navigation } from "lucide-react";
+import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon, Instagram, Navigation, Calendar } from "lucide-react";
 import { IBusinessDay, IOpeningHoursDictionary } from "@/lib/types";
 import OpeningStatus from "./openStatus";
 import Link from "next/link";
@@ -16,6 +16,7 @@ interface PlaceDetailsProps {
     instagramHandle?: string;
     latitude?: number;
     longitude?: number;
+    bookingLink?: string;
 }
 
 const WazeIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -41,7 +42,8 @@ export default function PlaceDetails({
     instagram,
     instagramHandle,
     latitude,
-    longitude
+    longitude,
+    bookingLink
 }: PlaceDetailsProps) {
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
 
@@ -142,16 +144,32 @@ export default function PlaceDetails({
                     )}
                     {instagramElement}
 
-                    {wazeLink && (
-                        <Link
-                            href={wazeLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex gap-2 bg-[#10a4ef] hover:bg-[#139dec] text-white w-full py-1 mt-3 rounded-md items-center justify-center font-semibold transition-colors duration-200"
-                        >
-                            <WazeIcon className="w-5 h-5 shrink-0" />
-                            {dict.openInWaze || "Open in Waze"}
-                        </Link>
+                    {(bookingLink || wazeLink) && (
+                        <div className="flex flex-col gap-2 mt-4">
+                            {bookingLink && (
+                                <Link
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white w-full py-2.5 rounded-md items-center justify-center font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                >
+                                    <Calendar className="w-5 h-5 shrink-0" />
+                                    {dict.booknow || "Book Now"}
+                                </Link>
+                            )}
+
+                            {wazeLink && (
+                                <Link
+                                    href={wazeLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex gap-2 bg-[#10a4ef] hover:bg-[#139dec] text-white w-full py-2.5 rounded-md items-center justify-center font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                >
+                                    <WazeIcon className="w-5 h-5 shrink-0" />
+                                    {dict.openInWaze || "Open in Waze"}
+                                </Link>
+                            )}
+                        </div>
                     )}
                 </dl>
             </aside>
@@ -220,16 +238,32 @@ export default function PlaceDetails({
                     )}
                     {instagramElement}
 
-                    {wazeLink && (
-                        <Link
-                            href={wazeLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex gap-2 bg-[#33CCFF] hover:bg-[#00B2FF] text-white w-full py-1 mt-3 rounded-md items-center justify-center font-semibold transition-colors duration-200"
-                        >
-                            <WazeIcon className="w-5 h-5 shrink-0" />
-                            {dict.openInWaze || "Open in Waze"}
-                        </Link>
+                    {(bookingLink || wazeLink) && (
+                        <div className="flex flex-col gap-2 mt-4">
+                            {bookingLink && (
+                                <Link
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white w-full py-2.5 rounded-md items-center justify-center font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                >
+                                    <Calendar className="w-5 h-5 shrink-0" />
+                                    {dict.booknow || "Book Now"}
+                                </Link>
+                            )}
+
+                            {wazeLink && (
+                                <Link
+                                    href={wazeLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex gap-2 bg-[#33CCFF] hover:bg-[#00B2FF] text-white w-full py-2.5 rounded-md items-center justify-center font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                >
+                                    <WazeIcon className="w-5 h-5 shrink-0" />
+                                    {dict.openInWaze || "Open in Waze"}
+                                </Link>
+                            )}
+                        </div>
                     )}
                 </dl>
             </div>
