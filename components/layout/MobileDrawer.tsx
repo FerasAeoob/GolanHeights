@@ -213,7 +213,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                                             <Link
                                                 href={item.href}
                                                 onClick={() => setIsOpen(false)}
-                                                className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
+                                            className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
                                             >
                                                 <div className="p-2 rounded-lg bg-white/5 group-hover:bg-emerald-500/10 group-hover:text-emerald-400 text-neutral-400 transition-colors">
                                                     <item.icon size={20} />

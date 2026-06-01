@@ -131,6 +131,11 @@ export default async function PlacesPage({
         { label: dict.villages.buqata, slug: "buqata" },
         { label: dict.villages["ein-qiniyye"], slug: "ein-qiniyye" },
     ];
+    const villageFilterLabel = {
+        he: "\u05e1\u05d9\u05e0\u05d5\u05df \u05dc\u05e4\u05d9 \u05db\u05e4\u05e8",
+        ar: "\u062a\u0635\u0641\u064a\u0629 \u062d\u0633\u0628 \u0627\u0644\u0642\u0631\u064a\u0629",
+        en: "Filter by village",
+    }[lang];
 
     // 3. Render your custom UI
     return (
@@ -153,12 +158,12 @@ export default async function PlacesPage({
             <section className="max-w-[1400px] mx-auto px-4 -mt-16 md:-mt-12 ">
                 <div className="bg-white rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col gap-4 border border-slate-100">
 
-                    <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+                    <div className="flex flex-col gap-4 items-stretch lg:flex-row lg:items-center">
                         <div className="flex-grow">
                             <SearchBar placeholder={dict.searchplaceholder} />
                         </div>
-                        <div className="flex flex-row gap-3 w-full md:w-auto">
-                            <div className="flex-1 md:w-48">
+                        <div className="grid grid-cols-2 gap-3 w-full lg:w-auto">
+                            <div className="min-w-0 lg:w-48">
 
                                 <FilterDropdown
                                     title={dict.categories.all}
@@ -170,7 +175,7 @@ export default async function PlacesPage({
                                     slugs={["", ...CATEGORY_SLUGS]}
                                 />
                             </div>
-                            <div className="flex-1 md:w-48">
+                            <div className="min-w-0 lg:w-48">
                                 <FilterDropdown
                                     title={dict.price.any}
                                     paramKey="price"
@@ -202,7 +207,11 @@ export default async function PlacesPage({
                     </div>
 
                     {/* Village Filter Chips */}
-                    <VillageFilter options={villageOptions} />
+                    <VillageFilter
+                        options={villageOptions}
+                        label={villageFilterLabel}
+                        allLabel={dict.villages.all}
+                    />
                 </div>
             </section>
 

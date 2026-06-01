@@ -61,7 +61,7 @@ export default function PlaceCard({
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
-                <div className="mt-auto z-20 w-full h-40 sm:h-35 p-4 bg-gray-200 backdrop-blur-sm flex flex-col">
+                <div className="mt-auto z-20 w-full h-40 sm:h-35 p-[16px] bg-gray-200 backdrop-blur-sm flex flex-col">
 
                     {place.openHours.length > 0 &&
                         <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between  ">

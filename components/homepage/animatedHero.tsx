@@ -1,12 +1,28 @@
 import Image from "next/image";
+import Link from "next/link";
 
-import { Compass, MapPin, Mountain } from "lucide-react";
+import { BookOpen, Compass, MapPin, Mountain } from "lucide-react";
 import HeroInfoCard from "./Hero.infocard";
 import { Reveal } from "@/components/animation/Reveal";
 import WeatherCard from "./WeatherCard";
 import ScrollToExploreButton from "./ScrollToExploreButton";
 
-export default function AnimatedHero({ lang, dict }: { lang: string; dict: Record<string, any> }) {
+type HeroDictionary = {
+    northenisrael: string;
+    heroTitleMain: string;
+    heroTitleSub: string;
+    herodes: string;
+    explorenow: string;
+    exploreHistoryCta: string;
+    herocards: {
+        villages: string;
+        villagedesc: string;
+        hiddengems: string;
+        hiddengemsdesc: string;
+    };
+};
+
+export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroDictionary }) {
 
     return (
         <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col overflow-hidden">
@@ -51,12 +67,22 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: Recor
                         </p>
 
 
-                        <ScrollToExploreButton
-                            className="group flex cursor-pointer items-center justify-center gap-3 mt-4 px-8 py-3 bg-white/15 hover:bg-white/25 backdrop-blur-md text-emerald-400 font-bold text-lg rounded-full shadow-xl border border-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                        >
-                            <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform mt-1" />
-                            <span className="mt-1">{dict.explorenow}</span>
-                        </ScrollToExploreButton>
+                        <div className="mt-4 flex w-full flex-col items-center justify-center gap-3 px-2">
+                            <ScrollToExploreButton
+                                className="group flex min-h-[48px] w-full max-w-[22rem] cursor-pointer items-center justify-center gap-2.5 rounded-full border border-emerald-200/35 bg-gradient-to-r from-emerald-500 to-teal-500 px-7 py-3 text-base font-extrabold text-white shadow-xl shadow-emerald-950/30 transition-all hover:-translate-y-0.5 hover:from-emerald-500 hover:to-teal-400 hover:shadow-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98] sm:px-8 sm:text-lg"
+                            >
+                                <Compass className="h-[18px] w-[18px] shrink-0 text-white transition-transform group-hover:rotate-45" aria-hidden="true" />
+                                <span>{dict.explorenow}</span>
+                            </ScrollToExploreButton>
+
+                            <Link
+                                href={`/${lang}/history`}
+                                className="group flex min-h-[48px] w-full max-w-[20rem] items-center justify-center gap-2.5 rounded-full border border-white/20 bg-black/25 px-6 py-3 text-base font-semibold text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98]"
+                            >
+                                <BookOpen className="h-4 w-4 shrink-0 text-emerald-300/90 transition-transform group-hover:text-emerald-200" aria-hidden="true" />
+                                <span>{dict.exploreHistoryCta}</span>
+                            </Link>
+                        </div>
                     </div>
                 </Reveal>
 

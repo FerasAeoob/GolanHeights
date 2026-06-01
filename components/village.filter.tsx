@@ -1,53 +1,118 @@
 'use client';
 
-import Link from "next/link";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 interface VillageFilterProps {
     options: { label: string; slug: string }[];
+    label: string;
+    allLabel: string;
 }
 
-export default function VillageFilter({ options }: VillageFilterProps) {
+export default function VillageFilter({ options, label, allLabel }: VillageFilterProps) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
+    const { push } = useRouter();
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [hasOverflow, setHasOverflow] = useState(false);
 
     const currentVillagesParam = searchParams.get("villages");
-    const currentVillages = currentVillagesParam ? currentVillagesParam.split(",") : [];
+    const currentVillages = currentVillagesParam ? currentVillagesParam.split(",").filter(Boolean) : [];
+
+    function navigateWithVillages(villages: string[]) {
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (villages.length > 0) {
+            params.set("villages", villages.join(","));
+        } else {
+            params.delete("villages");
+        }
+
+        const queryString = params.toString();
+        push(queryString ? `${pathname}?${queryString}` : pathname);
+    }
+
+    const pillBaseClasses = "inline-flex min-h-[40px] shrink-0 cursor-pointer items-center justify-center rounded-full border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2";
+    const inactivePillClasses = "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800";
+    const activePillClasses = "border-emerald-700 bg-emerald-700 text-white shadow-sm shadow-emerald-900/10 hover:border-emerald-800 hover:bg-emerald-800";
+
+    useEffect(() => {
+        const scrollElement = scrollRef.current;
+        if (!scrollElement) return;
+
+        const updateOverflow = () => {
+            setHasOverflow(scrollElement.scrollWidth > scrollElement.clientWidth + 1);
+        };
+
+        updateOverflow();
+
+        const resizeObserver = new ResizeObserver(updateOverflow);
+        resizeObserver.observe(scrollElement);
+
+        return () => resizeObserver.disconnect();
+    }, [options.length]);
 
     return (
-        <div className="w-full overflow-x-auto pb-2 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            <div className="flex gap-2 items-center">
-                {options.map((opt) => {
-                    const params = new URLSearchParams(searchParams.toString());
-                    const isActive = currentVillages.includes(opt.slug);
+        <section
+            className="border-t border-slate-100 pt-4"
+            aria-labelledby="village-filter-heading"
+        >
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+                <h2
+                    id="village-filter-heading"
+                    className="shrink-0 text-sm font-semibold text-slate-700"
+                >
+                    {label}
+                </h2>
 
-                    let newVillages = [...currentVillages];
-                    if (isActive) {
-                        newVillages = newVillages.filter(v => v !== opt.slug);
-                    } else {
-                        newVillages.push(opt.slug);
-                    }
+                <div className="relative min-w-0 flex-1">
+                    {hasOverflow && (
+                        <>
+                            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-white to-transparent" />
+                            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-white to-transparent" />
+                        </>
+                    )}
 
-                    if (newVillages.length > 0) {
-                        params.set("villages", newVillages.join(","));
-                    } else {
-                        params.delete("villages");
-                    }
+                    <div
+                        ref={scrollRef}
+                        className="overflow-x-auto scroll-smooth overscroll-x-contain px-1 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        <div className="flex snap-x snap-mandatory items-center gap-2">
+                            <button
+                                type="button"
+                                aria-pressed={currentVillages.length === 0}
+                                onClick={() => navigateWithVillages([])}
+                                className={`${pillBaseClasses} snap-start ${currentVillages.length === 0 ? activePillClasses : inactivePillClasses}`}
+                            >
+                                {allLabel}
+                            </button>
 
-                    return (
-                        <Link
-                            key={opt.slug}
-                            href={`${pathname}?${params.toString()}`}
-                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all ${isActive
-                                ? "bg-emerald-800 text-white shadow-md border border-emerald-800"
-                                : "bg-white border border-slate-200 text-slate-600 hover:border-emerald-600 hover:text-emerald-700"
-                                }`}
-                        >
-                            {opt.label}
-                        </Link>
-                    );
-                })}
+                            {options.map((opt) => {
+                                const isActive = currentVillages.includes(opt.slug);
+
+                                let newVillages = [...currentVillages];
+                                if (isActive) {
+                                    newVillages = newVillages.filter(v => v !== opt.slug);
+                                } else {
+                                    newVillages.push(opt.slug);
+                                }
+
+                                return (
+                                    <button
+                                        key={opt.slug}
+                                        type="button"
+                                        aria-pressed={isActive}
+                                        onClick={() => navigateWithVillages(newVillages)}
+                                        className={`${pillBaseClasses} snap-start ${isActive ? activePillClasses : inactivePillClasses}`}
+                                    >
+                                        {opt.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     );
 }

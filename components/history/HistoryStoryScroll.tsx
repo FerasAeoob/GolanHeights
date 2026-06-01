@@ -314,9 +314,19 @@ export default function HistoryStoryScroll({
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-white/40 xl:hidden">
-          {history.scrollPrompt}
-        </p>
+        {activeIndex < chapters.length - 1 && (
+          <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 xl:hidden">
+            <div className="flex items-center gap-2 rounded-full border border-emerald-500/20 bg-zinc-950/80 px-4 py-2.5 shadow-lg shadow-black/40 backdrop-blur-md transition-all duration-300">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-300">
+                {history.scrollPrompt}
+              </span>
+              <span className="flex h-1.5 w-1.5 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
