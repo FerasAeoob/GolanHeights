@@ -7,6 +7,7 @@ export function getErrorMessage(data: any, dict: any): string {
         // Auth & Access
         INVALID_CREDENTIALS: "Invalid email or password.",
         EMAIL_ALREADY_EXISTS: "Email is already in use.",
+        PHONE_ALREADY_EXISTS: "Phone number is already in use.",
         UNAUTHORIZED: "You must be logged in.",
         FORBIDDEN: "You do not have permission to do this.",
         USER_NOT_FOUND: "User not found.",
@@ -98,6 +99,8 @@ export function getErrorMessage(data: any, dict: any): string {
         "INVALID_CREDENTIALS": "INVALID_CREDENTIALS",
         "EMAIL_ALREADY_EXISTS": "EMAIL_ALREADY_EXISTS",
         "EMAIL_IS_ALREADY_IN_USE": "EMAIL_ALREADY_EXISTS",
+        "PHONE_ALREADY_EXISTS": "PHONE_ALREADY_EXISTS",
+        "PHONE_IS_ALREADY_IN_USE": "PHONE_ALREADY_EXISTS",
         "UNAUTHORIZED": "UNAUTHORIZED",
         "YOU_MUST_BE_LOGGED_IN": "UNAUTHORIZED",
         "FORBIDDEN": "FORBIDDEN",

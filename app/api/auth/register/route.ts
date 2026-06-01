@@ -34,6 +34,16 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        if (validatedData.phone) {
+            const existingPhone = await User.findOne({ phone: validatedData.phone });
+            if (existingPhone) {
+                return NextResponse.json(
+                    { success: false, errorCode: "PHONE_ALREADY_EXISTS", field: "phone" },
+                    { status: 409 }
+                );
+            }
+        }
+
         const user = await User.create({
             name: validatedData.name,
             email: validatedData.email,

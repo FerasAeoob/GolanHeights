@@ -54,7 +54,12 @@ const UserSchema = new Schema<IUser>(
             index: true,
         },
 
-        phone: { type: String, optional: true },
+        phone: {
+            type: String,
+            unique: true,
+            sparse: true,
+            trim: true,
+        },
 
         image: { type: String },
 

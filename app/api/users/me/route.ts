@@ -52,6 +52,19 @@ export async function PATCH(req: NextRequest) {
 
         await connectDB();
 
+        if (phone) {
+            const existingPhone = await User.findOne({
+                phone,
+                _id: { $ne: currentUser._id },
+            });
+            if (existingPhone) {
+                return NextResponse.json(
+                    { success: false, errorCode: "PHONE_ALREADY_EXISTS" },
+                    { status: 409 }
+                );
+            }
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             currentUser._id,
             { $set: updateFields },

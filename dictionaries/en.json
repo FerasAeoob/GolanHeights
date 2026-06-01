@@ -374,6 +374,7 @@
         "NOT_FOUND": "Not found.",
         "INVALID_CREDENTIALS": "Invalid email or password.",
         "EMAIL_ALREADY_EXISTS": "Email is already in use.",
+        "PHONE_ALREADY_EXISTS": "Phone number is already in use.",
         "USER_NOT_FOUND": "User not found.",
         "INVALID_EMAIL": "Invalid email address.",
         "INVALID_PHONE": "Invalid phone number.",

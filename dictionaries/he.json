@@ -388,6 +388,7 @@
         "VALIDATION_FAILED": "שגיאת אימות נתונים.",
         "INVALID_CREDENTIALS": "אימייל או סיסמה שגויים.",
         "EMAIL_ALREADY_EXISTS": "כתובת האימייל כבר בשימוש.",
+        "PHONE_ALREADY_EXISTS": "מספר הטלפון כבר נמצא בשימוש.",
         "UNAUTHORIZED": "לא מורשה.",
         "USER_NOT_FOUND": "משתמש לא נמצא.",
         "CURRENT_PASSWORD_INCORRECT": "הסיסמה הנוכחית שגויה.",

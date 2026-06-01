@@ -387,6 +387,7 @@
         "VALIDATION_FAILED": "فشل التحقق من صحة البيانات.",
         "INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
         "EMAIL_ALREADY_EXISTS": "البريد الإلكتروني مستخدم بالفعل.",
+        "PHONE_ALREADY_EXISTS": "رقم الهاتف مستخدم بالفعل.",
         "UNAUTHORIZED": "غير مصرح.",
         "LOGIN_REQUIRED": "يجب تسجيل الدخول لتتمكن من كتابة تقييم.",
         "USER_NOT_FOUND": "المستخدم غير موجود.",
