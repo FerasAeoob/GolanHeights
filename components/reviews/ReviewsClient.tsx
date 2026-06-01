@@ -430,10 +430,8 @@ export default function ReviewsClient({
                     <p className="text-gray-600">
                         {dict?.reviews?.loading || "Loading reviews..."}
                     </p>
-                ) : orderedReviews.length === 0 ? (
-                    <p className="text-gray-600">
-                        {dict?.reviews?.empty || "No reviews yet."}
-                    </p>
+
+
                 ) : (
                     orderedReviews.map((review) => {
                         const isMine = review.userId?._id === currentUserId;
