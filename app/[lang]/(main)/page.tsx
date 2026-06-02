@@ -115,7 +115,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                                 key={cat.slug}
                                 className="w-[calc((100%-12px)/2)] md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] "
                             >
-                                <Reveal delay={i * 100}>
+                                <Reveal delay={i * 80} distance={24}>
                                     <CategoryCard category={cat} lang={lang} dict={dict} />
                                 </Reveal>
                             </div>
@@ -147,7 +147,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                                 key={place._id}
                                 className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border md:p-3 sm:p-2 p-1 "
                             >
-                                <Reveal delay={i * 100}>
+                                <Reveal delay={i * 120} distance={28}>
                                     <PlaceCard
                                         key={place.slug[lang]}
                                         place={place}
@@ -167,7 +167,9 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                 </div>
             </section>
 
-            <SeoTextSection dict={dict} />
+            <Reveal>
+                <SeoTextSection dict={dict} />
+            </Reveal>
             {popupPlace && (
                 <WeeklyPartnerPopup
                     placeName={popupPlace.title[lang] || popupPlace.title.en}

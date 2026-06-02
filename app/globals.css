@@ -20,14 +20,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── Reveal Animation System ──────────────────────────────────── */
+
 .reveal-motion {
   opacity: 0;
-  filter: blur(6px);
-  transform: var(--reveal-hidden-transform, translate3d(0, 16px, 0));
-  transition-delay: var(--reveal-delay, 0ms);
-  transition-duration: var(--reveal-duration, 850ms);
-  transition-property: opacity, transform, filter;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(4px);
+  transform: var(--reveal-hidden-transform, translate3d(0, 32px, 0));
+  transition:
+    opacity var(--reveal-duration, 800ms) cubic-bezier(0.25, 1, 0.5, 1) var(--reveal-delay, 0ms),
+    transform var(--reveal-duration, 800ms) cubic-bezier(0.25, 1, 0.5, 1) var(--reveal-delay, 0ms),
+    filter var(--reveal-duration, 800ms) cubic-bezier(0.25, 1, 0.5, 1) var(--reveal-delay, 0ms);
   will-change: opacity, transform, filter;
 }
 
@@ -38,7 +40,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .reveal-motion,
   .reveal-motion.is-visible {
     opacity: 1;
@@ -47,6 +48,152 @@ body {
     transition: none;
     will-change: auto;
   }
+}
+
+/* ─── Hero Entrance Animations ─────────────────────────────────── */
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes hero-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hero-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 20px 4px rgba(16, 185, 129, 0.15); }
+}
+
+/* Hero animation utility classes */
+.hero-animate-1 {
+  animation: hero-fade-up 900ms cubic-bezier(0.25, 1, 0.5, 1) 200ms both;
+}
+
+.hero-animate-2 {
+  animation: hero-fade-up 900ms cubic-bezier(0.25, 1, 0.5, 1) 400ms both;
+}
+
+.hero-animate-3 {
+  animation: hero-fade-up 900ms cubic-bezier(0.25, 1, 0.5, 1) 600ms both;
+}
+
+.hero-animate-4 {
+  animation: hero-fade-up 900ms cubic-bezier(0.25, 1, 0.5, 1) 800ms both;
+}
+
+.hero-card-1 {
+  animation: hero-scale-in 800ms cubic-bezier(0.25, 1, 0.5, 1) 700ms both;
+}
+
+.hero-card-2 {
+  animation: hero-scale-in 800ms cubic-bezier(0.25, 1, 0.5, 1) 850ms both;
+}
+
+.hero-card-3 {
+  animation: hero-scale-in 800ms cubic-bezier(0.25, 1, 0.5, 1) 1000ms both;
+}
+
+/* Subtle floating for weather icon */
+.float-animation {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+/* Shimmer effect for CTA button */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Pulse glow for explore button */
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ─── Premium Card Hover Effects ───────────────────────────────── */
+
+.card-hover-lift {
+  transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 400ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15),
+              0 8px 16px -8px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Smooth Image Zoom on Hover ───────────────────────────────── */
+
+.img-zoom {
+  transition: transform 600ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.group:hover .img-zoom {
+  transform: scale(1.06);
 }
 
 /* reset*/

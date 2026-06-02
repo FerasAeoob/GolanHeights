@@ -17,16 +17,16 @@ interface RevealProps {
 const getHiddenTransform = (direction: RevealDirection, distance: number) => {
   switch (direction) {
     case "down":
-      return `translate3d(0, -${distance}px, 0) scale(0.985)`;
+      return `translate3d(0, -${distance}px, 0)`;
     case "left":
-      return `translate3d(${distance}px, 0, 0) scale(0.985)`;
+      return `translate3d(${distance}px, 0, 0)`;
     case "right":
-      return `translate3d(-${distance}px, 0, 0) scale(0.985)`;
+      return `translate3d(-${distance}px, 0, 0)`;
     case "none":
-      return "translate3d(0, 0, 0) scale(0.985)";
+      return "translate3d(0, 0, 0)";
     case "up":
     default:
-      return `translate3d(0, ${distance}px, 0) scale(0.985)`;
+      return `translate3d(0, ${distance}px, 0)`;
   }
 };
 
@@ -34,9 +34,9 @@ export function Reveal({
   children,
   className = "",
   delay = 0,
-  duration = 850,
+  duration = 800,
   direction = "up",
-  distance = 28,
+  distance = 32,
   once = true,
 }: RevealProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -45,32 +45,26 @@ export function Reveal({
   useEffect(() => {
     const element = ref.current;
 
-    if (!element) {
-      return;
-    }
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const shouldShow = entry.isIntersecting;
-
-        setIsVisible(shouldShow);
-
-        if (shouldShow && once) {
-          observer.unobserve(element);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          if (once) observer.unobserve(element);
+        } else if (!once) {
+          setIsVisible(false);
         }
       },
       {
         root: null,
-        rootMargin: "0px 0px -8% 0px",
-        threshold: 0.16,
+        rootMargin: "0px 0px -60px 0px",
+        threshold: 0.15,
       }
     );
 
     observer.observe(element);
-
-    return () => {
-      observer.unobserve(element);
-    };
+    return () => observer.disconnect();
   }, [once]);
 
   const revealStyle = {
