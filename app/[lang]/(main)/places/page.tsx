@@ -133,8 +133,8 @@ export default async function PlacesPage({
         { label: dict.villages["ein-qiniyye"], slug: "ein-qiniyye" },
     ];
     const villageFilterLabel = {
-        he: "\u05e1\u05d9\u05e0\u05d5\u05df \u05dc\u05e4\u05d9 \u05db\u05e4\u05e8",
-        ar: "\u062a\u0635\u0641\u064a\u0629 \u062d\u0633\u0628 \u0627\u0644\u0642\u0631\u064a\u0629",
+        he: "סינון לפי כפר",
+        ar: "تحديد القرية",
         en: "Filter by village",
     }[lang];
 

@@ -40,13 +40,18 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal-motion,
+  .reveal-motion {
+    /* Keep the fade-in (safe for motion-sensitive users) but skip transform/blur */
+    filter: none;
+    transform: none;
+    transition: opacity var(--reveal-duration, 800ms) ease var(--reveal-delay, 0ms);
+    will-change: opacity;
+  }
+
   .reveal-motion.is-visible {
     opacity: 1;
     filter: none;
     transform: none;
-    transition: none;
-    will-change: auto;
   }
 }
 

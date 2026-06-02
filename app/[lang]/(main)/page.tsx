@@ -115,7 +115,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                                 key={cat.slug}
                                 className="w-[calc((100%-12px)/2)] md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] "
                             >
-                                <Reveal delay={i * 80} distance={24}>
+                                <Reveal delay={i * 40} distance={24}>
                                     <CategoryCard category={cat} lang={lang} dict={dict} />
                                 </Reveal>
                             </div>

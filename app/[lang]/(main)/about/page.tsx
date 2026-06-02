@@ -86,60 +86,62 @@ export default async function AboutPage({
       className="flex min-h-screen w-full flex-col bg-white"
     >
       {/* ── Hero ── */}
-      <section className="relative flex w-full flex-col overflow-hidden bg-zinc-950 px-4 pb-9 pt-25 md:pt-16 sm:px-6 md:pb-12 md:pt-28">
+      <section className="relative w-full overflow-hidden bg-zinc-950">
         {/* emerald glow */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 overflow-hidden"
         >
-          <div className="absolute -top-40 end-[-120px] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-3xl md:-top-56 md:end-[-180px] md:h-[720px] md:w-[720px]" />
-          <div className="absolute bottom-[-220px] start-[-180px] h-[360px] w-[360px] rounded-full bg-emerald-500/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
+          <div className="absolute top-[-80px] end-[-120px] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-3xl md:top-[-140px] md:end-[-180px] md:h-[720px] md:w-[720px]" />
+          <div className="absolute bottom-[-160px] start-[-180px] h-[360px] w-[360px] rounded-full bg-emerald-500/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
         </div>
 
-        <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-emerald-400 md:text-sm">
-            {t.eyebrow}
-          </p>
+        <div className="relative flex w-full flex-col px-4 pb-9 pt-25 md:pt-16 sm:px-6 md:pb-12 md:pt-28">
+          <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-emerald-400 md:text-sm">
+              {t.eyebrow}
+            </p>
 
-          <h1 className="mb-5 max-w-4xl text-[34px] font-extrabold leading-[1.25] tracking-tight text-white sm:text-5xl md:text-6xl">
-            {t.heroTitle}
-          </h1>
+            <h1 className="mb-5 max-w-4xl text-[34px] font-extrabold leading-[1.25] tracking-tight text-white sm:text-5xl md:text-6xl">
+              {t.heroTitle}
+            </h1>
 
-          <p className="mb-8 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg md:text-xl">
-            {t.heroSubtitle}
-          </p>
+            <p className="mb-8 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg md:text-xl">
+              {t.heroSubtitle}
+            </p>
 
-          <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
-            <Link
-              href={`/${lang}/places`}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-sm transition-colors duration-200 hover:bg-emerald-400 sm:w-auto"
-            >
-              <MapPin className="h-4 w-4" />
-              {t.ctaExplore}
-            </Link>
+            <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
+              <Link
+                href={`/${lang}/places`}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-sm transition-colors duration-200 hover:bg-emerald-400 sm:w-auto"
+              >
+                <MapPin className="h-4 w-4" />
+                {t.ctaExplore}
+              </Link>
 
-            <Link
-              href={`/${lang}`}
-              className="inline-flex w-full items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-bold text-zinc-200 transition-colors duration-200 hover:border-emerald-400/60 hover:text-emerald-300 sm:w-auto"
-            >
-              {t.ctaHome}
-            </Link>
+              <Link
+                href={`/${lang}`}
+                className="inline-flex w-full items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-bold text-zinc-200 transition-colors duration-200 hover:border-emerald-400/60 hover:text-emerald-300 sm:w-auto"
+              >
+                {t.ctaHome}
+              </Link>
+            </div>
           </div>
         </div>
-      </section>
 
       {/* ── Feature pills ── */}
-      <section className="flex w-full bg-zinc-950 px-4 pb-12 sm:px-6">
-        <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-center gap-3">
-          {features.map((feature, index) => (
-            <span
-              key={index}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-zinc-300"
-            >
-              <span className="flex text-emerald-400">{feature.icon}</span>
-              <span>{feature.label}</span>
-            </span>
-          ))}
+        <div className="relative flex w-full px-4 pb-12 sm:px-6">
+          <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-center gap-3">
+            {features.map((feature, index) => (
+              <span
+                key={index}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-zinc-300"
+              >
+                <span className="flex text-emerald-400">{feature.icon}</span>
+                <span>{feature.label}</span>
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
