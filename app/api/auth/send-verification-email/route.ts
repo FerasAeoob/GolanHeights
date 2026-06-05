@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { forgotPasswordSchema as emailSchema } from "@/database/user/user.schema";
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { checkSensitiveRateLimits, getClientIp, rateLimitKey } from "@/lib/rate-limit";
 import crypto from "crypto";
 import { sendVerificationEmail } from "@/lib/email/sendVerificationEmail";
 import { getDictionary } from "@/lib/get-dictionary";
@@ -10,7 +10,13 @@ import { getDictionary } from "@/lib/get-dictionary";
 export const runtime = "nodejs";
 
 const sendVerificationLimiter = {
-    name: "send-verification-email",
+    name: "auth:send-verification-email:ip",
+    maxRequests: 5,
+    windowSeconds: 15 * 60,
+};
+
+const sendVerificationEmailLimiter = {
+    name: "auth:send-verification-email:email",
     maxRequests: 3,
     windowSeconds: 15 * 60,
 };
@@ -22,17 +28,27 @@ export async function POST(req: NextRequest) {
         const lang = ["en", "ar", "he"].includes(body.lang) ? body.lang : "en";
         dict = await getDictionary(lang);
 
+        const validatedData = emailSchema.parse(body);
+
         const ip = getClientIp(req);
-        const { allowed } = checkRateLimit(sendVerificationLimiter, ip);
-        if (!allowed) {
+        const limit = await checkSensitiveRateLimits([
+            { ...sendVerificationLimiter, key: rateLimitKey("ip", ip) },
+            { ...sendVerificationEmailLimiter, key: rateLimitKey("email", validatedData.email) },
+        ]);
+
+        if (!limit.allowed) {
             return NextResponse.json(
-                { success: false, message: dict?.auth?.rateLimited || "You have made too many attempts. Please wait 15 minutes." },
-                { status: 429 }
+                {
+                    success: false,
+                    message: limit.reason === "configuration"
+                        ? (dict?.auth?.unknownError || "An unexpected error occurred. Please try again later.")
+                        : (dict?.auth?.rateLimited || "You have made too many attempts. Please wait 15 minutes.")
+                },
+                { status: limit.reason === "configuration" ? 503 : 429 }
             );
         }
 
         await connectDB();
-        const validatedData = emailSchema.parse(body);
 
         const user = await User.findOne({
             email: validatedData.email.toLowerCase(),

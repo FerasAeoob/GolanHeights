@@ -3,27 +3,31 @@ import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
 import { loginSchema } from "@/database/user/user.schema";
 import { createUserToken, setAuthCookie, serializeUser } from "@/lib/auth";
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { checkSensitiveRateLimits, getClientIp, rateLimitKey } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
-const loginLimiter = { name: "login", maxRequests: 5, windowSeconds: 15 * 60 };
+const loginIpLimiter = { name: "auth:login:ip", maxRequests: 20, windowSeconds: 15 * 60 };
+const loginEmailLimiter = { name: "auth:login:email", maxRequests: 5, windowSeconds: 15 * 60 };
 
 export async function POST(req: NextRequest) {
     try {
+        const body = await req.json();
+        const validatedData = loginSchema.parse(body);
         const ip = getClientIp(req);
-        const { allowed } = checkRateLimit(loginLimiter, ip);
-        if (!allowed) {
+        const limit = await checkSensitiveRateLimits([
+            { ...loginIpLimiter, key: rateLimitKey("ip", ip) },
+            { ...loginEmailLimiter, key: rateLimitKey("email", validatedData.email) },
+        ]);
+
+        if (!limit.allowed) {
             return NextResponse.json(
-                { success: false, errorCode: "RATE_LIMITED" },
-                { status: 429 }
+                { success: false, errorCode: limit.reason === "configuration" ? "SERVER_ERROR" : "RATE_LIMITED" },
+                { status: limit.reason === "configuration" ? 503 : 429 }
             );
         }
 
         await connectDB();
-
-        const body = await req.json();
-        const validatedData = loginSchema.parse(body);
 
         const user = await User.findOne({ email: validatedData.email });
 

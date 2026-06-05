@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { checkSensitiveRateLimits, getClientIp, rateLimitKey } from "@/lib/rate-limit";
 import crypto from "crypto";
 import { sendVerificationEmail, sendEmailChangeCodeEmail } from "@/lib/email/sendVerificationEmail";
 import { getDictionary } from "@/lib/get-dictionary";
@@ -11,7 +11,19 @@ import { z } from "zod";
 export const runtime = "nodejs";
 
 const requestEmailChangeLimiter = {
-    name: "request-email-change",
+    name: "user:request-email-change:ip",
+    maxRequests: 5,
+    windowSeconds: 15 * 60,
+};
+
+const requestEmailChangeUserLimiter = {
+    name: "user:request-email-change:user",
+    maxRequests: 3,
+    windowSeconds: 15 * 60,
+};
+
+const requestEmailChangeTargetLimiter = {
+    name: "user:request-email-change:target-email",
     maxRequests: 3,
     windowSeconds: 15 * 60,
 };
@@ -40,11 +52,22 @@ export async function POST(req: NextRequest) {
         dict = await getDictionary(lang);
 
         const ip = getClientIp(req);
-        const { allowed } = checkRateLimit(requestEmailChangeLimiter, ip);
-        if (!allowed) {
+        const limit = await checkSensitiveRateLimits([
+            { ...requestEmailChangeLimiter, key: rateLimitKey("ip", ip) },
+            { ...requestEmailChangeUserLimiter, key: rateLimitKey("user", currentUser._id) },
+            { ...requestEmailChangeTargetLimiter, key: rateLimitKey("email", newEmail) },
+        ]);
+
+        if (!limit.allowed) {
             return NextResponse.json(
-                { success: false, errorCode: "RATE_LIMITED", message: dict?.auth?.rateLimited || "You have made too many attempts. Please wait 15 minutes." },
-                { status: 429 }
+                {
+                    success: false,
+                    errorCode: limit.reason === "configuration" ? "SERVER_ERROR" : "RATE_LIMITED",
+                    message: limit.reason === "configuration"
+                        ? (dict?.auth?.unknownError || "An unexpected error occurred. Please try again later.")
+                        : (dict?.auth?.rateLimited || "You have made too many attempts. Please wait 15 minutes.")
+                },
+                { status: limit.reason === "configuration" ? 503 : 429 }
             );
         }
 

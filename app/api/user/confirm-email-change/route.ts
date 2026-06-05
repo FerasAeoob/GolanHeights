@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
 import User from "@/database/user/user.model";
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { checkSensitiveRateLimits, getClientIp, rateLimitKey } from "@/lib/rate-limit";
 import crypto from "crypto";
 import { sendVerificationEmail } from "@/lib/email/sendVerificationEmail";
 import { getDictionary } from "@/lib/get-dictionary";
@@ -11,7 +11,13 @@ import { z } from "zod";
 export const runtime = "nodejs";
 
 const confirmEmailChangeLimiter = {
-    name: "confirm-email-change",
+    name: "user:confirm-email-change:ip",
+    maxRequests: 10,
+    windowSeconds: 15 * 60,
+};
+
+const confirmEmailChangeUserLimiter = {
+    name: "user:confirm-email-change:user",
     maxRequests: 5,
     windowSeconds: 15 * 60,
 };
@@ -40,11 +46,21 @@ export async function POST(req: NextRequest) {
         dict = await getDictionary(lang);
 
         const ip = getClientIp(req);
-        const { allowed } = checkRateLimit(confirmEmailChangeLimiter, ip);
-        if (!allowed) {
+        const limit = await checkSensitiveRateLimits([
+            { ...confirmEmailChangeLimiter, key: rateLimitKey("ip", ip) },
+            { ...confirmEmailChangeUserLimiter, key: rateLimitKey("user", currentUser._id) },
+        ]);
+
+        if (!limit.allowed) {
             return NextResponse.json(
-                { success: false, errorCode: "RATE_LIMITED", message: dict?.auth?.rateLimited || "You have made too many attempts. Please wait 15 minutes." },
-                { status: 429 }
+                {
+                    success: false,
+                    errorCode: limit.reason === "configuration" ? "SERVER_ERROR" : "RATE_LIMITED",
+                    message: limit.reason === "configuration"
+                        ? (dict?.auth?.unknownError || "An unexpected error occurred. Please try again later.")
+                        : (dict?.auth?.rateLimited || "You have made too many attempts. Please wait 15 minutes.")
+                },
+                { status: limit.reason === "configuration" ? 503 : 429 }
             );
         }
 
