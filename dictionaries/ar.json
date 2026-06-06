@@ -223,7 +223,8 @@
             "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
             "acceptTermsRequired": "يجب الموافقة على شروط الاستخدام وسياسة الخصوصية",
             "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
-            "somethingWentWrong": "حدث خطأ. يرجى المحاولة مرة أخرى."
+            "somethingWentWrong": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+            "tooManyLoginAttemptsMinutes": "لقد قمت بمحاولات تسجيل دخول كثيرة. يرجى المحاولة مرة أخرى بعد {minutes} دقائق."
         },
         "qoute": "العلوّ يغيّر رؤيتك، والقمم تغيّر روحك.",
         "forgotPassword": "هل نسيت كلمة المرور؟",

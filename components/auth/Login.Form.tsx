@@ -64,7 +64,32 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             const data = await res.json();
 
             if (!res.ok) {
-                const errorMessage = getErrorMessage(data, dict);
+                let errorMessage = getErrorMessage(data, dict);
+
+                if (res.status === 429 || data.error === "TOO_MANY_ATTEMPTS" || data.errorCode === "RATE_LIMITED") {
+                    let waitMinutes = 15;
+                    if (data.retryAfter !== undefined && data.retryAfter !== null) {
+                        waitMinutes = Math.ceil(Number(data.retryAfter) / 60);
+                    } else if (data.resetAt !== undefined && data.resetAt !== null) {
+                        const secondsLeft = Math.ceil((Number(data.resetAt) - Date.now()) / 1000);
+                        waitMinutes = Math.ceil(Math.max(secondsLeft, 1) / 60);
+                    }
+                    waitMinutes = Math.max(waitMinutes, 1);
+
+                    const translation = dict?.auth?.errors?.tooManyLoginAttemptsMinutes;
+                    if (translation) {
+                        errorMessage = translation.replace("{minutes}", String(waitMinutes));
+                    } else {
+                        if (lang === "he") {
+                            errorMessage = `ביצעת יותר מדי ניסיונות התחברות. אנא נסה שוב בעוד ${waitMinutes} דקות.`;
+                        } else if (lang === "ar") {
+                            errorMessage = `لقد قمت بمحاولات تسجيل دخول كثيرة. يرجى المحاولة مرة أخرى بعد ${waitMinutes} دقائق.`;
+                        } else {
+                            errorMessage = `Too many login attempts. Please try again in ${waitMinutes} minutes.`;
+                        }
+                    }
+                }
+
                 if (data.errorCode === "INVALID_CREDENTIALS") {
                     setFieldErrors({ form: dict?.auth?.errors?.invalidCredentials || errorMessage });
                 } else if (data.field) {

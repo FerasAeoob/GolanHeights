@@ -21,9 +21,32 @@ export async function POST(req: NextRequest) {
         ]);
 
         if (!limit.allowed) {
+            if (limit.reason === "configuration") {
+                return NextResponse.json(
+                    { success: false, errorCode: "SERVER_ERROR" },
+                    { status: 503 }
+                );
+            }
+
+            const now = Date.now();
+            const resetAt = limit.resetAt || (now + 15 * 60 * 1000);
+            const retryAfter = Math.ceil(Math.max((resetAt - now) / 1000, 1));
+
             return NextResponse.json(
-                { success: false, errorCode: limit.reason === "configuration" ? "SERVER_ERROR" : "RATE_LIMITED" },
-                { status: limit.reason === "configuration" ? 503 : 429 }
+                {
+                    success: false,
+                    error: "TOO_MANY_ATTEMPTS",
+                    errorCode: "RATE_LIMITED",
+                    message: "Too many login attempts. Please try again later.",
+                    resetAt,
+                    retryAfter,
+                },
+                {
+                    status: 429,
+                    headers: {
+                        "Retry-After": String(retryAfter),
+                    },
+                }
             );
         }
 

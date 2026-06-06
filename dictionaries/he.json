@@ -223,7 +223,8 @@
             "passwordsDoNotMatch": "הסיסמאות אינן תואמות",
             "acceptTermsRequired": "יש לאשר את תנאי השימוש ומדיניות הפרטיות",
             "invalidCredentials": "האימייל או הסיסמה אינם נכונים",
-            "somethingWentWrong": "משהו השתבש. נסה שוב."
+            "somethingWentWrong": "משהו השתבש. נסה שוב.",
+            "tooManyLoginAttemptsMinutes": "ביצעת יותר מדי ניסיונות התחברות. אנא נסה שוב בעוד {minutes} דקות."
         },
         "qoute": "הגובה משנה את המבט, הפסגות משנות את הנשמה.",
         "forgotPassword": "שכחת סיסמה?",

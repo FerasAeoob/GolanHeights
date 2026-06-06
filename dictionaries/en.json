@@ -223,7 +223,8 @@
             "passwordsDoNotMatch": "Passwords do not match",
             "acceptTermsRequired": "You must accept the Terms of Use and Privacy Policy",
             "invalidCredentials": "Invalid email or password",
-            "somethingWentWrong": "Something went wrong. Please try again."
+            "somethingWentWrong": "Something went wrong. Please try again.",
+            "tooManyLoginAttemptsMinutes": "Too many login attempts. Please try again in {minutes} minutes."
         },
         "qoute": "Elevation changes your perspective. The Heights change your soul.",
         "forgotPassword": "Forgot password?",
