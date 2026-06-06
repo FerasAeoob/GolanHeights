@@ -182,19 +182,12 @@ export async function checkSensitiveRateLimits(
     }
 
     if (!hasDistributedLimiter()) {
-        if (isProduction()) {
-            logMissingDistributedLimiter();
-            return {
-                allowed: false,
-                remaining: 0,
-                resetAt: now,
-                reason: "configuration",
-            };
-        }
+        logMissingDistributedLimiter();
 
         for (const rule of rules) {
             const result = checkDevelopmentRateLimit(rule);
             if (!result.allowed) {
+                console.warn(`[Rate Limit] Rate limit exceeded (in-memory) for rule: ${rule.name}`);
                 return { ...result, reason: "limited" };
             }
         }
@@ -206,12 +199,14 @@ export async function checkSensitiveRateLimits(
         for (const rule of rules) {
             const result = await checkRedisRateLimit(rule);
             if (!result.allowed) {
+                console.warn(`[Rate Limit] Rate limit exceeded (Upstash) for rule: ${rule.name}`);
                 return { ...result, reason: "limited" };
             }
         }
 
         return { allowed: true, remaining: 0, resetAt: now };
-    } catch {
+    } catch (error: any) {
+        console.error("[Rate Limit] Upstash Redis error:", error);
         if (isProduction()) {
             return {
                 allowed: false,
@@ -224,6 +219,7 @@ export async function checkSensitiveRateLimits(
         for (const rule of rules) {
             const result = checkDevelopmentRateLimit(rule);
             if (!result.allowed) {
+                console.warn(`[Rate Limit] Rate limit exceeded (fallback in-memory) for rule: ${rule.name}`);
                 return { ...result, reason: "limited" };
             }
         }
