@@ -7,12 +7,27 @@ type UserIdentity = {
 } | null | undefined;
 
 
+export class EmailNotVerifiedError extends Error {
+    constructor(message = "EmailNotVerified") {
+        super(message);
+        this.name = "EmailNotVerifiedError";
+    }
+}
+
 export async function requireAuth() {
     const user = await getCurrentUser();
     if (!user) {
         throw new Error("Unauthorized");
     }
 
+    return user;
+}
+
+export async function requireVerifiedUser() {
+    const user = await requireAuth();
+    if (!user.isVerified) {
+        throw new EmailNotVerifiedError();
+    }
     return user;
 }
 export async function requireRole(allowedRoles: Array<"user" | "admin" | "business">) {

@@ -4,6 +4,9 @@ import Place from "@/database/place.model";
 import { createplaceschema } from "@/database/place.schema";
 import { getCurrentUser } from "@/lib/auth";
 import { isOwner } from "@/lib/permissions";
+import { toPublicPlaceDTO } from "@/lib/db/places";
+
+export const dynamic = "force-dynamic";
 
 /* ======================
    GET ALL PLACES
@@ -37,7 +40,9 @@ export async function GET(req: NextRequest) {
             .sort(sortOption)
             .lean();
 
-        return NextResponse.json(places, { status: 200 });
+        const safePlaces = places.map(toPublicPlaceDTO);
+
+        return NextResponse.json(safePlaces, { status: 200 });
 
     } catch (error) {
         console.error(error);
@@ -93,7 +98,7 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json(
-            { message: "Place created successfully ✅", place: newPlace },
+            { message: "Place created successfully ✅", place: toPublicPlaceDTO(newPlace) },
             { status: 201 }
         );
 

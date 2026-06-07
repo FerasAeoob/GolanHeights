@@ -22,6 +22,7 @@ interface ReviewItem {
         text: string;
         userId: string;
         createdAt: string;
+        isOwnerReply?: boolean;
     } | null;
 }
 
@@ -29,7 +30,7 @@ interface ReviewsClientProps {
     placeId: string;
     currentUserId?: string;
     currentUserRole?: "user" | "admin" | "business";
-    placeOwnerId?: string;
+    canReply?: boolean;
     dict?: any;
 }
 
@@ -37,7 +38,7 @@ export default function ReviewsClient({
     placeId,
     currentUserId,
     currentUserRole,
-    placeOwnerId,
+    canReply = false,
     dict,
 }: ReviewsClientProps) {
     const [reviews, setReviews] = useState<ReviewItem[]>([]);
@@ -259,8 +260,7 @@ export default function ReviewsClient({
         return isOwner || isAdmin;
     }
 
-    // Can reply = admin OR place owner
-    const canReply = currentUserRole === "admin" || (!!currentUserId && currentUserId === placeOwnerId);
+    // canReply is passed down from the server page
 
     async function handleReply(reviewId: string) {
         if (!replyText.trim()) return;
@@ -273,7 +273,7 @@ export default function ReviewsClient({
             });
             const data = await res.json();
             if (!res.ok) {
-                setError(data.errorCode || "Failed to post reply");
+                setError(data.message || data.errorCode || "Failed to post reply");
                 return;
             }
             setReviews(prev => prev.map(r =>
@@ -281,6 +281,7 @@ export default function ReviewsClient({
             ));
             setReplyingToId(null);
             setReplyText("");
+            setError("");
         } catch {
             setError("Something went wrong");
         } finally {
@@ -293,12 +294,13 @@ export default function ReviewsClient({
             const res = await fetch(`/api/reviews/${reviewId}`, { method: "PATCH" });
             if (!res.ok) {
                 const data = await res.json();
-                setError(data.errorCode || "Failed to delete reply");
+                setError(data.message || data.errorCode || "Failed to delete reply");
                 return;
             }
             setReviews(prev => prev.map(r =>
                 r._id === reviewId ? { ...r, reply: null } : r
             ));
+            setError("");
         } catch {
             setError("Something went wrong");
         }
@@ -524,7 +526,7 @@ export default function ReviewsClient({
                                     <div className="mt-3 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
                                         <div className="flex items-center justify-between mb-1">
                                             <p className="text-xs font-semibold text-emerald-700">
-                                                {review.reply.userId === placeOwnerId
+                                                {review.reply.isOwnerReply
                                                     ? (dict?.reviews?.ownerReply || "Owner Reply")
                                                     : (dict?.reviews?.adminReply || "Admin Reply")}
                                             </p>
@@ -553,6 +555,7 @@ export default function ReviewsClient({
                                                 placeholder={dict?.reviews?.replyPlaceholder || "Write your reply..."}
                                                 className="w-full rounded-xl border border-emerald-300 p-3 text-sm outline-none focus:ring-2 focus:ring-emerald-600 min-h-[80px]"
                                             />
+                                            {error && <p className="text-xs text-red-600 font-medium">{error}</p>}
                                             <div className="flex gap-2">
                                                 <button
                                                     type="button"
@@ -568,7 +571,7 @@ export default function ReviewsClient({
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    onClick={() => { setReplyingToId(null); setReplyText(""); }}
+                                                    onClick={() => { setReplyingToId(null); setReplyText(""); setError(""); }}
                                                     className="rounded-xl border border-gray-300 px-4 py-1.5 text-sm"
                                                 >
                                                     {dict?.reviews?.cancelButton || "Cancel"}
@@ -578,7 +581,7 @@ export default function ReviewsClient({
                                     ) : (
                                         <button
                                             type="button"
-                                            onClick={() => { setReplyingToId(review._id); setReplyText(review.reply?.text || ""); }}
+                                            onClick={() => { setReplyingToId(review._id); setReplyText(review.reply?.text || ""); setError(""); }}
                                             className="mt-2 text-xs text-emerald-700 hover:underline font-medium"
                                         >
                                             {review.reply

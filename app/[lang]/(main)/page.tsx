@@ -4,7 +4,8 @@ import { Reveal } from "@/components/animation/Reveal";
 import categories from "@/lib/categories";
 import AnimatedHero from "@/components/homepage/animatedHero";
 import PlaceCard from "@/components/places/placecard";
-import Place, { IPlace, IPlaceSerializable } from "@/database/place.model";
+import Place, { IPlace, IPublicPlaceDTO } from "@/database/place.model";
+import { toPublicPlaceDTO } from "@/lib/db/places";
 import { getDictionary } from "@/lib/get-dictionary";
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
@@ -75,14 +76,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
 
     ;
 
-    // 🟢 FIX 2: Added 'any' (or you can use 'IPlace') so ESLint doesn't complain
-    const places: IPlaceSerializable[] = rawPlaces.map((place: any) => ({
-        ...place,
-        _id: String(place._id),
-        createdAt: place.createdAt ? String(place.createdAt) : undefined,
-        updatedAt: place.updatedAt ? String(place.updatedAt) : undefined,
-        ownerId: place.ownerId ? String(place.ownerId) : null,
-    }));
+    const places: IPublicPlaceDTO[] = rawPlaces.map((place: any) => toPublicPlaceDTO(place));
 
     return (
         <main className="min-h-screen min-h-[100dvh] w-full">

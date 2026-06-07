@@ -3,12 +3,12 @@ import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
 import { IOpeningHoursDictionary } from "@/lib/types";
 import categories from "@/lib/categories";
-import { IPlaceSerializable } from "@/database/place.model";
+import { IPublicPlaceDTO } from "@/database/place.model";
 import OpenStatus from "./openStatus";
 import FavoriteButton from "../favorites/Favorite.button";
 
 interface PlaceCardProps {
-    place: IPlaceSerializable;
+    place: IPublicPlaceDTO;
     locale?: "en" | "he" | "ar";
     dict: Record<string, any>;
     /** Pass from the parent page — avoids one DB query per card */

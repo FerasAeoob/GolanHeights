@@ -5,6 +5,7 @@ import { generateEnglishSlug } from "@/utils/slug";
 import { UpdatePlaceSchema, SlugSchema } from "@/database/place.schema";
 import { getCurrentUser } from "@/lib/auth";
 import { isAdmin } from "@/lib/permissions";
+import { toPublicPlaceDTO } from "@/lib/db/places";
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
     try {
@@ -27,7 +28,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
             ],
             hidden: { $ne: true }
         }).lean();
-        return NextResponse.json(place, { status: 200 });
+
+        if (!place) {
+            return NextResponse.json({ error: "Place not found ❌" }, { status: 404 });
+        }
+
+        return NextResponse.json(toPublicPlaceDTO(place), { status: 200 });
     } catch (error) {
         console.error("GET PLACE ERROR:", error);
         return NextResponse.json(

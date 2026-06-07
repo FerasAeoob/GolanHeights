@@ -6,7 +6,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Link from "next/link";
 import Image from "next/image";
-import { IPlaceSerializable } from "@/database/place.model";
+import { IPublicPlaceDTO } from "@/database/place.model";
 
 // Fix default Leaflet marker icons in Next.js
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
 });
 
 // Component to auto-fit bounds
-function MapBounds({ places }: { places: IPlaceSerializable[] }) {
+function MapBounds({ places }: { places: IPublicPlaceDTO[] }) {
     const map = useMap();
     useEffect(() => {
         if (places.length > 0) {
@@ -45,7 +45,7 @@ function ResizeMap() {
 }
 
 interface PlacesMapProps {
-    places: IPlaceSerializable[];
+    places: IPublicPlaceDTO[];
     lang: 'en' | 'ar' | 'he';
     dict: any;
 }

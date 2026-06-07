@@ -71,15 +71,22 @@ export interface IPlace extends Document, IPlaceBase {
   updatedAt: Date;
 }
 
-/**
- * Interface representing a plain JS object (Serializable) for a Place.
- */
 export interface IPlaceSerializable extends Omit<IPlaceBase, "ownerId"> {
   _id: string;
   createdAt?: string;
   updatedAt?: string;
   /** PlaceOwner relation — serialized as string or null (ObjectId.toString()) */
   ownerId?: string | null;
+}
+
+/**
+ * Interface representing a public-facing safe plain JS object (DTO) for a Place.
+ * Completely excludes ownerId to prevent exposing it to visitors.
+ */
+export interface IPublicPlaceDTO extends Omit<IPlaceBase, "ownerId"> {
+  _id: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const PlaceSchema: Schema = new Schema(

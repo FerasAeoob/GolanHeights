@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/auth";
 import connectDB from "@/lib/mongodb";
-import Place, { IPlaceSerializable } from "@/database/place.model";
+import Place, { IPublicPlaceDTO } from "@/database/place.model";
+import { toPublicPlaceDTO } from "@/lib/db/places";
 import PlaceCard from "@/components/places/placecard";
 import { getDictionary } from "@/lib/get-dictionary";
 import FavoriteCardLiveItem from "@/components/favorites/Favorite.Card.Live";
@@ -33,11 +34,13 @@ export default async function FavoritesPage({
 
   await connectDB();
 
-  const favorites = await Place.find({
+  const rawFavorites = await Place.find({
     _id: { $in: currentUser.favorites || [] },
   })
     .select("title slug images location averageRating reviewsCount category openHours open shortDescription")
-    .lean() as unknown as IPlaceSerializable[];
+    .lean();
+
+  const favorites: IPublicPlaceDTO[] = rawFavorites.map(toPublicPlaceDTO);
 
   return (
     <section className="lg:max-w-[1400px] max-w-[1200px] mt-35 mx-auto px-4 pb-20">

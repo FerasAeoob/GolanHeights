@@ -1,4 +1,5 @@
-import { getRequestMemoizedPlace } from "@/lib/db/places";
+import { getRequestMemoizedFullPlace, toPublicPlaceDTO } from "@/lib/db/places";
+import { IPublicPlaceDTO } from "@/database/place.model";
 import { SlugSchema } from "@/database/place.schema";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!parsedSlug.success) return {};
     const decodedSlug = decodeURIComponent(parsedSlug.data.slug);
 
-    const place = await getRequestMemoizedPlace(decodedSlug);
+    const place = await getRequestMemoizedFullPlace(decodedSlug);
 
     if (!place) return {};
 
@@ -62,22 +63,34 @@ export default async function PlacePage({ params }: PageProps) {
 
     const pageStart = performance.now();
 
-    const [place, dict, currentUser] = await Promise.all([
-        getRequestMemoizedPlace(decodedSlug),
+    const [fullPlace, dict, currentUser] = await Promise.all([
+        getRequestMemoizedFullPlace(decodedSlug),
         getDictionary(lang),
         getCurrentUser(),
     ]);
     const t2 = performance.now();
     perfLog(`[PERF] PLACE_DETAIL /${lang}/${decodedSlug}: fetch(place+dict+auth)=${((t2 - pageStart)).toFixed(1)}ms`);
 
-    if (!place) {
+    if (!fullPlace) {
         return notFound();
     }
 
-    const correctSlug = place.slug[lang] || place.slug.en;
+    const correctSlug = fullPlace.slug[lang] || fullPlace.slug.en;
     if (decodedSlug.toLowerCase() !== correctSlug) {
         redirect(`/${lang}/places/${encodeURIComponent(correctSlug)}`);
     }
+
+    const ownerId = fullPlace.ownerId ? String(fullPlace.ownerId) : null;
+    const currentUserId = currentUser?._id
+        ? String(currentUser._id)
+        : (currentUser as { id?: unknown })?.id
+            ? String((currentUser as { id?: unknown }).id)
+            : null;
+
+    const isPlaceOwner = !!ownerId && !!currentUserId && ownerId === currentUserId;
+    const canReply = currentUser?.role === "admin" || isPlaceOwner;
+
+    const place: IPublicPlaceDTO = toPublicPlaceDTO(fullPlace);
 
     function capitalizeFirst(str: string) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -172,10 +185,10 @@ export default async function PlacePage({ params }: PageProps) {
 
                 </div>
                 <ReviewsClient
-                    placeId={place._id.toString()}
+                    placeId={String(fullPlace._id)}
                     currentUserId={currentUser?._id}
                     currentUserRole={currentUser?.role}
-                    placeOwnerId={place.ownerId?.toString()}
+                    canReply={canReply}
                     dict={dict}
                 />
 

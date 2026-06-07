@@ -117,7 +117,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
         { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail, separator: true },
         { label: dict.nav?.about || 'About', href: `/${lang}/about`, icon: Info, separator: true },
         ...(currentUser
-            ? [{ label: dict.auth?.logout || 'Logout', href: '#', icon: LogOut, onClick: handleLogout, separator: false }]
+            ? [{ label: dict.profile?.logout || 'Logout', href: '#', icon: LogOut, onClick: handleLogout, separator: false }]
             : [{ label: dict.auth?.login || 'Login', href: `/${lang}/login`, icon: LogIn, separator: false }]),
     ];
 

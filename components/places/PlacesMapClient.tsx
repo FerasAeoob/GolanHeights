@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { IPlaceSerializable } from "@/database/place.model";
+import { IPublicPlaceDTO } from "@/database/place.model";
 
 const PlacesMap = dynamic(() => import("@/components/places/PlacesMap"), {
   ssr: false,
@@ -11,7 +11,7 @@ const PlacesMap = dynamic(() => import("@/components/places/PlacesMap"), {
 });
 
 interface PlacesMapClientProps {
-  places: IPlaceSerializable[];
+  places: IPublicPlaceDTO[];
   lang: 'en' | 'ar' | 'he';
   dict: any;
 }

@@ -1,5 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import Place from "@/database/place.model";
+import Place, { IPublicPlaceDTO } from "@/database/place.model";
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 
@@ -69,3 +69,59 @@ export const getCachedPlaceBySlug = unstable_cache(
 export const getRequestMemoizedPlace = cache(async (slug: string) => {
     return getCachedPlaceBySlug(slug);
 });
+
+/**
+ * Fetch full place details directly from MongoDB without unstable_cache, keeping all fields including ownerId.
+ */
+export async function getFullPlaceBySlug(slug: string) {
+    await connectDB();
+    const place = await Place.findOne({
+        $or: [
+            { "slug.en": slug.toLowerCase() },
+            { "slug.he": slug.toLowerCase() },
+            { "slug.ar": slug.toLowerCase() }
+        ],
+        hidden: { $ne: true }
+    })
+    .select("title slug description shortDescription category averageRating reviewsCount price duration openHours open mapLink images location contact instagram instagramUrl instagramHandle featured createdAt updatedAt ownerId")
+    .lean();
+    if (!place) return null;
+    return JSON.parse(JSON.stringify(place));
+}
+
+/**
+ * Request-memoized full place details (shared between generateMetadata and page rendering in a single request).
+ */
+export const getRequestMemoizedFullPlace = cache(async (slug: string) => {
+    return getFullPlaceBySlug(slug);
+});
+
+export function toPublicPlaceDTO(place: any): IPublicPlaceDTO {
+    if (!place) {
+        throw new Error("Invalid place data passed to toPublicPlaceDTO");
+    }
+    return {
+        _id: place._id?.toString() || place._id,
+        title: place.title,
+        slug: place.slug,
+        description: place.description,
+        shortDescription: place.shortDescription,
+        category: place.category,
+        averageRating: place.averageRating,
+        reviewsCount: place.reviewsCount,
+        price: place.price,
+        duration: place.duration,
+        openHours: place.openHours,
+        open: place.open,
+        mapLink: place.mapLink,
+        images: place.images,
+        location: place.location,
+        contact: place.contact,
+        instagram: place.instagram,
+        instagramUrl: place.instagramUrl,
+        instagramHandle: place.instagramHandle,
+        featured: place.featured,
+        createdAt: place.createdAt?.toISOString ? place.createdAt.toISOString() : place.createdAt,
+        updatedAt: place.updatedAt?.toISOString ? place.updatedAt.toISOString() : place.updatedAt,
+    };
+}

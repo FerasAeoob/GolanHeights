@@ -1,5 +1,6 @@
 import connectDB from "@/lib/mongodb";
-import Place, { IPlaceSerializable } from "@/database/place.model";
+import Place, { IPublicPlaceDTO } from "@/database/place.model";
+import { toPublicPlaceDTO } from "@/lib/db/places";
 import { perfLog } from "@/lib/perf";
 import SearchBar from "@/components/search";
 import PlaceCard from "@/components/places/placecard";
@@ -117,11 +118,12 @@ export default async function PlacesPage({
     }
 
     const t2 = performance.now();
-    const places = await Place.find(filter)
+    const rawPlaces = await Place.find(filter)
         .select("title slug images location averageRating reviewsCount category openHours open shortDescription price")
         .sort(sortOption)
         .limit(100)
         .lean();
+    const places: IPublicPlaceDTO[] = rawPlaces.map(toPublicPlaceDTO);
     const t3 = performance.now();
     perfLog(`[PERF] PLACES /${lang}: parallel(dict+auth)=${((t1 - pageStart)).toFixed(1)}ms | dbQuery=${((t3 - t2)).toFixed(1)}ms | total=${((t3 - pageStart)).toFixed(1)}ms`);
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
@@ -225,7 +227,7 @@ export default async function PlacesPage({
                     {/* Your Responsive Grid */}
                     <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border gap-4">
                         {places.length > 0 ? (
-                            (places as unknown as IPlaceSerializable[]).map((place: IPlaceSerializable) => (
+                            places.map((place: IPublicPlaceDTO) => (
                                 <div
 
                                     // Converted _id to string just in case it's a raw MongoDB ObjectId

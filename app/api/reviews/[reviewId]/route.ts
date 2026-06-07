@@ -6,7 +6,7 @@ import Review from "@/database/review/review.model";
 import Place from "@/database/place.model";
 import { updatePlaceRating } from "@/lib/reviews";
 
-import { requireAuth } from "@/lib/permissions";
+import { requireVerifiedUser, EmailNotVerifiedError } from "@/lib/permissions";
 import { deleteReviewSchema } from "@/database/review/review.schema";
 
 type RouteContext = {
@@ -20,7 +20,7 @@ export async function DELETE(
     { params }: RouteContext
 ) {
     try {
-        const currentUser = await requireAuth();
+        const currentUser = await requireVerifiedUser();
         const { reviewId } = await params;
 
         const validated = deleteReviewSchema.parse({ reviewId });
@@ -49,7 +49,13 @@ export async function DELETE(
             );
         }
 
-        const isOwner = review.userId.toString() === currentUser._id;
+        const currentUserId = currentUser?._id
+            ? String(currentUser._id)
+            : (currentUser as { id?: unknown })?.id
+                ? String((currentUser as { id?: unknown }).id)
+                : null;
+
+        const isOwner = !!currentUserId && review.userId.toString() === currentUserId;
         const isAdmin = currentUser.role === "admin";
 
         if (!isOwner && !isAdmin) {
@@ -85,6 +91,17 @@ export async function DELETE(
             return NextResponse.json({ success: false, errorCode: "UNAUTHORIZED" }, { status: 401 });
         }
 
+        if (error instanceof EmailNotVerifiedError) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "EMAIL_NOT_VERIFIED",
+                    message: "Please verify your email before continuing."
+                },
+                { status: 403 }
+            );
+        }
+
         console.error("DELETE REVIEW ERROR:", error);
 
         return NextResponse.json(
@@ -100,7 +117,12 @@ export async function POST(
     { params }: RouteContext
 ) {
     try {
-        const currentUser = await requireAuth();
+        const currentUser = await requireVerifiedUser();
+        const currentUserId = currentUser?._id
+            ? String(currentUser._id)
+            : (currentUser as { id?: unknown })?.id
+                ? String((currentUser as { id?: unknown }).id)
+                : null;
         const { reviewId } = await params;
 
         if (!mongoose.Types.ObjectId.isValid(reviewId)) {
@@ -124,7 +146,8 @@ export async function POST(
         const isAdmin = currentUser.role === "admin";
         if (!isAdmin) {
             const place = await Place.findById(review.placeId).select("ownerId").lean<{ ownerId?: any }>();
-            const isPlaceOwner = place?.ownerId && place.ownerId.toString() === currentUser._id;
+            const ownerId = place?.ownerId ? String(place.ownerId) : null;
+            const isPlaceOwner = !!ownerId && !!currentUserId && ownerId === currentUserId;
             if (!isPlaceOwner) {
                 return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
             }
@@ -134,7 +157,7 @@ export async function POST(
         // This prevents admins from overwriting owner replies and vice versa.
         if (review.reply?.userId) {
             const originalAuthorId = review.reply.userId.toString();
-            if (originalAuthorId !== currentUser._id) {
+            if (originalAuthorId !== currentUserId) {
                 return NextResponse.json(
                     { success: false, errorCode: "REPLY_OWNED_BY_OTHER" },
                     { status: 403 }
@@ -145,18 +168,40 @@ export async function POST(
         // Write reply (create or update by the same author)
         review.set("reply", {
             text,
-            userId: new mongoose.Types.ObjectId(currentUser._id),
+            userId: currentUserId ? new mongoose.Types.ObjectId(currentUserId) : null,
             createdAt: new Date(),
         });
         await review.save();
 
+        const place = await Place.findById(review.placeId).select("ownerId").lean();
+        const ownerIdStr = place?.ownerId ? place.ownerId.toString() : null;
+        const replyObj = {
+            text: review.reply!.text,
+            userId: review.reply!.userId.toString(),
+            createdAt: review.reply!.createdAt,
+            isOwnerReply:
+                !!ownerIdStr &&
+                !!review.reply?.userId &&
+                review.reply.userId.toString() === ownerIdStr,
+        };
+
         return NextResponse.json(
-            { success: true, reply: review.reply },
+            { success: true, reply: replyObj },
             { status: 200 }
         );
     } catch (error: any) {
         if (error?.message === "Unauthorized") {
             return NextResponse.json({ success: false, errorCode: "UNAUTHORIZED" }, { status: 401 });
+        }
+        if (error instanceof EmailNotVerifiedError) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "EMAIL_NOT_VERIFIED",
+                    message: "Please verify your email before continuing."
+                },
+                { status: 403 }
+            );
         }
         console.error("REPLY REVIEW ERROR:", error);
         return NextResponse.json({ success: false, errorCode: "UNKNOWN_ERROR" }, { status: 500 });
@@ -169,7 +214,12 @@ export async function PATCH(
     { params }: RouteContext
 ) {
     try {
-        const currentUser = await requireAuth();
+        const currentUser = await requireVerifiedUser();
+        const currentUserId = currentUser?._id
+            ? String(currentUser._id)
+            : (currentUser as { id?: unknown })?.id
+                ? String((currentUser as { id?: unknown }).id)
+                : null;
         const { reviewId } = await params;
 
         if (!mongoose.Types.ObjectId.isValid(reviewId)) {
@@ -188,7 +238,7 @@ export async function PATCH(
         }
 
         // Only the original reply author can delete it
-        if (review.reply.userId.toString() !== currentUser._id) {
+        if (review.reply.userId.toString() !== currentUserId) {
             return NextResponse.json({ success: false, errorCode: "REPLY_OWNED_BY_OTHER" }, { status: 403 });
         }
 
@@ -199,6 +249,16 @@ export async function PATCH(
     } catch (error: any) {
         if (error?.message === "Unauthorized") {
             return NextResponse.json({ success: false, errorCode: "UNAUTHORIZED" }, { status: 401 });
+        }
+        if (error instanceof EmailNotVerifiedError) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "EMAIL_NOT_VERIFIED",
+                    message: "Please verify your email before continuing."
+                },
+                { status: 403 }
+            );
         }
         console.error("DELETE REPLY ERROR:", error);
         return NextResponse.json({ success: false, errorCode: "UNKNOWN_ERROR" }, { status: 500 });
