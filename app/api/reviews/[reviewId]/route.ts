@@ -6,7 +6,7 @@ import Review from "@/database/review/review.model";
 import Place from "@/database/place.model";
 import { updatePlaceRating } from "@/lib/reviews";
 
-import { requireVerifiedUser, EmailNotVerifiedError } from "@/lib/permissions";
+import { requireVerifiedUser, EmailNotVerifiedError, requireAuth } from "@/lib/permissions";
 import { deleteReviewSchema } from "@/database/review/review.schema";
 
 type RouteContext = {
@@ -20,7 +20,7 @@ export async function DELETE(
     { params }: RouteContext
 ) {
     try {
-        const currentUser = await requireVerifiedUser();
+        const currentUser = await requireAuth();
         const { reviewId } = await params;
 
         const validated = deleteReviewSchema.parse({ reviewId });
@@ -89,17 +89,6 @@ export async function DELETE(
 
         if (error?.message === "Unauthorized") {
             return NextResponse.json({ success: false, errorCode: "UNAUTHORIZED" }, { status: 401 });
-        }
-
-        if (error instanceof EmailNotVerifiedError) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: "EMAIL_NOT_VERIFIED",
-                    message: "Please verify your email before continuing."
-                },
-                { status: 403 }
-            );
         }
 
         console.error("DELETE REVIEW ERROR:", error);

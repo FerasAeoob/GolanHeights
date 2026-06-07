@@ -5,7 +5,7 @@ import connectDB from "@/lib/mongodb";
 import Review from "@/database/review/review.model";
 import Place from "@/database/place.model";
 
-import { requireVerifiedUser, EmailNotVerifiedError } from "@/lib/permissions";
+import { requireAuth } from "@/lib/permissions";
 import { createOrUpdateReviewSchema } from "@/database/review/review.schema";
 import { checkRateLimit } from "@/lib/rate-limit";
 
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
 // CREATE OR UPDATE review
 export async function POST(req: NextRequest) {
   try {
-    const currentUser = await requireVerifiedUser();
+    const currentUser = await requireAuth();
 
     const { allowed } = checkRateLimit(reviewLimiter, currentUser._id);
     if (!allowed) {
@@ -140,17 +140,6 @@ export async function POST(req: NextRequest) {
 
     if (error?.message === "Unauthorized") {
       return NextResponse.json({ success: false, errorCode: "UNAUTHORIZED" }, { status: 401 });
-    }
-
-    if (error instanceof EmailNotVerifiedError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "EMAIL_NOT_VERIFIED",
-          message: "Please verify your email before continuing."
-        },
-        { status: 403 }
-      );
     }
 
     console.error("CREATE/UPDATE REVIEW ERROR:", error);
