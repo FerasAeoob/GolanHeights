@@ -224,7 +224,7 @@ export default async function PlacesPage({
                 <div className="flex flex-col items-center justify-center w-full max-w-[1200px] lg:max-w-[1400px] " >
 
                     {/* Your Responsive Grid */}
-                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border gap-4">
+                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border gap-4" dir="ltr">
                         {places.length > 0 ? (
                             places.map((place: IPublicPlaceDTO) => (
                                 <div

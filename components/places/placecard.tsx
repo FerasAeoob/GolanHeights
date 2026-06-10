@@ -23,6 +23,7 @@ export default function PlaceCard({
     currentUserId,
     initialIsFavorite = false,
 }: PlaceCardProps) {
+    const isRTL = locale === 'ar' || locale === 'he';
     const categoryColors: Record<string, string> = {
         nature: "bg-green-200/90 hover:bg-black/70 text-green-700",
         "food-drink": "bg-orange-200/90 hover:bg-black/70 text-orange-700",
@@ -57,7 +58,10 @@ export default function PlaceCard({
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                 </div>
-                <div className={`absolute z-10 gap-1 font-bold px-2 top-2 start-2 text-[14px] h-7 flex items-center !bg-black/20 backdrop-blur-sm !text-white !border-white/40 shadow-inner shadow-black !border-1 justify-center ${categoryColors[place.category]}  rounded-md `}>
+                <div
+                    dir={isRTL ? "rtl" : "ltr"}
+                    className={`absolute z-10 gap-1 font-bold px-2 top-2 ${isRTL ? "right-2" : "left-2"} text-[14px] h-7 flex items-center !bg-black/20 backdrop-blur-sm !text-white !border-white/40 shadow-inner shadow-black !border-1 justify-center ${categoryColors[place.category]}  rounded-md `}
+                >
                     {CategoryIcon && <CategoryIcon className="w-3.5 h-3.5 -mt-[1px] " />}
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
@@ -65,7 +69,10 @@ export default function PlaceCard({
                 <div className="mt-auto z-20 w-full h-40 sm:h-35 p-[16px] bg-gray-200 backdrop-blur-sm flex flex-col">
 
                     {place.openHours.length > 0 &&
-                        <div className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between  ">
+                        <div
+                            dir={isRTL ? "rtl" : "ltr"}
+                            className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between"
+                        >
                             <div className="flex items-center gap-1 ">
 
                                 <OpenStatus
@@ -100,7 +107,7 @@ export default function PlaceCard({
 
 
                         </div>}
-                    <div className="mt-1 flex flex-col gap-2">
+                    <div className="mt-1 flex flex-col gap-2" dir={isRTL ? "rtl" : "ltr"}>
                         <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">
                             {displayTitle}
                         </h3>

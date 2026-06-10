@@ -103,7 +103,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                         </div>
                     </Reveal>
 
-                    <div className="flex flex-wrap justify-center w-full box-border gap-3">
+                    <div className="flex flex-wrap justify-center w-full box-border gap-3" dir="ltr">
                         {categories.map((cat, i) => (
                             <div
                                 key={cat.slug}
@@ -135,7 +135,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                     </Reveal>
 
 
-                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border p-2 sm:p-1">
+                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border p-2 sm:p-1" dir="ltr">
                         {places.map((place, i) => (
                             <div
                                 key={place._id}
