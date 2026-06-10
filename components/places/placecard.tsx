@@ -107,7 +107,7 @@ export default function PlaceCard({
 
 
                         </div>}
-                    <div className="mt-1 flex flex-col gap-2" dir={isRTL ? "rtl" : "ltr"}>
+                    <div className="mt-1 flex flex-col gap-2 flex-1 min-h-0" dir={isRTL ? "rtl" : "ltr"}>
                         <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">
                             {displayTitle}
                         </h3>
@@ -118,7 +118,7 @@ export default function PlaceCard({
                         </div>
 
                         {/* This will take remaining space and center text */}
-                        <div className="flex items-center">
+                        <div className="flex items-center flex-1 min-h-0">
                             <p className="text-l line-clamp-3 md:line-clamp-2">
                                 {displayShortDesc}
                             </p>
