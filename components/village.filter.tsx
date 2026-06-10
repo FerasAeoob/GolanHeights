@@ -6,7 +6,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 interface VillageFilterProps {
     options: { label: string; slug: string }[];
     label: string;
-    allLabel: string;
+    allLabel?: string;
 }
 
 export default function VillageFilter({ options, label, allLabel }: VillageFilterProps) {
@@ -78,31 +78,15 @@ export default function VillageFilter({ options, label, allLabel }: VillageFilte
                         className="overflow-x-auto scroll-smooth overscroll-x-contain px-1 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     >
                         <div className="flex snap-x snap-mandatory items-center gap-2">
-                            <button
-                                type="button"
-                                aria-pressed={currentVillages.length === 0}
-                                onClick={() => navigateWithVillages([])}
-                                className={`${pillBaseClasses} snap-start ${currentVillages.length === 0 ? activePillClasses : inactivePillClasses}`}
-                            >
-                                {allLabel}
-                            </button>
-
                             {options.map((opt) => {
                                 const isActive = currentVillages.includes(opt.slug);
-
-                                let newVillages = [...currentVillages];
-                                if (isActive) {
-                                    newVillages = newVillages.filter(v => v !== opt.slug);
-                                } else {
-                                    newVillages.push(opt.slug);
-                                }
 
                                 return (
                                     <button
                                         key={opt.slug}
                                         type="button"
                                         aria-pressed={isActive}
-                                        onClick={() => navigateWithVillages(newVillages)}
+                                        onClick={() => navigateWithVillages(isActive ? [] : [opt.slug])}
                                         className={`${pillBaseClasses} snap-start ${isActive ? activePillClasses : inactivePillClasses}`}
                                     >
                                         {opt.label}

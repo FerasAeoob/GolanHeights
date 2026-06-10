@@ -213,7 +213,6 @@ export default async function PlacesPage({
                     <VillageFilter
                         options={villageOptions}
                         label={villageFilterLabel}
-                        allLabel={dict.villages.all}
                     />
                 </div>
             </section>
