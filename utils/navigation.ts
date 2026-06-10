@@ -69,3 +69,23 @@ export function getLocalizedPathname(
     
     return `${finalPathname}${finalQuery}${finalHash}`;
 }
+
+interface AppRouter {
+    push(href: string, options?: { scroll?: boolean }): void;
+}
+
+export function pushPreservingScroll(router: AppRouter, newPath: string) {
+    const hasHash = newPath.includes('#');
+    const scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+
+    router.push(newPath, { scroll: false });
+
+    if (!hasHash && typeof window !== 'undefined') {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollY, behavior: 'auto' });
+            });
+        });
+    }
+}
+

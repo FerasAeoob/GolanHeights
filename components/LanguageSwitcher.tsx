@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { ChevronDown, Check } from 'lucide-react';
 import { useLocalizedSlugs } from '@/app/LocalizedSlugContext';
-import { getLocalizedPathname } from '@/utils/navigation';
+import { getLocalizedPathname, pushPreservingScroll } from '@/utils/navigation';
 
 // ─── Language metadata ────────────────────────────────────────────────────────
 const LANGS = ['en', 'he', 'ar'] as const;
@@ -66,7 +66,7 @@ export default function LanguageSwitcher() {
             typeof window !== 'undefined' ? window.location.hash : '',
             localizedSlugs
         );
-        router.push(newPath);
+        pushPreservingScroll(router, newPath);
     };
 
 

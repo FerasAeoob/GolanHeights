@@ -20,7 +20,7 @@ import {
 import UserAvatar from '@/components/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
 import { useLocalizedSlugs } from '@/app/LocalizedSlugContext';
-import { getLocalizedPathname } from '@/utils/navigation';
+import { getLocalizedPathname, pushPreservingScroll } from '@/utils/navigation';
 
 interface MobileDrawerProps {
     lang: string;
@@ -51,7 +51,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             typeof window !== 'undefined' ? window.location.hash : '',
             localizedSlugs
         );
-        router.push(newPath);
+        pushPreservingScroll(router, newPath);
         setIsOpen(false);
     };
 
