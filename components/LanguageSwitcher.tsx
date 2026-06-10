@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { ChevronDown, Check } from 'lucide-react';
+import { useLocalizedSlugs } from '@/app/LocalizedSlugContext';
+import { getLocalizedPathname } from '@/utils/navigation';
 
 // ─── Language metadata ────────────────────────────────────────────────────────
 const LANGS = ['en', 'he', 'ar'] as const;
@@ -14,42 +16,13 @@ const LANG_LABELS: Record<Lang, string> = {
     ar: 'العربية',
 };
 
-// ─── Routing helper ───────────────────────────────────────────────────────────
-function buildPath(pathname: string, targetLang: Lang): string {
-    const segments = pathname.split('/');
-    // segments[0] is always "" (leading slash)
-    const newSegments = [...segments];
-
-    // Replace or insert the language prefix explicitly
-    if (LANGS.includes(newSegments[1] as Lang)) {
-        newSegments[1] = targetLang;
-    } else {
-        newSegments.splice(1, 0, targetLang);
-    }
-
-    // ── Localized place slug handling ─────────────────────────────────────────
-    // After mutation the structure is: ["", lang?, "places", slug, ...]
-    const placesIdx = newSegments.indexOf('places');
-    const slugIdx = placesIdx !== -1 ? placesIdx + 1 : -1;
-    if (slugIdx !== -1 && newSegments[slugIdx] && typeof document !== 'undefined') {
-        const el = document.getElementById('place-slugs');
-        if (el) {
-            const localizedSlug = el.getAttribute('data-' + targetLang);
-            if (localizedSlug) {
-                newSegments[slugIdx] = localizedSlug;
-            }
-        }
-    }
-
-    return newSegments.join('/') || '/';
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function LanguageSwitcher() {
     const router = useRouter();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const { localizedSlugs } = useLocalizedSlugs();
 
     // Detect current language from the URL
     const segments = pathname.split('/');
@@ -86,9 +59,16 @@ export default function LanguageSwitcher() {
         setIsOpen(false);
         setLanguageCookie(lang);
         if (lang === currentLang) return;
-        const newPath = buildPath(pathname, lang);
+        const newPath = getLocalizedPathname(
+            pathname,
+            lang,
+            typeof window !== 'undefined' ? window.location.search : '',
+            typeof window !== 'undefined' ? window.location.hash : '',
+            localizedSlugs
+        );
         router.push(newPath);
     };
+
 
     return (
         <div ref={containerRef} className="relative">

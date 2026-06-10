@@ -171,7 +171,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                     highlight={popupPlace.featured ? "featured" : undefined}
                     description={popupPlace.shortDescription?.[lang] || popupPlace.shortDescription?.en || popupPlace.description?.[lang] || popupPlace.description?.en || ""}
                     imageUrl={popupPlace.images?.[0]?.url}
-                    href={`/${lang}/places/${popupPlace.slug[lang] || popupPlace.slug.en}`}
+                    href={lang === 'en' ? `/places/${popupPlace.slug[lang] || popupPlace.slug.en}` : `/${lang}/places/${popupPlace.slug[lang] || popupPlace.slug.en}`}
                     lang={lang}
                 />
             )}

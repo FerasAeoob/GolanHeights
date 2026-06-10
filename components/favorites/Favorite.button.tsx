@@ -157,7 +157,7 @@ export default function FavoriteButton({
 
                     {/* Sign in button */}
                     <Link
-                        href={`/${lang}/login`}
+                        href={lang === 'en' ? '/login' : `/${lang}/login`}
                         onClick={() => setShowLoginPopover(false)}
                         className="flex items-center justify-center gap-1.5 mt-1 w-full rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold py-2 px-3 transition-colors shadow-sm"
                     >

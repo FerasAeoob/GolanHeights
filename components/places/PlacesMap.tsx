@@ -132,7 +132,7 @@ export default function PlacesMap({ places, lang, dict }: PlacesMapProps) {
                                         </div>
                                     </div>
                                     <Link 
-                                        href={`/${lang}/places/${slug}`}
+                                        href={lang === 'en' ? `/places/${slug}` : `/${lang}/places/${slug}`}
                                         className="mt-2 block w-full text-center bg-emerald-600 text-white py-1.5 rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors"
                                     >
                                         {dict.viewdetails || "View Details"}

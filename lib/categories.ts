@@ -17,7 +17,7 @@ export const categories: Category[] = [
   {
     slug: "nature",
     label: "Nature",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/f_auto,q_auto/v1772726185/nature_awchdg.webp",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780908782/Transform_this_landscape_photo_into_202606081152_clwqcl.webp",
     color: "from-green-600/90",
     desc: "Discover the natural beauty of the Golan Heights, with its stunning landscapes, waterfalls, and hiking trails.",
     icon: Mountain,

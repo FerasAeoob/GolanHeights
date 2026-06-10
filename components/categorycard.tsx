@@ -16,7 +16,7 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
     const desc = dict.categoriesDesc?.[category.slug] || "";
 
     return (
-        <Link href={`/${lang}/places?category=${category.slug}`} className="block w-full h-full">
+        <Link href={lang === 'en' ? `/places?category=${category.slug}` : `/${lang}/places?category=${category.slug}`} className="block w-full h-full">
             <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
 
                 <Image

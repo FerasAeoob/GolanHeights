@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import UserAvatar from '@/components/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
+import { useLocalizedSlugs } from '@/app/LocalizedSlugContext';
+import { getLocalizedPathname } from '@/utils/navigation';
 
 interface MobileDrawerProps {
     lang: string;
@@ -31,6 +33,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const isRTL = lang === 'he' || lang === 'ar';
+    const { localizedSlugs } = useLocalizedSlugs();
 
     // Toggle drawer
     const toggleDrawer = () => setIsOpen(!isOpen);
@@ -41,30 +44,13 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
         const nextIndex = (currentIndex + 1) % languages.length;
         const nextLang = languages[nextIndex];
 
-        // split('/') results in ["", "en", "places", "slug"]
-        const segments = pathname.split('/');
-        const newSegments = [...segments];
-
-        // 1. Language prefix update
-        if (languages.includes(newSegments[1] as any)) {
-            newSegments[1] = nextLang;
-        } else {
-            newSegments.splice(1, 0, nextLang);
-        }
-
-        // 2. Localized Slug Handling (Smooth Transition)
-        const isPlaceDetail = newSegments[2] === 'places' && newSegments[3];
-        if (isPlaceDetail && typeof document !== 'undefined') {
-            const el = document.getElementById('place-slugs');
-            if (el) {
-                const localizedSlug = el.getAttribute('data-' + nextLang);
-                if (localizedSlug) {
-                    newSegments[3] = localizedSlug;
-                }
-            }
-        }
-
-        const newPath = newSegments.join('/') || '/';
+        const newPath = getLocalizedPathname(
+            pathname,
+            nextLang,
+            typeof window !== 'undefined' ? window.location.search : '',
+            typeof window !== 'undefined' ? window.location.hash : '',
+            localizedSlugs
+        );
         router.push(newPath);
         setIsOpen(false);
     };
@@ -98,27 +84,32 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
         };
     }, [isOpen]);
 
+    const getLink = (path: string) => {
+        if (lang === 'en') return path;
+        return path === '/' ? `/${lang}` : `/${lang}${path}`;
+    };
+
     const items = [
-        { label: dict.nav?.home || 'Home', href: `/${lang}`, icon: Home, separator: false },
-        { label: dict.nav?.favorites || 'Favorites', href: `/${lang}/favorites`, icon: Heart, separator: !currentUser },
+        { label: dict.nav?.home || 'Home', href: getLink('/'), icon: Home, separator: false },
+        { label: dict.nav?.favorites || 'Favorites', href: getLink('/favorites'), icon: Heart, separator: !currentUser },
         ...(currentUser
             ? [
-                { label: dict.nav?.profile || 'Profile', href: `/${lang}/profile`, icon: UserIcon, separator: false },
-                { label: dict.nav?.notifications || 'Notifications', href: `/${lang}/notifications`, icon: Bell, separator: true },
+                { label: dict.nav?.profile || 'Profile', href: getLink('/profile'), icon: UserIcon, separator: false },
+                { label: dict.nav?.notifications || 'Notifications', href: getLink('/notifications'), icon: Bell, separator: true },
             ]
             : []),
         ...(currentUser?.role === 'admin'
             ? [
-                { label: dict.nav?.adminPanel || 'Admin Panel', href: `/${lang}/area-51-sec`, icon: Shield, separator: true },
+                { label: dict.nav?.adminPanel || 'Admin Panel', href: getLink('/area-51-sec'), icon: Shield, separator: true },
             ]
             : []),
 
-        { label: dict.nav?.history || 'History', href: `/${lang}/history`, icon: BookOpen, separator: false },
-        { label: dict.nav?.contact || 'Contact', href: `/${lang}/contact`, icon: Mail, separator: true },
-        { label: dict.nav?.about || 'About', href: `/${lang}/about`, icon: Info, separator: true },
+        { label: dict.nav?.history || 'History', href: getLink('/history'), icon: BookOpen, separator: false },
+        { label: dict.nav?.contact || 'Contact', href: getLink('/contact'), icon: Mail, separator: true },
+        { label: dict.nav?.about || 'About', href: getLink('/about'), icon: Info, separator: true },
         ...(currentUser
             ? [{ label: dict.profile?.logout || 'Logout', href: '#', icon: LogOut, onClick: handleLogout, separator: false }]
-            : [{ label: dict.auth?.login || 'Login', href: `/${lang}/login`, icon: LogIn, separator: false }]),
+            : [{ label: dict.auth?.login || 'Login', href: getLink('/login'), icon: LogIn, separator: false }]),
     ];
 
     return (

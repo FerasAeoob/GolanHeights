@@ -26,7 +26,7 @@ export default function FavoritesEmptyState({ dict, lang }: EmptyStateProps) {
             </p>
             
             <Link 
-                href={`/${lang}/places`}
+                href={lang === 'en' ? '/places' : `/${lang}/places`}
                 className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 ease-out"
             >
                 {dict.favoritesPage?.exploreCTA || "Explore Places"}

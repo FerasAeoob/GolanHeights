@@ -239,7 +239,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                     setMessage({ type: 'error', text: errorText });
                 } else {
                     setMessage({ type: 'success', text: mode === 'create' ? 'Place created!' : 'Place updated!' });
-                    setTimeout(() => router.push(`/${lang}/area-51-sec`), 1000);
+                    setTimeout(() => router.push(lang === 'en' ? '/area-51-sec' : `/${lang}/area-51-sec`), 1000);
                 }
             } catch (e: any) {
                 setMessage({ type: 'error', text: e.message || 'Something went wrong' });
@@ -266,7 +266,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
 
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
-                    <Link href={`/${lang}/area-51-sec`} className="text-slate-400 hover:text-slate-700">
+                    <Link href={lang === 'en' ? '/area-51-sec' : `/${lang}/area-51-sec`} className="text-slate-400 hover:text-slate-700">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
                     <h1 className="text-3xl font-bold">
@@ -824,7 +824,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                         </button>
 
                         <Link
-                            href={`/${lang}/area-51-sec`}
+                            href={lang === 'en' ? '/area-51-sec' : `/${lang}/area-51-sec`}
                             className="text-slate-500 hover:text-slate-700 text-sm font-medium px-4 py-3 rounded-xl hover:bg-slate-200 md:hover:bg-transparent transition-colors text-center"
                         >
                             Cancel

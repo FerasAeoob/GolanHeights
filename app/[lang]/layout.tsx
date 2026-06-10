@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Outfit, Heebo, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "@/app/globals.css";
 import { PostHogProvider } from "@/app/providers";
+import { LocalizedSlugProvider } from "@/app/LocalizedSlugContext";
 import { PostHogPageView } from "@/app/pageview";
 import { Suspense } from "react";
 import ToastContainer from "@/components/ui/Toast";
+
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -67,11 +69,13 @@ export default async function RootLayout({
         className={`${outfit.variable} ${heebo.variable} ${ibmPlexSansArabic.variable} ${fontClass} antialiased flex flex-col min-h-screen`}
       >
         <PostHogProvider>
-          <Suspense fallback={null}>
-            <PostHogPageView />
-          </Suspense>
-          <ToastContainer />
-          {children}
+          <LocalizedSlugProvider>
+            <Suspense fallback={null}>
+              <PostHogPageView />
+            </Suspense>
+            <ToastContainer />
+            {children}
+          </LocalizedSlugProvider>
         </PostHogProvider>
       </body>
     </html>

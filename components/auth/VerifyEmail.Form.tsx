@@ -83,7 +83,7 @@ export default function VerifyEmailForm({ lang, dict }: VerifyEmailFormProps) {
                         {dict?.auth?.emailVerifiedSuccess || "Your email has been successfully verified."}
                     </div>
                     <Link
-                        href={`/${lang}/profile`}
+                        href={lang === 'en' ? '/profile' : `/${lang}/profile`}
                         className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer mt-2 text-center font-semibold transition-transform hover:scale-[1.01]"
                     >
                         {dict?.profile?.title || "Go to Profile / Settings"}
@@ -111,7 +111,7 @@ export default function VerifyEmailForm({ lang, dict }: VerifyEmailFormProps) {
                     
                     <div className="mt-4 text-center">
                         <Link
-                            href={`/${lang}/login`}
+                            href={lang === 'en' ? '/login' : `/${lang}/login`}
                             className="text-white/80 hover:text-white underline text-sm transition-colors"
                         >
                             {dict?.auth?.backToLogin || "Back to login"}

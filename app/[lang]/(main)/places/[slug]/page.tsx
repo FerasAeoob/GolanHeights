@@ -11,6 +11,7 @@ import ReviewsClient from "@/components/reviews/ReviewsClient";
 import { getCurrentUser } from "@/lib/auth";
 import { perfLog } from "@/lib/perf";
 import type { Metadata } from "next";
+import SetLocalizedSlugs from "@/components/SetLocalizedSlugs";
 
 interface PageProps {
     params: Promise<{
@@ -77,7 +78,7 @@ export default async function PlacePage({ params }: PageProps) {
 
     const correctSlug = fullPlace.slug[lang] || fullPlace.slug.en;
     if (decodedSlug.toLowerCase() !== correctSlug) {
-        redirect(`/${lang}/places/${encodeURIComponent(correctSlug)}`);
+        redirect(lang === 'en' ? `/places/${encodeURIComponent(correctSlug)}` : `/${lang}/places/${encodeURIComponent(correctSlug)}`);
     }
 
     const ownerId = fullPlace.ownerId ? String(fullPlace.ownerId) : null;
@@ -114,7 +115,7 @@ export default async function PlacePage({ params }: PageProps) {
         <div className=" pt-20 pb-16 md:pb-24 flex flex-col w-dvw items-center px-3">
             <div className="flex h-20 w-full max-w-[1200px] items-center ">
 
-                <Link href={`/${lang}/places`} className=" flex text-lg font-bold gap-3 hover:text-emerald-900 transition-colors duration-300">
+                <Link href={lang === 'en' ? '/places' : `/${lang}/places`} className=" flex text-lg font-bold gap-3 hover:text-emerald-900 transition-colors duration-300">
                     <ArrowLeft className={`text-lg font-bold mt-1 ${lang === 'he' || lang === 'ar' ? 'rotate-180' : ''}`} />
                     {dict.backtoexplore ?? "Back to Explore"}
                 </Link>
@@ -192,7 +193,7 @@ export default async function PlacePage({ params }: PageProps) {
                     dict={dict}
                 />
 
-                <div id="place-slugs" data-en={place.slug.en} data-he={place.slug.he} data-ar={place.slug.ar} className="hidden" />
+                <SetLocalizedSlugs slugs={place.slug} />
 
             </div >
         </div >
