@@ -60,7 +60,7 @@
         "activities": "Activities",
         "stays": "Stays",
         "holy-places": "Holy Places",
-        "cherry-picking": "Cherry Picking",
+        "shopping": "Shopping",
         "local-services": "Local Services"
     },
     "categoriesDesc": {
@@ -69,7 +69,7 @@
         "activities": "Discover the best activities in the Golan Heights, with a variety of options for all ages and interests.",
         "stays": "Discover the best places to stay in the Golan Heights, with a variety of options for all budgets and preferences.",
         "holy-places": "Discover the historical and sacred holy places in the Golan Heights, spanning different faiths and ancient periods.",
-        "cherry-picking": "Experience the joy of cherry picking in the fertile orchards of the northern Golan Heights during the harvest season.",
+        "shopping": "Discover unique local boutiques, traditional markets, and specialty shops across the Golan Heights.",
         "local-services": "Useful local businesses, repairs, shops, and everyday services across the Golan."
     },
     "price": {

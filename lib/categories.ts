@@ -1,4 +1,4 @@
-import { Bike, Cherry, Church, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
+import { Bike, ShoppingBag, Church, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
 
 export interface Category {
   slug: string;
@@ -10,7 +10,7 @@ export interface Category {
 }
 
 /** Category slugs used as keys in dict.categories and as URL params (always lowercase, kebab-case). */
-export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "holy-places", "cherry-picking", "local-services"] as const;
+export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "holy-places", "shopping", "local-services"] as const;
 export type CategorySlug = (typeof CATEGORY_SLUGS)[number];
 
 export const categories: Category[] = [
@@ -51,11 +51,11 @@ export const categories: Category[] = [
     icon: Church,
   },
   {
-    slug: "cherry-picking",
-    label: "Cherry Picking",
-    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780244122/make_it_hyper_realstic_2K_202605311914_ltwgpc.webp",
-    color: "from-rose-600/90",
-    icon: Cherry,
+    slug: "shopping",
+    label: "Shopping",
+    image: "/images/shopping.png",
+    color: "from-pink-600/90",
+    icon: ShoppingBag,
   },
   {
     slug: "local-services",
