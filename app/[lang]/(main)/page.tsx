@@ -1,7 +1,7 @@
 import "@/app/globals.css";
 import CategoryCard from "@/components/categorycard";
 import { Reveal } from "@/components/animation/Reveal";
-import categories from "@/lib/categories";
+import categories, { cherryPickingCategory } from "@/lib/categories";
 import AnimatedHero from "@/components/homepage/animatedHero";
 import PlaceCard from "@/components/places/placecard";
 import Place, { IPlace, IPublicPlaceDTO } from "@/database/place.model";
@@ -104,7 +104,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                     </Reveal>
 
                     <div className="flex flex-wrap justify-center w-full box-border gap-3" dir="ltr">
-                        {categories.map((cat, i) => (
+                        {[...categories, cherryPickingCategory].map((cat, i) => (
                             <div
                                 key={cat.slug}
                                 className="w-[calc((100%-12px)/2)] md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] "

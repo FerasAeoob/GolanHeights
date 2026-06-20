@@ -63,7 +63,8 @@
         "stays": "Stays",
         "holy-places": "Holy Places",
         "shopping": "Shopping",
-        "local-services": "Local Services"
+        "local-services": "Local Services",
+        "cherry-picking": "Cherry Picking"
     },
     "categoriesDesc": {
         "nature": "Discover the natural beauty of the Golan Heights, with its stunning landscapes, waterfalls, and hiking trails.",
@@ -72,7 +73,21 @@
         "stays": "Discover the best places to stay in the Golan Heights, with a variety of options for all budgets and preferences.",
         "holy-places": "Discover the historical and sacred holy places in the Golan Heights, spanning different faiths and ancient periods.",
         "shopping": "Discover unique local boutiques, traditional markets, and specialty shops across the Golan Heights.",
-        "local-services": "Useful local businesses, repairs, shops, and everyday services across the Golan."
+        "local-services": "Useful local businesses, repairs, shops, and everyday services across the Golan.",
+        "cherry-picking": "Experience the joy of cherry picking in the fertile orchards of the northern Golan Heights during the harvest season."
+    },
+    "cherryPickingSeason": {
+        "badge": "Season Ended",
+        "headline": "Cherry-picking season has come to an end",
+        "description": "This year’s cherry-picking season in the Golan Heights has finished. The orchards are now preparing for the next harvest, and the experience is expected to return in May 2027.",
+        "dateLabel": "Expected return",
+        "date": "May 2027",
+        "supportingText": "Exact opening dates may vary depending on the weather and the fruit harvest.",
+        "primaryButton": "Explore Other Experiences",
+        "secondaryButton": "Back to Home",
+        "imageAlt": "Cherry trees growing in an orchard in the Golan Heights",
+        "metaTitle": "Cherry Picking Season | Returning May 2027",
+        "metaDescription": "Cherry-picking season in the Golan Heights has ended and is expected to return in May 2027. Explore other local experiences while you wait."
     },
     "price": {
         "any": "Any Price",

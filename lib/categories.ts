@@ -1,4 +1,4 @@
-import { Bike, ShoppingBag, Church, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
+import { Bike, Cherry, ShoppingBag, Church, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
 
 export interface Category {
   slug: string;
@@ -65,5 +65,13 @@ export const categories: Category[] = [
     icon: Wrench,
   },
 ];
+
+export const cherryPickingCategory: Category = {
+  slug: "cherry-picking",
+  label: "Cherry Picking",
+  image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780244122/make_it_hyper_realstic_2K_202605311914_ltwgpc.webp",
+  color: "from-rose-600/90",
+  icon: Cherry,
+};
 
 export default categories;

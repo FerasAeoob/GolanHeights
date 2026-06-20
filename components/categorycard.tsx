@@ -1,11 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Category } from "@/lib/categories";
+import type { Locale } from "@/lib/get-dictionary";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 interface CategoryCardProps {
     category: Category;
-    lang: string;
-    dict: Record<string, any>;
+    lang: Locale;
+    dict: {
+        categories?: Record<string, string>;
+        categoriesDesc?: Record<string, string>;
+    };
 }
 
 export default function CategoryCard({ category, lang, dict }: CategoryCardProps) {
@@ -15,9 +20,14 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
     // Translated title & description from dictionary
     const title = dict.categories?.[category.slug] ?? category.label ?? category.slug;
     const desc = dict.categoriesDesc?.[category.slug] || "";
+    const href = category.slug === "cherry-picking"
+        ? getLocalizedPathname("/cherry-picking", lang)
+        : lang === "en"
+            ? `/places?category=${category.slug}`
+            : `/${lang}/places?category=${category.slug}`;
 
     return (
-        <Link href={lang === 'en' ? `/places?category=${category.slug}` : `/${lang}/places?category=${category.slug}`} className="block w-full h-full">
+        <Link href={href} className="block w-full h-full rounded-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300 focus-visible:ring-offset-2">
             <div className="group relative h-[12em] sm:h-[15rem] xl:h-[17rem] overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
 
                 <Image

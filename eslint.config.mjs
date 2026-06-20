@@ -11,6 +11,7 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "GolanHeights/**",
     "next-env.d.ts",
   ]),
 ]);
