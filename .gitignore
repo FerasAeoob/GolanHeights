@@ -44,3 +44,18 @@ next-env.d.ts
 .env.local
 .audit-artifacts/
 AGENTS.md
+
+.agents
+.codex
+
+# VS Code
+.vscode/
+
+# Linting
+.eslintcache
+
+# Windows system files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini

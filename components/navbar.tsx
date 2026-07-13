@@ -18,12 +18,18 @@ export default function Navbar({ lang, dict, currentUser }: { lang: string; dict
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] px-4 h-full relative">
                 <div className="">
                     <Link href={lang === 'en' ? '/' : `/${lang}`} className="flex items-center font-bold gap-3">
-                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1778314889/Untitled_design-Photoroom_wcyhzr.png"
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1783790165/Untitled_design_1_1_kxfqcb.png"
                             alt="Golan Wiki logo"
-                            width={60}
-                            height={45}
+                            width={40}
+                            height={40}
                             quality={85} />
-                        <span className="text-2xl font-bold font-outfit bg-[radial-gradient(circle,_#FFFDA3_40%,_#F7F57C_60%,_#F0ED59_100%)] bg-clip-text text-transparent hidden md:block">Golan Wiki</span>
+                        {/* <span className="text-2xl font-bold font-outfit bg-[radial-gradient(circle,_#FFFDA3_40%,_#F7F57C_60%,_#F0ED59_100%)] bg-clip-text text-transparent hidden md:block">Golan Wiki</span> */}
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1783790165/Untitled_design_1_2_aeqlon.png"
+                            alt="Golan Wiki logo"
+                            width={160}
+                            height={160}
+                            quality={85}
+                            className="hidden md:block" />
                     </Link>
                 </div>
                 <div className="flex flex-row items-center gap-2 md:gap-4">
