@@ -47,7 +47,7 @@ export default function PlaceCard({
             {/* FIX: 'aspect-square' prevents vertical stretching.
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
-            <div className="group z-10 flex relative h-100 sm:h-100 w-full mx-auto overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100 bg-white transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1 focus-within:ring-2 focus-within:ring-slate-400">
+            <div className="group relative z-10 mx-auto flex h-100 w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2">
 
                 <div className="absolute top-0 left-0 right-0 bottom-40 sm:bottom-35">
                     <Image
@@ -55,7 +55,7 @@ export default function PlaceCard({
                         alt={mainImage?.alt?.[locale] || place.title.en}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     />
                 </div>
                 <div
@@ -66,7 +66,7 @@ export default function PlaceCard({
                     {dict.categories[place.category] || capitalizeFirst(place.category)}
                 </div>
 
-                <div className="mt-auto z-20 w-full h-40 sm:h-35 p-[16px] bg-gray-200 backdrop-blur-sm flex flex-col">
+                <div className="z-20 mt-auto flex h-40 w-full flex-col border-t border-slate-100 bg-white p-4 sm:h-35">
 
                     {place.openHours.length > 0 &&
                         <div
@@ -108,18 +108,20 @@ export default function PlaceCard({
 
                         </div>}
                     <div className="mt-1 flex flex-col gap-2 flex-1 min-h-0" dir={isRTL ? "rtl" : "ltr"}>
-                        <h3 className="group-hover:text-green-800 text-l font-bold line-clamp-1">
+                        <h3 className="line-clamp-1 text-lg font-extrabold text-slate-950 transition-colors group-hover:text-emerald-800">
                             {displayTitle}
                         </h3>
 
-                        <div className="flex start gap-1 items-center text-green-800 font-bold ">
-                            <MapPin className="w-4 h-4" />
-                            <span className="line-clamp-1 ">{place.location.name[locale] || place.location.name.en}</span>
+                        <div className="flex items-center gap-1 font-bold text-emerald-700">
+                            <MapPin aria-hidden="true" className="h-4 w-4 shrink-0" />
+                            <span className="line-clamp-1">
+                                {place.location.name[locale] || place.location.name.en}
+                            </span>
                         </div>
 
                         {/* This will take remaining space and center text */}
                         <div className="flex items-center flex-1 min-h-0">
-                            <p className="text-l line-clamp-3 md:line-clamp-2">
+                            <p className="line-clamp-3 text-[15px] leading-6 text-slate-600 md:line-clamp-2">
                                 {displayShortDesc}
                             </p>
                         </div>
