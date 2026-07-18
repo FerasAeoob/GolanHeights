@@ -18,16 +18,16 @@ export default function Navbar({ lang, dict, currentUser }: { lang: string; dict
             <div className="flex justify-between items-center w-full lg:max-w-[1400px] max-w-[1200px] px-4 h-full relative">
                 <div className="">
                     <Link href={lang === 'en' ? '/' : `/${lang}`} className="flex items-center font-bold gap-3">
-                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1783790165/Untitled_design_1_1_kxfqcb.png"
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1784332468/ChatGPT_Image_Jul_18_2026_02_48_48_AM_1_bjjash.webp"
                             alt="Golan Wiki logo"
-                            width={40}
-                            height={40}
+                            width={45}
+                            height={45}
                             quality={85} />
                         {/* <span className="text-2xl font-bold font-outfit bg-[radial-gradient(circle,_#FFFDA3_40%,_#F7F57C_60%,_#F0ED59_100%)] bg-clip-text text-transparent hidden md:block">Golan Wiki</span> */}
-                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1783790165/Untitled_design_1_2_aeqlon.png"
+                        <Image src="https://res.cloudinary.com/dsjzcazdi/image/upload/v1784396146/ChatGPT_Image_Jul_18_2026_08_33_43_PM_1_ljoetc.png"
                             alt="Golan Wiki logo"
-                            width={160}
-                            height={160}
+                            width={180}
+                            height={180}
                             quality={85}
                             className="hidden md:block" />
                     </Link>
