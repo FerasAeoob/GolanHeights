@@ -141,7 +141,7 @@ export default async function PlacesPage({
     }[lang];
 
     return (
-        <main className="min-h-screen w-full bg-white">
+        <div className="min-h-screen w-full bg-white">
             <section className="relative w-full overflow-hidden bg-zinc-950">
                 <div
                     aria-hidden="true"
@@ -217,6 +217,7 @@ export default async function PlacesPage({
                                     place={place}
                                     locale={lang}
                                     dict={dict}
+                                    appearance="places"
                                     currentUserId={currentUser?._id?.toString()}
                                     initialIsFavorite={
                                         currentUser?.favorites?.some(
@@ -249,6 +250,6 @@ export default async function PlacesPage({
                     />
                 </div>
             </section>
-        </main>
+        </div>
     );
 }
