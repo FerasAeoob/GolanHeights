@@ -1,8 +1,7 @@
 import { getRequestMemoizedFullPlace, toPublicPlaceDTO } from "@/lib/db/places";
 import { IPublicPlaceDTO } from "@/database/place.model";
 import { SlugSchema } from "@/database/place.schema";
-import Link from "next/link";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import PlaceDetails from "@/components/places/place.sidedetails";
 import { getDictionary } from "@/lib/get-dictionary";
 import { notFound, redirect } from "next/navigation";
@@ -12,6 +11,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { perfLog } from "@/lib/perf";
 import type { Metadata } from "next";
 import SetLocalizedSlugs from "@/components/SetLocalizedSlugs";
+import BackToExplore from "@/components/places/BackToExplore";
 
 interface PageProps {
     params: Promise<{
@@ -115,10 +115,11 @@ export default async function PlacePage({ params }: PageProps) {
         <div className=" pt-20 pb-16 md:pb-24 flex flex-col w-dvw items-center px-3">
             <div className="flex h-20 w-full max-w-[1200px] items-center ">
 
-                <Link href={lang === 'en' ? '/places' : `/${lang}/places`} className=" flex text-lg font-bold gap-3 hover:text-emerald-900 transition-colors duration-300">
-                    <ArrowLeft className={`text-lg font-bold mt-1 ${lang === 'he' || lang === 'ar' ? 'rotate-180' : ''}`} />
-                    {dict.backtoexplore ?? "Back to Explore"}
-                </Link>
+                <BackToExplore
+                    label={dict.backtoexplore ?? "Back to Explore"}
+                    lang={lang}
+                    fallbackHref={lang === 'en' ? '/places' : `/${lang}/places`}
+                />
             </div>
             <div className="w-full max-w-[1200px] justify-center items-center  ">
 
