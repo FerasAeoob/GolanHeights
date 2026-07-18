@@ -140,45 +140,48 @@ export default async function PlacesPage({
         en: "Filter by village",
     }[lang];
 
-    // 3. Render your custom UI
     return (
-
-        <>
-            <section className="flex flex-col md:h-[25rem] h-[20rem] bg-emerald-700  ">
-
-                <div className="flex flex-col h-full mb-8 mt-10 mx-auto  w-full max-w-[1200px] lg:max-w-[1400px] justify-center gap-4 px-4">
-                    {/* Headers */}
-
-                    <h3 className="  uppercase font-bold text-3xl md:text-4xl text-white">
-                        {dict.exploreplaces}
-                    </h3>
-                    <h2 className="text-xl  md:text-2xl text-white/80 ">
-                        {dict.exploreplacesdesc}
-                    </h2>
+        <main className="min-h-screen w-full bg-white">
+            <section className="relative w-full overflow-hidden bg-zinc-950">
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 overflow-hidden"
+                >
+                    <div className="absolute top-[-80px] end-[-120px] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-3xl md:top-[-140px] md:end-[-180px] md:h-[720px] md:w-[720px]" />
+                    <div className="absolute bottom-[-160px] start-[-180px] h-[360px] w-[360px] rounded-full bg-emerald-500/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
                 </div>
 
+                <div className="relative flex w-full flex-col px-4 pb-20 pt-25 sm:px-6 md:pb-24 md:pt-28">
+                    <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
+                        <h1 className="mb-5 max-w-4xl text-[34px] font-extrabold leading-[1.25] tracking-tight text-white sm:text-5xl md:text-6xl">
+                            {dict.exploreplaces}
+                        </h1>
+                        <p className="max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg md:text-xl">
+                            {dict.exploreplacesdesc}
+                        </p>
+                    </div>
+                </div>
             </section>
-            <section className="max-w-[1400px] mx-auto px-4 -mt-16 md:-mt-12 ">
-                <div className="bg-white rounded-2xl shadow-xl shadow-emerald-900/10 p-4 md:p-6 flex flex-col gap-4 border border-slate-100">
 
-                    <div className="flex flex-col gap-4 items-stretch lg:flex-row lg:items-center">
-                        <div className="flex-grow">
+            <section className="relative z-20 mx-auto -mt-8 w-full max-w-[1200px] px-4 sm:px-6 md:-mt-10">
+                <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-emerald-950/10 md:p-6">
+                    <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-center">
+                        <div className="min-w-0 flex-1">
                             <SearchBar placeholder={dict.searchplaceholder} />
                         </div>
-                        <div className="grid grid-cols-2 gap-3 w-full lg:w-auto">
-                            <div className="min-w-0 lg:w-48">
-
+                        <div className="grid w-full grid-cols-2 gap-3 lg:w-auto">
+                            <div className="min-w-0 lg:w-52">
                                 <FilterDropdown
                                     title={dict.categories.all}
                                     paramKey="category"
                                     options={[
                                         dict.categories.all,
-                                        ...CATEGORY_SLUGS.map(slug => dict.categories[slug] || slug)
+                                        ...CATEGORY_SLUGS.map((slug) => dict.categories[slug] || slug),
                                     ]}
                                     slugs={["", ...CATEGORY_SLUGS]}
                                 />
                             </div>
-                            <div className="min-w-0 lg:w-48">
+                            <div className="min-w-0 lg:w-52">
                                 <FilterDropdown
                                     title={dict.price.any}
                                     paramKey="price"
@@ -192,107 +195,60 @@ export default async function PlacesPage({
                                     slugs={["", "free", "low", "mid", "high"]}
                                 />
                             </div>
-                            {/* <div className="flex-1 md:w-48">
-                            <FilterDropdown
-                                title={dict.sort.title}
-                                paramKey="sort"
-                                options={[
-                                    dict.sort.newest,
-                                    dict.sort.topRated
-                                ]}
-                                slugs={[
-                                    "", // default (newest)
-                                    "top-rated"
-                                ]}
-                            />
-                        </div> */}
                         </div>
                     </div>
 
-                    {/* Village Filter Chips */}
-                    <VillageFilter
-                        options={villageOptions}
-                        label={villageFilterLabel}
+                    <VillageFilter options={villageOptions} label={villageFilterLabel} />
+                </div>
+            </section>
+
+            <section className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6 md:py-16">
+                <div
+                    className="flex w-full flex-wrap items-stretch justify-center gap-5"
+                    dir="ltr"
+                >
+                    {places.length > 0 ? (
+                        places.map((place: IPublicPlaceDTO) => (
+                            <div
+                                key={place._id.toString()}
+                                className="relative w-full md:w-[calc(50%-0.625rem)] xl:w-[calc(33.333%-0.875rem)]"
+                            >
+                                <PlaceCard
+                                    place={place}
+                                    locale={lang}
+                                    dict={dict}
+                                    currentUserId={currentUser?._id?.toString()}
+                                    initialIsFavorite={
+                                        currentUser?.favorites?.some(
+                                            (favorite) =>
+                                                favorite.toString() === place._id.toString(),
+                                        ) ?? false
+                                    }
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div
+                            className="flex min-h-48 w-full items-center justify-center rounded-3xl border border-slate-200 bg-slate-50 px-6 py-12 text-center"
+                            dir="auto"
+                        >
+                            <p className="text-base font-medium text-slate-600 md:text-lg">
+                                {dict.noplacesfound} &#34;{query}&#34;
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            <section className="mx-auto mb-16 w-full max-w-[1200px] px-4 sm:px-6 md:mb-24">
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                    <PlacesMapDynamic
+                        places={JSON.parse(JSON.stringify(places))}
+                        lang={lang}
+                        dict={dict}
                     />
                 </div>
             </section>
-
-            {/* Map Section */}
-
-
-            <section className="max-w-[1400px] px-4 mx-auto mt-10 md:mt-15 ">
-                <div className="flex flex-col items-center justify-center w-full max-w-[1200px] lg:max-w-[1400px] " >
-
-                    {/* Your Responsive Grid */}
-                    <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border gap-4" dir="ltr">
-                        {places.length > 0 ? (
-                            places.map((place: IPublicPlaceDTO) => (
-                                <div
-
-                                    // Converted _id to string just in case it's a raw MongoDB ObjectId
-                                    key={place._id.toString()}
-                                    className="relative w-full md:w-[calc(50%-0.5rem)] xl:w-[calc(33.333%-0.75rem)]"
-                                >
-
-                                    <PlaceCard
-                                        key={place._id}
-                                        place={place}
-                                        locale={lang}
-                                        dict={dict}
-                                        currentUserId={currentUser?._id?.toString()}
-                                        initialIsFavorite={currentUser?.favorites?.some(f => f.toString() === place._id.toString()) ?? false}
-                                    />
-                                </div>
-                            ))
-                        ) : (
-                            // Fallback UI if the search query returns nothing
-                            <div className="w-full text-center mt-12">
-                                <p className="text-lg text-slate-500">
-                                    {dict.noplacesfound} &#34;{query}&#34;
-                                </p>
-                            </div>
-                        )}
-
-                    </div>
-                </div>
-            </section >
-            <section className="max-w-[1400px] px-4 mx-auto mt-8 mb-16 md:mb-24 z-0">
-                <PlacesMapDynamic
-                    places={JSON.parse(JSON.stringify(places))}
-                    lang={lang}
-                    dict={dict}
-                />
-            </section>
-            {/*<section className="flex flex-col items-center justify-center mt-12 mb-20">*/}
-            {/*    <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">*/}
-            {/*        <div>*/}
-            {/*            <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">*/}
-            {/*                Highlights*/}
-            {/*            </h3>*/}
-            {/*            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 mt-3 text-center">*/}
-            {/*                Featured Events*/}
-            {/*            </h2>*/}
-            {/*        </div>*/}
-
-
-            {/*        <div className="flex flex-wrap justify-center items-center max-w-dvw w-full box-border p-2 sm:p-1">*/}
-            {/*            {places.map((place) => (*/}
-            {/*                <div*/}
-            {/*                    key={place._id}*/}
-            {/*                    className="w-full md:w-1/2 md:max-w-1/2 xl:w-1/3 box-border md:p-3 sm:p-2 p-1 "*/}
-            {/*                >*/}
-
-            {/*                    <PlaceCard key={place.slug} place={place} />*/}
-            {/*                </div>*/}
-            {/*            ))}*/}
-            {/*        </div>*/}
-
-
-
-
-            {/*    </div>*/}
-            {/*</section>*/}
-
-        </>
+        </main>
     );
 }
