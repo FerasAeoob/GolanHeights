@@ -32,9 +32,12 @@ export default function VillageFilter({ options, label, allLabel }: VillageFilte
         push(queryString ? `${pathname}?${queryString}` : pathname);
     }
 
-    const pillBaseClasses = "inline-flex min-h-[40px] shrink-0 cursor-pointer items-center justify-center rounded-full border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2";
-    const inactivePillClasses = "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800";
-    const activePillClasses = "border-emerald-700 bg-emerald-700 text-white shadow-sm shadow-emerald-900/10 hover:border-emerald-800 hover:bg-emerald-800";
+    const pillBaseClasses =
+        "inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2";
+    const inactivePillClasses =
+        "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800";
+    const activePillClasses =
+        "border-emerald-500 bg-emerald-500 text-white shadow-sm shadow-emerald-950/10 hover:border-emerald-600 hover:bg-emerald-600";
 
     useEffect(() => {
         const scrollElement = scrollRef.current;
@@ -60,7 +63,7 @@ export default function VillageFilter({ options, label, allLabel }: VillageFilte
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <h2
                     id="village-filter-heading"
-                    className="shrink-0 text-sm font-semibold text-slate-700"
+                    className="shrink-0 text-sm font-bold text-slate-700"
                 >
                     {label}
                 </h2>

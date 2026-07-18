@@ -52,15 +52,24 @@ export default function FilterDropdown({
     return (
         <div ref={ref} className="relative">
             <button
+                type="button"
+                aria-expanded={isOpen}
+                aria-haspopup="menu"
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex cursor-pointer w-full px-2 md:px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 justify-between items-center "
+                className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-start text-sm font-semibold text-slate-700 transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
             >
-                {selectedLabel}
-                <ChevronDown className={isOpen ? "rotate-180" : ""} />
+                <span className="min-w-0 truncate">{selectedLabel}</span>
+                <ChevronDown
+                    aria-hidden="true"
+                    className={"h-5 w-5 shrink-0 transition-transform " + (isOpen ? "rotate-180" : "")}
+                />
             </button>
 
             {isOpen && (
-                <div className="absolute start-0 w-48 bg-white rounded shadow-lg z-50">
+                <div
+                    role="menu"
+                    className="absolute top-full start-0 z-50 mt-2 w-full min-w-48 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl shadow-slate-950/10"
+                >
                     {options.map((opt, i) => {
                         const params = new URLSearchParams(searchParams.toString());
                         const slug = slugs ? slugs[i] : opt;
@@ -75,12 +84,15 @@ export default function FilterDropdown({
                         return (
                             <Link
                                 key={opt}
-                                href={`${pathname}?${params.toString()}`}
-                                className="flex justify-between px-4 py-2 hover:bg-gray-100"
+                                role="menuitem"
+                                href={pathname + "?" + params.toString()}
+                                className="flex min-h-11 items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                                 onClick={() => setIsOpen(false)}
                             >
-                                {opt}
-                                {selectedLabel === opt && <Check size={16} />}
+                                <span>{opt}</span>
+                                {selectedLabel === opt && (
+                                    <Check aria-hidden="true" className="h-4 w-4 text-emerald-600" />
+                                )}
                             </Link>
                         );
                     })}
