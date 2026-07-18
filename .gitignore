@@ -65,3 +65,6 @@ db_backup/
 
 # Agent specs and docs
 docs/
+
+# Local Git worktrees
+.worktrees/
