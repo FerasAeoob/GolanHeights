@@ -161,9 +161,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                 </div>
             </section>
 
-            <Reveal>
-                <SeoTextSection dict={dict} />
-            </Reveal>
+            <SeoTextSection dict={dict} />
             {popupPlace && (
                 <WeeklyPartnerPopup
                     placeName={popupPlace.title[lang] || popupPlace.title.en}
