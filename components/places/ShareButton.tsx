@@ -46,6 +46,11 @@ export default function ShareButton({
             return;
         }
 
+        if (feedbackTimer.current) {
+            clearTimeout(feedbackTimer.current);
+            feedbackTimer.current = null;
+        }
+
         setState("pending");
         const url = window.location.href;
 
