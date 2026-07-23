@@ -1,7 +1,8 @@
-import { MapPin, Clock, Hourglass, DollarSign, Phone, LinkIcon, Instagram, Navigation, Calendar } from "lucide-react";
+import { Clock, Hourglass, DollarSign, Phone, LinkIcon, Instagram, Calendar } from "lucide-react";
 import { IBusinessDay, IOpeningHoursDictionary } from "@/lib/types";
 import OpeningStatus from "./openStatus";
 import Link from "next/link";
+import ShareButton from "./ShareButton";
 
 interface PlaceDetailsProps {
     website?: string;
@@ -17,6 +18,7 @@ interface PlaceDetailsProps {
     latitude?: number;
     longitude?: number;
     bookingLink?: string;
+    title: string;
 }
 
 const WazeIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -43,7 +45,8 @@ export default function PlaceDetails({
     instagramHandle,
     latitude,
     longitude,
-    bookingLink
+    bookingLink,
+    title
 }: PlaceDetailsProps) {
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
 
@@ -144,8 +147,7 @@ export default function PlaceDetails({
                     )}
                     {instagramElement}
 
-                    {(bookingLink || wazeLink) && (
-                        <div className="flex flex-col gap-2 mt-4">
+                    <div className="flex flex-col gap-2 mt-4">
                             {bookingLink && (
                                 <Link
                                     href={bookingLink}
@@ -169,8 +171,13 @@ export default function PlaceDetails({
                                     {dict.openInWaze || "Open in Waze"}
                                 </Link>
                             )}
-                        </div>
-                    )}
+                            <ShareButton
+                                title={title}
+                                label={dict.share}
+                                copiedLabel={dict.linkCopied}
+                                copyFailedLabel={dict.copyLinkFailed}
+                            />
+                    </div>
                 </dl>
             </aside>
 
@@ -238,8 +245,7 @@ export default function PlaceDetails({
                     )}
                     {instagramElement}
 
-                    {(bookingLink || wazeLink) && (
-                        <div className="flex flex-col gap-2 mt-4">
+                    <div className="flex flex-col gap-2 mt-4">
                             {bookingLink && (
                                 <Link
                                     href={bookingLink}
@@ -263,8 +269,13 @@ export default function PlaceDetails({
                                     {dict.openInWaze || "Open in Waze"}
                                 </Link>
                             )}
-                        </div>
-                    )}
+                            <ShareButton
+                                title={title}
+                                label={dict.share}
+                                copiedLabel={dict.linkCopied}
+                                copyFailedLabel={dict.copyLinkFailed}
+                            />
+                    </div>
                 </dl>
             </div>
         </>
