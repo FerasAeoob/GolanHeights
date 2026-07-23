@@ -1,8 +1,6 @@
 import Link from "next/link";
 import {
-  Facebook,
   Instagram,
-  Twitter,
   MapPin,
   Phone,
   Mail,
@@ -68,27 +66,11 @@ export default function Footer({
 
             <div className="mt-5 flex items-center justify-center gap-3">
               <a
-                href="#"
-                aria-label="Facebook"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-500 hover:text-white hover:ring-emerald-500"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-
-              <a
-                href="https://www.instagram.com/golanheightswinter/"
+                href="https://www.instagram.com/golanwiki"
                 aria-label="Instagram"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-500 hover:text-white hover:ring-emerald-500"
               >
                 <Instagram className="h-4 w-4" />
-              </a>
-
-              <a
-                href="#"
-                aria-label="Twitter"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-500 hover:text-white hover:ring-emerald-500"
-              >
-                <Twitter className="h-4 w-4" />
               </a>
             </div>
           </div>
