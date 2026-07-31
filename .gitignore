@@ -51,6 +51,9 @@ AGENTS.md
 # VS Code
 .vscode/
 
+# Visual Studio
+.vs/
+
 # Linting
 .eslintcache
 

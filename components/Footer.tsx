@@ -57,7 +57,7 @@ export default function Footer({
               className="inline-flex items-center justify-center text-2xl font-bold tracking-tight text-white"
             >
               <span>Golan Wiki</span>
-              <span className="text-emerald-500">.</span>
+              <span className="text-brand-yellow">.</span>
             </Link>
 
             <p className="mt-4 max-w-sm text-center text-sm leading-7 text-zinc-400">
@@ -68,7 +68,7 @@ export default function Footer({
               <a
                 href="https://www.instagram.com/golanwiki"
                 aria-label="Instagram"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-500 hover:text-white hover:ring-emerald-500"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow hover:text-brand-blue hover:ring-brand-yellow"
               >
                 <Instagram className="h-4 w-4" />
               </a>
@@ -86,9 +86,9 @@ export default function Footer({
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center justify-center gap-2 text-sm text-zinc-400 transition-colors duration-200 hover:text-emerald-400"
+                    className="group inline-flex items-center justify-center gap-2 text-sm text-zinc-400 transition-colors duration-200 hover:text-brand-yellow"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-zinc-700 transition-colors duration-200 group-hover:bg-emerald-400" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-zinc-700 transition-colors duration-200 group-hover:bg-brand-yellow" />
                     <span>{link.name}</span>
                   </Link>
                 </li>
@@ -104,7 +104,7 @@ export default function Footer({
 
             <ul className="mt-5 flex flex-col items-center justify-center gap-3">
               <li className="flex items-center justify-center gap-3 text-center">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-yellow/10 text-brand-yellow">
                   <MapPin className="h-4 w-4" />
                 </span>
 
@@ -114,28 +114,28 @@ export default function Footer({
               </li>
 
               {/* <li className="flex items-center justify-center gap-3 text-center">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-yellow/10 text-brand-yellow">
                   <Phone className="h-4 w-4" />
                 </span>
 
                 <a
                   href="tel:+972501234567"
                   dir="ltr"
-                  className="text-sm text-zinc-400 transition-colors hover:text-emerald-400"
+                  className="text-sm text-zinc-400 transition-colors hover:text-brand-yellow"
                 >
                   +972 50 123 4567
                 </a>
               </li> */}
 
               <li className="flex items-center justify-center gap-3 text-center">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-yellow/10 text-brand-yellow">
                   <Mail className="h-4 w-4" />
                 </span>
 
                 <a
                   href="mailto:support@golanwiki.com"
                   dir="ltr"
-                  className="text-sm text-zinc-400 transition-colors hover:text-emerald-400"
+                  className="text-sm text-zinc-400 transition-colors hover:text-brand-yellow"
                 >
                   support@golanwiki.com
                 </a>
@@ -156,7 +156,7 @@ export default function Footer({
                 <div key={link.href} className="flex items-center">
                   <Link
                     href={link.href}
-                    className="px-2 transition-colors duration-200 hover:text-emerald-400"
+                    className="px-2 transition-colors duration-200 hover:text-brand-yellow"
                   >
                     {link.name}
                   </Link>

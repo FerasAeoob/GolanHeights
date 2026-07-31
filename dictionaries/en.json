@@ -67,6 +67,7 @@
         "holy-places": "Holy Places",
         "shopping": "Shopping",
         "local-services": "Local Services",
+        "medical-services": "Medical Services",
         "cherry-picking": "Cherry Picking"
     },
     "categoriesDesc": {
@@ -77,6 +78,7 @@
         "holy-places": "Discover the historical and sacred holy places in the Golan Heights, spanning different faiths and ancient periods.",
         "shopping": "Discover unique local boutiques, traditional markets, and specialty shops across the Golan Heights.",
         "local-services": "Useful local businesses, repairs, shops, and everyday services across the Golan.",
+        "medical-services": "Discover trusted clinics, doctors, pharmacies, dentists, and other medical services across the Golan Heights.",
         "cherry-picking": "Experience the joy of cherry picking in the fertile orchards of the northern Golan Heights during the harvest season."
     },
     "cherryPickingSeason": {

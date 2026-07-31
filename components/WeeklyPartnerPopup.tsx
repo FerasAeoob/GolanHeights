@@ -221,7 +221,7 @@ export default function WeeklyPartnerPopup({
               priority
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-tr from-emerald-600 via-teal-600 to-cyan-500">
+            <div className="flex h-full w-full items-center justify-center bg-[image:var(--brand-gradient)]">
               <Sparkles className="h-16 w-16 animate-pulse text-white/30" />
             </div>
           )}
@@ -292,7 +292,7 @@ export default function WeeklyPartnerPopup({
 
           {/* Highlight */}
           {displayHighlight && (
-            <div className="flex items-start gap-2 rounded-2xl border border-emerald-100/50 bg-emerald-50/60 px-4 py-3 text-xs font-medium italic leading-relaxed text-emerald-800 dark:border-emerald-900/30 dark:bg-emerald-950/20 dark:text-emerald-300">
+            <div className="flex items-start gap-2 rounded-2xl border border-brand-yellow/30 bg-brand-yellow/10 px-4 py-3 text-xs font-medium italic leading-relaxed text-brand-blue dark:border-brand-yellow/30 dark:bg-brand-yellow/10 dark:text-brand-yellow">
               <span className="font-bold text-amber-500">★</span>
               <span>{displayHighlight}</span>
             </div>
@@ -304,7 +304,7 @@ export default function WeeklyPartnerPopup({
               {href && (
                 <button
                   onClick={handleCtaClick}
-                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-[#047857] py-3.5 text-center font-bold text-white shadow-[0_14px_30px_rgba(4,120,87,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#065F46] active:translate-y-0 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-brand-yellow py-3.5 text-center font-bold text-brand-blue shadow-[0_14px_30px_rgba(4,120,87,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow-hover active:translate-y-0 active:bg-brand-yellow-active dark:bg-brand-yellow dark:hover:bg-brand-yellow-hover"
                 >
                   {displayCtaLabel}
                 </button>

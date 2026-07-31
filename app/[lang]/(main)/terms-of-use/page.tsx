@@ -250,7 +250,7 @@ function EnContent() {
               For questions about these Terms, contact us at{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -468,7 +468,7 @@ function HeContent() {
               לשאלות בנוגע לתנאים אלו, ניתן ליצור איתנו קשר בכתובת{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -691,7 +691,7 @@ function ArContent() {
               للاستفسارات المتعلقة بهذه الشروط، يمكنك التواصل معنا عبر{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>

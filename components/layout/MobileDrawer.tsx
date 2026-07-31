@@ -161,7 +161,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                                         src={currentUser.image}
                                         name={currentUser.name}
                                         size={60}
-                                        className="ring-2 ring-emerald-500/20"
+                                        className="ring-2 ring-brand-yellow/20"
                                     />
 
                                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#111111] rounded-full" />
@@ -193,7 +193,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                                                 onClick={item.onClick}
                                                 className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
                                             >
-                                                <div className="p-2 rounded-lg bg-white/5 group-hover:bg-emerald-500/10 group-hover:text-emerald-400 text-neutral-400 transition-colors">
+                                                <div className="p-2 rounded-lg bg-white/5 group-hover:bg-brand-yellow/10 group-hover:text-brand-yellow text-neutral-400 transition-colors">
                                                     <item.icon size={20} />
                                                 </div>
                                                 <span className="font-semibold text-neutral-200 group-hover:text-white transition-colors">
@@ -206,7 +206,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                                                 onClick={() => setIsOpen(false)}
                                             className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
                                             >
-                                                <div className="p-2 rounded-lg bg-white/5 group-hover:bg-emerald-500/10 group-hover:text-emerald-400 text-neutral-400 transition-colors">
+                                                <div className="p-2 rounded-lg bg-white/5 group-hover:bg-brand-yellow/10 group-hover:text-brand-yellow text-neutral-400 transition-colors">
                                                     <item.icon size={20} />
                                                 </div>
                                                 <span className="font-semibold text-neutral-200 group-hover:text-white transition-colors">
@@ -228,7 +228,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                     <div className="p-8 border-t border-white/5 bg-black/40">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-brand-yellow shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                                 <span className="text-[10px] text-neutral-600 font-bold font-outfit uppercase tracking-widest italic">
                                     Golan Wiki v1.0
                                 </span>

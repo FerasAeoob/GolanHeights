@@ -134,14 +134,14 @@ export default function HistoryStoryScroll({
         className="pointer-events-none absolute inset-0 -z-10 opacity-70"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 18% 18%, rgba(16,185,129,0.20), transparent 28%), radial-gradient(circle at 82% 8%, rgba(250,204,21,0.10), transparent 24%), linear-gradient(135deg, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(45deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+            "radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--brand-yellow) 20%, transparent), transparent 28%), radial-gradient(circle at 82% 8%, rgba(250,204,21,0.10), transparent 24%), linear-gradient(135deg, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(45deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
           backgroundSize: "auto, auto, 44px 44px, 64px 64px",
         }}
       />
 
       <div className="mx-auto flex w-full max-w-[1200px] flex-col">
         <div className="mb-10 max-w-3xl px-1 md:mb-16">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-emerald-300 md:text-sm">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-brand-yellow md:text-sm">
             {history.eyebrow}
           </p>
           <h1 className="max-w-4xl text-3xl font-extrabold leading-tight tracking-normal text-white sm:text-5xl md:text-6xl">
@@ -221,7 +221,7 @@ export default function HistoryStoryScroll({
                       aria-valuenow={activeIndex + 1}
                     >
                       <div
-                        className="h-full rounded-full bg-emerald-300 transition-[width] duration-500 motion-reduce:transition-none"
+                        className="h-full rounded-full bg-brand-yellow transition-[width] duration-500 motion-reduce:transition-none"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -247,7 +247,7 @@ export default function HistoryStoryScroll({
                     data-index={index}
                     className={`relative w-full min-w-0 overflow-hidden rounded-3xl border p-6 shadow-xl transition-all duration-500 motion-reduce:transition-none sm:p-8 xl:min-h-[470px] xl:rounded-[2rem] xl:p-9 ${
                       isActive
-                        ? "border-emerald-300/35 bg-white/[0.09] shadow-emerald-950/30"
+                        ? "border-brand-yellow/35 bg-white/[0.09] shadow-emerald-950/30"
                         : "border-white/10 bg-white/[0.045] shadow-black/20"
                     }`}
                   >
@@ -263,7 +263,7 @@ export default function HistoryStoryScroll({
                           <span className="max-w-full rounded-full border border-white/12 bg-black/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/65 sm:text-[11px] sm:tracking-[0.2em]">
                             {chapter.label}
                           </span>
-                          <span className="max-w-full rounded-full bg-emerald-300/10 px-3 py-1.5 text-xs font-bold text-emerald-200">
+                          <span className="max-w-full rounded-full bg-brand-yellow/10 px-3 py-1.5 text-xs font-bold text-brand-yellow">
                             {chapter.category}
                           </span>
                         </div>
@@ -298,7 +298,7 @@ export default function HistoryStoryScroll({
                           >
                             <span
                               aria-hidden="true"
-                              className="mt-2.5 h-px w-6 shrink-0 rounded-full bg-emerald-300/60 transition-colors duration-300 group-hover:bg-emerald-200 motion-reduce:transition-none"
+                              className="mt-2.5 h-px w-6 shrink-0 rounded-full bg-brand-yellow/60 transition-colors duration-300 group-hover:bg-brand-yellow motion-reduce:transition-none"
                             />
                             <span className="block min-w-0 break-words text-zinc-300/90 transition-colors duration-300 group-hover:text-white motion-reduce:transition-none">
                               {bullet}
@@ -316,13 +316,13 @@ export default function HistoryStoryScroll({
 
         {activeIndex < chapters.length - 1 && (
           <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 xl:hidden">
-            <div className="flex items-center gap-2 rounded-full border border-emerald-500/20 bg-zinc-950/80 px-4 py-2.5 shadow-lg shadow-black/40 backdrop-blur-md transition-all duration-300">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-300">
+            <div className="flex items-center gap-2 rounded-full border border-brand-yellow/20 bg-zinc-950/80 px-4 py-2.5 shadow-lg shadow-black/40 backdrop-blur-md transition-all duration-300">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-yellow">
                 {history.scrollPrompt}
               </span>
               <span className="flex h-1.5 w-1.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-yellow opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-yellow"></span>
               </span>
             </div>
           </div>

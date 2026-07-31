@@ -65,14 +65,14 @@ export default function PlaceDetails({
 
     const instagramElement = instagram && (
         <div className="flex items-center gap-3">
-            <Instagram className="w-5 h-5 text-emerald-600 shrink-0" />
+            <Instagram className="w-5 h-5 text-brand-blue shrink-0" />
             <div className="flex flex-col min-w-0">
                 <dt className="font-bold text-black/90 text-sm">{dict.instagram || "Instagram"}: </dt>
                 <Link
                     href={instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-600 hover:underline font-medium truncate block text-left"
+                    className="text-brand-blue hover:text-brand-blue-hover hover:underline font-medium truncate block text-left"
                     dir="ltr"
                 >
                     {instagramLabel}
@@ -89,7 +89,7 @@ export default function PlaceDetails({
 
                 <dl className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                        <Clock className="w-5 h-5 text-emerald-600 shrink-0" />
+                        <Clock className="w-5 h-5 text-brand-blue shrink-0" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.openhours}: </dt>
                             <dd className="text-black/70">
@@ -104,7 +104,7 @@ export default function PlaceDetails({
                     </div>
                     {duration && (
                         <div className="flex items-center gap-3">
-                            <Hourglass className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <Hourglass className="w-5 h-5 text-brand-blue shrink-0" />
                             <div className="flex flex-col">
                                 <dt className="font-bold text-black/90 text-sm">{dict.duration}: </dt>
                                 <dd className="text-black/70">{duration} {dict.minutes}</dd>
@@ -112,7 +112,7 @@ export default function PlaceDetails({
                         </div>
                     )}
                     <div className="flex items-center gap-3">
-                        <DollarSign className="w-5 h-5 text-emerald-600 shrink-0" />
+                        <DollarSign className="w-5 h-5 text-brand-blue shrink-0" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.priceLabel}: </dt>
                             <dd className="text-black/70">{dict.price?.[price] || price}</dd>
@@ -120,10 +120,10 @@ export default function PlaceDetails({
                     </div>
                     {phone && (
                         <div className="flex items-center gap-3">
-                            <Phone className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <Phone className="w-5 h-5 text-brand-blue shrink-0" />
                             <div className="flex flex-col">
                                 <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
-                                <Link href={`tel:${phone}`} className="text-emerald-600 hover:underline">
+                                <Link href={`tel:${phone}`} className="text-brand-blue hover:text-brand-blue-hover hover:underline">
                                     {phone}
                                 </Link>
                             </div>
@@ -131,14 +131,14 @@ export default function PlaceDetails({
                     )}
                     {website && (
                         <div className="flex items-center gap-3">
-                            <LinkIcon className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <LinkIcon className="w-5 h-5 text-brand-blue shrink-0" />
                             <div className="flex flex-col min-w-0">
                                 <dt className="font-bold text-black/90 text-sm">{dict.website}: </dt>
                                 <Link
                                     href={website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-emerald-600 hover:underline truncate block"
+                                    className="text-brand-blue hover:text-brand-blue-hover hover:underline truncate block"
                                 >
                                     {website}
                                 </Link>
@@ -187,7 +187,7 @@ export default function PlaceDetails({
 
                 <dl className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                        <Clock className="w-5 h-5 text-emerald-600 shrink-0" />
+                        <Clock className="w-5 h-5 text-brand-blue shrink-0" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.openhours}: </dt>
                             <dd className="text-black/70">
@@ -202,7 +202,7 @@ export default function PlaceDetails({
                     </div>
                     {duration && (
                         <div className="flex items-center gap-3">
-                            <Hourglass className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <Hourglass className="w-5 h-5 text-brand-blue shrink-0" />
                             <div className="flex flex-col">
                                 <dt className="font-bold text-black/90 text-sm">{dict.duration}: </dt>
                                 <dd className="text-black/70">{duration} {dict.minutes}</dd>
@@ -210,7 +210,7 @@ export default function PlaceDetails({
                         </div>
                     )}
                     <div className="flex items-center gap-3">
-                        <DollarSign className="w-5 h-5 text-emerald-600 shrink-0" />
+                        <DollarSign className="w-5 h-5 text-brand-blue shrink-0" />
                         <div className="flex flex-col">
                             <dt className="font-bold text-black/90 text-sm">{dict.priceLabel}: </dt>
                             <dd className="text-black/70">{dict.price?.[price] || price}</dd>
@@ -218,10 +218,10 @@ export default function PlaceDetails({
                     </div>
                     {phone && (
                         <div className="flex items-center gap-3">
-                            <Phone className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <Phone className="w-5 h-5 text-brand-blue shrink-0" />
                             <div className="flex flex-col">
                                 <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
-                                <Link href={`tel:${phone}`} className="text-emerald-600 hover:underline">
+                                <Link href={`tel:${phone}`} className="text-brand-blue hover:text-brand-blue-hover hover:underline">
                                     {phone}
                                 </Link>
                             </div>
@@ -229,14 +229,14 @@ export default function PlaceDetails({
                     )}
                     {website && (
                         <div className="flex items-center gap-3">
-                            <LinkIcon className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <LinkIcon className="w-5 h-5 text-brand-blue shrink-0" />
                             <div className="flex flex-col min-w-0">
                                 <dt className="font-bold text-black/90 text-sm">{dict.website}: </dt>
                                 <Link
                                     href={website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-emerald-600 hover:underline truncate block"
+                                    className="text-brand-blue hover:text-brand-blue-hover hover:underline truncate block"
                                 >
                                     {website}
                                 </Link>

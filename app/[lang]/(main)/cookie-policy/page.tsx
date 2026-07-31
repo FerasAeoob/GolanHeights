@@ -200,7 +200,7 @@ function EnContent() {
               For questions about this Cookie Policy, contact us at{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -372,7 +372,7 @@ function HeContent() {
               לשאלות בנושא מדיניות עוגיות זו, ניתן ליצור איתנו קשר בכתובת{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -550,7 +550,7 @@ function ArContent() {
               التواصل معنا عبر{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>

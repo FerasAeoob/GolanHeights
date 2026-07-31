@@ -28,12 +28,12 @@ export default function LegalPageLayout({
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 overflow-hidden"
         >
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-brand-yellow/10 blur-3xl" />
         </div>
 
         <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
           {icon && (
-            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-2xl mb-6">
+            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-yellow/10 border border-brand-yellow/20 text-brand-yellow text-2xl mb-6">
               {icon}
             </span>
           )}
@@ -71,7 +71,7 @@ export default function LegalPageLayout({
               className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-6 sm:p-8"
             >
               <h2 className="text-xl font-bold text-zinc-900 mb-4 flex items-center gap-2">
-                <span className="w-2 h-6 rounded-full bg-emerald-500 shrink-0" />
+                <span className="w-2 h-6 rounded-full bg-brand-yellow shrink-0" />
                 {section.heading}
               </h2>
 

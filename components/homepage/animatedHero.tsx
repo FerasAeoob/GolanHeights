@@ -48,7 +48,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroD
                 {/* Upper Text Section */}
                 <Reveal>
                     <div className="flex flex-col items-center text-center gap-4 md:mt-0">
-                        <div className="flex items-center gap-2 text-emerald-400 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full font-bold text-sm md:text-base border border-white/10">
+                        <div className="flex items-center gap-2 text-brand-yellow bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full font-bold text-sm md:text-base border border-white/10">
                             <MapPin className="w-4 h-4 shrink-0" />
                             <span>{dict.northenisrael}</span>
                         </div>
@@ -57,7 +57,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroD
                             <span className="text-4xl md:text-7xl font-bold text-shadow-lg text-white leading-tight">
                                 {dict.heroTitleMain}
                             </span>
-                            <span className="text-xl md:text-3xl font-bold text-shadow-lg text-emerald-500 leading-tight">
+                            <span className="text-xl md:text-3xl font-bold text-shadow-lg text-brand-yellow leading-tight">
                                 {dict.heroTitleSub}
                             </span>
                         </h1>
@@ -69,17 +69,17 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroD
 
                         <div className="mt-4 flex w-full flex-col items-center justify-center gap-3 px-2">
                             <ScrollToExploreButton
-                                className="group flex min-h-[48px] w-full max-w-[22rem] cursor-pointer items-center justify-center gap-2.5 rounded-full border border-emerald-200/35 bg-gradient-to-r from-emerald-500 to-teal-500 px-7 py-3 text-base font-extrabold text-white shadow-xl shadow-emerald-950/30 transition-all hover:-translate-y-0.5 hover:from-emerald-500 hover:to-teal-400 hover:shadow-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98] sm:px-8 sm:text-lg"
+                                className="group flex min-h-[48px] w-full max-w-[22rem] cursor-pointer items-center justify-center gap-2.5 rounded-full border border-brand-yellow/35 bg-[image:var(--brand-gradient)] px-7 py-3 text-base font-extrabold text-brand-blue shadow-xl shadow-emerald-950/30 transition-all hover:-translate-y-0.5 hover:bg-none hover:bg-brand-yellow-hover hover:shadow-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98] active:bg-brand-yellow-active sm:px-8 sm:text-lg"
                             >
-                                <Compass className="h-[18px] w-[18px] shrink-0 text-white transition-transform group-hover:rotate-45" aria-hidden="true" />
+                                <Compass className="h-[18px] w-[18px] shrink-0 text-brand-blue transition-transform group-hover:rotate-45" aria-hidden="true" />
                                 <span>{dict.explorenow}</span>
                             </ScrollToExploreButton>
 
                             <Link
                                 href={`/${lang}/history`}
-                                className="group flex min-h-[48px] w-full max-w-[20rem] items-center justify-center gap-2.5 rounded-full border border-white/20 bg-black/25 px-6 py-3 text-base font-semibold text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98]"
+                                className="group flex min-h-[48px] w-full max-w-[20rem] items-center justify-center gap-2.5 rounded-full border border-white/20 bg-black/25 px-6 py-3 text-base font-semibold text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98]"
                             >
-                                <BookOpen className="h-4 w-4 shrink-0 text-emerald-300/90 transition-transform group-hover:text-emerald-200" aria-hidden="true" />
+                                <BookOpen className="h-4 w-4 shrink-0 text-brand-yellow/90 transition-transform group-hover:text-brand-yellow" aria-hidden="true" />
                                 <span>{dict.exploreHistoryCta}</span>
                             </Link>
                         </div>

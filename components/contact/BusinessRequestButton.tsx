@@ -43,7 +43,7 @@ export default function BusinessRequestButton({
     <button
       type="button"
       onClick={handleClick}
-      className="group inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-2xl bg-white px-8 py-5 text-sm font-bold text-zinc-950 transition-all hover:bg-emerald-50 active:scale-[0.98]"
+      className="group inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-2xl bg-white px-8 py-5 text-sm font-bold text-zinc-950 transition-all hover:bg-brand-yellow active:scale-[0.98]"
     >
       <span>{label}</span>
 

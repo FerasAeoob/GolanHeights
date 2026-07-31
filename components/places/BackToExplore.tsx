@@ -37,7 +37,7 @@ export default function BackToExplore({
         <Link
             href={fallbackHref}
             onClick={handleBack}
-            className="flex cursor-pointer items-center gap-3 text-lg font-bold transition-colors duration-300 hover:text-emerald-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+            className="flex cursor-pointer items-center gap-3 text-lg font-bold transition-colors duration-300 hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2"
         >
             <ArrowLeft
                 aria-hidden="true"

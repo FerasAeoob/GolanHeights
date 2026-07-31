@@ -127,14 +127,14 @@ export default function LanguageSwitcher() {
                                         text-sm font-medium
                                         transition-colors duration-100
                                         ${isActive
-                                            ? 'bg-emerald-500/15 text-emerald-400'
+                                            ? 'bg-brand-yellow/15 text-brand-yellow'
                                             : 'text-neutral-300 hover:bg-white/5 hover:text-white'
                                         }
                                     `}
                                 >
                                     <span>{LANG_LABELS[lang]}</span>
                                     {isActive && (
-                                        <Check size={14} className="shrink-0 text-emerald-400" />
+                                        <Check size={14} className="shrink-0 text-brand-yellow" />
                                     )}
                                 </button>
                             </li>

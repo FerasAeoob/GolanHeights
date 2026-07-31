@@ -146,7 +146,7 @@ export default async function PlacePage({ params }: PageProps) {
 
                         <div className="w-full  border-box flex flex-col gap-5 ">
 
-                            <h1 className="text-3xl font-bold text-emerald-900 ">
+                            <h1 className="text-3xl font-bold text-brand-blue ">
                                 {place.title[lang] || place.title.en}
                             </h1>
                             <div className="h-px w-full bg-gray-400 " />

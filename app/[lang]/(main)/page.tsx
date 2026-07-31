@@ -91,7 +91,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
 
                     <Reveal>
                         <div className="flex flex-col items-center mx-auto w-[85%] gap-3">
-                            <p className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
+                            <p className="text-brand-blue font-medium uppercase tracking-widest text-lg text-center">
                                 {dict.discover}
                             </p>
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900  text-center">
@@ -125,7 +125,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                 <div className="flex flex-col items-center justify-center mb-8 w-full max-w-[1200px] lg:max-w-[1400px] p-1 sm:p-0">
                     <Reveal>
                         <div>
-                            <h3 className="text-green-900 font-medium uppercase tracking-widest text-lg text-center">
+                            <h3 className="text-brand-blue font-medium uppercase tracking-widest text-lg text-center">
                                 {dict.highlights}
                             </h3>
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 mt-3 text-center">

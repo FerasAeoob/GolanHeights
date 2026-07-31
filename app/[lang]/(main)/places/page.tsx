@@ -147,8 +147,8 @@ export default async function PlacesPage({
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 overflow-hidden"
                 >
-                    <div className="absolute top-[-80px] end-[-120px] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-3xl md:top-[-140px] md:end-[-180px] md:h-[720px] md:w-[720px]" />
-                    <div className="absolute bottom-[-160px] start-[-180px] h-[360px] w-[360px] rounded-full bg-emerald-500/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
+                    <div className="absolute top-[-80px] end-[-120px] h-[420px] w-[420px] rounded-full bg-brand-yellow/10 blur-3xl md:top-[-140px] md:end-[-180px] md:h-[720px] md:w-[720px]" />
+                    <div className="absolute bottom-[-160px] start-[-180px] h-[360px] w-[360px] rounded-full bg-brand-blue/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
                 </div>
 
                 <div className="relative flex w-full flex-col px-4 pb-20 pt-25 sm:px-6 md:pb-24 md:pt-28">

@@ -33,11 +33,11 @@ export default function VillageFilter({ options, label, allLabel }: VillageFilte
     }
 
     const pillBaseClasses =
-        "inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2";
+        "inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2";
     const inactivePillClasses =
-        "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800";
+        "border-slate-200 bg-white text-slate-600 hover:border-brand-yellow/50 hover:bg-brand-yellow/10 hover:text-brand-blue";
     const activePillClasses =
-        "border-emerald-500 bg-emerald-500 text-white shadow-sm shadow-emerald-950/10 hover:border-emerald-600 hover:bg-emerald-600";
+        "border-brand-yellow bg-brand-yellow text-brand-blue shadow-sm shadow-emerald-950/10 hover:border-brand-yellow-hover hover:bg-brand-yellow-hover active:border-brand-yellow-active active:bg-brand-yellow-active";
 
     useEffect(() => {
         const scrollElement = scrollRef.current;

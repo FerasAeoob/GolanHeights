@@ -87,18 +87,18 @@ export default async function AboutPage({
     >
       {/* ── Hero ── */}
       <section className="relative w-full overflow-hidden bg-zinc-950">
-        {/* emerald glow */}
+        {/* brand glow */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 overflow-hidden"
         >
-          <div className="absolute top-[-80px] end-[-120px] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-3xl md:top-[-140px] md:end-[-180px] md:h-[720px] md:w-[720px]" />
-          <div className="absolute bottom-[-160px] start-[-180px] h-[360px] w-[360px] rounded-full bg-emerald-500/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
+          <div className="absolute top-[-80px] end-[-120px] h-[420px] w-[420px] rounded-full bg-brand-yellow/10 blur-3xl md:top-[-140px] md:end-[-180px] md:h-[720px] md:w-[720px]" />
+          <div className="absolute bottom-[-160px] start-[-180px] h-[360px] w-[360px] rounded-full bg-brand-blue/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
         </div>
 
         <div className="relative flex w-full flex-col px-4 pb-9 pt-25 md:pt-16 sm:px-6 md:pb-12 md:pt-28">
           <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-emerald-400 md:text-sm">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-brand-yellow md:text-sm">
               {t.eyebrow}
             </p>
 
@@ -113,7 +113,7 @@ export default async function AboutPage({
             <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
               <Link
                 href={`/${lang}/places`}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-sm transition-colors duration-200 hover:bg-emerald-400 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-yellow px-6 py-3 text-sm font-bold text-brand-blue shadow-sm transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active sm:w-auto"
               >
                 <MapPin className="h-4 w-4" />
                 {t.ctaExplore}
@@ -121,7 +121,7 @@ export default async function AboutPage({
 
               <Link
                 href={`/${lang}`}
-                className="inline-flex w-full items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-bold text-zinc-200 transition-colors duration-200 hover:border-emerald-400/60 hover:text-emerald-300 sm:w-auto"
+                className="inline-flex w-full items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-bold text-zinc-200 transition-colors duration-200 hover:border-brand-yellow/60 hover:text-brand-yellow sm:w-auto"
               >
                 {t.ctaHome}
               </Link>
@@ -137,7 +137,7 @@ export default async function AboutPage({
                 key={index}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-zinc-300"
               >
-                <span className="flex text-emerald-400">{feature.icon}</span>
+                <span className="flex text-brand-yellow">{feature.icon}</span>
                 <span>{feature.label}</span>
               </span>
             ))}
@@ -150,7 +150,7 @@ export default async function AboutPage({
         <div className="mx-auto flex w-full max-w-[1200px] flex-col">
           {/* Intro */}
           <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center text-center md:mb-16">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-emerald-700 md:text-sm">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-brand-blue md:text-sm">
               {t.sectionLabel}
             </p>
 
@@ -170,7 +170,7 @@ export default async function AboutPage({
                 key={index}
                 className="flex min-h-[250px] w-full max-w-[350px] flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md sm:max-w-[380px] lg:max-w-[360px]"
               >
-                <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-yellow/10 text-brand-blue">
                   {card.icon}
                 </div>
 
@@ -192,11 +192,11 @@ export default async function AboutPage({
             <div className="relative flex w-full flex-col items-center justify-center text-center">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[280px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-3xl"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[280px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-yellow/10 blur-3xl"
               />
 
               <div className="relative flex max-w-3xl flex-col items-center">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-emerald-400 md:text-sm">
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-brand-yellow md:text-sm">
                   {t.missionLabel}
                 </p>
 
@@ -206,7 +206,7 @@ export default async function AboutPage({
 
                 <Link
                   href={`/${lang}/places`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-7 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-emerald-400"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-yellow px-7 py-3 text-sm font-bold text-brand-blue transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active"
                 >
                   <MapPin className="h-4 w-4" />
                   {t.ctaExplore}

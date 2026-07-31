@@ -1,4 +1,4 @@
-import { Bike, Cherry, ShoppingBag, Church, Utensils, Hotel, Mountain, Wrench, type LucideIcon } from "lucide-react";
+import { Bike, Cherry, ShoppingBag, Church, Utensils, Hotel, Mountain, Stethoscope, Wrench, type LucideIcon } from "lucide-react";
 
 export interface Category {
   slug: string;
@@ -10,7 +10,7 @@ export interface Category {
 }
 
 /** Category slugs used as keys in dict.categories and as URL params (always lowercase, kebab-case). */
-export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "holy-places", "shopping", "local-services"] as const;
+export const CATEGORY_SLUGS = ["nature", "food-drink", "activities", "stays", "holy-places", "shopping", "local-services", "medical-services"] as const;
 export type CategorySlug = (typeof CATEGORY_SLUGS)[number];
 
 export const categories: Category[] = [
@@ -53,7 +53,7 @@ export const categories: Category[] = [
   {
     slug: "shopping",
     label: "Shopping",
-    image: "/images/shopping.png",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1785519600/shopping_vizgo3.jpg",
     color: "from-pink-600/90",
     icon: ShoppingBag,
   },
@@ -63,6 +63,13 @@ export const categories: Category[] = [
     image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1780244433/Create_a_premium_category_image_202605311920_cpc78s.webp", // Fallback image
     color: "from-blue-600/90",
     icon: Wrench,
+  },
+  {
+    slug: "medical-services",
+    label: "Medical Services",
+    image: "https://res.cloudinary.com/dsjzcazdi/image/upload/v1785519556/medical-services_tjagkx.webp",
+    color: "from-cyan-700/90",
+    icon: Stethoscope,
   },
 ];
 

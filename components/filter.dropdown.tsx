@@ -55,7 +55,7 @@ export default function FilterDropdown({
                 type="button"
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-start text-sm font-semibold text-slate-700 transition-colors hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-start text-sm font-semibold text-slate-700 transition-colors hover:border-brand-yellow/50 hover:bg-brand-yellow/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2"
             >
                 <span className="min-w-0 truncate">{selectedLabel}</span>
                 <ChevronDown
@@ -83,12 +83,12 @@ export default function FilterDropdown({
                             <Link
                                 key={opt}
                                 href={pathname + "?" + params.toString()}
-                                className="flex min-h-11 items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                className="flex min-h-11 items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-brand-yellow/10 hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <span>{opt}</span>
                                 {selectedLabel === opt && (
-                                    <Check aria-hidden="true" className="h-4 w-4 text-emerald-600" />
+                                    <Check aria-hidden="true" className="h-4 w-4 text-brand-blue" />
                                 )}
                             </Link>
                         );

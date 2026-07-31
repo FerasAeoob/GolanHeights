@@ -85,12 +85,12 @@ export default async function ContactPage({
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 overflow-hidden"
         >
-          <div className="absolute -top-40 end-[-120px] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-3xl md:-top-56 md:end-[-180px] md:h-[720px] md:w-[720px]" />
-          <div className="absolute bottom-[-220px] start-[-180px] h-[360px] w-[360px] rounded-full bg-emerald-500/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
+          <div className="absolute -top-40 end-[-120px] h-[420px] w-[420px] rounded-full bg-brand-yellow/10 blur-3xl md:-top-56 md:end-[-180px] md:h-[720px] md:w-[720px]" />
+          <div className="absolute bottom-[-220px] start-[-180px] h-[360px] w-[360px] rounded-full bg-brand-blue/[0.06] blur-3xl md:h-[520px] md:w-[520px]" />
         </div>
 
         <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-emerald-400 md:text-sm">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-brand-yellow md:text-sm">
             {t.eyebrow}
           </p>
 
@@ -141,7 +141,7 @@ export default async function ContactPage({
                   {t.formTitle}
                 </h2>
 
-                <div className="h-1 w-12 rounded-full bg-emerald-500" />
+                <div className="h-1 w-12 rounded-full bg-brand-yellow" />
               </div>
 
               <ContactForm
@@ -164,7 +164,7 @@ export default async function ContactPage({
               <div className="flex flex-col gap-8">
                 {/* Email */}
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-brand-blue shadow-sm ring-1 ring-slate-200">
                     <Mail className="h-5 w-5" />
                   </div>
 
@@ -175,7 +175,7 @@ export default async function ContactPage({
 
                     <a
                       href="mailto:support@golanwiki.com"
-                      className="font-bold text-slate-900 transition-colors hover:text-emerald-600"
+                      className="font-bold text-slate-900 transition-colors hover:text-brand-blue-hover"
                     >
                       support@golanwiki.com
                     </a>
@@ -184,7 +184,7 @@ export default async function ContactPage({
 
                 {/* Location */}
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-brand-blue shadow-sm ring-1 ring-slate-200">
                     <MapPin className="h-5 w-5" />
                   </div>
 
@@ -201,7 +201,7 @@ export default async function ContactPage({
 
                 {/* Response Time */}
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-brand-blue shadow-sm ring-1 ring-slate-200">
                     <Clock className="h-5 w-5" />
                   </div>
 
@@ -219,7 +219,7 @@ export default async function ContactPage({
             </div>
 
             {/* Social / Support Card */}
-            <div className="relative overflow-hidden rounded-[32px] bg-emerald-600 p-8 text-white shadow-lg shadow-emerald-600/20">
+            <div className="relative overflow-hidden rounded-[32px] bg-brand-blue p-8 text-white shadow-lg shadow-emerald-600/20">
               <div className="absolute end-[-20px] top-[-20px] h-32 w-32 rounded-full bg-white/10 blur-2xl" />
 
               <div className="relative flex flex-col gap-4">
@@ -254,7 +254,7 @@ export default async function ContactPage({
           <div className="relative overflow-hidden rounded-[40px] bg-zinc-950 px-8 py-12 text-center md:px-16 md:py-20 lg:text-start">
             {/* Glow */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
-              <div className="absolute -end-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-emerald-500/20 blur-[100px]" />
+              <div className="absolute -end-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-brand-yellow/20 blur-[100px]" />
             </div>
 
             <div className="relative flex flex-col items-center justify-between gap-10 lg:flex-row">

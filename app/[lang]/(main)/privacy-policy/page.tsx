@@ -49,7 +49,7 @@ function EnContent() {
               For privacy questions, contact us at{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -211,7 +211,7 @@ function EnContent() {
                 To make a privacy request, contact us at{" "}
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="text-emerald-600 hover:underline"
+                  className="text-brand-blue hover:text-brand-blue-hover hover:underline"
                 >
                   {CONTACT_EMAIL}
                 </a>
@@ -282,7 +282,7 @@ function EnContent() {
               For questions or requests about this Privacy Policy, contact us at{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -312,7 +312,7 @@ function HeContent() {
               בנושא פרטיות ניתן ליצור איתנו קשר בכתובת{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -466,7 +466,7 @@ function HeContent() {
                 להגשת בקשת פרטיות, צרו איתנו קשר בכתובת{" "}
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="text-emerald-600 hover:underline"
+                  className="text-brand-blue hover:text-brand-blue-hover hover:underline"
                 >
                   {CONTACT_EMAIL}
                 </a>
@@ -530,7 +530,7 @@ function HeContent() {
               בכתובת{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -560,7 +560,7 @@ function ArContent() {
               للاستفسارات المتعلقة بالخصوصية، يمكنك التواصل معنا عبر{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -720,7 +720,7 @@ function ArContent() {
                 لتقديم طلب متعلق بالخصوصية، تواصل معنا عبر{" "}
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="text-emerald-600 hover:underline"
+                  className="text-brand-blue hover:text-brand-blue-hover hover:underline"
                 >
                   {CONTACT_EMAIL}
                 </a>
@@ -786,7 +786,7 @@ function ArContent() {
               معنا عبر{" "}
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="text-emerald-600 hover:underline"
+                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
               >
                 {CONTACT_EMAIL}
               </a>

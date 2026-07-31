@@ -35,6 +35,7 @@ export default function PlaceCard({
         "holy-places": "bg-amber-200/90 hover:bg-black/70 text-amber-700",
         "shopping": "bg-pink-200/90 hover:bg-black/70 text-pink-700",
         "local-services": "bg-blue-200/90 hover:bg-black/70 text-blue-700",
+        "medical-services": "bg-cyan-200/90 hover:bg-black/70 text-cyan-700",
     };
     const category = categories.find(cat => cat.slug === place.category);
     const CategoryIcon = category?.icon;
@@ -51,7 +52,7 @@ export default function PlaceCard({
                'max-w-[380px]' ensures it doesn't get too wide on Desktop.
             */}
             <div className={isPlacesAppearance
-                ? "group relative z-10 mx-auto flex h-100 w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2"
+                ? "group relative z-10 mx-auto flex h-100 w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md focus-within:ring-2 focus-within:ring-brand-yellow focus-within:ring-offset-2"
                 : "group z-10 flex relative h-100 sm:h-100 w-full mx-auto overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100 bg-white transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1 focus-within:ring-2 focus-within:ring-slate-400"}>
 
                 <div className="absolute top-0 left-0 right-0 bottom-40 sm:bottom-35">
@@ -118,14 +119,14 @@ export default function PlaceCard({
                         </div>}
                     <div className="mt-1 flex flex-col gap-2 flex-1 min-h-0" dir={isRTL ? "rtl" : "ltr"}>
                         <h3 className={isPlacesAppearance
-                            ? "line-clamp-1 text-lg font-extrabold text-slate-950 transition-colors group-hover:text-emerald-800"
-                            : "group-hover:text-green-800 text-l font-bold line-clamp-1"}>
+                            ? "line-clamp-1 text-lg font-extrabold text-slate-950 transition-colors group-hover:text-brand-blue"
+                            : "group-hover:text-brand-blue text-l font-bold line-clamp-1"}>
                             {displayTitle}
                         </h3>
 
                         <div className={isPlacesAppearance
-                            ? "flex items-center gap-1 font-bold text-emerald-700"
-                            : "flex start gap-1 items-center text-green-800 font-bold "}>
+                            ? "flex items-center gap-1 font-bold text-brand-blue"
+                            : "flex start gap-1 items-center text-brand-blue font-bold "}>
                             <MapPin
                                 aria-hidden="true"
                                 className={isPlacesAppearance ? "h-4 w-4 shrink-0" : "w-4 h-4"}
