@@ -8,7 +8,8 @@ import EmailSettingsForm from "@/components/profile/EmailSettingsForm";
 import ChangePasswordForm from "@/components/profile/ChangePasswordForm";
 import AvatarUploader from "@/components/profile/AvatarUploader";
 import ProfileSkeleton from "@/components/profile/ProfileSkeleton";
-import { LogOut, Heart, MapPin, Mail, Phone as PhoneIcon } from "lucide-react";
+import ProfileLogoutButton from "@/components/profile/ProfileLogoutButton";
+import { Heart, MapPin, Mail, Phone as PhoneIcon } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -113,7 +114,11 @@ export default async function ProfilePage({
                         </div>
 
                         {/* Logout */}
-                        <LogoutButton lang={lang} dict={dict} />
+                        <ProfileLogoutButton
+                            lang={locale}
+                            label={p.logout || "Log Out"}
+                            errorMessage={p.errorGeneric || "Something went wrong."}
+                        />
                     </aside>
 
                     {/* Main Content */}
@@ -130,21 +135,5 @@ export default async function ProfilePage({
                 </div>
             </Suspense>
         </section>
-    );
-}
-
-/** Logout button — tiny client island */
-function LogoutButton({ lang, dict }: { lang: string; dict: Record<string, any> }) {
-    const p = dict?.profile || {};
-    return (
-        <form action="/api/auth/logout" method="POST">
-            <button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-red-200/80 text-red-500 hover:bg-red-50 hover:border-red-300 font-semibold text-sm transition-all duration-200 cursor-pointer active:scale-[0.97]"
-            >
-                <LogOut size={16} />
-                {p?.logout || "Log Out"}
-            </button>
-        </form>
     );
 }
