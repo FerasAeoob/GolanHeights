@@ -91,7 +91,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
         <div className="flex flex-col items-center gap-4">
             {/* Avatar display */}
             <div className="relative group">
-                <div className="ring-4 ring-emerald-500/20 rounded-full overflow-hidden">
+                <div className="ring-4 ring-brand-blue/20 rounded-full overflow-hidden">
                     <UserAvatar 
                         src={displayImage || undefined} 
                         name={name} 
@@ -125,7 +125,7 @@ export default function AvatarUploader({ currentImage, name, email, dict }: Avat
                 <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploading}
-                    className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors disabled:opacity-50 cursor-pointer"
+                    className="text-xs font-semibold text-brand-blue hover:text-brand-blue-hover transition-colors disabled:opacity-50 cursor-pointer"
                 >
                     {uploading ? (p?.uploading || 'Uploading...') : (p?.changeAvatar || 'Change Photo')}
                 </button>

@@ -29,17 +29,17 @@ export default function ProfileHeader({ user, dict, lang }: ProfileHeaderProps) 
         : "";
 
     return (
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-900 via-slate-900 to-slate-950 p-1">
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-brand-blue via-slate-900 to-slate-950 p-1">
             {/* Inner glass card */}
             <div className="rounded-[22px] bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/10 p-6 sm:p-8">
                 {/* Decorative glow */}
-                <div className="absolute top-0 end-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                <div className="absolute top-0 end-0 w-72 h-72 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                 <div className="absolute bottom-0 start-0 w-48 h-48 bg-blue-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
                 <div className="relative flex flex-col sm:flex-row items-center gap-6">
                     {/* Avatar */}
                     <div className="relative group">
-                        <div className="ring-4 ring-emerald-500/20 rounded-full">
+                        <div className="ring-4 ring-brand-blue/20 rounded-full">
                             <UserAvatar
                                 src={user.image}
                                 name={user.name}

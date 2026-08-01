@@ -37,7 +37,7 @@ export default function VillageFilter({ options, label, allLabel }: VillageFilte
     const inactivePillClasses =
         "border-slate-200 bg-white text-slate-600 hover:border-brand-yellow/50 hover:bg-brand-yellow/10 hover:text-brand-blue";
     const activePillClasses =
-        "border-brand-yellow bg-brand-yellow text-brand-blue shadow-sm shadow-emerald-950/10 hover:border-brand-yellow-hover hover:bg-brand-yellow-hover active:border-brand-yellow-active active:bg-brand-yellow-active";
+        "border-brand-yellow bg-brand-yellow text-brand-ink shadow-sm shadow-emerald-950/10 hover:border-brand-yellow-hover hover:bg-brand-yellow-hover active:border-brand-yellow-active active:bg-brand-yellow-active";
 
     useEffect(() => {
         const scrollElement = scrollRef.current;

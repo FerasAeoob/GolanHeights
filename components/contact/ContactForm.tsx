@@ -179,10 +179,10 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-brand-yellow px-8 py-4 text-sm font-bold text-brand-blue shadow-lg shadow-emerald-500/20 transition-all hover:bg-brand-yellow-hover hover:shadow-emerald-500/30 active:scale-[0.98] active:bg-brand-yellow-active disabled:opacity-70"
+        className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-brand-yellow px-8 py-4 text-sm font-bold text-brand-ink shadow-lg shadow-emerald-500/20 transition-all hover:bg-brand-yellow-hover hover:shadow-emerald-500/30 active:scale-[0.98] active:bg-brand-yellow-active disabled:opacity-70"
       >
         {isSubmitting ? (
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-brand-blue/30 border-t-brand-blue" />
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-brand-ink/30 border-t-brand-ink" />
         ) : (
           <>
             <Send className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />

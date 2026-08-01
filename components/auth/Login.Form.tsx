@@ -198,12 +198,12 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
             <button
                 type="submit"
                 disabled={loading}
-                className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                className="bg-white shadow-lg shadow-black/80 text-brand-blue p-3 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
             >
                 {loading ? dict?.auth?.loggingIn || "Logging in..." : dict?.auth?.login}
             </button>
             <p className="text-center text-white mt-4 ">
-                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-green-700 underline font-semibold">{dict?.auth?.createAccount}</Link>
+                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-brand-blue underline font-semibold">{dict?.auth?.createAccount}</Link>
             </p>
         </form>
     );

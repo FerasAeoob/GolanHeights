@@ -159,7 +159,7 @@ export default function FavoriteButton({
                     <Link
                         href={lang === 'en' ? '/login' : `/${lang}/login`}
                         onClick={() => setShowLoginPopover(false)}
-                        className="flex items-center justify-center gap-1.5 mt-1 w-full rounded-lg bg-brand-yellow hover:bg-brand-yellow-hover active:bg-brand-yellow-active text-brand-blue text-sm font-semibold py-2 px-3 transition-colors shadow-sm"
+                        className="flex items-center justify-center gap-1.5 mt-1 w-full rounded-lg bg-brand-yellow hover:bg-brand-yellow-hover active:bg-brand-yellow-active text-brand-ink text-sm font-semibold py-2 px-3 transition-colors shadow-sm"
                     >
                         <LogIn size={14} />
                         {f.favoriteLoginRequiredAction || "Sign in"}

@@ -113,7 +113,7 @@ export default async function AboutPage({
             <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
               <Link
                 href={`/${lang}/places`}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-yellow px-6 py-3 text-sm font-bold text-brand-blue shadow-sm transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-yellow px-6 py-3 text-sm font-bold text-brand-ink shadow-sm transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active sm:w-auto"
               >
                 <MapPin className="h-4 w-4" />
                 {t.ctaExplore}
@@ -206,7 +206,7 @@ export default async function AboutPage({
 
                 <Link
                   href={`/${lang}/places`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-yellow px-7 py-3 text-sm font-bold text-brand-blue transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-yellow px-7 py-3 text-sm font-bold text-brand-ink transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active"
                 >
                   <MapPin className="h-4 w-4" />
                   {t.ctaExplore}

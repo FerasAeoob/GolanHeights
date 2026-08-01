@@ -49,7 +49,7 @@ export default async function ProfilePage({
                     </div>
                     <Link
                         href={`/${lang}/login`}
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-all shadow-lg shadow-emerald-600/20"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-yellow hover:bg-brand-yellow-hover text-brand-ink font-semibold transition-all shadow-lg shadow-emerald-600/20"
                     >
                         {dict?.auth?.login || "Login"}
                     </Link>

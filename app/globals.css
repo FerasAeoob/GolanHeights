@@ -6,11 +6,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --brand-yellow: #F6B11A;
-  --brand-yellow-hover: #E59A00;
-  --brand-yellow-active: #CC8600;
-  --brand-blue: #0D2A66;
-  --brand-blue-hover: #15397F;
+  --brand-yellow: #D9A441;
+  --brand-yellow-hover: #C99339;
+  --brand-yellow-active: #BD8835;
+  --brand-blue: #357AB1;
+  --brand-blue-hover: #2F6F9F;
+  --brand-ink: #0C255B;
   --brand-gradient: linear-gradient(90deg, var(--brand-yellow), var(--brand-yellow-hover));
 }
 
@@ -26,6 +27,7 @@
   --color-brand-yellow-active: var(--brand-yellow-active);
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-hover: var(--brand-blue-hover);
+  --color-brand-ink: var(--brand-ink);
 }
 
 /* modern cool font stack applied via Tailwind class dynamically */

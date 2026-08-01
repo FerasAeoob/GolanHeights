@@ -304,7 +304,7 @@ export default function WeeklyPartnerPopup({
               {href && (
                 <button
                   onClick={handleCtaClick}
-                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-brand-yellow py-3.5 text-center font-bold text-brand-blue shadow-[0_14px_30px_rgba(4,120,87,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow-hover active:translate-y-0 active:bg-brand-yellow-active dark:bg-brand-yellow dark:hover:bg-brand-yellow-hover"
+                  className="mx-auto flex h-14 w-full max-w-[520px] items-center justify-center rounded-2xl bg-brand-yellow py-3.5 text-center font-bold text-brand-ink shadow-[0_14px_30px_rgba(4,120,87,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow-hover active:translate-y-0 active:bg-brand-yellow-active dark:bg-brand-yellow dark:hover:bg-brand-yellow-hover"
                 >
                   {displayCtaLabel}
                 </button>

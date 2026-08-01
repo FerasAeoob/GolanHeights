@@ -320,7 +320,7 @@ export default function EmailSettingsForm({ user, dict, lang }: EmailSettingsFor
                             <button
                                 type="submit"
                                 disabled={savingEmail || !isDirty}
-                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 cursor-pointer active:scale-[0.97]"
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-yellow hover:bg-brand-yellow-hover text-brand-ink font-semibold text-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 cursor-pointer active:scale-[0.97]"
                             >
                                 {savingEmail ? (
                                     <>
@@ -377,7 +377,7 @@ export default function EmailSettingsForm({ user, dict, lang }: EmailSettingsFor
                             <button
                                 type="submit"
                                 disabled={confirmingCode || code.length !== 6}
-                                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 cursor-pointer active:scale-[0.97]"
+                                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-yellow hover:bg-brand-yellow-hover text-brand-ink font-semibold text-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 cursor-pointer active:scale-[0.97]"
                             >
                                 {confirmingCode ? (
                                     <>

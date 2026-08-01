@@ -271,11 +271,11 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                     />
                     <label htmlFor="acceptTerms" className="text-white text-sm cursor-pointer select-none leading-tight">
                         {dict?.auth?.acceptTermsPrefix || "I agree to the"}{" "}
-                        <Link href={`/${lang}/terms-of-use`} className="underline hover:text-green-300">
+                        <Link href={`/${lang}/terms-of-use`} className="underline hover:text-brand-yellow">
                             {dict?.auth?.termsOfUse || "Terms of Use"}
                         </Link>{" "}
                         {dict?.auth?.acceptTermsMiddle || "and"}{" "}
-                        <Link href={`/${lang}/privacy-policy`} className="underline hover:text-green-300">
+                        <Link href={`/${lang}/privacy-policy`} className="underline hover:text-brand-yellow">
                             {dict?.auth?.privacyPolicy || "Privacy Policy"}
                         </Link>
                     </label>
@@ -291,12 +291,12 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                 <button
                     type="submit"
                     disabled={loading}
-                    className="bg-white shadow-lg shadow-black/80  text-green-700 p-3 rounded cursor-pointer"
+                    className="bg-white shadow-lg shadow-black/80  text-brand-blue p-3 rounded cursor-pointer"
                 >
                     {loading ? dict?.auth?.creatingAccount : dict?.auth?.createAccount}
                 </button>
                 <p className="text-center text-white mt-4 ">
-                    {dict?.auth?.alreadyHaveAccount} <Link href={`/${lang}/login`} className=" bg-white p-1 rounded text-green-700 underline">{dict?.auth?.login}</Link>
+                    {dict?.auth?.alreadyHaveAccount} <Link href={`/${lang}/login`} className=" bg-white p-1 rounded text-brand-blue underline">{dict?.auth?.login}</Link>
                 </p>
             </div>
         </form>

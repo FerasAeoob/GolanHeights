@@ -68,7 +68,7 @@ export default function Footer({
               <a
                 href="https://www.instagram.com/golanwiki"
                 aria-label="Instagram"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow hover:text-brand-blue hover:ring-brand-yellow"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow hover:text-brand-ink hover:ring-brand-yellow"
               >
                 <Instagram className="h-4 w-4" />
               </a>
