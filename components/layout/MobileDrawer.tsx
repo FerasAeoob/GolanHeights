@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
     Home,
@@ -21,26 +21,33 @@ import UserAvatar from '@/components/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
 import { useLocalizedSlugs } from '@/app/LocalizedSlugContext';
 import { getLocalizedPathname, pushPreservingScroll } from '@/utils/navigation';
+import type { NavbarDictionary, NavbarUser } from '@/components/navbar.types';
 
 interface MobileDrawerProps {
     lang: string;
-    dict: Record<string, any>;
-    currentUser: any;
+    dict: NavbarDictionary;
+    currentUser: NavbarUser;
+    onOpenChange?: (isOpen: boolean) => void;
 }
 
-export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerProps) {
+export default function MobileDrawer({ lang, dict, currentUser, onOpenChange }: MobileDrawerProps) {
     const router = useRouter();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const isRTL = lang === 'he' || lang === 'ar';
     const { localizedSlugs } = useLocalizedSlugs();
 
+    const setOpen = useCallback((nextIsOpen: boolean) => {
+        setIsOpen(nextIsOpen);
+        onOpenChange?.(nextIsOpen);
+    }, [onOpenChange]);
+
     // Toggle drawer
-    const toggleDrawer = () => setIsOpen(!isOpen);
+    const toggleDrawer = () => setOpen(!isOpen);
 
     const toggleLanguage = () => {
         const languages = ['en', 'he', 'ar'] as const;
-        const currentIndex = languages.indexOf(lang as any);
+        const currentIndex = languages.indexOf(lang as (typeof languages)[number]);
         const nextIndex = (currentIndex + 1) % languages.length;
         const nextLang = languages[nextIndex];
 
@@ -52,7 +59,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             localizedSlugs
         );
         pushPreservingScroll(router, newPath);
-        setIsOpen(false);
+        setOpen(false);
     };
 
     const handleLogout = async () => {
@@ -60,7 +67,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             const res = await fetch('/api/auth/logout', { method: 'POST' });
             if (res.ok) {
                 router.refresh();
-                setIsOpen(false);
+                setOpen(false);
             }
         } catch (error) {
             console.error('Logout failed:', error);
@@ -70,7 +77,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
     // Close drawer when clicking outside or on specialized keys
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setIsOpen(false);
+            if (e.key === 'Escape') setOpen(false);
         };
         if (isOpen) {
             window.addEventListener('keydown', handleKeyDown);
@@ -82,7 +89,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             window.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = '';
         };
-    }, [isOpen]);
+    }, [isOpen, setOpen]);
 
     const getLink = (path: string) => {
         if (lang === 'en') return path;
@@ -127,7 +134,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
             <div
                 className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                     }`}
-                onClick={() => setIsOpen(false)}
+                onClick={() => setOpen(false)}
             />
 
             {/* Drawer Panel */}
@@ -146,7 +153,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                             </span>
 
                             <button
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => setOpen(false)}
                                 className="p-2 hover:bg-white/10 rounded-full transition-colors"
                                 aria-label={dict.nav?.closeMenu || "Close Menu"}
                             >
@@ -203,7 +210,7 @@ export default function MobileDrawer({ lang, dict, currentUser }: MobileDrawerPr
                                         ) : (
                                             <Link
                                                 href={item.href}
-                                                onClick={() => setIsOpen(false)}
+                                                onClick={() => setOpen(false)}
                                             className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
                                             >
                                                 <div className="p-2 rounded-lg bg-white/5 group-hover:bg-brand-yellow/10 group-hover:text-brand-yellow text-neutral-400 transition-colors">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { ChevronDown, Check } from 'lucide-react';
 import { useLocalizedSlugs } from '@/app/LocalizedSlugContext';
@@ -17,12 +17,17 @@ const LANG_LABELS: Record<Lang, string> = {
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ onOpenChange }: { onOpenChange?: (isOpen: boolean) => void }) {
     const router = useRouter();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const { localizedSlugs } = useLocalizedSlugs();
+
+    const setOpen = useCallback((nextIsOpen: boolean) => {
+        setIsOpen(nextIsOpen);
+        onOpenChange?.(nextIsOpen);
+    }, [onOpenChange]);
 
     // Detect current language from the URL
     const segments = pathname.split('/');
@@ -36,11 +41,11 @@ export default function LanguageSwitcher() {
 
         const handlePointerDown = (e: PointerEvent) => {
             if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                setIsOpen(false);
+                setOpen(false);
             }
         };
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setIsOpen(false);
+            if (e.key === 'Escape') setOpen(false);
         };
 
         document.addEventListener('pointerdown', handlePointerDown);
@@ -49,14 +54,15 @@ export default function LanguageSwitcher() {
             document.removeEventListener('pointerdown', handlePointerDown);
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isOpen]);
+    }, [isOpen, setOpen]);
 
     const setLanguageCookie = (lang: Lang) => {
+        // eslint-disable-next-line react-hooks/immutability -- Cookies require mutation through the browser API.
         document.cookie = `preferred_language=${lang}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
     };
 
     const switchTo = (lang: Lang) => {
-        setIsOpen(false);
+        setOpen(false);
         setLanguageCookie(lang);
         if (lang === currentLang) return;
         const newPath = getLocalizedPathname(
@@ -74,7 +80,7 @@ export default function LanguageSwitcher() {
         <div ref={containerRef} className="relative">
             {/* ── Trigger button ── */}
             <button
-                onClick={() => setIsOpen((v) => !v)}
+                onClick={() => setOpen(!isOpen)}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
                 aria-label="Switch language"
