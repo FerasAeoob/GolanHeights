@@ -27,7 +27,7 @@
 - Modify `components/places/placecard.tsx`: typed optional `imageQuality` prop forwarded to `next/image`.
 - Modify `app/[lang]/(main)/page.tsx`: pass `imageQuality={60}` only to homepage `PlaceCard` instances.
 - Modify `components/WeeklyPartnerPopup.tsx`: quality 60, eager loading, and high fetch priority without preload/priority.
-- Create verification artifacts under `.artifacts/homepage-image-delivery/`: matched baseline and post-change screenshots; do not commit generated screenshots unless explicitly requested.
+- Create verification artifacts under `output/playwright/homepage-image-delivery/`: matched baseline and post-change screenshots; do not commit generated screenshots unless explicitly requested.
 
 ---
 
@@ -35,8 +35,8 @@
 
 **Files:**
 - Create: `tests/homepage-image-delivery.test.mjs`
-- Create (untracked artifacts): `.artifacts/homepage-image-delivery/baseline-mobile.png`
-- Create (untracked artifacts): `.artifacts/homepage-image-delivery/baseline-desktop.png`
+- Create (untracked artifacts): `output/playwright/homepage-image-delivery/baseline-mobile.png`
+- Create (untracked artifacts): `output/playwright/homepage-image-delivery/baseline-desktop.png`
 
 **Interfaces:**
 - Consumes: existing `next.config.ts`, homepage/component source, React, `react-dom/server`, and `next/image`.
@@ -47,8 +47,8 @@
 Start the current application without production edits. Use Playwright at 390×844 and 1440×1000, clear `weekly_partner_popup_hidden_until`, wait for the popup and images to settle, and save full-page screenshots as:
 
 ```text
-.artifacts/homepage-image-delivery/baseline-mobile.png
-.artifacts/homepage-image-delivery/baseline-desktop.png
+output/playwright/homepage-image-delivery/baseline-mobile.png
+output/playwright/homepage-image-delivery/baseline-desktop.png
 ```
 
 Record the route, viewport, device scale, popup state, and any data/environment limitation so the post-change capture can match them exactly.
@@ -281,8 +281,8 @@ git commit -m "perf: optimize homepage image delivery"
 
 **Files:**
 - Verify: `tests/homepage-image-delivery.test.mjs`
-- Create (untracked artifacts): `.artifacts/homepage-image-delivery/quality-60-mobile.png`
-- Create (untracked artifacts): `.artifacts/homepage-image-delivery/quality-60-desktop.png`
+- Create (untracked artifacts): `output/playwright/homepage-image-delivery/quality-60-mobile.png`
+- Create (untracked artifacts): `output/playwright/homepage-image-delivery/quality-60-desktop.png`
 
 **Interfaces:**
 - Consumes: Task 2's implementation and Task 1's fixed baseline conditions.
@@ -327,8 +327,8 @@ Use an unaffected image from another route or component that does not pass a qua
 At the exact route, content, viewport dimensions, device scale, popup state, and wait conditions recorded in Task 1, save:
 
 ```text
-.artifacts/homepage-image-delivery/quality-60-mobile.png
-.artifacts/homepage-image-delivery/quality-60-desktop.png
+output/playwright/homepage-image-delivery/quality-60-mobile.png
+output/playwright/homepage-image-delivery/quality-60-desktop.png
 ```
 
 - [ ] **Step 5: Compare baseline and quality-60 screenshots**
