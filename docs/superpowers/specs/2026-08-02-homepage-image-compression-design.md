@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-02
 
-**Status:** Approved design, pending written-spec review
+**Status:** Approved design with requested verification additions, pending written-spec review
 
 **Scope:** Lighthouse-flagged homepage hero, category-card, featured-place-card, and weekly-partner images
 
@@ -69,13 +69,39 @@ A custom loader could perform width, format, and quality transformations directl
 
 ## Verification strategy
 
-1. Add a focused regression check before production edits that verifies the intended quality tier, allowlist, homepage-only `PlaceCard` opt-in, and LCP loading-priority boundary.
-2. Run that check before the fix and confirm it fails for the missing behavior.
-3. Apply the smallest component and configuration edits needed to pass it.
-4. Run the focused check again.
-5. Run `npm run lint` and `npm run build`.
-6. Inspect the complete diff and confirm only the specification, image configuration, affected homepage components, and focused regression check changed.
-7. Render representative `next/image` output and confirm affected optimizer URLs use `q=60`, the hero emits a preload, and the popup image emits `loading="eager"` with `fetchPriority="high"` instead of a preload.
+### Focused regression check
+
+Before production edits, add a focused automated regression check that reads the relevant configuration, component, and homepage source boundaries and verifies all of the following:
+
+1. `images.qualities` permits both 60 and 75.
+2. `AnimatedHero`, `CategoryCard`, and `WeeklyPartnerPopup` explicitly pass `quality={60}`.
+3. `PlaceCard` exposes a typed optional image-quality prop and passes it to its `next/image` instance.
+4. Homepage `PlaceCard` callers pass quality 60, while non-homepage callers do not.
+5. The hero uses `preload` and no longer uses the deprecated `priority` prop.
+6. The popup uses `loading="eager"` and `fetchPriority="high"` and uses neither `priority` nor `preload`.
+
+Run the focused check before the production changes and confirm it fails for the missing behavior rather than for test setup or syntax. Apply the smallest production edits needed to satisfy it, then run it again and confirm it passes.
+
+### Runtime output verification
+
+Against a fresh production build or an equivalent representative server render, verify all of the following from rendered markup and generated optimizer URLs rather than source inspection alone:
+
+1. Targeted image `src` and `srcset` optimizer URLs contain `q=60`.
+2. A representative unaffected image that does not opt into the targeted tier continues to use `q=75`.
+3. The hero emits its expected image preload.
+4. The rendered popup image has `loading="eager"` and a serialized `fetchpriority="high"` attribute.
+5. No popup-image preload is emitted.
+
+### Visual quality comparison
+
+Capture matched baseline and post-change screenshots at representative mobile and desktop viewports with the same route, content, viewport dimensions, device scale, and popup state. Compare the quality-60 hero, category cards, featured place card, and popup image against their quality-75 baseline and confirm there is no unacceptable softness, color banding, or loss of important detail. Preserve the screenshots as verification artifacts, and report the tested viewports and any areas that could not be compared reliably.
+
+### Repository checks
+
+1. Run `npm run lint`.
+2. Run `npm run build`.
+3. Inspect the complete diff and confirm only the specification, image configuration, affected homepage components, and focused regression check changed.
+4. Report every check actually run, its result, and any environment-dependent limitation without extrapolating from partial checks.
 
 ## Success criteria
 
@@ -84,6 +110,9 @@ A custom loader could perform width, format, and quality transformations directl
 - Homepage featured place cards use quality 60 without changing `PlaceCard` quality on other routes.
 - The hero preserves its preload behavior without the deprecated `priority` prop.
 - The popup image is not lazy-loaded and carries high fetch priority when rendered.
+- Representative targeted runtime optimizer URLs use `q=60`, while an unaffected image remains at `q=75`.
+- The hero emits its expected preload and the popup emits no image preload.
+- Matched mobile and desktop comparisons show no unacceptable softness, banding, or important-detail loss at quality 60.
 - The category-card layout, responsive sizing, alt text, links, overlays, and localization are unchanged.
 - Lint and build complete successfully, or any environment-dependent limitation is reported precisely.
 
