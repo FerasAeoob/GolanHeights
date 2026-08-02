@@ -15,6 +15,7 @@ interface PlaceCardProps {
     currentUserId?: string;
     initialIsFavorite?: boolean;
     appearance?: "default" | "places";
+    imageQuality?: 60 | 75;
 }
 
 export default function PlaceCard({
@@ -24,6 +25,7 @@ export default function PlaceCard({
     currentUserId,
     initialIsFavorite = false,
     appearance = "default",
+    imageQuality,
 }: PlaceCardProps) {
     const isRTL = locale === 'ar' || locale === 'he';
     const isPlacesAppearance = appearance === "places";
@@ -61,6 +63,7 @@ export default function PlaceCard({
                         alt={mainImage?.alt?.[locale] || place.title.en}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={imageQuality}
                         className={isPlacesAppearance
                             ? "object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                             : "object-cover transition-transform duration-700 ease-out group-hover:scale-105"}

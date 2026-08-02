@@ -100,12 +100,14 @@ test("targeted homepage sources declare the quality and loading boundary", () =>
   const categoryImage = imageElement(read("components/categorycard.tsx"));
   assert.match(categoryImage, /quality=\{60\}/);
 
-  const popupImage = imageElement(read("components/WeeklyPartnerPopup.tsx"));
+  const popupSource = read("components/WeeklyPartnerPopup.tsx");
+  const popupImage = imageElement(popupSource);
   assert.match(popupImage, /quality=\{60\}/);
   assert.match(popupImage, /loading="eager"/);
   assert.match(popupImage, /fetchPriority="high"/);
   assert.doesNotMatch(popupImage, /\bpriority\b/);
   assert.doesNotMatch(popupImage, /\bpreload\b/);
+  assert.match(popupSource, /if \(!mounted \|\| !shouldRender\) return null/);
 
   const placeCard = read("components/places/placecard.tsx");
   assert.match(placeCard, /imageQuality\?:\s*60\s*\|\s*75/);
@@ -149,9 +151,10 @@ test("representative Next Image runtime output preserves the quality boundary", 
     fetchPriority: "high",
   });
   assert.match(popup, /<img[^>]*fetchPriority="high"[^>]*loading="eager"/);
-  assert.doesNotMatch(popup, /<link rel="preload" as="image"/);
 });
 ```
+
+React 19 can add a resource hint when this high-priority image is rendered directly on the server. The focused check therefore verifies the real popup's SSR-null gate and absence of a `preload` prop; Task 3 verifies against the actual client-mounted browser lifecycle that no popup image preload is emitted.
 
 - [ ] **Step 3: Run the focused test and verify RED**
 

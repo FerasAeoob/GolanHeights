@@ -6,10 +6,14 @@ import { fileURLToPath } from "node:url";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import NextImage from "next/image.js";
+import ImageConfigContextModule from "next/dist/shared/lib/image-config-context.shared-runtime.js";
+import ImageConfigModule from "next/dist/shared/lib/image-config.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath) => readFileSync(path.join(root, relativePath), "utf8");
 const Image = typeof NextImage === "function" ? NextImage : NextImage.default;
+const { ImageConfigContext } = ImageConfigContextModule;
+const { imageConfigDefault } = ImageConfigModule;
 
 function collectTsxFiles(directory) {
     return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -43,12 +47,14 @@ test("targeted homepage sources declare the quality and loading boundary", () =>
     const categoryImage = imageElement(read("components/categorycard.tsx"));
     assert.match(categoryImage, /quality=\{60\}/);
 
-    const popupImage = imageElement(read("components/WeeklyPartnerPopup.tsx"));
+    const popupSource = read("components/WeeklyPartnerPopup.tsx");
+    const popupImage = imageElement(popupSource);
     assert.match(popupImage, /quality=\{60\}/);
     assert.match(popupImage, /loading="eager"/);
     assert.match(popupImage, /fetchPriority="high"/);
     assert.doesNotMatch(popupImage, /\bpriority\b/);
     assert.doesNotMatch(popupImage, /\bpreload\b/);
+    assert.match(popupSource, /if \(!mounted \|\| !shouldRender\) return null/);
 
     const placeCard = read("components/places/placecard.tsx");
     assert.match(placeCard, /imageQuality\?:\s*60\s*\|\s*75/);
@@ -72,13 +78,17 @@ test("representative Next Image runtime output preserves the quality boundary", 
 
     const renderImage = (props) =>
         renderToStaticMarkup(
-            React.createElement(Image, {
-                src: "/placeholder.jpg",
-                alt: "Representative image",
-                width: 640,
-                height: 400,
-                ...props,
-            }),
+            React.createElement(
+                ImageConfigContext.Provider,
+                { value: { ...imageConfigDefault, qualities: [60, 75, 85] } },
+                React.createElement(Image, {
+                    src: "/placeholder.jpg",
+                    alt: "Representative image",
+                    width: 640,
+                    height: 400,
+                    ...props,
+                }),
+            ),
         );
 
     const targeted = renderImage({ quality: 60 });
@@ -96,5 +106,4 @@ test("representative Next Image runtime output preserves the quality boundary", 
         fetchPriority: "high",
     });
     assert.match(popup, /<img[^>]*fetchPriority="high"[^>]*loading="eager"/);
-    assert.doesNotMatch(popup, /<link rel="preload" as="image"/);
 });
