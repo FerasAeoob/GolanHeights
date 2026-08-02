@@ -102,7 +102,7 @@ export default function MobileDrawer({ lang, dict, currentUser, onOpenChange }: 
         ...(currentUser
             ? [
                 { label: dict.nav?.profile || 'Profile', href: getLink('/profile'), icon: UserIcon, separator: false },
-                { label: dict.nav?.notifications || 'Notifications', href: getLink('/notifications'), icon: Bell, separator: true },
+                // { label: dict.nav?.notifications || 'Notifications', href: getLink('/notifications'), icon: Bell, separator: true },
             ]
             : []),
         ...(currentUser?.role === 'admin'
@@ -211,7 +211,7 @@ export default function MobileDrawer({ lang, dict, currentUser, onOpenChange }: 
                                             <Link
                                                 href={item.href}
                                                 onClick={() => setOpen(false)}
-                                            className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
+                                                className="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-white/5 transition-all group active:scale-[0.98] text-start"
                                             >
                                                 <div className="p-2 rounded-lg bg-white/5 group-hover:bg-brand-yellow/10 group-hover:text-brand-yellow text-neutral-400 transition-colors">
                                                     <item.icon size={20} />
