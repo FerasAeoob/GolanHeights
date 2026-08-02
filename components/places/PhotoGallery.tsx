@@ -134,7 +134,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
                         alt={images[0].alt}
                         fill
                         fetchPriority="high"
-                        sizes="100vw"
+                        sizes="(max-width: 768px) 88vw, 520px"
                         className="object-cover"
                     />
                 </div>
