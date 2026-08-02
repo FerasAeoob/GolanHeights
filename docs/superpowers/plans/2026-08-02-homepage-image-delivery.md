@@ -4,13 +4,13 @@
 
 **Goal:** Reduce the Lighthouse-flagged homepage image downloads with a targeted quality-60 tier and correct the hero/popup LCP loading semantics without changing unrelated images or popup behavior.
 
-**Architecture:** Keep the built-in Next.js image optimizer and allow only qualities 60 and 75. Apply quality 60 directly to the hero, categories, and popup, and expose a typed optional `imageQuality` input on `PlaceCard` so only the homepage opts featured cards into quality 60. Protect the boundary with one focused Node regression test, representative server-render assertions, and matched browser screenshots.
+**Architecture:** Keep the built-in Next.js image optimizer and allow qualities 60, 75, and the navbar's existing explicit 85 tier. Apply quality 60 directly to the hero, categories, and popup, and expose a typed optional `imageQuality` input on `PlaceCard` so only the homepage opts featured cards into quality 60. Protect the boundary with one focused Node regression test, representative server-render assertions, and matched browser screenshots.
 
 **Tech Stack:** Next.js 16 App Router, React 19, strict TypeScript, `next/image`, Node's built-in test runner, Playwright CLI, npm.
 
 ## Global Constraints
 
-- Preserve quality 75 for unaffected images and non-homepage `PlaceCard` callers.
+- Preserve quality 75 for unaffected default images, preserve the existing explicit quality 85 for navbar logos, and preserve default behavior for non-homepage `PlaceCard` callers.
 - Preserve every existing image source, `sizes` value, alt string, stable wrapper, layout, route, and localization behavior.
 - Preserve the popup's storage suppression, mount delay, entrance animation, and dismissal behavior.
 - Do not change Cloudinary uploads, source records, ownership, database behavior, render-blocking CSS, or legacy JavaScript.
@@ -87,10 +87,10 @@ test("targeted homepage sources declare the quality and loading boundary", () =>
   const config = read("next.config.ts");
   const qualities = config.match(/qualities\s*:\s*\[([^\]]+)\]/);
   assert.ok(qualities, "images.qualities must be configured");
-  assert.deepEqual(
-    qualities[1].match(/\d+/g)?.map(Number).sort((a, b) => a - b),
-    [60, 75],
-  );
+  const configuredQualities = qualities[1].match(/\d+/g)?.map(Number) ?? [];
+  assert.ok(configuredQualities.includes(60));
+  assert.ok(configuredQualities.includes(75));
+  assert.ok(configuredQualities.includes(85));
 
   const heroImage = imageElement(read("components/homepage/animatedHero.tsx"));
   assert.match(heroImage, /quality=\{60\}/);
@@ -193,7 +193,7 @@ Add the allowlist inside the existing `images` object in `next.config.ts`:
 
 ```ts
 images: {
-    qualities: [60, 75],
+    qualities: [60, 75, 85],
     remotePatterns: [
 ```
 

@@ -15,6 +15,7 @@ Reduce the download size of the homepage images identified by Lighthouse while p
 - `AnimatedHero`, `CategoryCard`, the homepage `PlaceCard` instances, and `WeeklyPartnerPopup` use `next/image` without an explicit `quality` value.
 - Next.js 16 therefore generates optimizer requests at its default quality of 75.
 - `next.config.ts` has no `images.qualities` allowlist, so Next.js 16 implicitly permits only quality 75.
+- The navbar already requests quality 85 for its logo variants. Baseline rendering warns that 85 is not allowed, so the new allowlist must preserve that existing explicit tier rather than silently coercing it.
 - Some source URLs include Cloudinary `f_auto,q_auto`, but the default Next.js loader still fetches and re-encodes those remote images through `/_next/image` at quality 75.
 - The weekly-partner popup image is the measured LCP element when the popup is shown. Its deprecated `priority` prop emits a preload link in the installed Next.js 16 version but does not add the `fetchpriority="high"` attribute requested by Lighthouse.
 - Replacing `priority` with only `fetchPriority="high"` would restore the default lazy-loading behavior, so the popup needs both explicit eager loading and a high fetch priority.
@@ -25,7 +26,7 @@ Reduce the download size of the homepage images identified by Lighthouse while p
 
 Use a targeted homepage quality tier:
 
-1. Add quality 60 to the Next.js image-quality allowlist while retaining quality 75 for unaffected images.
+1. Configure the Next.js image-quality allowlist as `[60, 75, 85]`: 60 for the targeted homepage images, 75 for unaffected defaults, and the existing explicit 85 tier for navbar logos.
 2. Set `quality={60}` on the homepage hero, category cards, homepage featured place cards, and weekly-partner popup image.
 3. Add an optional image-quality prop to `PlaceCard` and pass 60 only from the homepage, preserving the existing quality-75 default for place cards on other routes.
 4. Replace the hero's deprecated `priority` prop with `preload` while preserving its existing early-loading behavior.
@@ -73,7 +74,7 @@ A custom loader could perform width, format, and quality transformations directl
 
 Before production edits, add a focused automated regression check that reads the relevant configuration, component, and homepage source boundaries and verifies all of the following:
 
-1. `images.qualities` permits both 60 and 75.
+1. `images.qualities` permits 60 and 75 and preserves the existing explicit 85 logo tier.
 2. `AnimatedHero`, `CategoryCard`, and `WeeklyPartnerPopup` explicitly pass `quality={60}`.
 3. `PlaceCard` exposes a typed optional image-quality prop and passes it to its `next/image` instance.
 4. Homepage `PlaceCard` callers pass quality 60, while non-homepage callers do not.
@@ -107,6 +108,7 @@ Capture matched baseline and post-change screenshots at representative mobile an
 
 - All Lighthouse-flagged homepage image classes use quality 60.
 - Unaffected images retain the existing quality-75 default.
+- Existing navbar logo images retain their explicit quality-85 tier.
 - Homepage featured place cards use quality 60 without changing `PlaceCard` quality on other routes.
 - The hero preserves its preload behavior without the deprecated `priority` prop.
 - The popup image is not lazy-loaded and carries high fetch priority when rendered.
