@@ -34,7 +34,8 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroD
                     alt="Golan Heights landscape"
                     fill
                     sizes="100vw"
-                    priority
+                    quality={60}
+                    preload
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/25" />

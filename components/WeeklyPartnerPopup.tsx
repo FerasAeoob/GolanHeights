@@ -217,8 +217,8 @@ export default function WeeklyPartnerPopup({
               alt={`${placeName} Promotional Image`}
               fill
               sizes="(max-width: 768px) 100vw, 520px"
+              quality={60}
               className="object-cover transition-transform duration-700 hover:scale-105"
-              priority
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-[image:var(--brand-gradient)]">
