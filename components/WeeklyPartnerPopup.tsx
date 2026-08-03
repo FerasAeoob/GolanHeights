@@ -218,6 +218,8 @@ export default function WeeklyPartnerPopup({
               fill
               sizes="(max-width: 768px) 100vw, 520px"
               quality={60}
+              loading="eager"
+              fetchPriority="high"
               className="object-cover transition-transform duration-700 hover:scale-105"
             />
           ) : (

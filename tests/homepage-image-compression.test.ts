@@ -51,8 +51,8 @@ async function getImageAttributes(filePath: string): Promise<ImageAttributes> {
     }));
 }
 
-test("allows the homepage compression quality and the default quality", () => {
-    assert.deepEqual(nextConfig.images?.qualities, [60, 75]);
+test("allows the homepage, default, and existing navbar qualities", () => {
+    assert.deepEqual(nextConfig.images?.qualities, [60, 75, 85]);
 });
 
 test("preloads only the quality-60 homepage hero", async () => {
@@ -76,11 +76,12 @@ test("keeps quality-60 category cards on default lazy loading", async () => {
     assert.equal(category.has("loading"), false);
 });
 
-test("keeps the quality-60 weekly popup unprioritized and lazy", async () => {
+test("loads the quality-60 weekly popup eagerly without preloading it", async () => {
     const popup = await getImageAttributes("components/WeeklyPartnerPopup.tsx");
 
     assert.equal(popup.get("quality"), "{60}");
     assert.equal(popup.has("preload"), false);
     assert.equal(popup.has("priority"), false);
-    assert.equal(popup.has("loading"), false);
+    assert.equal(popup.get("loading"), '"eager"');
+    assert.equal(popup.get("fetchPriority"), '"high"');
 });

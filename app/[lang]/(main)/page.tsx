@@ -147,6 +147,7 @@ export default async function HomePage({ params }: { params: { lang: 'en' | 'ar'
                                         place={place}
                                         locale={lang}
                                         dict={dict}
+                                        imageQuality={60}
                                         currentUserId={currentUser?._id?.toString()}
                                         initialIsFavorite={currentUser?.favorites?.some(f => f.toString() === place._id.toString()) ?? false}
                                     />
