@@ -1,17 +1,28 @@
 import Link from "next/link";
 import {
+  Facebook,
   Instagram,
   MapPin,
-  Phone,
+  MessageCircle,
   Mail,
+  Music2,
 } from "lucide-react";
+import { WHATSAPP_CONTACT } from "@/lib/contact";
+import type { Dictionary } from "@/lib/get-dictionary";
+import { FOOTER_SOCIAL_LINKS } from "@/lib/social-links";
+
+const socialIcons = {
+  instagram: Instagram,
+  facebook: Facebook,
+  tiktok: Music2,
+} as const;
 
 export default function Footer({
   lang,
   dict,
 }: {
   lang: string;
-  dict: Record<string, any>;
+  dict: Dictionary;
 }) {
   const isRtl = lang === "ar" || lang === "he";
   const year = new Date().getFullYear().toString();
@@ -64,14 +75,26 @@ export default function Footer({
               {dict.footerdesc}
             </p>
 
-            <div className="mt-5 flex items-center justify-center gap-3">
-              <a
-                href="https://www.instagram.com/golanwiki"
-                aria-label="Instagram"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow hover:text-brand-ink hover:ring-brand-yellow"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
+            <div
+              dir="ltr"
+              className="mt-5 flex items-center justify-center gap-3"
+            >
+              {FOOTER_SOCIAL_LINKS.map((socialLink) => {
+                const Icon = socialIcons[socialLink.id];
+
+                return (
+                  <a
+                    key={socialLink.id}
+                    href={socialLink.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={socialLink.label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-yellow hover:text-brand-ink hover:ring-brand-yellow"
+                  >
+                    <Icon aria-hidden="true" className="h-4 w-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -138,6 +161,23 @@ export default function Footer({
                   className="text-sm text-zinc-400 transition-colors hover:text-brand-yellow"
                 >
                   support@golanwiki.com
+                </a>
+              </li>
+
+              <li className="flex items-center justify-center gap-3 text-center">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-yellow/10 text-brand-yellow">
+                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                </span>
+
+                <a
+                  href={WHATSAPP_CONTACT.href}
+                  target={WHATSAPP_CONTACT.target}
+                  rel={WHATSAPP_CONTACT.rel}
+                  dir="ltr"
+                  aria-label={`${dict.contactPage.infoWhatsapp}: ${WHATSAPP_CONTACT.displayNumber}`}
+                  className="text-sm text-zinc-400 transition-colors hover:text-brand-yellow"
+                >
+                  {WHATSAPP_CONTACT.displayNumber}
                 </a>
               </li>
             </ul>

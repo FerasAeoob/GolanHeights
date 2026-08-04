@@ -7,10 +7,12 @@ import {
   Store,
   AlertCircle,
   MessageSquare,
+  MessageCircle,
   Heart,
 } from "lucide-react";
 import ContactForm from "@/components/contact/ContactForm";
 import BusinessRequestButton from "@/components/contact/BusinessRequestButton";
+import { WHATSAPP_CONTACT } from "@/lib/contact";
 
 /* ─── Metadata ─── */
 export async function generateMetadata({
@@ -178,6 +180,30 @@ export default async function ContactPage({
                       className="font-bold text-slate-900 transition-colors hover:text-brand-blue-hover"
                     >
                       support@golanwiki.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* WhatsApp */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-brand-blue shadow-sm ring-1 ring-slate-200">
+                    <MessageCircle aria-hidden="true" className="h-5 w-5" />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                      {t.infoWhatsapp}
+                    </span>
+
+                    <a
+                      href={WHATSAPP_CONTACT.href}
+                      target={WHATSAPP_CONTACT.target}
+                      rel={WHATSAPP_CONTACT.rel}
+                      dir="ltr"
+                      aria-label={`${t.infoWhatsapp}: ${WHATSAPP_CONTACT.displayNumber}`}
+                      className="font-bold text-slate-900 transition-colors hover:text-brand-blue-hover"
+                    >
+                      {WHATSAPP_CONTACT.displayNumber}
                     </a>
                   </div>
                 </div>
