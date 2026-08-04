@@ -70,7 +70,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroD
 
                         <div className="mt-4 flex w-full flex-col items-center justify-center gap-3 px-2">
                             <ScrollToExploreButton
-                                className="group flex min-h-[48px] w-full max-w-[22rem] cursor-pointer items-center justify-center gap-2.5 rounded-full border border-brand-yellow/35 bg-[image:var(--brand-gradient)] px-7 py-3 text-base font-extrabold text-brand-ink shadow-xl shadow-emerald-950/30 transition-all hover:-translate-y-0.5 hover:bg-none hover:bg-brand-yellow-hover hover:shadow-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98] active:bg-brand-yellow-active sm:px-8 sm:text-lg"
+                                className="group flex min-h-[48px] w-full max-w-[22rem] cursor-pointer items-center justify-center gap-2.5 rounded-full border border-brand-yellow/35 bg-[image:var(--brand-gradient)] px-7 py-3 text-base font-extrabold text-brand-ink shadow-xl shadow-brand-yellow/30 transition-all hover:-translate-y-0.5 hover:bg-none hover:bg-brand-yellow-hover hover:shadow-brand-yellow/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98] active:bg-brand-yellow-active sm:px-8 sm:text-lg"
                             >
                                 <Compass className="h-[18px] w-[18px] shrink-0 text-brand-ink transition-transform group-hover:rotate-45" aria-hidden="true" />
                                 <span>{dict.explorenow}</span>

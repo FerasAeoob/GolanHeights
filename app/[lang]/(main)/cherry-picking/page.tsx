@@ -104,7 +104,7 @@ export default async function CherryPickingPage({
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
                   href={placesHref}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-emerald-700 px-6 py-3 font-semibold text-white shadow-lg shadow-black/15 transition-colors hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-yellow px-6 py-3 font-semibold text-brand-ink shadow-lg shadow-black/15 transition-colors hover:bg-brand-yellow-hover focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
                 >
                   {content.primaryButton}
                 </Link>
