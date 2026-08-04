@@ -181,7 +181,7 @@ export default function WeeklyPartnerPopup({
             : null;
           setIsOpen(true);
           entranceDelayRef.current = null;
-        }, 500);
+        }, 1500);
       },
     );
 

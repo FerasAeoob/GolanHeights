@@ -1,37 +1,40 @@
 type Cleanup = () => void;
 
-const INTERACTION_LISTENERS: ReadonlyArray<{
-  type: keyof WindowEventMap;
-  options?: AddEventListenerOptions;
-}> = [
-  {
-    type: "scroll",
-    options: { once: true, passive: true },
-  },
-  {
-    type: "pointerdown",
-    options: { once: true, passive: true },
-  },
-  {
-    type: "keydown",
-    options: { once: true },
-  },
-];
+type ScrollThresholdTarget = EventTarget & {
+  scrollY: number;
+  innerHeight: number;
+  document: {
+    documentElement: {
+      scrollHeight: number;
+    };
+  };
+};
+
+const SCROLL_THRESHOLD = 0.2;
 
 export function listenForFirstMeaningfulInteraction(
-  target: EventTarget,
+  target: ScrollThresholdTarget,
   onInteraction: () => void,
 ): Cleanup {
   let hasTriggered = false;
 
   const cleanup = () => {
-    for (const { type, options } of INTERACTION_LISTENERS) {
-      target.removeEventListener(type, handleInteraction, options);
-    }
+    target.removeEventListener("scroll", handleScroll);
   };
 
-  const handleInteraction = () => {
+  const handleScroll = () => {
     if (hasTriggered) {
+      return;
+    }
+
+    const scrollableDistance =
+      target.document.documentElement.scrollHeight - target.innerHeight;
+    if (scrollableDistance <= 0) {
+      return;
+    }
+
+    const scrollProgress = Math.max(0, target.scrollY) / scrollableDistance;
+    if (scrollProgress < SCROLL_THRESHOLD) {
       return;
     }
 
@@ -40,9 +43,7 @@ export function listenForFirstMeaningfulInteraction(
     onInteraction();
   };
 
-  for (const { type, options } of INTERACTION_LISTENERS) {
-    target.addEventListener(type, handleInteraction, options);
-  }
+  target.addEventListener("scroll", handleScroll, { passive: true });
 
   return cleanup;
 }
