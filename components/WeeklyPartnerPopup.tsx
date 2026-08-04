@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X, MapPin, Sparkles } from "lucide-react";
+import { listenForFirstMeaningfulInteraction } from "@/lib/first-meaningful-interaction";
 
 export type SpecialPlacePopupProps = {
   placeName: string;
@@ -64,12 +65,17 @@ export default function WeeklyPartnerPopup({
 }: SpecialPlacePopupProps) {
   const router = useRouter();
 
-  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(3);
 
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const entranceDelayRef = useRef<number | null>(null);
+  const closeDelayRef = useRef<number | null>(null);
+  const interactionCleanupRef = useRef<(() => void) | null>(null);
+  const hasScheduledOpenRef = useRef(false);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   const isRtl = lang === "he" || lang === "ar";
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -86,16 +92,39 @@ export default function WeeklyPartnerPopup({
         ? "font-arabic"
         : "font-outfit";
 
-  const clearCountdown = () => {
+  const clearCountdown = useCallback(() => {
     if (countdownRef.current) {
       clearInterval(countdownRef.current);
       countdownRef.current = null;
     }
-  };
+  }, []);
 
-  const handleClose = () => {
+  const clearEntranceDelay = useCallback(() => {
+    if (entranceDelayRef.current) {
+      clearTimeout(entranceDelayRef.current);
+      entranceDelayRef.current = null;
+    }
+  }, []);
+
+  const clearCloseDelay = useCallback(() => {
+    if (closeDelayRef.current) {
+      clearTimeout(closeDelayRef.current);
+      closeDelayRef.current = null;
+    }
+  }, []);
+
+  const clearInteractionListener = useCallback(() => {
+    if (interactionCleanupRef.current) {
+      interactionCleanupRef.current();
+      interactionCleanupRef.current = null;
+    }
+  }, []);
+
+  const handleClose = useCallback(() => {
     setIsOpen(false);
     clearCountdown();
+    clearEntranceDelay();
+    clearInteractionListener();
 
     try {
       const expiry = Date.now() + SUPPRESSION_DURATION;
@@ -106,10 +135,14 @@ export default function WeeklyPartnerPopup({
 
     document.body.style.overflow = "";
 
-    setTimeout(() => {
+    clearCloseDelay();
+    closeDelayRef.current = window.setTimeout(() => {
       setShouldRender(false);
+      previouslyFocusedRef.current?.focus({ preventScroll: true });
+      previouslyFocusedRef.current = null;
+      closeDelayRef.current = null;
     }, 500);
-  };
+  }, [clearCloseDelay, clearCountdown, clearEntranceDelay, clearInteractionListener]);
 
   const handleCtaClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -121,8 +154,6 @@ export default function WeeklyPartnerPopup({
   };
 
   useEffect(() => {
-    setMounted(true);
-
     try {
       const hiddenUntil = localStorage.getItem(STORAGE_KEY);
       const now = Date.now();
@@ -130,25 +161,43 @@ export default function WeeklyPartnerPopup({
       if (hiddenUntil && Number(hiddenUntil) > now) {
         return;
       }
-
-      setShouldRender(true);
-
-      const entranceDelay = setTimeout(() => {
-        setIsOpen(true);
-      }, 500);
-
-      return () => {
-        clearTimeout(entranceDelay);
-        clearCountdown();
-      };
     } catch (error) {
       console.warn("Storage check failed: ", error);
     }
-  }, []);
+
+    interactionCleanupRef.current = listenForFirstMeaningfulInteraction(
+      window,
+      () => {
+        if (hasScheduledOpenRef.current) {
+          return;
+        }
+
+        hasScheduledOpenRef.current = true;
+        setShouldRender(true);
+        clearEntranceDelay();
+        entranceDelayRef.current = window.setTimeout(() => {
+          previouslyFocusedRef.current = document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
+          setIsOpen(true);
+          entranceDelayRef.current = null;
+        }, 500);
+      },
+    );
+
+    return () => {
+      clearInteractionListener();
+      clearEntranceDelay();
+      clearCloseDelay();
+      clearCountdown();
+      document.body.style.overflow = "";
+    };
+  }, [clearCloseDelay, clearCountdown, clearEntranceDelay, clearInteractionListener]);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      dialogRef.current?.focus({ preventScroll: true });
     } else {
       document.body.style.overflow = "";
     }
@@ -160,8 +209,6 @@ export default function WeeklyPartnerPopup({
 
   useEffect(() => {
     if (!isOpen) return;
-
-    setSecondsLeft(3);
 
     countdownRef.current = setInterval(() => {
       setSecondsLeft((previous) => {
@@ -175,12 +222,40 @@ export default function WeeklyPartnerPopup({
     }, 1000);
 
     return clearCountdown;
-  }, [isOpen]);
+  }, [clearCountdown, isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && secondsLeft === 0 && isOpen) {
         handleClose();
+        return;
+      }
+
+      if (event.key !== "Tab" || !isOpen || !dialogRef.current) {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement;
+
+      if (event.shiftKey && (activeElement === firstFocusable || activeElement === dialogRef.current)) {
+        event.preventDefault();
+        lastFocusable.focus();
+      } else if (!event.shiftKey && activeElement === lastFocusable) {
+        event.preventDefault();
+        firstFocusable.focus();
       }
     };
 
@@ -189,24 +264,27 @@ export default function WeeklyPartnerPopup({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, secondsLeft]);
+  }, [handleClose, isOpen, secondsLeft]);
 
-  if (!mounted || !shouldRender) return null;
+  if (!shouldRender) return null;
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm transition-opacity duration-500 ease-out select-none ${fontClass} ${isOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        } focus:outline-none motion-reduce:transition-none`}
       role="dialog"
       aria-modal="true"
+      aria-hidden={!isOpen}
       aria-labelledby="place-title"
     >
       {/* Centered Featured Place Card */}
       <div
         dir={isRtl ? "rtl" : "ltr"}
-        className={`pointer-events-auto relative flex w-full max-w-[calc(100%-1rem)] transform flex-col overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-gray-200 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] dark:border-slate-800/80 dark:bg-slate-900 sm:max-w-[520px] ${isOpen
+        className={`pointer-events-auto relative flex w-full max-w-[calc(100%-1rem)] transform flex-col overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-gray-200 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] dark:border-slate-800/80 dark:bg-slate-900 sm:max-w-[520px] motion-reduce:transform-none motion-reduce:transition-none ${isOpen
           ? "translate-y-0 scale-100 opacity-100"
-          : "translate-y-12 scale-95 opacity-0"
+          : "translate-y-12 scale-95 opacity-0 motion-reduce:translate-y-0 motion-reduce:scale-100"
           }`}
       >
         {/* Top Image Section */}
@@ -218,11 +296,11 @@ export default function WeeklyPartnerPopup({
               fill
               sizes="(max-width: 768px) 100vw, 520px"
               quality={60}
-              className="object-cover transition-transform duration-700 hover:scale-105"
+              className="object-cover transition-transform duration-700 hover:scale-105 motion-reduce:transition-none motion-reduce:hover:scale-100"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-[image:var(--brand-gradient)]">
-              <Sparkles className="h-16 w-16 animate-pulse text-white/30" />
+              <Sparkles className="h-16 w-16 animate-pulse text-white/30 motion-reduce:animate-none" />
             </div>
           )}
 

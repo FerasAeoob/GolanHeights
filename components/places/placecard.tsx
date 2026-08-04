@@ -61,9 +61,10 @@ export default function PlaceCard({
                         alt={mainImage?.alt?.[locale] || place.title.en}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={60}
                         className={isPlacesAppearance
-                            ? "object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                            : "object-cover transition-transform duration-700 ease-out group-hover:scale-105"}
+                            ? "object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                            : "object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"}
                     />
                 </div>
                 <div
