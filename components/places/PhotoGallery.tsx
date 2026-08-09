@@ -81,21 +81,10 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
             return;
         }
 
-        const rawScrollLeft = el.scrollLeft;
-        const absoluteScroll = Math.abs(rawScrollLeft);
-        const isRtl = window.getComputedStyle(el).direction === 'rtl';
+        const scrollPosition = el.scrollLeft;
 
-        if (!isRtl) {
-            setShowStartFade(absoluteScroll > SCROLL_EDGE_THRESHOLD);
-            setShowEndFade(absoluteScroll < maxScroll - SCROLL_EDGE_THRESHOLD);
-            return;
-        }
-
-        const rtlAtStart = absoluteScroll < SCROLL_EDGE_THRESHOLD;
-        const rtlAtEnd = absoluteScroll > maxScroll - SCROLL_EDGE_THRESHOLD;
-
-        setShowStartFade(!rtlAtEnd);
-        setShowEndFade(!rtlAtStart);
+        setShowStartFade(scrollPosition > SCROLL_EDGE_THRESHOLD);
+        setShowEndFade(scrollPosition < maxScroll - SCROLL_EDGE_THRESHOLD);
     }, []);
 
     useEffect(function () {
@@ -163,16 +152,16 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
             )}
 
             {imageCount >= 3 && (
-                <div className="relative lg:hidden">
+                <div dir="ltr" className="relative lg:hidden">
                     <div
-                        className="pointer-events-none absolute inset-y-0 start-0 z-20 w-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.95),rgba(255,255,255,0))] transition-opacity duration-300 rtl:bg-[linear-gradient(to_left,rgba(255,255,255,0.95),rgba(255,255,255,0))]"
+                        className="pointer-events-none absolute inset-y-0 left-0 z-20 w-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.95),rgba(255,255,255,0))] transition-opacity duration-300"
                         style={{
                             opacity: showStartFade ? 1 : 0,
                         }}
                     />
 
                     <div
-                        className="pointer-events-none absolute inset-y-0 end-0 z-20 w-10 bg-[linear-gradient(to_left,rgba(255,255,255,0.95),rgba(255,255,255,0))] transition-opacity duration-300 rtl:bg-[linear-gradient(to_right,rgba(255,255,255,0.95),rgba(255,255,255,0))]"
+                        className="pointer-events-none absolute inset-y-0 right-0 z-20 w-10 bg-[linear-gradient(to_left,rgba(255,255,255,0.95),rgba(255,255,255,0))] transition-opacity duration-300"
                         style={{
                             opacity: showEndFade ? 1 : 0,
                         }}
