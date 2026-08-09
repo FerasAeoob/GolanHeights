@@ -383,6 +383,13 @@
         "cancel": "إلغاء / تغيير البريد الجديد"
     },
     "admin": {
+        "phoneNumbersLabel": "أرقام الهاتف",
+        "phoneNumberLabel": "رقم الهاتف",
+        "phoneNumberPlaceholder": "04-696-1234",
+        "phoneLabelLabel": "تسمية اختيارية",
+        "phoneLabelPlaceholder": "رئيسي، حجوزات، واتساب، توصيل",
+        "addPhoneNumber": "إضافة رقم هاتف",
+        "removePhoneNumber": "إزالة رقم الهاتف",
         "instagramHandleLabel": "اسم المستخدم على إنستغرام",
         "instagramHandlePlaceholder": "example@ أو example",
         "instagramHandleTooLong": "اسم المستخدم على إنستغرام طويل جداً. الحد الأقصى 50 حرفاً.",
@@ -398,6 +405,9 @@
         "PASSWORD_MISSING_SPECIAL": "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل.",
         "INVALID_EMAIL": "عنوان البريد الإلكتروني غير صالح.",
         "INVALID_PHONE": "رقم الهاتف غير صالح.",
+        "PHONE_NUMBER_REQUIRED": "رقم الهاتف مطلوب.",
+        "PHONE_NUMBER_TOO_LONG": "رقم الهاتف طويل جداً.",
+        "PHONE_LABEL_TOO_LONG": "تسمية رقم الهاتف طويلة جداً.",
         "NAME_TOO_SHORT": "الاسم مطلوب.",
         "NAME_TOO_LONG": "الاسم طويل جداً.",
         "SLUG_REQUIRED": "الرابط المختصر مطلوب.",

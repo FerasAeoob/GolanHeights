@@ -1,6 +1,7 @@
 import { generateEnglishSlug } from "@/utils/slug";
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { CATEGORY_SLUGS, CategorySlug } from "@/lib/categories";
+import type { PlacePhoneNumber } from "@/lib/place-phone-numbers";
 
 /**
  * Interface representing the multilingual Place document in MongoDB.
@@ -43,6 +44,7 @@ export interface IPlaceBase {
 
   contact?: {
     phone?: string;
+    phoneNumbers?: PlacePhoneNumber[];
     website?: string;
     instagram?: string;
     instagramHandle?: string;
@@ -147,6 +149,16 @@ const PlaceSchema: Schema = new Schema(
 
     contact: {
       phone: { type: String, trim: true },
+      phoneNumbers: {
+        type: [
+          {
+            _id: false,
+            number: { type: String, required: true, trim: true },
+            label: { type: String, trim: true },
+          },
+        ],
+        default: undefined,
+      },
       website: { type: String, trim: true },
       instagram: { type: String, trim: true },
       instagramHandle: { type: String, trim: true },
@@ -245,7 +257,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
 if (mongoose.models.Place) {
   const paths = mongoose.models.Place.schema.paths;
-  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['ownerId'] || !paths['openHours.is24Hours']) {
+  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['ownerId'] || !paths['openHours.is24Hours']) {
     delete mongoose.models.Place;
   }
 }

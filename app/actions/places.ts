@@ -79,7 +79,6 @@ export async function createPlaceAction(data: any) {
         if (!validation.success) {
             return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
         }
-
         const validatedData = validation.data;
 
         // Resolve ownerEmail → ownerId before saving
@@ -150,68 +149,71 @@ export async function updatePlaceAction(id: string, data: any) {
         if (!validation.success) {
             return { errorCode: "VALIDATION_FAILED", details: validation.error.format() };
         }
+        const updateData = {
+            ...validation.data,
+            slug: { ...validation.data.slug, en: '' },
+        };
 
         // Resolve ownerEmail → ownerId before saving
         const ownerEmail: string | undefined = (data as any).ownerEmail?.trim();
         if (ownerEmail) {
             const resolved = await resolveOwnerEmail(ownerEmail);
             if ('errorCode' in resolved) return resolved;
-            data.ownerId = resolved.ownerId;
+            updateData.ownerId = resolved.ownerId;
         } else {
-            data.ownerId = null;
+            updateData.ownerId = null;
         }
-        delete (data as any).ownerEmail;
 
         const existingPlace = await Place.findById(id);
         if (!existingPlace) return { errorCode: "PLACE_NOT_FOUND" };
 
         // 2a. Only regenerate English slug if title changed or if it was missing completely
-        // The data object received from Zod includes data.title.en, data.slug.he, data.slug.ar
-        if (data.title?.en && (data.title.en !== existingPlace.title.en || !existingPlace.slug?.en)) {
-            data.slug = data.slug || {};
-            data.slug.en = generateEnglishSlug(data.title.en);
+        // The validated object from Zod includes the normalized nested contact data.
+        if (updateData.title?.en && (updateData.title.en !== existingPlace.title.en || !existingPlace.slug?.en)) {
+            updateData.slug = updateData.slug || {};
+            updateData.slug.en = generateEnglishSlug(updateData.title.en);
         } else {
             // Keep existing English slug
-            data.slug = data.slug || {};
-            data.slug.en = existingPlace.slug.en;
+            updateData.slug = updateData.slug || {};
+            updateData.slug.en = existingPlace.slug.en;
         }
 
         // 2b. Explicit uniqueness checks against other documents
-        const duplicateEn = await Place.findOne({ _id: { $ne: id }, "slug.en": data.slug.en });
+        const duplicateEn = await Place.findOne({ _id: { $ne: id }, "slug.en": updateData.slug.en });
         if (duplicateEn) return { errorCode: "SLUG_EN_ALREADY_EXISTS" };
 
-        if (data.slug.he) {
-            const duplicateHe = await Place.findOne({ _id: { $ne: id }, "slug.he": data.slug.he });
+        if (updateData.slug.he) {
+            const duplicateHe = await Place.findOne({ _id: { $ne: id }, "slug.he": updateData.slug.he });
             if (duplicateHe) return { errorCode: "SLUG_HE_ALREADY_EXISTS" };
         }
         
-        if (data.slug.ar) {
-            const duplicateAr = await Place.findOne({ _id: { $ne: id }, "slug.ar": data.slug.ar });
+        if (updateData.slug.ar) {
+            const duplicateAr = await Place.findOne({ _id: { $ne: id }, "slug.ar": updateData.slug.ar });
             if (duplicateAr) return { errorCode: "SLUG_AR_ALREADY_EXISTS" };
         }
 
         // Apply all updates
-        Object.keys(data).forEach((key) => {
+        Object.keys(updateData).forEach((key) => {
             if (key === 'slug') {
-                existingPlace.slug.en = data.slug.en || existingPlace.slug.en;
-                if (data.slug.he) existingPlace.slug.he = data.slug.he;
-                if (data.slug.ar) existingPlace.slug.ar = data.slug.ar;
+                existingPlace.slug.en = updateData.slug.en || existingPlace.slug.en;
+                if (updateData.slug.he) existingPlace.slug.he = updateData.slug.he;
+                if (updateData.slug.ar) existingPlace.slug.ar = updateData.slug.ar;
             } else {
-                existingPlace.set(key, data[key]);
+                existingPlace.set(key, updateData[key as keyof typeof updateData]);
             }
         });
 
         // Explicitly set all Instagram formats to prevent HMR or Mongoose path stripping
-        if (data.contact) {
-            existingPlace.set('contact.instagramHandle', data.contact.instagramHandle || '');
-            existingPlace.set('contact.instagram', data.contact.instagram || '');
+        if (updateData.contact) {
+            existingPlace.set('contact.instagramHandle', updateData.contact.instagramHandle || '');
+            existingPlace.set('contact.instagram', updateData.contact.instagram || '');
         }
-        if (data.instagram) {
-            existingPlace.set('instagram.handle', data.instagram.handle || '');
-            existingPlace.set('instagram.url', data.instagram.url || '');
+        if (updateData.instagram) {
+            existingPlace.set('instagram.handle', updateData.instagram.handle || '');
+            existingPlace.set('instagram.url', updateData.instagram.url || '');
         }
-        existingPlace.set('instagramHandle', data.instagramHandle || '');
-        existingPlace.set('instagramUrl', data.instagramUrl || '');
+        existingPlace.set('instagramHandle', updateData.instagramHandle || '');
+        existingPlace.set('instagramUrl', updateData.instagramUrl || '');
 
         await existingPlace.save();
 
