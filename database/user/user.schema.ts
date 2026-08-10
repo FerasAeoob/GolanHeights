@@ -9,7 +9,8 @@ const phoneSchema = z
 
 /**
  * Reusable strong password schema.
- * Rules: 8–72 chars, uppercase, lowercase, digit, special character.
+ * Rules: 8–72 chars, uppercase, lowercase, digit.
+ * Special characters are allowed but not required.
  */
 const passwordSchema = z
     .string()
@@ -17,8 +18,7 @@ const passwordSchema = z
     .max(72, "PASSWORD_TOO_LONG")
     .regex(/[A-Z]/, "PASSWORD_MISSING_UPPERCASE")
     .regex(/[a-z]/, "PASSWORD_MISSING_LOWERCASE")
-    .regex(/[0-9]/, "PASSWORD_MISSING_NUMBER")
-    .regex(/[^A-Za-z0-9]/, "PASSWORD_MISSING_SPECIAL");
+    .regex(/[0-9]/, "PASSWORD_MISSING_NUMBER");
 
 export const registerSchema = z.object({
     name: z.string().trim().min(2, "NAME_TOO_SHORT").max(50, "NAME_TOO_LONG"),

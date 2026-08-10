@@ -24,7 +24,7 @@ export function getErrorMessage(data: any, dict: any): string {
         // Password Constraints
         PASSWORD_TOO_SHORT: "Password must be at least 8 characters long.",
         PASSWORD_TOO_LONG: "Password cannot exceed 72 characters.",
-        PASSWORD_TOO_WEAK: "Password is too weak. Use uppercase, lowercase, numbers, and special characters.",
+        PASSWORD_TOO_WEAK: "Password is too weak. Use uppercase and lowercase letters and numbers.",
         PASSWORD_MISSING_UPPERCASE: "Password must contain at least one uppercase letter.",
         PASSWORD_MISSING_LOWERCASE: "Password must contain at least one lowercase letter.",
         PASSWORD_MISSING_NUMBER: "Password must contain at least one number.",
