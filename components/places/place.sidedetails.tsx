@@ -3,10 +3,15 @@ import { IBusinessDay, IOpeningHoursDictionary } from "@/lib/types";
 import OpeningStatus from "./openStatus";
 import Link from "next/link";
 import ShareButton from "./ShareButton";
+import {
+    getEffectivePhoneNumbers,
+    type PlacePhoneNumber,
+} from "@/lib/place-phone-numbers";
 
 interface PlaceDetailsProps {
     website?: string;
     phone?: string;
+    phoneNumbers?: PlacePhoneNumber[];
     price: string;
     openHours?: IBusinessDay[];
     open?: string;
@@ -35,6 +40,7 @@ const WazeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function PlaceDetails({
     website,
     phone,
+    phoneNumbers,
     price,
     openHours,
     open,
@@ -81,6 +87,37 @@ export default function PlaceDetails({
         </div>
     );
 
+    const effectivePhoneNumbers = getEffectivePhoneNumbers(phoneNumbers, phone);
+    const phoneElement = effectivePhoneNumbers.length > 0 && (
+        <div className="flex items-center gap-3">
+            <Phone className="w-5 h-5 text-brand-blue shrink-0" />
+            <div className="flex min-w-0 flex-col">
+                <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
+                <dd className="flex flex-col gap-1">
+                    {effectivePhoneNumbers.map((phoneNumber, index) => (
+                        <div
+                            key={`${phoneNumber.number}-${index}`}
+                            className="flex flex-wrap items-baseline gap-x-2"
+                        >
+                            {phoneNumber.label && (
+                                <span className="text-sm text-black/70" dir="auto">
+                                    {phoneNumber.label}
+                                </span>
+                            )}
+                            <Link
+                                href={`tel:${phoneNumber.number}`}
+                                className="text-brand-blue hover:text-brand-blue-hover hover:underline"
+                                dir="ltr"
+                            >
+                                {phoneNumber.number}
+                            </Link>
+                        </div>
+                    ))}
+                </dd>
+            </div>
+        </div>
+    );
+
     return (
         <>
             {/* Desktop Sidebar */}
@@ -118,17 +155,7 @@ export default function PlaceDetails({
                             <dd className="text-black/70">{dict.price?.[price] || price}</dd>
                         </div>
                     </div>
-                    {phone && (
-                        <div className="flex items-center gap-3">
-                            <Phone className="w-5 h-5 text-brand-blue shrink-0" />
-                            <div className="flex flex-col">
-                                <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
-                                <Link href={`tel:${phone}`} className="text-brand-blue hover:text-brand-blue-hover hover:underline">
-                                    {phone}
-                                </Link>
-                            </div>
-                        </div>
-                    )}
+                    {phoneElement}
                     {website && (
                         <div className="flex items-center gap-3">
                             <LinkIcon className="w-5 h-5 text-brand-blue shrink-0" />
@@ -216,17 +243,7 @@ export default function PlaceDetails({
                             <dd className="text-black/70">{dict.price?.[price] || price}</dd>
                         </div>
                     </div>
-                    {phone && (
-                        <div className="flex items-center gap-3">
-                            <Phone className="w-5 h-5 text-brand-blue shrink-0" />
-                            <div className="flex flex-col">
-                                <dt className="font-bold text-black/90 text-sm">{dict.phone}: </dt>
-                                <Link href={`tel:${phone}`} className="text-brand-blue hover:text-brand-blue-hover hover:underline">
-                                    {phone}
-                                </Link>
-                            </div>
-                        </div>
-                    )}
+                    {phoneElement}
                     {website && (
                         <div className="flex items-center gap-3">
                             <LinkIcon className="w-5 h-5 text-brand-blue shrink-0" />

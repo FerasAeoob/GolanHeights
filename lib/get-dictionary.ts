@@ -16,3 +16,5 @@ export type Locale = (typeof locales)[number];
 export const getDictionary = cache(
     async (locale: Locale) => dictionaries[locale]?.() ?? dictionaries.en()
 );
+
+export type Dictionary = Awaited<ReturnType<typeof getDictionary>>;

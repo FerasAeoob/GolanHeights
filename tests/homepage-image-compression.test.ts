@@ -51,8 +51,8 @@ async function getImageAttributes(filePath: string): Promise<ImageAttributes> {
     }));
 }
 
-test("allows the homepage, default, and existing navbar qualities", () => {
-    assert.deepEqual(nextConfig.images?.qualities, [60, 75, 85]);
+test("allows every explicit image quality used by the application", () => {
+    assert.deepEqual(nextConfig.images?.qualities, [55, 60, 65, 75, 85]);
 });
 
 test("preloads only the quality-60 homepage hero", async () => {
@@ -67,13 +67,22 @@ test("preloads only the quality-60 homepage hero", async () => {
     assert.equal(popup.has("preload"), false);
 });
 
-test("keeps quality-60 category cards on default lazy loading", async () => {
+test("keeps quality-55 category cards on default lazy loading", async () => {
     const category = await getImageAttributes("components/categorycard.tsx");
 
-    assert.equal(category.get("quality"), "{60}");
+    assert.equal(category.get("quality"), "{55}");
     assert.equal(category.has("preload"), false);
     assert.equal(category.has("priority"), false);
     assert.equal(category.has("loading"), false);
+});
+
+test("keeps configurable-quality place cards on default lazy loading", async () => {
+    const placeCard = await getImageAttributes("components/places/placecard.tsx");
+
+    assert.equal(placeCard.get("quality"), "{imageQuality}");
+    assert.equal(placeCard.has("preload"), false);
+    assert.equal(placeCard.has("priority"), false);
+    assert.equal(placeCard.has("loading"), false);
 });
 
 test("loads the quality-60 weekly popup eagerly without preloading it", async () => {

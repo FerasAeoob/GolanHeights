@@ -35,8 +35,8 @@ export default function CategoryCard({ category, lang, dict }: CategoryCardProps
                     alt={title}
                     fill
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                    quality={60}
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                    quality={55}
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
 
                 {/* 3. The Dynamic Gradient Layer */}

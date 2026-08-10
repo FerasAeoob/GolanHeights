@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { CATEGORY_SLUGS } from "@/lib/categories";
+import { PlaceContactSchema } from "@/database/place-contact.schema";
 
 /**
  * Shared schema for dynamic route params
@@ -99,15 +100,7 @@ export const UpdatePlaceSchema = z.object({
         })
         .optional(),
 
-    contact: z
-        .object({
-            phone: z.string().optional(),
-            website: z.string().optional(),
-            instagram: z.string().optional(),
-            instagramHandle: z.string().max(50).optional(),
-            bookingLink: z.string().optional()
-        })
-        .optional(),
+    contact: PlaceContactSchema.optional(),
     instagram: z.object({
         url: z.string().optional(),
         handle: z.string().optional()
@@ -180,15 +173,7 @@ export const createplaceschema = z.object({
         })
     ,
 
-    contact: z
-        .object({
-            phone: z.string().optional(),
-            website: z.string().optional(),
-            instagram: z.string().optional(),
-            instagramHandle: z.string().max(50).optional(),
-            bookingLink: z.string().optional()
-        })
-        .optional(),
+    contact: PlaceContactSchema.optional(),
     instagram: z.object({
         url: z.string().optional(),
         handle: z.string().optional()
