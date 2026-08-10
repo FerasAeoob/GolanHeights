@@ -8,6 +8,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CATEGORY_SLUGS } from '@/lib/categories';
 import { getErrorMessage } from "@/utils/error";
+import {
+    buildPlacePhoneContact,
+    getEffectivePhoneNumbers,
+    type PlacePhoneNumber,
+} from '@/lib/place-phone-numbers';
 
 // ─── Types ───────────────────────────────────────────────────────
 type Lang = 'en' | 'he' | 'ar';
@@ -49,7 +54,7 @@ interface PlaceFormData {
         name: LocalizedString;
     };
     contact: {
-        phone: string;
+        phoneNumbers: PlacePhoneNumber[];
         website: string;
         instagram: string;
         instagramHandle?: string;
@@ -79,7 +84,7 @@ const EMPTY_FORM: PlaceFormData = {
     images: [],
     openHours: [],
     location: { lat: 0, lng: 0, name: { en: '', he: '', ar: '' } },
-    contact: { phone: '', website: '', instagram: '', instagramHandle: '', bookingLink: '' },
+    contact: { phoneNumbers: [], website: '', instagram: '', instagramHandle: '', bookingLink: '' },
     featured: false,
     ownerEmail: '',
 };
@@ -128,7 +133,10 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                 },
             },
             contact: {
-                phone: initialData.contact?.phone || '',
+                phoneNumbers: getEffectivePhoneNumbers(
+                    initialData.contact?.phoneNumbers,
+                    initialData.contact?.phone,
+                ),
                 website: initialData.contact?.website || '',
                 instagram: initialData.contact?.instagram || initialData.instagramUrl || initialData.instagram?.url || '',
                 instagramHandle: initialData.contact?.instagramHandle || initialData.instagramHandle || initialData.instagram?.handle || '',
@@ -148,6 +156,38 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
         setForm(prev => ({
             ...prev,
             location: { ...prev.location, name: { ...prev.location.name, [lang]: value } },
+        }));
+    };
+
+    const addPhoneNumber = () => {
+        setForm(prev => ({
+            ...prev,
+            contact: {
+                ...prev.contact,
+                phoneNumbers: [...prev.contact.phoneNumbers, { number: '', label: '' }],
+            },
+        }));
+    };
+
+    const updatePhoneNumber = (index: number, field: keyof PlacePhoneNumber, value: string) => {
+        setForm(prev => ({
+            ...prev,
+            contact: {
+                ...prev.contact,
+                phoneNumbers: prev.contact.phoneNumbers.map((phoneNumber, phoneIndex) =>
+                    phoneIndex === index ? { ...phoneNumber, [field]: value } : phoneNumber
+                ),
+            },
+        }));
+    };
+
+    const removePhoneNumber = (index: number) => {
+        setForm(prev => ({
+            ...prev,
+            contact: {
+                ...prev.contact,
+                phoneNumbers: prev.contact.phoneNumbers.filter((_, phoneIndex) => phoneIndex !== index),
+            },
         }));
     };
 
@@ -217,11 +257,15 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
         startTransition(async () => {
             try {
                 let result: any;
+                const submission = {
+                    ...form,
+                    contact: buildPlacePhoneContact(form.contact),
+                };
 
                 if (mode === 'create') {
-                    result = await createPlaceAction(form);
+                    result = await createPlaceAction(submission);
                 } else {
-                    result = await updatePlaceAction(initialData._id, form);
+                    result = await updatePlaceAction(initialData._id, submission);
                 }
 
                 if (result?.errorCode || result?.error) {
@@ -499,20 +543,71 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                         <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                             <Phone className="w-5 h-5 text-blue-600" /> Contact Information
                         </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-1">Phone</label>
-                                <input
-                                    type="text"
-                                    value={form.contact.phone}
-                                    onChange={e => setForm(prev => ({
-                                        ...prev,
-                                        contact: { ...prev.contact, phone: e.target.value }
-                                    }))}
-                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
-                                    placeholder="04-696-1234"
-                                />
+                        <div className="mb-5">
+                            <p className="block text-sm font-semibold text-slate-700 mb-2">
+                                {dict?.admin?.phoneNumbersLabel || 'Phone numbers'}
+                            </p>
+                            <div className="flex flex-col gap-3">
+                                {form.contact.phoneNumbers.map((phoneNumber, index) => (
+                                    <div
+                                        key={index}
+                                        className="grid grid-cols-1 gap-3 rounded-lg border border-slate-200 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end"
+                                    >
+                                        <div>
+                                            <label
+                                                htmlFor={`place-phone-${index}`}
+                                                className="block text-sm font-semibold text-slate-700 mb-1"
+                                            >
+                                                {dict?.admin?.phoneNumberLabel || 'Phone number'} {index + 1}
+                                            </label>
+                                            <input
+                                                id={`place-phone-${index}`}
+                                                type="tel"
+                                                value={phoneNumber.number}
+                                                onChange={e => updatePhoneNumber(index, 'number', e.target.value)}
+                                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-start"
+                                                placeholder={dict?.admin?.phoneNumberPlaceholder || '04-696-1234'}
+                                                dir="ltr"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor={`place-phone-label-${index}`}
+                                                className="block text-sm font-semibold text-slate-700 mb-1"
+                                            >
+                                                {dict?.admin?.phoneLabelLabel || 'Optional label'}
+                                            </label>
+                                            <input
+                                                id={`place-phone-label-${index}`}
+                                                type="text"
+                                                value={phoneNumber.label || ''}
+                                                onChange={e => updatePhoneNumber(index, 'label', e.target.value)}
+                                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-start"
+                                                placeholder={dict?.admin?.phoneLabelPlaceholder || 'Main, Reservations, WhatsApp, Delivery'}
+                                            />
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => removePhoneNumber(index)}
+                                            aria-label={`${dict?.admin?.removePhoneNumber || 'Remove phone number'} ${index + 1}`}
+                                            title={dict?.admin?.removePhoneNumber || 'Remove phone number'}
+                                            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer"
+                                        >
+                                            <Trash2 className="w-4 h-4" aria-hidden="true" />
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={addPhoneNumber}
+                                    className="inline-flex min-h-11 w-fit items-center gap-2 rounded-lg border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                                >
+                                    <Plus className="w-4 h-4" aria-hidden="true" />
+                                    {dict?.admin?.addPhoneNumber || 'Add phone number'}
+                                </button>
                             </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">Website</label>
                                 <input
