@@ -12,6 +12,7 @@ import { perfLog } from "@/lib/perf";
 import type { Metadata } from "next";
 import SetLocalizedSlugs from "@/components/SetLocalizedSlugs";
 import BackToExplore from "@/components/places/BackToExplore";
+import PlaceTags from "@/components/places/PlaceTags";
 
 interface PageProps {
     params: Promise<{
@@ -149,6 +150,10 @@ export default async function PlacePage({ params }: PageProps) {
                             <h1 className="text-3xl font-bold text-brand-blue ">
                                 {place.title[lang] || place.title.en}
                             </h1>
+                            <PlaceTags
+                                tags={place.placeTags}
+                                dictionary={dict.placeTags}
+                            />
                             <div className="h-px w-full bg-gray-400 " />
 
                             <div className=" flex flex-col gap-6 ">

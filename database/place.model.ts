@@ -1,6 +1,7 @@
 import { generateEnglishSlug } from "@/utils/slug";
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { CATEGORY_SLUGS, CategorySlug } from "@/lib/categories";
+import { MAX_PLACE_TAGS, PLACE_TAG_KEYS, type PlaceTagKey } from "@/lib/place-tags";
 import type { PlacePhoneNumber } from "@/lib/place-phone-numbers";
 
 /**
@@ -24,6 +25,7 @@ export interface IPlaceBase {
   }[];
   open?: string;
   category: CategorySlug;
+  placeTags: PlaceTagKey[];
   mapLink: string;
 
   images: {
@@ -121,6 +123,26 @@ const PlaceSchema: Schema = new Schema(
       required: true,
       enum: CATEGORY_SLUGS,
     },
+    placeTags: {
+      type: [
+        {
+          type: String,
+          enum: PLACE_TAG_KEYS,
+        },
+      ],
+      castNonArrays: false,
+      default: [],
+      validate: [
+        {
+          validator: (value: string[]) => value.length <= MAX_PLACE_TAGS,
+          message: `Place tags cannot exceed ${MAX_PLACE_TAGS} items`,
+        },
+        {
+          validator: (value: string[]) => new Set(value).size === value.length,
+          message: "Place tags must be unique",
+        },
+      ],
+    },
 
     images: {
       type: [
@@ -134,7 +156,7 @@ const PlaceSchema: Schema = new Schema(
         },
       ],
 
-      validate: [(v: any[]) => v.length > 0, "Please add at least one image"],
+      validate: [(v: unknown[]) => v.length > 0, "Please add at least one image"],
     },
 
     location: {
@@ -257,7 +279,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
 if (mongoose.models.Place) {
   const paths = mongoose.models.Place.schema.paths;
-  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['ownerId'] || !paths['openHours.is24Hours']) {
+  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['ownerId'] || !paths['openHours.is24Hours'] || !paths['placeTags']) {
     delete mongoose.models.Place;
   }
 }

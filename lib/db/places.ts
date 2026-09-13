@@ -1,7 +1,37 @@
 import connectDB from "@/lib/mongodb";
 import Place, { IPublicPlaceDTO } from "@/database/place.model";
+import { type PlaceTagKey, normalizePlaceTags } from "@/lib/place-tags";
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
+
+type PlaceWithOwnerEmail = object & {
+    ownerId?: string | { toString(): string } | null;
+    ownerEmail?: string;
+    placeTags?: unknown;
+};
+
+type PlaceReadSource = object & {
+    placeTags?: unknown;
+};
+
+type NormalizedPlaceReadResult<T extends PlaceReadSource> = Omit<T, "placeTags"> & {
+    placeTags: PlaceTagKey[];
+};
+
+export function normalizePlaceReadResult<T extends PlaceReadSource>(place: T): NormalizedPlaceReadResult<T>;
+export function normalizePlaceReadResult(place: null | undefined): null;
+export function normalizePlaceReadResult<T extends PlaceReadSource>(
+    place: T | null | undefined,
+): NormalizedPlaceReadResult<T> | null {
+    if (!place) {
+        return null;
+    }
+
+    return {
+        ...place,
+        placeTags: normalizePlaceTags(place.placeTags),
+    };
+}
 
 /**
  * Fetch all places, sorted by newest first.
@@ -10,7 +40,7 @@ import { cache } from 'react';
 export async function getPlaces() {
     await connectDB();
     const places = await Place.find({}).sort({ createdAt: -1 }).lean();
-    return JSON.parse(JSON.stringify(places)); // Serialize ObjectIds for client
+    return JSON.parse(JSON.stringify(places.map((place) => normalizePlaceReadResult(place)))); // Serialize ObjectIds for client
 }
 
 /**
@@ -19,7 +49,7 @@ export async function getPlaces() {
  */
 export async function getPlaceById(id: string) {
     await connectDB();
-    const place = await Place.findById(id).lean() as any;
+    const place = await Place.findById(id).lean() as PlaceWithOwnerEmail | null;
     if (!place) return null;
 
     // Populate owner email for the admin edit form
@@ -29,7 +59,7 @@ export async function getPlaceById(id: string) {
         place.ownerEmail = owner?.email ?? '';
     }
 
-    return JSON.parse(JSON.stringify(place)); // Serialize ObjectIds
+    return JSON.parse(JSON.stringify(normalizePlaceReadResult(place))); // Serialize ObjectIds
 }
 
 /**
@@ -46,7 +76,7 @@ async function fetchPlaceBySlug(slug: string) {
         hidden: { $ne: true }
     }).lean();
     if (!place) return null;
-    return JSON.parse(JSON.stringify(place)); // Serialize ObjectIds/dates
+    return JSON.parse(JSON.stringify(normalizePlaceReadResult(place))); // Serialize ObjectIds/dates
 }
 
 /**
@@ -83,10 +113,10 @@ export async function getFullPlaceBySlug(slug: string) {
         ],
         hidden: { $ne: true }
     })
-    .select("title slug description shortDescription category averageRating reviewsCount price duration openHours open mapLink images location contact instagram instagramUrl instagramHandle featured createdAt updatedAt ownerId")
+    .select("title slug description shortDescription category averageRating reviewsCount price duration openHours open mapLink images location contact instagram instagramUrl instagramHandle featured placeTags createdAt updatedAt ownerId")
     .lean();
     if (!place) return null;
-    return JSON.parse(JSON.stringify(place));
+    return JSON.parse(JSON.stringify(normalizePlaceReadResult(place)));
 }
 
 /**
@@ -96,6 +126,7 @@ export const getRequestMemoizedFullPlace = cache(async (slug: string) => {
     return getFullPlaceBySlug(slug);
 });
 
+// Retain the existing projected/legacy DTO boundary and timestamp serialization contract.
 export function toPublicPlaceDTO(place: any): IPublicPlaceDTO {
     if (!place) {
         throw new Error("Invalid place data passed to toPublicPlaceDTO");
@@ -113,6 +144,7 @@ export function toPublicPlaceDTO(place: any): IPublicPlaceDTO {
         duration: place.duration,
         openHours: place.openHours,
         open: place.open,
+        placeTags: normalizePlaceTags(place.placeTags),
         mapLink: place.mapLink,
         images: place.images,
         location: place.location,

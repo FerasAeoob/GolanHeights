@@ -87,6 +87,7 @@ export async function POST(req: NextRequest) {
             description: validatedPlace.description,
             shortDescription: validatedPlace.shortDescription,
             category: validatedPlace.category,
+            placeTags: validatedPlace.placeTags,
             images: validatedPlace.images,
             location: validatedPlace.location,
             contact: validatedPlace.contact,

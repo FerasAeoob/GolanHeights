@@ -6,13 +6,16 @@ import { createPlaceAction, updatePlaceAction } from '@/app/actions/places';
 import { Trash2, Plus, GripVertical, Image as ImageIcon, Globe, MapPin, Phone, Clock, Save, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CATEGORY_SLUGS } from '@/lib/categories';
+import { CATEGORY_SLUGS, type CategorySlug } from '@/lib/categories';
 import { getErrorMessage } from "@/utils/error";
 import {
     buildPlacePhoneContact,
     getEffectivePhoneNumbers,
     type PlacePhoneNumber,
 } from '@/lib/place-phone-numbers';
+import { normalizePlaceTags, type PlaceTagKey } from '@/lib/place-tags';
+import PlaceTagSelector, { type PlaceTagsDictionary } from '@/components/admin/PlaceTagSelector';
+import type { Locale } from '@/lib/get-dictionary';
 
 // ─── Types ───────────────────────────────────────────────────────
 type Lang = 'en' | 'he' | 'ar';
@@ -41,12 +44,13 @@ interface PlaceFormData {
     slug: LocalizedString;
     description: LocalizedString;
     shortDescription: LocalizedString;
-    category: string;
+    category: CategorySlug;
     price: string;
     duration: string;
     mapLink: string;
     open: string;
     images: PlaceImage[];
+    placeTags: PlaceTagKey[];
     openHours: OpenHour[];
     location: {
         lat: number;
@@ -82,6 +86,7 @@ const EMPTY_FORM: PlaceFormData = {
     mapLink: '',
     open: '',
     images: [],
+    placeTags: [],
     openHours: [],
     location: { lat: 0, lng: 0, name: { en: '', he: '', ar: '' } },
     contact: { phoneNumbers: [], website: '', instagram: '', instagramHandle: '', bookingLink: '' },
@@ -119,6 +124,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
             mapLink: initialData.mapLink || '',
             open: initialData.open || '',
             images: initialData.images || [],
+            placeTags: normalizePlaceTags(initialData.placeTags),
             openHours: (initialData.openHours || []).map((h: any) => ({
                 ...h,
                 is24Hours: !!h.is24Hours
@@ -146,6 +152,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
             ownerEmail: initialData.ownerEmail || '',  // pre-filled from DB lookup
         };
     });
+    const placeTagsDictionary = dict?.placeTags as PlaceTagsDictionary | undefined;
 
     // ─── Helpers ──────────────────────────────────────
     const updateLocalized = (field: 'title' | 'slug' | 'description' | 'shortDescription', lang: Lang, value: string) => {
@@ -425,7 +432,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">Category</label>
                                 <select
                                     value={form.category}
-                                    onChange={e => setForm(prev => ({ ...prev, category: e.target.value }))}
+                                    onChange={e => setForm(prev => ({ ...prev, category: e.target.value as CategorySlug }))}
                                     className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none capitalize"
                                 >
                                     {CATEGORIES.map(c => (
@@ -478,6 +485,17 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                 />
                                 <label htmlFor="featured" className="text-sm font-semibold text-slate-700 cursor-pointer">⭐ Featured Place</label>
                             </div>
+                            {placeTagsDictionary ? (
+                                <div className="md:col-span-2">
+                                    <PlaceTagSelector
+                                        selected={form.placeTags}
+                                        category={form.category}
+                                        locale={lang as Locale}
+                                        dictionary={placeTagsDictionary}
+                                        onChange={(placeTags) => setForm(prev => ({ ...prev, placeTags }))}
+                                    />
+                                </div>
+                            ) : null}
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">
                                     Owner Email <span className="text-xs text-slate-400 font-normal">(optional — business user email)</span>

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 import { PlaceContactSchema } from "@/database/place-contact.schema";
+import { MAX_PLACE_TAGS, PLACE_TAG_KEYS } from "@/lib/place-tags";
 
 /**
  * Shared schema for dynamic route params
@@ -30,6 +31,15 @@ const ManualSlugValidator = z
     .min(1, "SLUG_REQUIRED")
     .max(100, "SLUG_TOO_LONG")
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "SLUG_INVALID_FORMAT");
+
+const PlaceTagSchema = z.enum(PLACE_TAG_KEYS);
+
+const PlaceTagsSchema = z
+    .array(PlaceTagSchema)
+    .max(MAX_PLACE_TAGS, "PLACE_TAGS_TOO_LONG")
+    .refine((placeTags) => new Set(placeTags).size === placeTags.length, {
+        message: "PLACE_TAGS_DUPLICATE",
+    });
 
 export const CategorySchema = z.object({
     category: z
@@ -75,6 +85,8 @@ export const UpdatePlaceSchema = z.object({
     category: z
         .enum(CATEGORY_SLUGS)
         .optional(),
+
+    placeTags: PlaceTagsSchema.optional(),
 
     images: z
         .array(
@@ -149,6 +161,8 @@ export const createplaceschema = z.object({
     category: z
         .enum(CATEGORY_SLUGS)
     ,
+
+    placeTags: PlaceTagsSchema.optional().default([]),
 
     images: z.array(
         z.object({
