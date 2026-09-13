@@ -148,13 +148,14 @@ export default function PlaceDetails({
                             </div>
                         </div>
                     )}
-                    <div className="flex items-center gap-3">
-                        <DollarSign className="w-5 h-5 text-brand-blue shrink-0" />
-                        <div className="flex flex-col">
-                            <dt className="font-bold text-black/90 text-sm">{dict.priceLabel}: </dt>
-                            <dd className="text-black/70">{dict.price?.[price] || price}</dd>
+                    {price === "free" && (
+                        <div className="flex items-center gap-3">
+                            <DollarSign className="w-5 h-5 text-brand-blue shrink-0" />
+                            <div className="flex flex-col">
+                                <dd className="text-black/70">{dict.price.free}</dd>
+                            </div>
                         </div>
-                    </div>
+                    )}
                     {phoneElement}
                     {website && (
                         <div className="flex items-center gap-3">
@@ -236,13 +237,14 @@ export default function PlaceDetails({
                             </div>
                         </div>
                     )}
-                    <div className="flex items-center gap-3">
-                        <DollarSign className="w-5 h-5 text-brand-blue shrink-0" />
-                        <div className="flex flex-col">
-                            <dt className="font-bold text-black/90 text-sm">{dict.priceLabel}: </dt>
-                            <dd className="text-black/70">{dict.price?.[price] || price}</dd>
+                    {price === "free" && (
+                        <div className="flex items-center gap-3">
+                            <DollarSign className="w-5 h-5 text-brand-blue shrink-0" />
+                            <div className="flex flex-col">
+                                <dd className="text-black/70">{dict.price.free}</dd>
+                            </div>
                         </div>
-                    </div>
+                    )}
                     {phoneElement}
                     {website && (
                         <div className="flex items-center gap-3">

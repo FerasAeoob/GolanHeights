@@ -5,6 +5,7 @@ import { perfLog } from "@/lib/perf";
 import SearchBar from "@/components/search";
 import PlaceCard from "@/components/places/placecard";
 import FilterDropdown from "@/components/filter.dropdown";
+import FreeOnlyFilter from "@/components/free-only.filter";
 import VillageFilter from "@/components/village.filter";
 import { getDictionary } from "@/lib/get-dictionary";
 import { IOpeningHoursDictionary } from "@/lib/types";
@@ -53,7 +54,7 @@ export default async function PlacesPage({
 
     const query = resolvedParams.search || "";
     const category = resolvedParams.category || "";
-    const price = resolvedParams.price || "";
+    const freeOnly = resolvedParams.price === "free";
     const sort = resolvedParams.sort || "";
     const villagesParam = resolvedParams.villages || "";
     const selectedVillages = villagesParam ? villagesParam.split(",").filter(Boolean) : [];
@@ -77,13 +78,6 @@ export default async function PlacesPage({
         .map(slug => villageRegexMap[slug])
         .filter(Boolean);
 
-    // Map common price symbols in search query to DB keys
-    let searchPriceKey: string | null = null;
-    if (safeQuery === "$") searchPriceKey = "low";
-    else if (safeQuery === "$$") searchPriceKey = "mid";
-    else if (safeQuery === "$$$") searchPriceKey = "high";
-    else if (safeQuery.toLowerCase() === "free") searchPriceKey = "free";
-
     const filter: any = {
         hidden: { $ne: true },
         ...(safeQuery && {
@@ -96,16 +90,16 @@ export default async function PlacesPage({
                 { "description.en": { $regex: safeQuery, $options: "i" } },
                 { "description.he": { $regex: safeQuery, $options: "i" } },
                 { "description.ar": { $regex: safeQuery, $options: "i" } },
-                // If the user typed a symbol like "$", "$$", or "free", also match the price field
-                ...(searchPriceKey ? [{ price: searchPriceKey }] : []),
             ],
         }),
         ...(safeCategory && { category: { $regex: safeCategory, $options: "i" } }),
-        ...(price && { price }),
+        ...(freeOnly && { price: "free" }),
         ...(villageRegexPatterns.length > 0 && {
-            $or: villageRegexPatterns.map(pattern => ({
-                "location.name.en": { $regex: pattern, $options: "i" }
-            }))
+            $and: [{
+                $or: villageRegexPatterns.map(pattern => ({
+                    "location.name.en": { $regex: pattern, $options: "i" }
+                }))
+            }]
         }),
     };
     let sortOption: Record<string, 1 | -1> = { createdAt: -1 };
@@ -182,18 +176,7 @@ export default async function PlacesPage({
                                 />
                             </div>
                             <div className="min-w-0 lg:w-52">
-                                <FilterDropdown
-                                    title={dict.price.any}
-                                    paramKey="price"
-                                    options={[
-                                        dict.price.any,
-                                        dict.price.free,
-                                        dict.price.low,
-                                        dict.price.mid,
-                                        dict.price.high,
-                                    ]}
-                                    slugs={["", "free", "low", "mid", "high"]}
-                                />
+                                <FreeOnlyFilter label={dict.price.freeOnly} />
                             </div>
                         </div>
                     </div>

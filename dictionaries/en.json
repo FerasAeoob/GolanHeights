@@ -97,6 +97,7 @@
     "price": {
         "any": "Any Price",
         "free": "Free",
+        "freeOnly": "Free only",
         "low": "$",
         "mid": "$$",
         "high": "$$$"
