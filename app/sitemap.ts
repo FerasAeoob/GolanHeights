@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import connectDB from '@/lib/mongodb';
 import Place from '@/database/place.model';
+import { SlugSchema } from '@/database/place.schema';
+import { locales } from '@/lib/get-dictionary';
+import { getLocalizedPathname } from '@/utils/navigation';
 
 const baseUrl = 'https://www.golanwiki.com';
 
@@ -16,44 +19,19 @@ type PlaceForSitemap = {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const now = new Date();
 
-    const routes: MetadataRoute.Sitemap = [
-        {
-            url: baseUrl,
-            lastModified: now,
-            changeFrequency: 'weekly',
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/places`,
-            lastModified: now,
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/ar`,
-            lastModified: now,
-            changeFrequency: 'weekly',
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/ar/places`,
-            lastModified: now,
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/he`,
-            lastModified: now,
-            changeFrequency: 'weekly',
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/he/places`,
-            lastModified: now,
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
+    const publicPaths = [
+        '/', '/places', '/about', '/history', '/contact', '/cherry-picking',
+        '/privacy-policy', '/terms-of-use', '/cookie-policy',
     ];
+    const routes: MetadataRoute.Sitemap = publicPaths.flatMap((path) =>
+        locales.map((locale) => ({
+            url: `${baseUrl}${getLocalizedPathname(path, locale, '', '')}`,
+            lastModified: now,
+            changeFrequency: 'weekly' as const,
+            priority: path === '/' ? (locale === 'en' ? 1 : 0.8) : path === '/places' ? 0.9 : 0.7,
+        })),
+    );
+    const urls = new Set(routes.map((route) => route.url));
 
     try {
         await connectDB();
@@ -65,27 +43,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         places.forEach((place) => {
             const lastModified = place.updatedAt || now;
 
-            if (place.slug?.en) {
+            for (const locale of locales) {
+                // Match the detail page's preferred localized slug and English fallback.
+                const slug = place.slug?.[locale] || place.slug?.en;
+                const parsedSlug = SlugSchema.safeParse({ slug });
+                if (!parsedSlug.success) continue;
+                const url = `${baseUrl}${getLocalizedPathname(`/places/${encodeURIComponent(parsedSlug.data.slug)}`, locale, '', '')}`;
+                if (urls.has(url)) continue;
+                urls.add(url);
                 routes.push({
-                    url: `${baseUrl}/places/${place.slug.en}`,
-                    lastModified,
-                    changeFrequency: 'monthly',
-                    priority: 0.8,
-                });
-            }
-
-            if (place.slug?.ar) {
-                routes.push({
-                    url: `${baseUrl}/ar/places/${place.slug.ar}`,
-                    lastModified,
-                    changeFrequency: 'monthly',
-                    priority: 0.8,
-                });
-            }
-
-            if (place.slug?.he) {
-                routes.push({
-                    url: `${baseUrl}/he/places/${place.slug.he}`,
+                    url,
                     lastModified,
                     changeFrequency: 'monthly',
                     priority: 0.8,

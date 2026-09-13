@@ -11,6 +11,7 @@ import ProfileSkeleton from "@/components/profile/ProfileSkeleton";
 import ProfileLogoutButton from "@/components/profile/ProfileLogoutButton";
 import { Heart, MapPin, Mail, Phone as PhoneIcon } from "lucide-react";
 import Link from "next/link";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 export const metadata = {
     title: "Profile — Golan Heights Guide",
@@ -49,7 +50,7 @@ export default async function ProfilePage({
                         </p>
                     </div>
                     <Link
-                        href={`/${lang}/login`}
+                        href={getLocalizedPathname("/login", locale, "", "")}
                         className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-yellow hover:bg-brand-yellow-hover text-brand-ink font-semibold transition-all shadow-lg shadow-emerald-600/20"
                     >
                         {dict?.auth?.login || "Login"}

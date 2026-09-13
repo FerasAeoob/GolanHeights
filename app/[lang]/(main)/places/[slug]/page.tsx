@@ -13,6 +13,7 @@ import type { Metadata } from "next";
 import SetLocalizedSlugs from "@/components/SetLocalizedSlugs";
 import BackToExplore from "@/components/places/BackToExplore";
 import PlaceTags from "@/components/places/PlaceTags";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 interface PageProps {
     params: Promise<{
@@ -33,8 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const dict = await getDictionary(lang);
 
-    const currentSlug = place.slug[lang] || place.slug.en;
-    const path = lang === 'en' ? `/places/${currentSlug}` : `/${lang}/places/${currentSlug}`;
+    const path = getLocalizedPathname(`/places/${place.slug.en}`, lang, "", "", place.slug);
 
     return {
         title: place.title[lang] || place.title.en,
@@ -42,10 +42,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         alternates: {
             canonical: `https://www.golanwiki.com${path}`,
             languages: {
-                'en': `https://www.golanwiki.com/places/${place.slug.en}`,
-                'he': `https://www.golanwiki.com/he/places/${place.slug.he || place.slug.en}`,
-                'ar': `https://www.golanwiki.com/ar/places/${place.slug.ar || place.slug.en}`,
-                'x-default': `https://www.golanwiki.com/places/${place.slug.en}`
+                'en': `https://www.golanwiki.com${getLocalizedPathname(`/places/${place.slug.en}`, "en", "", "", place.slug)}`,
+                'he': `https://www.golanwiki.com${getLocalizedPathname(`/places/${place.slug.en}`, "he", "", "", place.slug)}`,
+                'ar': `https://www.golanwiki.com${getLocalizedPathname(`/places/${place.slug.en}`, "ar", "", "", place.slug)}`,
+                'x-default': `https://www.golanwiki.com${getLocalizedPathname(`/places/${place.slug.en}`, "en", "", "", place.slug)}`
             }
         }
     };

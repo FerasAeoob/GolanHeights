@@ -1,3 +1,5 @@
+import { locales, type Locale } from '@/lib/get-dictionary';
+
 type LocalizedSlugs = {
     en: string;
     he?: string;
@@ -6,16 +8,15 @@ type LocalizedSlugs = {
 
 export function getLocalizedPathname(
     currentPathname: string,
-    targetLang: 'en' | 'he' | 'ar',
+    targetLang: Locale,
     searchParams?: string | URLSearchParams | Record<string, string>,
     hash?: string,
     localizedSlugs?: LocalizedSlugs | null
 ): string {
-    const LANGS = ['en', 'he', 'ar'] as const;
     const segments = currentPathname.split('/');
     
     // 1. Strip the current language prefix if one exists
-    if (segments.length > 1 && LANGS.includes(segments[1] as 'en' | 'he' | 'ar')) {
+    if (segments.length > 1 && locales.includes(segments[1] as Locale)) {
         segments.splice(1, 1);
     }
     
@@ -42,10 +43,12 @@ export function getLocalizedPathname(
     
     // 4. Handle query parameters
     let finalQuery = '';
-    if (searchParams) {
+    if (searchParams !== undefined) {
         const searchStr = typeof searchParams === 'string'
             ? searchParams
-            : searchParams.toString();
+            : searchParams instanceof URLSearchParams
+                ? searchParams.toString()
+                : new URLSearchParams(searchParams).toString();
         if (searchStr) {
             finalQuery = searchStr.startsWith('?') ? searchStr : `?${searchStr}`;
         }
@@ -58,8 +61,8 @@ export function getLocalizedPathname(
     
     // 5. Handle hash fragment
     let finalHash = '';
-    if (hash) {
-        finalHash = hash.startsWith('#') ? hash : `#${hash}`;
+    if (hash !== undefined) {
+        if (hash) finalHash = hash.startsWith('#') ? hash : `#${hash}`;
     } else if (typeof window !== 'undefined') {
         const hashStr = window.location.hash;
         if (hashStr) {

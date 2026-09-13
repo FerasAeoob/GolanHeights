@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getDictionary } from "@/lib/get-dictionary";
+import { getDictionary, type Locale } from "@/lib/get-dictionary";
+import { getLocalizedPathname } from "@/utils/navigation";
 import {
   Mail,
   MapPin,
@@ -18,19 +19,22 @@ import { WHATSAPP_CONTACT } from "@/lib/contact";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  const dict = await getDictionary(lang as "en" | "he" | "ar");
+  const dict = await getDictionary(lang);
 
   return {
     title: dict.contactPage?.metaTitle,
     description: dict.contactPage?.metaDescription,
     alternates: {
-      canonical:
-        lang === "en"
-          ? "https://www.golanwiki.com/contact"
-          : `https://www.golanwiki.com/${lang}/contact`,
+      canonical: `https://www.golanwiki.com${getLocalizedPathname("/contact", lang, "", "")}`,
+      languages: {
+        en: `https://www.golanwiki.com${getLocalizedPathname("/contact", "en", "", "")}`,
+        ar: `https://www.golanwiki.com${getLocalizedPathname("/contact", "ar", "", "")}`,
+        he: `https://www.golanwiki.com${getLocalizedPathname("/contact", "he", "", "")}`,
+        "x-default": `https://www.golanwiki.com${getLocalizedPathname("/contact", "en", "", "")}`,
+      },
     },
   };
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { getErrorMessage } from "@/utils/error";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 interface ForgotPasswordFormProps {
     lang: "en" | "ar" | "he";
@@ -71,7 +72,7 @@ export default function ForgotPasswordForm({ lang, dict }: ForgotPasswordFormPro
                         {dict?.auth?.genericResetEmailSent || "If an account with this email exists, we sent a reset link."}
                     </div>
                     <Link
-                        href={`/${lang}/login`}
+                        href={getLocalizedPathname("/login", lang, "", "")}
                         className="text-center text-white/80 hover:text-white underline mt-2"
                     >
                         {dict?.auth?.backToLogin || "Back to login"}
@@ -120,7 +121,7 @@ export default function ForgotPasswordForm({ lang, dict }: ForgotPasswordFormPro
 
                     <div className="mt-4 text-center">
                         <Link
-                            href={`/${lang}/login`}
+                            href={getLocalizedPathname("/login", lang, "", "")}
                             className="text-white/80 hover:text-white underline text-sm"
                         >
                             {dict?.auth?.backToLogin || "Back to login"}

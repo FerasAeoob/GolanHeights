@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { getErrorMessage } from "@/utils/error";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 interface LoginFormProps {
     lang: "en" | "ar" | "he";
@@ -182,7 +183,7 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
                     </label>
                 </div>
                 <Link
-                    href={`/${lang}/forgot-password`}
+                    href={getLocalizedPathname("/forgot-password", lang, "", "")}
                     className="text-sm text-white/80 hover:text-white transition-colors underline"
                 >
                     {dict?.auth?.forgotPassword || "Forgot password?"}
@@ -203,7 +204,7 @@ export default function LoginForm({ lang, dict }: LoginFormProps) {
                 {loading ? dict?.auth?.loggingIn || "Logging in..." : dict?.auth?.login}
             </button>
             <p className="text-center text-white mt-4 ">
-                {dict?.auth?.noAccount} <Link href={`/${lang}/signup`} className=" bg-white p-1 rounded text-brand-blue underline font-semibold">{dict?.auth?.createAccount}</Link>
+                {dict?.auth?.noAccount} <Link href={getLocalizedPathname("/signup", lang, "", "")} className=" bg-white p-1 rounded text-brand-blue underline font-semibold">{dict?.auth?.createAccount}</Link>
             </p>
         </form>
     );

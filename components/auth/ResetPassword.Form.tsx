@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { getErrorMessage } from "@/utils/error";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 interface ResetPasswordFormProps {
     lang: "en" | "ar" | "he";
@@ -97,7 +98,7 @@ export default function ResetPasswordForm({ lang, dict }: ResetPasswordFormProps
                         {dict?.auth?.passwordResetSuccess || "Password has been successfully reset."}
                     </div>
                     <Link
-                        href={`/${lang}/login`}
+                        href={getLocalizedPathname("/login", lang, "", "")}
                         className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer mt-2 text-center"
                     >
                         {dict?.auth?.backToLogin || "Back to login"}
@@ -179,7 +180,7 @@ export default function ResetPasswordForm({ lang, dict }: ResetPasswordFormProps
                     
                     <div className="mt-4 text-center">
                         <Link
-                            href={`/${lang}/login`}
+                            href={getLocalizedPathname("/login", lang, "", "")}
                             className="text-white/80 hover:text-white underline text-sm"
                         >
                             {dict?.auth?.backToLogin || "Back to login"}

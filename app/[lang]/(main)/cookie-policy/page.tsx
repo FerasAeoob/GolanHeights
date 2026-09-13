@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import LegalPageLayout from "@/components/legal/LegalPageLayout";
+import type { Locale } from "@/lib/get-dictionary";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 const SITE_URL = "https://www.golanwiki.com";
 const CONTACT_EMAIL = "support@golanwiki.com";
@@ -7,7 +9,7 @@ const CONTACT_EMAIL = "support@golanwiki.com";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> {
   const { lang } = await params;
 
@@ -27,7 +29,13 @@ export async function generateMetadata({
     title: titles[lang] ?? titles.en,
     description: descs[lang] ?? descs.en,
     alternates: {
-      canonical: `${SITE_URL}/${lang}/cookie-policy`,
+      canonical: `${SITE_URL}${getLocalizedPathname("/cookie-policy", lang, "", "")}`,
+      languages: {
+        en: `${SITE_URL}${getLocalizedPathname("/cookie-policy", "en", "", "")}`,
+        ar: `${SITE_URL}${getLocalizedPathname("/cookie-policy", "ar", "", "")}`,
+        he: `${SITE_URL}${getLocalizedPathname("/cookie-policy", "he", "", "")}`,
+        "x-default": `${SITE_URL}${getLocalizedPathname("/cookie-policy", "en", "", "")}`,
+      },
     },
   };
 }

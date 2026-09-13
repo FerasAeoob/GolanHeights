@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HistoryStoryScroll from "@/components/history/HistoryStoryScroll";
 import { getDictionary } from "@/lib/get-dictionary";
 import type { Locale } from "@/lib/get-dictionary";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 type HistoryPageProps = {
   params: Promise<{ lang: Locale }>;
@@ -17,11 +18,12 @@ export async function generateMetadata({
     title: dict.history?.metaTitle,
     description: dict.history?.metaDescription,
     alternates: {
-      canonical: `https://www.golanwiki.com/${lang}/history`,
+      canonical: `https://www.golanwiki.com${getLocalizedPathname("/history", lang, "", "")}`,
       languages: {
-        en: "https://www.golanwiki.com/en/history",
-        he: "https://www.golanwiki.com/he/history",
-        ar: "https://www.golanwiki.com/ar/history",
+        en: `https://www.golanwiki.com${getLocalizedPathname("/history", "en", "", "")}`,
+        he: `https://www.golanwiki.com${getLocalizedPathname("/history", "he", "", "")}`,
+        ar: `https://www.golanwiki.com${getLocalizedPathname("/history", "ar", "", "")}`,
+        "x-default": `https://www.golanwiki.com${getLocalizedPathname("/history", "en", "", "")}`,
       },
     },
   };

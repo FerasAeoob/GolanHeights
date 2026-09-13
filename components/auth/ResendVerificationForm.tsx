@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { getErrorMessage } from "@/utils/error";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 interface ResendVerificationFormProps {
     lang: "en" | "ar" | "he";
@@ -72,7 +73,7 @@ export default function ResendVerificationForm({ lang, dict }: ResendVerificatio
                         {message}
                     </div>
                     <Link
-                        href={`/${lang}/login`}
+                        href={getLocalizedPathname("/login", lang, "", "")}
                         className="bg-white shadow-lg shadow-black/80 text-green-700 p-3 rounded cursor-pointer mt-2 text-center font-semibold transition-transform hover:scale-[1.01]"
                     >
                         {dict?.auth?.backToLogin || "Back to login"}
@@ -128,7 +129,7 @@ export default function ResendVerificationForm({ lang, dict }: ResendVerificatio
 
                     <div className="mt-4 text-center">
                         <Link
-                            href={`/${lang}/login`}
+                            href={getLocalizedPathname("/login", lang, "", "")}
                             className="text-white/80 hover:text-white underline text-sm transition-colors"
                         >
                             {dict?.auth?.backToLogin || "Back to login"}

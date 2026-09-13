@@ -63,7 +63,12 @@ const nextConfig: NextConfig = {
                 ],
                 destination: 'https://www.golanwiki.com/:path*',
                 permanent: true,
-            }
+            },
+            {
+                source: '/:lang/sitemap.xml',
+                destination: '/sitemap.xml',
+                permanent: true,
+            },
         ];
     },
     poweredByHeader: false,

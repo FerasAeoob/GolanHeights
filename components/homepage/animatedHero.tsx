@@ -6,6 +6,8 @@ import HeroInfoCard from "./Hero.infocard";
 import { Reveal } from "@/components/animation/Reveal";
 import WeatherCard from "./WeatherCard";
 import ScrollToExploreButton from "./ScrollToExploreButton";
+import { getLocalizedPathname } from "@/utils/navigation";
+import type { Locale } from "@/lib/get-dictionary";
 
 type HeroDictionary = {
     northenisrael: string;
@@ -22,7 +24,7 @@ type HeroDictionary = {
     };
 };
 
-export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroDictionary }) {
+export default function AnimatedHero({ lang, dict }: { lang: Locale; dict: HeroDictionary }) {
 
     return (
         <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col overflow-hidden">
@@ -77,7 +79,7 @@ export default function AnimatedHero({ lang, dict }: { lang: string; dict: HeroD
                             </ScrollToExploreButton>
 
                             <Link
-                                href={`/${lang}/history`}
+                                href={getLocalizedPathname("/history", lang, "", "")}
                                 className="group flex min-h-[48px] w-full max-w-[20rem] items-center justify-center gap-2.5 rounded-full border border-white/20 bg-black/25 px-6 py-3 text-base font-semibold text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/40 active:translate-y-0 active:scale-[0.98]"
                             >
                                 <BookOpen className="h-4 w-4 shrink-0 text-brand-yellow/90 transition-transform group-hover:text-brand-yellow" aria-hidden="true" />

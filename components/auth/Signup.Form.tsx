@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { showToast } from "@/components/ui/Toast";
 import { getErrorMessage } from "@/utils/error";
+import { getLocalizedPathname } from "@/utils/navigation";
 
 type SignupErrors = {
     name?: string;
@@ -271,11 +272,11 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                     />
                     <label htmlFor="acceptTerms" className="text-white text-sm cursor-pointer select-none leading-tight">
                         {dict?.auth?.acceptTermsPrefix || "I agree to the"}{" "}
-                        <Link href={`/${lang}/terms-of-use`} className="underline hover:text-brand-yellow">
+                        <Link href={getLocalizedPathname("/terms-of-use", lang, "", "")} className="underline hover:text-brand-yellow">
                             {dict?.auth?.termsOfUse || "Terms of Use"}
                         </Link>{" "}
                         {dict?.auth?.acceptTermsMiddle || "and"}{" "}
-                        <Link href={`/${lang}/privacy-policy`} className="underline hover:text-brand-yellow">
+                        <Link href={getLocalizedPathname("/privacy-policy", lang, "", "")} className="underline hover:text-brand-yellow">
                             {dict?.auth?.privacyPolicy || "Privacy Policy"}
                         </Link>
                     </label>
@@ -296,7 +297,7 @@ export default function SignupForm({ lang, dict }: { lang: "ar" | "en" | "he"; d
                     {loading ? dict?.auth?.creatingAccount : dict?.auth?.createAccount}
                 </button>
                 <p className="text-center text-white mt-4 ">
-                    {dict?.auth?.alreadyHaveAccount} <Link href={`/${lang}/login`} className=" bg-white p-1 rounded text-brand-blue underline">{dict?.auth?.login}</Link>
+                    {dict?.auth?.alreadyHaveAccount} <Link href={getLocalizedPathname("/login", lang, "", "")} className=" bg-white p-1 rounded text-brand-blue underline">{dict?.auth?.login}</Link>
                 </p>
             </div>
         </form>

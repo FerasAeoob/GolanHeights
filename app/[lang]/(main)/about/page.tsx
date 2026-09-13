@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getDictionary } from "@/lib/get-dictionary";
+import { getDictionary, type Locale } from "@/lib/get-dictionary";
+import { getLocalizedPathname } from "@/utils/navigation";
 import {
   MapPin,
   Utensils,
@@ -17,16 +18,22 @@ import {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  const dict = await getDictionary(lang as "en" | "he" | "ar");
+  const dict = await getDictionary(lang);
 
   return {
     title: dict.about?.metaTitle,
     description: dict.about?.metaDescription,
     alternates: {
-      canonical: `https://www.golanwiki.com/${lang}/about`,
+      canonical: `https://www.golanwiki.com${getLocalizedPathname("/about", lang, "", "")}`,
+      languages: {
+        en: `https://www.golanwiki.com${getLocalizedPathname("/about", "en", "", "")}`,
+        ar: `https://www.golanwiki.com${getLocalizedPathname("/about", "ar", "", "")}`,
+        he: `https://www.golanwiki.com${getLocalizedPathname("/about", "he", "", "")}`,
+        "x-default": `https://www.golanwiki.com${getLocalizedPathname("/about", "en", "", "")}`,
+      },
     },
   };
 }
@@ -35,10 +42,10 @@ export async function generateMetadata({
 export default async function AboutPage({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
 }) {
   const { lang } = await params;
-  const dict = await getDictionary(lang as "en" | "he" | "ar");
+  const dict = await getDictionary(lang);
   const t = dict.about;
 
   const isRtl = lang === "ar" || lang === "he";
@@ -112,7 +119,7 @@ export default async function AboutPage({
 
             <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
               <Link
-                href={`/${lang}/places`}
+                href={getLocalizedPathname("/places", lang, "", "")}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-yellow px-6 py-3 text-sm font-bold text-brand-ink shadow-sm transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active sm:w-auto"
               >
                 <MapPin className="h-4 w-4" />
@@ -120,7 +127,7 @@ export default async function AboutPage({
               </Link>
 
               <Link
-                href={`/${lang}`}
+                href={getLocalizedPathname("/", lang, "", "")}
                 className="inline-flex w-full items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-bold text-zinc-200 transition-colors duration-200 hover:border-brand-yellow/60 hover:text-brand-yellow sm:w-auto"
               >
                 {t.ctaHome}
@@ -205,7 +212,7 @@ export default async function AboutPage({
                 </p>
 
                 <Link
-                  href={`/${lang}/places`}
+                  href={getLocalizedPathname("/places", lang, "", "")}
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-yellow px-7 py-3 text-sm font-bold text-brand-ink transition-colors duration-200 hover:bg-brand-yellow-hover active:bg-brand-yellow-active"
                 >
                   <MapPin className="h-4 w-4" />
