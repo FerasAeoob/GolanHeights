@@ -25,7 +25,7 @@ export default function PlaceTags({ tags, dictionary }: PlaceTagsProps) {
                 return (
                     <li
                         key={key}
-                        className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5"
+                        className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3! py-1.5!"
                     >
                         <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-blue-700" />
                         <span>{dictionary.labels[key]}</span>
