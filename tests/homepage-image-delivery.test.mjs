@@ -35,6 +35,7 @@ test("targeted homepage sources declare the quality and loading boundary", () =>
     assert.ok(qualities, "images.qualities must be configured");
 
     const configuredQualities = qualities[1].match(/\d+/g)?.map(Number) ?? [];
+    assert.ok(configuredQualities.includes(55), "category quality 55 must be allowed");
     assert.ok(configuredQualities.includes(60), "quality 60 must be allowed");
     assert.ok(configuredQualities.includes(75), "quality 75 must be allowed");
     assert.ok(configuredQualities.includes(85), "the existing navbar quality 85 must remain allowed");
@@ -45,7 +46,7 @@ test("targeted homepage sources declare the quality and loading boundary", () =>
     assert.doesNotMatch(heroImage, /\bpriority\b/);
 
     const categoryImage = imageElement(read("components/categorycard.tsx"));
-    assert.match(categoryImage, /quality=\{60\}/);
+    assert.match(categoryImage, /quality=\{55\}/);
 
     const popupSource = read("components/WeeklyPartnerPopup.tsx");
     const popupImage = imageElement(popupSource);
@@ -54,7 +55,7 @@ test("targeted homepage sources declare the quality and loading boundary", () =>
     assert.match(popupImage, /fetchPriority="high"/);
     assert.doesNotMatch(popupImage, /\bpriority\b/);
     assert.doesNotMatch(popupImage, /\bpreload\b/);
-    assert.match(popupSource, /if \(!mounted \|\| !shouldRender\) return null/);
+    assert.match(popupSource, /if \(!shouldRender\) return null/);
 
     const placeCard = read("components/places/placecard.tsx");
     assert.match(placeCard, /imageQuality\?:\s*60\s*\|\s*75/);
