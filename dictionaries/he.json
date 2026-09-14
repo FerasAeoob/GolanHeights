@@ -384,6 +384,11 @@
         "cancel": "ביטול / שינוי האימייל החדש"
     },
     "admin": {
+        "uploadPhotos": "העלאת תמונות",
+        "uploadingPhotos": "מעלה תמונות…",
+        "uploadPhotosHelp": "תמונות JPEG, PNG או WebP, עד 4 MiB לתמונה. התמונות מתווספות לפי סדר הבחירה; יש לשמור את המקום לאחר סיום ההעלאה.",
+        "placeImageAlt": "תמונת מקום",
+        "noPlaceImages": "אין תמונות עדיין. העלו תמונות או הוסיפו כתובת תמונה למטה.",
         "phoneNumbersLabel": "מספרי טלפון",
         "phoneNumberLabel": "מספר טלפון",
         "phoneNumberPlaceholder": "04-696-1234",
@@ -502,6 +507,11 @@
         "PASSWORDS_REQUIRED": "יש למלא את כל שדות הסיסמה.",
         "IMAGE_TOO_LARGE": "התמונה חייבת להיות קטנה מ-5MB.",
         "UPLOAD_FAILED": "העלאת התמונה נכשלה. אנא נסה שוב.",
+        "PLACE_IMAGE_TOO_LARGE": "כל תמונת מקום חייבת להיות בגודל של עד 4 MiB.",
+        "IMAGE_REQUIRED": "בחרו תמונה להעלאה.",
+        "INVALID_IMAGE_FORMAT": "בחרו תמונת JPEG, PNG או WebP תקינה.",
+        "INVALID_REQUEST": "בקשת העלאה לא תקינה. בחרו את התמונה שוב.",
+        "UPLOAD_UNAVAILABLE": "העלאת תמונות אינה זמינה כרגע. בדקו את הגדרות Cloudinary והגבלת קצב הבקשות בשרת.",
         "AVATAR_REMOVE_FAILED": "הסרת התמונה נכשלה. אנא נסה שוב.",
         "PROFILE_UPDATE_FAILED": "עדכון הפרופיל נכשל.",
         "REVIEW_LOAD_FAILED": "טעינת הביקורות נכשלה. אנא רענן את הדף.",

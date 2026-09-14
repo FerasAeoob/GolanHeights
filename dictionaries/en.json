@@ -384,6 +384,11 @@
         "cancel": "Cancel / Change new email"
     },
     "admin": {
+        "uploadPhotos": "Upload photos",
+        "uploadingPhotos": "Uploading photos…",
+        "uploadPhotosHelp": "JPEG, PNG or WebP, up to 4 MiB per photo. Photos are added in selection order; save the place when uploads finish.",
+        "placeImageAlt": "Place image",
+        "noPlaceImages": "No images yet. Upload photos or add an image URL below.",
         "phoneNumbersLabel": "Phone numbers",
         "phoneNumberLabel": "Phone number",
         "phoneNumberPlaceholder": "04-696-1234",
@@ -490,6 +495,11 @@
         "NEW_PASSWORD_SAME_AS_CURRENT": "New password cannot be the same as the current password.",
         "IMAGE_TOO_LARGE": "Image must be under 5MB.",
         "UPLOAD_FAILED": "Failed to upload image. Please try again.",
+        "PLACE_IMAGE_TOO_LARGE": "Each place photo must be 4 MiB or smaller.",
+        "IMAGE_REQUIRED": "Select a photo to upload.",
+        "INVALID_IMAGE_FORMAT": "Choose a valid JPEG, PNG or WebP photo.",
+        "INVALID_REQUEST": "Invalid upload request. Please select the photo again.",
+        "UPLOAD_UNAVAILABLE": "Photo uploading is temporarily unavailable. Check the server Cloudinary and rate-limit configuration.",
         "AVATAR_REMOVE_FAILED": "Failed to remove photo.",
         "PROFILE_UPDATE_FAILED": "Failed to update profile.",
         "REVIEW_LOAD_FAILED": "Failed to load reviews.",

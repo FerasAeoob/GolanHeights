@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPlaceAction, updatePlaceAction } from '@/app/actions/places';
 import { Trash2, Plus, GripVertical, Image as ImageIcon, Globe, MapPin, Phone, Clock, Save, ArrowLeft } from 'lucide-react';
@@ -15,7 +15,8 @@ import {
 } from '@/lib/place-phone-numbers';
 import { normalizePlaceTags, type PlaceTagKey } from '@/lib/place-tags';
 import PlaceTagSelector, { type PlaceTagsDictionary } from '@/components/admin/PlaceTagSelector';
-import type { Locale } from '@/lib/get-dictionary';
+import type { Dictionary, Locale } from '@/lib/get-dictionary';
+import { appendPlaceImage, uploadPlacePhotos, type PlaceFormImage } from './place-image-upload';
 
 // ─── Types ───────────────────────────────────────────────────────
 type Lang = 'en' | 'he' | 'ar';
@@ -24,11 +25,6 @@ interface LocalizedString {
     en: string;
     he: string;
     ar: string;
-}
-
-interface PlaceImage {
-    url: string;
-    alt: LocalizedString;
 }
 
 interface OpenHour {
@@ -49,7 +45,7 @@ interface PlaceFormData {
     duration: string;
     mapLink: string;
     open: string;
-    images: PlaceImage[];
+    images: PlaceFormImage[];
     placeTags: PlaceTagKey[];
     openHours: OpenHour[];
     location: {
@@ -72,7 +68,7 @@ interface PlaceFormProps {
     mode: 'create' | 'edit';
     initialData?: any;
     lang: string;
-    dict?: any;
+    dict: Dictionary;
 }
 
 const EMPTY_FORM: PlaceFormData = {
@@ -201,19 +197,38 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
     // ─── Image Management ────────────────────────────
     const [newImageUrl, setNewImageUrl] = useState('');
     const [newImageAlt, setNewImageAlt] = useState({ en: '', he: '', ar: '' });
+    const [isUploading, setIsUploading] = useState(false);
+    const uploadInProgress = useRef(false);
+    const [uploadErrors, setUploadErrors] = useState<{ name: string; text: string }[]>([]);
+
+    const handlePhotoUpload = async (files: File[]) => {
+        if (!files.length || uploadInProgress.current || isPending) return;
+        uploadInProgress.current = true;
+        setIsUploading(true);
+        setUploadErrors([]);
+        const alt = { ...newImageAlt };
+        alt[lang as Locale] ||= dict.admin.placeImageAlt;
+        try {
+            await uploadPlacePhotos({
+                files,
+                onUploaded: url => setForm(prev => ({
+                    ...prev, images: appendPlaceImage(prev.images, url, alt),
+                })),
+                onError: (file, errorCode) => setUploadErrors(prev => [...prev, {
+                    name: file.name, text: getErrorMessage({ errorCode }, dict),
+                }]),
+            });
+        } finally {
+            uploadInProgress.current = false;
+            setIsUploading(false);
+        }
+    };
 
     const addImage = () => {
         if (!newImageUrl.trim()) return;
         setForm(prev => ({
             ...prev,
-            images: [...prev.images, {
-                url: newImageUrl.trim(),
-                alt: {
-                    en: newImageAlt.en.trim() || 'Place image',
-                    he: newImageAlt.he.trim(),
-                    ar: newImageAlt.ar.trim()
-                }
-            }]
+            images: appendPlaceImage(prev.images, newImageUrl, newImageAlt),
         }));
         setNewImageUrl('');
         setNewImageAlt({ en: '', he: '', ar: '' });
@@ -259,6 +274,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
 
     // ─── Submit ──────────────────────────────────────
     const handleSubmit = () => {
+        if (uploadInProgress.current || isPending) return;
         setMessage(null);
 
         startTransition(async () => {
@@ -825,6 +841,35 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                             <ImageIcon className="w-5 h-5 text-blue-600" /> Image Gallery
                         </h2>
 
+                        <div className="mb-6" aria-busy={isUploading}>
+                            <label htmlFor="place-photo-upload" className="block text-sm font-medium mb-2">
+                                {dict.admin.uploadPhotos}
+                            </label>
+                            <input
+                                id="place-photo-upload"
+                                type="file"
+                                multiple
+                                accept="image/jpeg,image/png,image/webp"
+                                disabled={isUploading || isPending}
+                                aria-describedby="place-photo-help place-photo-status place-photo-errors"
+                                className="block w-full min-h-11 text-sm text-slate-600 file:me-3 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-3 file:font-medium file:text-white hover:file:bg-blue-700 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-blue-500"
+                                onChange={event => {
+                                    const files = Array.from(event.currentTarget.files || []);
+                                    event.currentTarget.value = '';
+                                    void handlePhotoUpload(files);
+                                }}
+                            />
+                            <p id="place-photo-help" className="text-sm text-slate-500 mt-2">{dict.admin.uploadPhotosHelp}</p>
+                            <p id="place-photo-status" role="status" className="text-sm text-blue-600 mt-2">
+                                {isUploading ? dict.admin.uploadingPhotos : ''}
+                            </p>
+                            <div id="place-photo-errors" role="alert" className="text-sm text-red-600 mt-2">
+                                {uploadErrors.map((error, index) => (
+                                    <p key={index} className="break-words"><bdi>{error.name}</bdi>: {error.text}</p>
+                                ))}
+                            </div>
+                        </div>
+
                         {/* Existing Images Grid */}
                         {form.images.length > 0 && (
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
@@ -920,7 +965,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                             </div>
                         </div>
                         {form.images.length === 0 && (
-                            <p className="text-sm text-slate-400 mt-3">No images yet. Add at least one Cloudinary URL above.</p>
+                            <p className="text-sm text-slate-400 mt-3">{dict.admin.noPlaceImages}</p>
                         )}
                     </div>
 
@@ -929,7 +974,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                     <div className="fixed bottom-0 left-0 right-0 z-40 bg-slate-50/90 backdrop-blur-md p-4 border-t border-slate-200 flex items-center justify-between shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none md:justify-start md:shadow-none gap-4">
                         <button
                             onClick={handleSubmit}
-                            disabled={isPending}
+                            disabled={isPending || isUploading}
                             className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 md:px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer flex-1 md:flex-none"
                         >
                             <Save className="w-4 h-4" />

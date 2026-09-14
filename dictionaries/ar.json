@@ -384,6 +384,11 @@
         "cancel": "إلغاء / تغيير البريد الجديد"
     },
     "admin": {
+        "uploadPhotos": "رفع الصور",
+        "uploadingPhotos": "جارٍ رفع الصور…",
+        "uploadPhotosHelp": "صور JPEG أو PNG أو WebP، بحجم أقصى 4 ميبيبايت لكل صورة. تُضاف الصور بترتيب اختيارها؛ احفظ المكان بعد اكتمال الرفع.",
+        "placeImageAlt": "صورة المكان",
+        "noPlaceImages": "لا توجد صور بعد. ارفع صورًا أو أضف رابط صورة أدناه.",
         "phoneNumbersLabel": "أرقام الهاتف",
         "phoneNumberLabel": "رقم الهاتف",
         "phoneNumberPlaceholder": "04-696-1234",
@@ -502,6 +507,11 @@
         "REPLY_TEXT_INVALID": "لا يمكن أن يكون الرد فارغاً.",
         "REPLY_OWNED_BY_OTHER": "لا يمكنك تعديل رد مستخدم آخر.",
         "UPLOAD_FAILED": "فشل الرفع. يرجى المحاولة مرة أخرى.",
+        "PLACE_IMAGE_TOO_LARGE": "يجب ألا يتجاوز حجم كل صورة للمكان 4 ميبيبايت.",
+        "IMAGE_REQUIRED": "اختر صورة لرفعها.",
+        "INVALID_IMAGE_FORMAT": "اختر صورة JPEG أو PNG أو WebP صالحة.",
+        "INVALID_REQUEST": "طلب رفع غير صالح. يرجى اختيار الصورة مرة أخرى.",
+        "UPLOAD_UNAVAILABLE": "رفع الصور غير متاح مؤقتًا. تحقق من إعدادات Cloudinary وتحديد معدل الطلبات على الخادم.",
         "UPLOAD_TOO_LARGE": "يجب أن تكون الصورة أقل من 5MB.",
         "AVATAR_REMOVE_FAILED": "فشل حذف الصورة. يرجى المحاولة مرة أخرى.",
         "PASSWORDS_DO_NOT_MATCH": "كلمات المرور غير متطابقة.",
