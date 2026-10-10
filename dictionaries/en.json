@@ -743,5 +743,39 @@
                 ]
             }
         ]
+    },
+    "placeOrder": {
+        "position": "Position",
+        "positionFor": "Position for {title}",
+        "applyPosition": "Move {title} to entered position",
+        "move": "Move",
+        "positionHelp": "Enter a position and press Move or Enter. Use 1 for the top. Other places shift automatically. Then save the order.",
+        "title": "Manage Place Order",
+        "description": "Drag places or use the arrow buttons to set their order on the Places page. New places appear first by default.",
+        "back": "Back to Dashboard",
+        "search": "Find a place",
+        "searchHelp": "Search filters this list only. Numbers show the full order; arrow buttons move a place one position in the full list, including places hidden by the search.",
+        "hiddenHelp": "Hidden places are included for ordering but do not appear on the public page.",
+        "save": "Save Order",
+        "saving": "Saving…",
+        "unsaved": "Unsaved changes",
+        "savedState": "No unsaved changes",
+        "success": "Place order saved.",
+        "unsavedWarning": "You have unsaved place order changes. Leave without saving?",
+        "reloadWarning": "Discard your unsaved changes and load the latest order?",
+        "failed": "Could not save the order. Your changes are still here. Please try again.",
+        "loadFailed": "Could not load the place order. Please refresh and try again.",
+        "conflict": "The places or their order changed while you were editing. Reload the latest order before making your changes again.",
+        "rateLimited": "Too many requests. Wait a moment and try again.",
+        "unauthorized": "Your session no longer has admin access. Sign in as an admin and try again.",
+        "invalid": "The submitted order is invalid. Refresh to load the current places.",
+        "reload": "Reload latest order",
+        "noResults": "No places match your search.",
+        "empty": "There are no places to order yet.",
+        "hidden": "Hidden from public",
+        "moveUp": "Move {title} up",
+        "moveDown": "Move {title} down",
+        "drag": "Drag to reorder {title}",
+        "moved": "{title} moved to position {position}."
     }
 }

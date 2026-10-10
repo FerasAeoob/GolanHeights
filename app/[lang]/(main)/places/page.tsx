@@ -13,6 +13,7 @@ import { CATEGORY_SLUGS } from "@/lib/categories";
 import { getCurrentUser } from "@/lib/auth";
 import PlacesMapDynamic from "@/components/places/PlacesMapDynamic";
 import type { Metadata } from "next";
+import { getPlacesPageSort } from "@/lib/place-order";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: 'en' | 'ar' | 'he' }> }): Promise<Metadata> {
     const { lang } = await params;
@@ -102,14 +103,7 @@ export default async function PlacesPage({
             }]
         }),
     };
-    let sortOption: Record<string, 1 | -1> = { createdAt: -1 };
-
-    if (sort === "top-rated") {
-        sortOption = {
-            averageRating: -1,
-            reviewsCount: -1,
-        };
-    }
+    const sortOption = getPlacesPageSort(sort);
 
     const t2 = performance.now();
     const rawPlaces = await Place.find(filter)

@@ -72,6 +72,9 @@ export interface IPlaceBase {
 }
 
 export interface IPlace extends Document, IPlaceBase {
+  /** Internal ordering for the /places directory only. Missing values sort first. */
+  publicOrder?: number;
+  publicOrderRevision?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -215,6 +218,8 @@ const PlaceSchema: Schema = new Schema(
 
     featured: { type: Boolean, default: false },
     hidden: { type: Boolean, default: false },
+    publicOrder: { type: Number, min: 0, validate: Number.isSafeInteger },
+    publicOrderRevision: { type: String },
 
     /**
      * PlaceOwner relation — optional reference to User.
@@ -237,6 +242,7 @@ PlaceSchema.index({ featured: 1 });
 PlaceSchema.index({ hidden: 1 });
 PlaceSchema.index({ averageRating: -1, reviewsCount: -1 });
 PlaceSchema.index({ createdAt: -1 });
+PlaceSchema.index({ publicOrder: 1, createdAt: -1, _id: -1 });
 PlaceSchema.index({ ownerId: 1 }); // PlaceOwner: fetch all places for a given owner
 
 /**
@@ -281,7 +287,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
 if (mongoose.models.Place) {
   const paths = mongoose.models.Place.schema.paths;
-  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['contact.whatsapp'] || !paths['ownerId'] || !paths['openHours.is24Hours'] || !paths['placeTags']) {
+  if (!paths['publicOrder'] || !paths['publicOrderRevision'] || !paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['contact.whatsapp'] || !paths['ownerId'] || !paths['openHours.is24Hours'] || !paths['placeTags']) {
     delete mongoose.models.Place;
   }
 }
