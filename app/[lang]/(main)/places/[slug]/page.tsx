@@ -177,6 +177,8 @@ export default async function PlacePage({ params }: PageProps) {
                     <PlaceDetails
                         website={place.contact?.website}
                         phone={place.contact?.phone}
+                        whatsapp={place.contact?.whatsapp}
+                        category={place.category}
                         phoneNumbers={place.contact?.phoneNumbers}
                         openHours={place.openHours || []}
                         open={place.open}

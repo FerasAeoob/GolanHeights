@@ -14,6 +14,7 @@ import {
     type PlacePhoneNumber,
 } from '@/lib/place-phone-numbers';
 import { normalizePlaceTags, type PlaceTagKey } from '@/lib/place-tags';
+import { normalizeWhatsAppNumber } from '@/lib/stay-whatsapp';
 import PlaceTagSelector, { type PlaceTagsDictionary } from '@/components/admin/PlaceTagSelector';
 import type { Dictionary, Locale } from '@/lib/get-dictionary';
 import { appendPlaceImage, uploadPlacePhotos, type PlaceFormImage } from './place-image-upload';
@@ -55,6 +56,7 @@ interface PlaceFormData {
     };
     contact: {
         phoneNumbers: PlacePhoneNumber[];
+        whatsapp: string;
         website: string;
         instagram: string;
         instagramHandle?: string;
@@ -85,7 +87,7 @@ const EMPTY_FORM: PlaceFormData = {
     placeTags: [],
     openHours: [],
     location: { lat: 0, lng: 0, name: { en: '', he: '', ar: '' } },
-    contact: { phoneNumbers: [], website: '', instagram: '', instagramHandle: '', bookingLink: '' },
+    contact: { phoneNumbers: [], whatsapp: '', website: '', instagram: '', instagramHandle: '', bookingLink: '' },
     featured: false,
     ownerEmail: '',
 };
@@ -140,6 +142,7 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                     initialData.contact?.phone,
                 ),
                 website: initialData.contact?.website || '',
+                whatsapp: initialData.contact?.whatsapp || '',
                 instagram: initialData.contact?.instagram || initialData.instagramUrl || initialData.instagram?.url || '',
                 instagramHandle: initialData.contact?.instagramHandle || initialData.instagramHandle || initialData.instagram?.handle || '',
                 bookingLink: initialData.contact?.bookingLink || '',
@@ -276,6 +279,11 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
     const handleSubmit = () => {
         if (uploadInProgress.current || isPending) return;
         setMessage(null);
+
+        if (form.contact.whatsapp.trim() && !normalizeWhatsAppNumber(form.contact.whatsapp)) {
+            setMessage({ type: 'error', text: dict.errors.WHATSAPP_NUMBER_INVALID });
+            return;
+        }
 
         startTransition(async () => {
             try {
@@ -693,6 +701,27 @@ export default function PlaceForm({ mode, initialData, lang, dict }: PlaceFormPr
                                     placeholder={dict?.admin?.instagramHandlePlaceholder || "@example"}
                                     dir="ltr"
                                 />
+                            </div>
+                            <div>
+                                <label htmlFor="place-whatsapp" className="block text-sm font-semibold text-slate-700 mb-1">
+                                    {dict.admin.whatsappLabel}
+                                </label>
+                                <input
+                                    id="place-whatsapp"
+                                    type="tel"
+                                    inputMode="tel"
+                                    value={form.contact.whatsapp}
+                                    onChange={e => setForm(prev => ({
+                                        ...prev,
+                                        contact: { ...prev.contact, whatsapp: e.target.value }
+                                    }))}
+                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                                    placeholder="+972501234567"
+                                    maxLength={50}
+                                    aria-describedby="place-whatsapp-help"
+                                    dir="ltr"
+                                />
+                                <p id="place-whatsapp-help" className="mt-1 text-xs text-slate-500">{dict.admin.whatsappHelp}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-1">

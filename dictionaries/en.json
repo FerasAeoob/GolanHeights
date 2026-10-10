@@ -40,6 +40,7 @@
     "mapClean": "Clean",
     "mapDetailed": "Detailed",
     "booknow": "Book Now",
+    "checkAvailabilityWhatsapp": "Check Availability on WhatsApp",
     "footerdesc": "Discover the breathtaking landscapes, rich history, and hidden gems of the Golan Heights.",
     "quicklinks": "Quick Links",
     "home": "Home",
@@ -400,6 +401,8 @@
         "instagramHandlePlaceholder": "@example or example",
         "instagramHandleTooLong": "Instagram handle is too long. Max 50 characters.",
         "bookingLinkLabel": "Booking Link (Stays)",
+        "whatsappLabel": "WhatsApp number (optional, stays only)",
+        "whatsappHelp": "Enter the stay owner's WhatsApp-enabled number with its country code, for example +972501234567. Leave blank to hide the inquiry button.",
         "bookingLinkPlaceholder": "https://booking.com/..."
     },
     "placeTags": {
@@ -477,6 +480,7 @@
         "INVALID_EMAIL": "Invalid email address.",
         "INVALID_PHONE": "Invalid phone number.",
         "PHONE_NUMBER_REQUIRED": "Phone number is required.",
+        "WHATSAPP_NUMBER_INVALID": "Enter a valid international WhatsApp number with its country code, for example +972501234567.",
         "PHONE_NUMBER_TOO_LONG": "Phone number is too long.",
         "PHONE_LABEL_TOO_LONG": "Phone label is too long.",
         "NAME_TOO_SHORT": "Name is required.",

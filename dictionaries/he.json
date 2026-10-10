@@ -40,6 +40,7 @@
     "mapClean": "נקי",
     "mapDetailed": "מפורט",
     "booknow": "הזמן עכשיו",
+    "checkAvailabilityWhatsapp": "בדיקת זמינות בוואטסאפ",
     "footerdesc": "גלו את הנופים עוצרי הנשימה, ההיסטוריה העשירה והפנינים הנסתרות של רמת הגולן.",
     "quicklinks": "קישורים מהירים",
     "home": "בית",
@@ -400,6 +401,8 @@
         "instagramHandlePlaceholder": "example@ או example",
         "instagramHandleTooLong": "שם המשתמש באינסטגרם ארוך מדי. מקסימום 50 תווים.",
         "bookingLinkLabel": "קישור להזמנה (אירוח)",
+        "whatsappLabel": "מספר וואטסאפ (אופציונלי, למקומות אירוח בלבד)",
+        "whatsappHelp": "יש להזין את מספר הוואטסאפ של בעל מקום האירוח עם קידומת המדינה, למשל ‎+972501234567. השאירו ריק כדי להסתיר את כפתור הפנייה.",
         "bookingLinkPlaceholder": "https://booking.com/..."
     },
     "placeTags": {
@@ -474,6 +477,7 @@
         "INVALID_EMAIL": "כתובת אימייל לא חוקית.",
         "INVALID_PHONE": "מספר טלפון לא חוקי.",
         "PHONE_NUMBER_REQUIRED": "יש להזין מספר טלפון.",
+        "WHATSAPP_NUMBER_INVALID": "יש להזין מספר וואטסאפ בינלאומי תקין עם קידומת המדינה, למשל ‎+972501234567.",
         "PHONE_NUMBER_TOO_LONG": "מספר הטלפון ארוך מדי.",
         "PHONE_LABEL_TOO_LONG": "תווית מספר הטלפון ארוכה מדי.",
         "NAME_TOO_SHORT": "יש להזין שם.",

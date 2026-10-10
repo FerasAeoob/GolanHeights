@@ -3,6 +3,7 @@ import { IBusinessDay, IOpeningHoursDictionary } from "@/lib/types";
 import OpeningStatus from "./openStatus";
 import Link from "next/link";
 import ShareButton from "./ShareButton";
+import StayWhatsAppButton from "./StayWhatsAppButton";
 import {
     getEffectivePhoneNumbers,
     type PlacePhoneNumber,
@@ -11,6 +12,8 @@ import {
 interface PlaceDetailsProps {
     website?: string;
     phone?: string;
+    whatsapp?: string;
+    category?: string;
     phoneNumbers?: PlacePhoneNumber[];
     price: string;
     openHours?: IBusinessDay[];
@@ -40,6 +43,8 @@ const WazeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function PlaceDetails({
     website,
     phone,
+    whatsapp,
+    category,
     phoneNumbers,
     price,
     openHours,
@@ -176,6 +181,7 @@ export default function PlaceDetails({
                     {instagramElement}
 
                     <div className="flex flex-col gap-2 mt-4">
+                            <StayWhatsAppButton category={category} whatsapp={whatsapp} label={dict.checkAvailabilityWhatsapp} />
                             {bookingLink && (
                                 <Link
                                     href={bookingLink}
@@ -265,6 +271,7 @@ export default function PlaceDetails({
                     {instagramElement}
 
                     <div className="flex flex-col gap-2 mt-4">
+                            <StayWhatsAppButton category={category} whatsapp={whatsapp} label={dict.checkAvailabilityWhatsapp} />
                             {bookingLink && (
                                 <Link
                                     href={bookingLink}

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { normalizeWhatsAppNumber } from "../lib/stay-whatsapp";
 
 const PhoneNumberSchema = z
   .object({
@@ -17,6 +18,10 @@ const PhoneNumberSchema = z
 export const PlaceContactSchema = z
   .object({
     phone: z.string().trim().optional(),
+    whatsapp: z.string().trim().max(50, "WHATSAPP_NUMBER_INVALID")
+      .refine((value) => value === "" || normalizeWhatsAppNumber(value) !== null, "WHATSAPP_NUMBER_INVALID")
+      .transform((value) => value === "" ? "" : normalizeWhatsAppNumber(value)!)
+      .optional(),
     phoneNumbers: z.array(PhoneNumberSchema).optional(),
     website: z.string().optional(),
     instagram: z.string().optional(),

@@ -40,6 +40,7 @@
     "mapClean": "مبسط",
     "mapDetailed": "مفصل",
     "booknow": "احجز الآن",
+    "checkAvailabilityWhatsapp": "الاستفسار عن التوفر عبر واتساب",
     "footerdesc": "اكتشف المناظر الطبيعية الخلابة، والتاريخ الغني، والجواهر الخفية في هضبة الجولان.",
     "quicklinks": "روابط سريعة",
     "home": "الصفحة الرئيسية",
@@ -400,6 +401,8 @@
         "instagramHandlePlaceholder": "example@ أو example",
         "instagramHandleTooLong": "اسم المستخدم على إنستغرام طويل جداً. الحد الأقصى 50 حرفاً.",
         "bookingLinkLabel": "رابط الحجز (الإقامة)",
+        "whatsappLabel": "رقم واتساب (اختياري، لأماكن الإقامة فقط)",
+        "whatsappHelp": "أدخل رقم واتساب الخاص بمالك مكان الإقامة مع رمز الدولة، مثل ‎+972501234567. اتركه فارغًا لإخفاء زر الاستفسار.",
         "bookingLinkPlaceholder": "https://booking.com/..."
     },
     "placeTags": {
@@ -475,6 +478,7 @@
         "INVALID_EMAIL": "عنوان البريد الإلكتروني غير صالح.",
         "INVALID_PHONE": "رقم الهاتف غير صالح.",
         "PHONE_NUMBER_REQUIRED": "رقم الهاتف مطلوب.",
+        "WHATSAPP_NUMBER_INVALID": "أدخل رقم واتساب دوليًا صالحًا مع رمز الدولة، مثل ‎+972501234567.",
         "PHONE_NUMBER_TOO_LONG": "رقم الهاتف طويل جداً.",
         "PHONE_LABEL_TOO_LONG": "تسمية رقم الهاتف طويلة جداً.",
         "NAME_TOO_SHORT": "الاسم مطلوب.",

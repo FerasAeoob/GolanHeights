@@ -46,6 +46,7 @@ export interface IPlaceBase {
 
   contact?: {
     phone?: string;
+    whatsapp?: string;
     phoneNumbers?: PlacePhoneNumber[];
     website?: string;
     instagram?: string;
@@ -171,6 +172,7 @@ const PlaceSchema: Schema = new Schema(
 
     contact: {
       phone: { type: String, trim: true },
+      whatsapp: { type: String, trim: true },
       phoneNumbers: {
         type: [
           {
@@ -279,7 +281,7 @@ PlaceSchema.pre<IPlace>("validate", async function () {
 
 if (mongoose.models.Place) {
   const paths = mongoose.models.Place.schema.paths;
-  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['ownerId'] || !paths['openHours.is24Hours'] || !paths['placeTags']) {
+  if (!paths['instagramHandle'] || !paths['contact.instagramHandle'] || !paths['contact.phoneNumbers'] || !paths['contact.whatsapp'] || !paths['ownerId'] || !paths['openHours.is24Hours'] || !paths['placeTags']) {
     delete mongoose.models.Place;
   }
 }
