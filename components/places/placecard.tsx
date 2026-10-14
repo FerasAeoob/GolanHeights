@@ -7,6 +7,7 @@ import { IPublicPlaceDTO } from "@/database/place.model";
 import OpenStatus from "./openStatus";
 import FavoriteButton from "../favorites/Favorite.button";
 import { getLocalizedPathname } from "@/utils/navigation";
+import { parseTimeToMinutes } from "@/utils/businessHours";
 
 interface PlaceCardProps {
     place: IPublicPlaceDTO;
@@ -44,6 +45,9 @@ export default function PlaceCard({
     const CategoryIcon = category?.icon;
     const mainImage = place.images?.[0];
     const openingHoursDict: IOpeningHoursDictionary = dict.openingHours;
+    const hasOpeningHours = Array.isArray(place.openHours) && place.openHours.length > 0 &&
+        place.openHours.every(hours => hours && Number.isInteger(hours.day) && hours.day >= 0 && hours.day <= 6 &&
+            (hours.isClosed || (Number.isFinite(parseTimeToMinutes(hours.open)) && Number.isFinite(parseTimeToMinutes(hours.close)))));
     const displayTitle = place.title[locale] || place.title.en;
     const displayShortDesc = place.shortDescription[locale] || place.shortDescription.en;
     function capitalizeFirst(str: string) {
@@ -82,20 +86,19 @@ export default function PlaceCard({
                     ? "z-20 mt-auto flex h-40 w-full flex-col border-t border-slate-100 bg-white p-4 sm:h-35"
                     : "mt-auto z-20 w-full h-40 sm:h-35 p-[16px] bg-gray-200 backdrop-blur-sm flex flex-col"}>
 
-                    {place.openHours.length > 0 &&
                         <div
                             dir={isRTL ? "rtl" : "ltr"}
                             className="flex items-center -mt-7.5 -ms-1 h-fit gap-1 justify-between"
                         >
                             <div className="flex items-center gap-1 ">
 
-                                <OpenStatus
+                                {hasOpeningHours && <OpenStatus
                                     openingHours={place.openHours || []}
                                     openString={place.open}
                                     dict={openingHoursDict}
                                     textordot="status"
 
-                                />
+                                />}
 
                                 {place.reviewsCount > 0 && (
                                     <div className="flex items-center justify-center gap-1  bg-yellow-50  px-2 border-yellow-200 border-1  rounded-md h-7  ">
@@ -120,7 +123,7 @@ export default function PlaceCard({
                             />
 
 
-                        </div>}
+                        </div>
                     <div className="mt-1 flex flex-col gap-2 flex-1 min-h-0" dir={isRTL ? "rtl" : "ltr"}>
                         <h3 className={isPlacesAppearance
                             ? "line-clamp-1 text-lg font-extrabold text-slate-950 transition-colors group-hover:text-brand-blue"
