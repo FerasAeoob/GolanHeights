@@ -6,6 +6,7 @@ import { LocalizedSlugProvider } from "@/app/LocalizedSlugContext";
 import { PostHogPageView } from "@/app/pageview";
 import { Suspense } from "react";
 import ToastContainer from "@/components/ui/Toast";
+import { Analytics } from '@vercel/analytics/next';
 
 
 const outfit = Outfit({
@@ -77,6 +78,7 @@ export default async function RootLayout({
             {children}
           </LocalizedSlugProvider>
         </PostHogProvider>
+        <Analytics />
       </body>
     </html>
   );
