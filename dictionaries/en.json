@@ -744,6 +744,20 @@
             }
         ]
     },
+    "adminPlaceSearch": {
+        "label": "Search places",
+        "placeholder": "Search by name, slug or location…",
+        "clear": "Clear search",
+        "loading": "Searching…",
+        "noResults": "No matching places found",
+        "empty": "No places found. Start by adding one!",
+        "invalid": "Enter a single search of up to 120 characters.",
+        "count": "{count} places",
+        "pagination": "Places pagination",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {page} of {pages}"
+    },
     "placeOrder": {
         "position": "Position",
         "positionFor": "Position for {title}",
